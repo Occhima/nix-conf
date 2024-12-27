@@ -1,8 +1,10 @@
 # home/profiles/htb.nix
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   home.packages = with pkgs; [
-    nmap ffuf hashcat john
+    nmap
+    ffuf
+    hashcat
+    john
     # Add more CTF tools here
   ];
 }

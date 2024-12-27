@@ -1,5 +1,4 @@
 # home/programs/nyxt.nix
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   # Nyxt browser configuration
 }

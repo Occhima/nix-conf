@@ -1,36 +1,33 @@
-{
-  inputs, ...
-}:
-{
-  imports = [ inputs.disko.nixosModules.disko ];
+{inputs, ...}: {
+  imports = [inputs.disko.nixosModules.disko];
   disko.devices = {
     disk = {
       system = {
         device = "/dev/sdb";
         type = "disk";
         content = {
-          type = "gpt";  # Specify GPT partition table
+          type = "gpt"; # Specify GPT partition table
           partitions = {
             boot = {
               size = "1M";
-              type  =  "EF02";
+              type = "EF02";
             };
             ESP = {
               type = "EF00";
               size = "1G";
               content = {
-                type = "filesystem";        # EFI partition type
+                type = "filesystem"; # EFI partition type
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "umask=0077" ];
+                mountOptions = ["umask=0077"];
               };
             };
             # Root partition with the rest of the disk
             root = {
-              size = "95%";        # Adjust size to leave space for swap type = "8304";       # Linux x86-64 root GUID
+              size = "95%"; # Adjust size to leave space for swap type = "8304";       # Linux x86-64 root GUID
               content = {
-                type = "filesystem";        # EFI partition type
-                format = "ext4";     # or btrfs, if you prefer
+                type = "filesystem"; # EFI partition type
+                format = "ext4"; # or btrfs, if you prefer
                 mountpoint = "/";
               };
             };
@@ -38,10 +35,10 @@
             swap = {
               size = "5%";
               content = {
-                  type = "swap";
-                  discardPolicy = "both";
-                  resumeDevice = true; # resume from hiberation from this device
-                };
+                type = "swap";
+                discardPolicy = "both";
+                resumeDevice = true; # resume from hiberation from this device
+              };
             };
           };
         };
@@ -51,12 +48,12 @@
         device = "/dev/sda";
         type = "disk";
         content = {
-          type = "gpt";  # Specify GPT partition table
+          type = "gpt"; # Specify GPT partition table
           partitions = {
             home = {
               size = "100%";
               content = {
-                type = "filesystem";     # Linux filesystem
+                type = "filesystem"; # Linux filesystem
                 format = "ext4";
                 mountpoint = "/home";
               };
@@ -66,5 +63,4 @@
       };
     };
   };
-
 }

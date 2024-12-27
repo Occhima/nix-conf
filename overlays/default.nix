@@ -1,4 +1,8 @@
 # overlays/default.nix
-{ self, super, ... }: {
+{
+  self,
+  super,
+  ...
+}: {
   # Example overlay: Add or override packages here.
 }
