@@ -1,5 +1,4 @@
 # home/desktops/hyprland.nix
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   # User-specific Hyprland config (if needed)
 }

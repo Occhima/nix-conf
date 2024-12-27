@@ -1,5 +1,8 @@
 # modules/services/systemd.nix
-{ config, pkgs, ... }:
 {
+  config,
+  pkgs,
+  ...
+}: {
   # Systemd tweaks if necessary
 }

@@ -1,10 +1,8 @@
 {...}: {
   check.enable = true;
   settings = {
-    # default_stage = [ "pre-commit"];
     hooks = {
       actionlint.enable = true;
-      # alejandra.enable = true;
       beautysh.enable = true;
       check-added-large-files.enable = true;
       check-case-conflicts.enable = true;
@@ -16,6 +14,16 @@
       mixed-line-endings.enable = true;
       trim-trailing-whitespace.enable = true;
       end-of-file-fixer.enable = true;
+
+      alejandra = {
+        enable = true;
+        excludes = ["modules" "hosts" "home"];
+      };
+
+      statix = {
+        enable = false;
+        excludes = ["modules" "hosts" "home"];
+      };
     };
   };
 }

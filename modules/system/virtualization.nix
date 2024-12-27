@@ -1,5 +1,8 @@
 # modules/system/virtualization.nix
-{ config, pkgs, ... }:
 {
+  config,
+  pkgs,
+  ...
+}: {
   # Virtualization-related configurations
 }

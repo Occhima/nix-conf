@@ -1,5 +1,4 @@
 # home/desktops/wallpaper.nix
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   # Wallpaper configuration (Hyprpaper)
 }

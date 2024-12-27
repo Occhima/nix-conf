@@ -1,5 +1,4 @@
 # home/programs/emacs-doom.nix
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   # Doom Emacs configuration
 }
