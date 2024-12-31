@@ -1,7 +1,5 @@
 # modules/system/security.nix
 {
-  config,
-  pkgs,
   ...
 }: {
   # Basic security settings

@@ -1,7 +1,5 @@
 # modules/system/base.nix
 {
-  config,
-  pkgs,
   ...
 }: {
   # Basic system configuration

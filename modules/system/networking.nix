@@ -1,7 +1,5 @@
 # modules/system/networking.nix
 {
-  config,
-  pkgs,
   ...
 }: {
   networking.hostName = "my-host";
