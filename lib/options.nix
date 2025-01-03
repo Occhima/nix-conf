@@ -1,5 +1,5 @@
 # config/globals.nix
-{}:
+{ }:
 # this should
 {
   hostname = "my-host";
