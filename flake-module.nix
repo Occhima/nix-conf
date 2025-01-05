@@ -1,23 +1,11 @@
 { lib, importApply, ... }:
-with lib;
 let
-  importApplyModules = mapAttrs (_: importApply);
-  customFlakePartsModules = import ./parts { };
-in
-customFlakePartsModules
-// {
-  # modules that don't need to import module with apply ( don't need to access local flake)
-  # TODO
-  # Put this inside devShells?
-  # pre-commit = ./checks/pre-commit.nix;
+  contextModules = { shells = ./shell.nix; };
 
-  # nix-unit = ./checks/pre-commit.nix;
+  rawModules = { };
 
-}
-// importApplyModules {
+  externalParts = import ./parts { };
 
-  shells = ./shell.nix;
-  #   devShells = ./shell.nix;
-  #   # githubActions = ./github-actions.nix;
-  #   # homeManagerModules = ./modules/home-manager.nix;
-}
+  mergedModules = externalParts // rawModules
+    // lib.mapAttrs (_: importApply) contextModules;
+in mergedModules

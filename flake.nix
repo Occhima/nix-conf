@@ -1,36 +1,18 @@
 {
   description = "My NixOS config";
 
-  outputs =
-    { flake-parts, ... }@inputs:
-    flake-parts.lib.mkFlake { inherit inputs; } (
-      {
-        flake-parts-lib,
-        withSystem,
-        config,
-        options,
-        lib,
-        ...
-      }:
+  outputs = { flake-parts, ... }@inputs:
+    flake-parts.lib.mkFlake { inherit inputs; }
+    ({ flake-parts-lib, withSystem, config, options, lib, ... }:
       let
-        importApply =
-          module:
+        importApply = module:
           flake-parts-lib.importApply module {
-            localFlake = {
-              inherit
-                withSystem
-                config
-                options
-                inputs
-                lib
-                ;
-            };
+            localFlake = { inherit withSystem config options inputs lib; };
           };
 
         flakeModule = import ./flake-module.nix { inherit importApply lib; };
 
-      in
-      {
+      in {
 
         # NOTE: For debugging, see:
         # https://flake.parts/debug
@@ -39,8 +21,7 @@
         imports = builtins.attrValues flakeModule;
 
         systems = [ "x86_64-linux" ];
-      }
-    );
+      });
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
@@ -52,10 +33,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
-      # inputs.nixpkgs.follows = "nixpkgs";
-    };
+    flake-parts = { url = "github:hercules-ci/flake-parts"; };
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -75,9 +53,7 @@
 
     nix-github-actions = {
       url = "github:nix-community/nix-github-actions";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
+      inputs = { nixpkgs.follows = "nixpkgs"; };
     };
 
     # Nix Format.
@@ -92,8 +68,8 @@
     nix-unit = {
       url = "github:nix-community/nix-unit";
       inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs-unstable";
+        # flake-parts.follows = "flake-parts";
       };
     };
   };
