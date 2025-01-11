@@ -1,6 +1,7 @@
 { inputs, ... }: {
   imports = [ inputs.treefmt-nix.flakeModule ];
-  perSystem = { pkgs, ... }: {
+  perSystem = { pkgs, config, ... }: {
+    formatter = config.treefmt.programs.nixfmt-rfc-style.package;
     treefmt = {
       # enabled to be the base formatter
       flakeFormatter = true;
