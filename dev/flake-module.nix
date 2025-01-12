@@ -2,6 +2,7 @@
 
 {
 
-  imports = [ ./shell.nix ./treefmt.nix ./pre-commit.nix ];
+  imports =
+    [ ./shell.nix ./treefmt.nix ./pre-commit.nix ./just.nix ./actions.nix ];
 
 }

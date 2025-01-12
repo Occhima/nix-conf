@@ -10,9 +10,10 @@
       # NOTE: For debugging, see:
       # https://flake.parts/debug
       # debug = true;
+      # systems = import inputs.systems;
 
-      systems = [ "x86_64-linux" ];
-
+      # systems = [ "x86_64-linux" ];
+      systems = import inputs.systems;
       imports = [ inputs.flake-parts.flakeModules.partitions ./tests ];
       flake = {
         lib = import ./lib { inherit (nixpkgs) lib; };
@@ -28,6 +29,7 @@
       partitionedAttrs = {
         checks = "dev";
         devShells = "dev";
+        githubActions = "dev";
       };
 
       partitions = {
@@ -61,6 +63,8 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    systems = { url = "github:nix-systems/default"; };
 
     nix-unit = {
       url = "github:nix-community/nix-unit";

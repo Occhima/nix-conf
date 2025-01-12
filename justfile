@@ -1,24 +1,7 @@
-# justfile
-# Simple tasks to manage your NixOS + Home Manager setup
+# See flake.nix (just-flake)
+import? 'just-flake.just'
 
-HOST := "lattes"
-HOME_USER := "me"
-
-
-switch:
-  sudo nixos-rebuild switch --flake .
-
-rebuild:
-    scripts/rebuild.sh
-
-
-
-
-
-check:
-  nix flake check
-
-flake-update:
-  nix flake update
-
-update: flake-update switch
+# Display the list of recipes
+[group('summary')]
+default:
+    @just --list

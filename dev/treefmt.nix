@@ -5,6 +5,9 @@
     treefmt = {
       # enabled to be the base formatter
       flakeFormatter = true;
+
+      # pre commit already makes this check
+      flakeCheck = false;
       projectRootFile = "flake.nix";
 
       programs = {

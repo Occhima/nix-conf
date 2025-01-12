@@ -18,6 +18,8 @@
 
           alejandra = { enable = false; };
 
+          convco = { enable = true; };
+
           statix = {
             enable = false;
             package = pkgs.statix;

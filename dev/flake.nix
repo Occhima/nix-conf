@@ -20,6 +20,9 @@
       inputs = { nixpkgs.follows = "nixpkgs"; };
     };
 
+    omnix = { url = "github:juspay/omnix"; };
+    just-flake = { url = "github:juspay/just-flake"; };
+
   };
 
   outputs = _: { };

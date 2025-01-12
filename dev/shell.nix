@@ -1,5 +1,5 @@
-{ ... }: {
-  perSystem = { config, pkgs, ... }:
+{ inputs, ... }: {
+  perSystem = { config, system, pkgs, ... }:
     let
       nixConfig = builtins.toFile "nix.conf" ''
         warn-dirty = false
@@ -14,17 +14,20 @@
         default = config.devShells.nixos-config;
 
         nixos-config = pkgs.mkShell {
-          name = "nixos-config";
-          buildInputs = with pkgs; [
-            git
-            home-manager
-            nix-zsh-completions
-            nil
-            nixfmt-classic
-            nix
-            just
+          name = "my-nixos-devenv";
+          inputsFrom = [
+            config.treefmt.build.devShell
+            config.just-flake.outputs.devShell
+            config.pre-commit.devShell
           ];
-          packages = with pkgs; [ direnv ];
+          packages = with pkgs; [
+            direnv
+            nil
+            home-manager
+            colmena
+            inputs.omnix.packages.${system}.default
+            config.pre-commit.settings.tools.convco
+          ];
 
           shellHook = ''
             ${config.pre-commit.installationScript}

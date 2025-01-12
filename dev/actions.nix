@@ -1,26 +1,9 @@
-{ localFlake }:
-{ lib, config, ... }:
-with lib;
-let
-  inherit (localFlake.inputs) github-actions;
-
-  addJobName = m:
-    m // {
-      matrix.include = map (job:
-        job // {
-          name = strings.removePrefix "githubActions.checks." job.attr;
-        }) m.matrix.include;
-    };
+{ inputs, config, ... }:
+let inherit (inputs) nix-github-actions;
 in {
-  _file = ./actions.nix;
+  config.flake.githubActions = nix-github-actions.lib.mkGithubMatrix {
 
-  options.rosetta.githubActionsMatrix = mkOption { type = types.unspecified; };
+    inherit (config.flake) checks;
 
-  config.rosetta.githubActionsMatrix = addJobName
-    (github-actions.lib.mkGithubMatrix {
-      # Architecture -> Github Runner label mappings
-      platforms = { x86_64-linux = "ubuntu-latest"; };
-
-      inherit (config.flake) checks;
-    });
+  };
 }
