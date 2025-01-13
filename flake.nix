@@ -1,35 +1,27 @@
 {
   description = "My NixOS config";
 
-  outputs = { flake-parts, nixpkgs, ... }@inputs:
-
+  outputs = { flake-parts, nixpkgs,... }@inputs:
+    let
+      customLib = import ./lib  nixpkgs;
+    in
     flake-parts.lib.mkFlake { inherit inputs; }
 
     {
 
       # NOTE: For debugging, see:
       # https://flake.parts/debug
-      # debug = true;
-      # systems = import inputs.systems;
+      debug = true;
 
-      # systems = [ "x86_64-linux" ];
       systems = import inputs.systems;
-      imports = [ inputs.flake-parts.flakeModules.partitions ./tests ];
-      flake = {
-        lib = import ./lib { inherit (nixpkgs) lib; };
-        tests = {
-          test = {
-            expr = "a-b-c";
-            expected = "a-b-c";
-          };
-        };
-      };
+      imports = [ inputs.flake-parts.flakeModules.partitions ];
 
       # partitions
       partitionedAttrs = {
         checks = "dev";
         devShells = "dev";
         githubActions = "dev";
+        tests = "dev";
       };
 
       partitions = {
@@ -38,6 +30,10 @@
           module.imports = [ ./dev/flake-module.nix ];
         };
 
+      };
+
+      flake = {
+        lib = customLib;
       };
 
     };
@@ -66,13 +62,7 @@
 
     systems = { url = "github:nix-systems/default"; };
 
-    nix-unit = {
-      url = "github:nix-community/nix-unit";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-parts.follows = "flake-parts";
-      };
-    };
+
 
   };
 }

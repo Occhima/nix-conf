@@ -3,7 +3,6 @@ let
   umport = { path ? null, paths ? [ ], include ? [ ], exclude ? [ ]
     , recursive ? true, }:
     with lib;
-    with fileset;
     let
       excludedFiles = filter (path: pathIsRegularFile path) exclude;
       excludedDirs = filter (path: pathIsDirectory path) exclude;
@@ -13,7 +12,7 @@ let
         else
           (filter (excludedDir: lib.path.hasPrefix excludedDir path)
             excludedDirs) != [ ];
-    in unique ((filter (file:
+    in fileset.unique ((filter (file:
       pathIsRegularFile file && hasSuffix ".nix" (builtins.toString file)
       && !isExcluded file) (concatMap (_path:
         if recursive then
