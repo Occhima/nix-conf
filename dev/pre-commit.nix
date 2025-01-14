@@ -17,9 +17,9 @@
               enable = true;
               package = pkgs.deadnix;
               excludes = [
-                "modules"
-                "hosts"
-                "home"
+                # "modules"
+                # "hosts"
+                # "home"
               ];
             };
 
@@ -35,9 +35,6 @@
               enable = false;
               package = pkgs.statix;
               excludes = [
-                "modules"
-                "hosts"
-                "home"
               ];
               # FIXME: https://github.com/cachix/git-hooks.nix/issues/288
               settings.ignore = [ "_sources*" ];
@@ -47,13 +44,13 @@
               enable = false;
               package = pkgs.nixfmt-rfc-style;
               excludes = [
-                "modules"
-                "hosts"
-                "home"
+                # "modules"
+                # "hosts"
+                # "home"
               ];
             };
 
-            commitizen.enable = true;
+            commitzen.enable = false;
             actionlint.enable = true;
 
             # basic commit checks

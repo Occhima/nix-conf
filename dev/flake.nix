@@ -29,12 +29,27 @@
     omnix = {
       url = "github:juspay/omnix";
     };
+
     just-flake = {
       url = "github:juspay/just-flake";
     };
 
     nix-unit = {
       url = "github:nix-community/nix-unit";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
+    colmena = {
+      url = "github:zhaofengli/colmena";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
+    devshell = {
+      url = "github:numtide/devshell";
       inputs = {
         nixpkgs.follows = "nixpkgs";
       };

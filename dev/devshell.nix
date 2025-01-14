@@ -1,9 +1,13 @@
 { inputs, ... }:
 {
+  imports = [
+    inputs.devshell.flakeModule
+  ];
+
   perSystem =
     {
       config,
-      system,
+      inputs',
       pkgs,
       ...
     }:
@@ -14,42 +18,96 @@
         experimental-features = nix-command flakes
         use-xdg-base-directories = true
       '';
+      omnix = inputs'.omnix.packages.default;
+      nix-unit = inputs'.nix-unit.packages.nix-unit;
+
     in
+
     {
 
-      devShells = {
+      devshells = {
 
-        default = config.devShells.nixos-config;
+        default = {
+          name = "nixox-config-dev";
+          env = [
+            {
 
-        nixos-config = pkgs.mkShell {
-          name = "my-nixos-devenv";
-          inputsFrom = [
-            config.treefmt.build.devShell
-            config.just-flake.outputs.devShell
-            config.pre-commit.devShell
+              name = "NIX_USER_CONF_FILES";
+              value = nixConfig;
+            }
+            {
+              name = "PATH";
+              prefix = "bin";
+            }
+
           ];
+          packagesFrom = [ ];
           packages = with pkgs; [
             direnv
+
             nil
             home-manager
+            just
+            gitAndTools.hub
+            onefetch
+            fastfetch
+            # I feel that this is dumb
+
+            # omnix
             colmena
+            omnix
+            nix-unit
 
-            config.pre-commit.settings.tools.convco
-
-            # Is this dumb??
+            # formatter
             config.formatter
-
-            inputs.omnix.packages.${system}.default
-            inputs.nix-unit.packages.${system}.default
-
           ];
 
-          shellHook = ''
-            ${config.pre-commit.installationScript}
-            export NIX_USER_CONF_FILES="${nixConfig}"
-            export PATH="$(pwd)/bin:$PATH"
-          '';
+          devshell = {
+            startup = {
+              pre-commit.text = config.pre-commit.installationScript;
+            };
+          };
+
+          commands = [
+            {
+              name = "quit";
+              help = "exit dev shell";
+              command = "exit";
+            }
+            {
+              category = "info";
+              name = "onefetch";
+              help = "display repository info";
+              package = pkgs.onefetch;
+            }
+            {
+              category = "info";
+              name = "fastfetch";
+              help = "display host info";
+              package = pkgs.fastfetch;
+            }
+            {
+              name = "environment";
+              category = "info";
+              help = "display environment variables";
+              command = "printenv";
+            }
+            {
+              name = "flake-show";
+              category = "info";
+              help = "display your flake outputs";
+              command = "om show .";
+            }
+            {
+              name = "tests";
+              category = "dev";
+              help = "run unit tests";
+              command = "echo Todo";
+            }
+          ];
+
         };
       };
+
     };
 }
