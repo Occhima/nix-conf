@@ -1,22 +1,29 @@
 {
   description = "My NixOS config";
 
-  outputs = { flake-parts, ... }@inputs:
+  outputs =
+    { flake-parts, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } (
-      {flake-parts-lib, config, options, lib, ...}:
+      {
+        flake-parts-lib,
+        config,
+        options,
+        lib,
+        ...
+      }:
       let
         inherit (flake-parts-lib) importApply;
         flakeModule.default = importApply ./flake-module.nix {
-              inherit
-                config
-                inputs
-                options
-                lib
-                ;
-               };
+          inherit
+            config
+            inputs
+            options
+            lib
+            ;
+        };
       in
       {
-        imports = [flakeModule.default];
+        imports = [ flakeModule.default ];
       }
     );
 
@@ -30,7 +37,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    flake-parts = { url = "github:hercules-ci/flake-parts"; };
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -42,9 +51,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    systems = { url = "github:nix-systems/default"; };
-
-
+    systems = {
+      url = "github:nix-systems/default";
+    };
 
   };
 }

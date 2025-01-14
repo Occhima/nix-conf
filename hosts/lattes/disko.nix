@@ -1,5 +1,6 @@
-{inputs, ...}: {
-  imports = [inputs.disko.nixosModules.disko];
+{ inputs, ... }:
+{
+  imports = [ inputs.disko.nixosModules.disko ];
   disko.devices = {
     disk = {
       system = {
@@ -19,7 +20,7 @@
                 type = "filesystem"; # EFI partition type
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = ["umask=0077"];
+                mountOptions = [ "umask=0077" ];
               };
             };
             # Root partition with the rest of the disk

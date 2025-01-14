@@ -1,5 +1,6 @@
 # home/profiles/data-science.nix
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [
     python3
     python3Packages.numpy

@@ -7,13 +7,7 @@ let
 
   allModules = modules // attributes // umport;
 
-  mkLib =
-    pkgs:
-    pkgs.lib.extend (
-      _: _: {
-        custom = allModules;
-      }
-    );
+  mkLib = pkgs: pkgs.lib.extend (_: _: { custom = allModules; });
   customLib = (mkLib nixpkgs);
 in
 customLib

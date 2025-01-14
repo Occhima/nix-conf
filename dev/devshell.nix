@@ -1,5 +1,12 @@
-{ inputs, ... }: {
-  perSystem = { config, system, pkgs, ... }:
+{ inputs, ... }:
+{
+  perSystem =
+    {
+      config,
+      system,
+      pkgs,
+      ...
+    }:
     let
       nixConfig = builtins.toFile "nix.conf" ''
         warn-dirty = false
@@ -7,7 +14,8 @@
         experimental-features = nix-command flakes
         use-xdg-base-directories = true
       '';
-    in {
+    in
+    {
 
       devShells = {
 

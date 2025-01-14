@@ -1,5 +1,6 @@
 # home/profiles/htb.nix
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [
     nmap
     ffuf

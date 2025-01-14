@@ -1,5 +1,6 @@
 # home/profiles/software-engineering.nix
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [
     ghc
     cabal-install

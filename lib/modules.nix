@@ -1,9 +1,10 @@
-{ lib }: rec {
+{ lib }:
+rec {
 
-  kebabCaseToCamelCase =
-    builtins.replaceStrings (map (s: "-${s}") lib.lowerChars) lib.upperChars;
+  kebabCaseToCamelCase = builtins.replaceStrings (map (s: "-${s}") lib.lowerChars) lib.upperChars;
 
-  listNixFilesRecursiveToAttrs = dir:
+  listNixFilesRecursiveToAttrs =
+    dir:
     lib.pipe dir [
       lib.filesystem.listFilesRecursive
       (builtins.filter (lib.hasSuffix ".nix"))
@@ -22,13 +23,11 @@
       builtins.listToAttrs
     ];
 
-  modulesFromDir = dir:
+  modulesFromDir =
+    dir:
     lib.pipe dir [
       listNixFilesRecursiveToAttrs
-      (modules:
-        modules // {
-        })
+      (modules: modules // { })
     ];
-
 
 }
