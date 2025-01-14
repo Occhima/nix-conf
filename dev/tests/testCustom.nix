@@ -1,28 +1,72 @@
-{lib, ...}:
+{ lib, ... }:
+let
+  inherit (lib.custom)
+    kebabCaseToCamelCase
+    modulesFromDir
+    umport
+    recursiveMergeAttrs
+    ;
+in
 {
   "test if kebabToCamelCase works correcty" = {
-    expr = lib.custom.kebabCaseToCamelCase"a-b-c-d";
-    expected =  "aBCD";
+    expr = kebabCaseToCamelCase "a-b-c-d";
+    expected = "aBCD";
   };
   "test if kebabToCamelCase works correct with camel Case string" = {
-    expr = lib.custom.kebabCaseToCamelCase "aBCD";
-    expected =  "aBCD";
+    expr = kebabCaseToCamelCase "aBCD";
+    expected = "aBCD";
   };
 
   "test if modulesFromDir returns empty set" = {
-    expr = lib.custom.modulesFromDir ./fixtures/empty-dir;
-    expected = {};
+    expr = modulesFromDir ./fixtures/empty-dir;
+    expected = { };
   };
 
   "test if modulesFromDir returns set of modules when dir not empty" = {
-    expr = let
-    myAttrs = { a = 1; b = 2; };
-    attrsToCheck = [ "a" "b" ];
-  in
-    builtins.all (attr: builtins.hasAttr attr myAttrs) attrsToCheck;
+    expr =
+      let
+        myAttrs = {
+          a = 1;
+          b = 2;
+        };
+        attrsToCheck = [
+          "a"
+          "b"
+        ];
+      in
+      builtins.all (attr: builtins.hasAttr attr myAttrs) attrsToCheck;
     expected = true;
 
   };
 
+  "test if umport parses empty set" = {
+    expr = umport { path = ./fixtures/empty-dir; };
+    expected = [ ];
+  };
+
+  "test if can recursively merge attributes (top-level)" = {
+    expr = recursiveMergeAttrs [
+      { a = "foo"; }
+      { b = "bar"; }
+    ];
+    expected = {
+      a = "foo";
+      b = "bar";
+    };
+  };
+
+  "test if can recursively merge attributes (nested)" = {
+    # Example from the docstring
+    expr = recursiveMergeAttrs [
+      { a.b = "foo"; }
+      { a.c = "bar"; }
+    ];
+    expected = {
+      a = {
+        b = "foo";
+        c = "bar";
+      };
+    };
+  };
 
 }

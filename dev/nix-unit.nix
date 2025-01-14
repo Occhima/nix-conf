@@ -10,7 +10,6 @@
   perSystem = { ... }: {
     nix-unit = {
       allowNetwork = true;
-      enableSystemAgnostic = true;
       tests = import ./tests { lib = customLib; };
     };
 

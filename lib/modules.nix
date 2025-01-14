@@ -1,31 +1,34 @@
-lib:
-let
-  umport = { path ? null, paths ? [ ], include ? [ ], exclude ? [ ]
-    , recursive ? true, }:
-    with lib;
-    let
-      excludedFiles = filter (path: pathIsRegularFile path) exclude;
-      excludedDirs = filter (path: pathIsDirectory path) exclude;
-      isExcluded = path:
-        if elem path excludedFiles then
-          true
-        else
-          (filter (excludedDir: lib.path.hasPrefix excludedDir path)
-            excludedDirs) != [ ];
-    in fileset.unique ((filter (file:
-      pathIsRegularFile file && hasSuffix ".nix" (builtins.toString file)
-      && !isExcluded file) (concatMap (_path:
-        if recursive then
-          toList _path
-        else
-          mapAttrsToList (name: type:
-            _path + (if type == "directory" then
-              "/${name}/default.nix"
-            else
-              "/${name}")) (builtins.readDir _path))
-        (unique (if path == null then paths else [ path ] ++ paths))))
-      ++ (if recursive then
-        concatMap (path: toList path) (unique include)
-      else
-        unique include));
-in { inherit umport; }
+{ lib }: rec {
+
+  kebabCaseToCamelCase =
+    builtins.replaceStrings (map (s: "-${s}") lib.lowerChars) lib.upperChars;
+
+  listNixFilesRecursiveToAttrs = dir:
+    lib.pipe dir [
+      lib.filesystem.listFilesRecursive
+      (builtins.filter (lib.hasSuffix ".nix"))
+      (builtins.filter (x: !lib.hasSuffix "interface.nix" x))
+      (map (value: {
+        name = lib.pipe value [
+          toString
+          (lib.removePrefix "${toString dir}/")
+          (lib.removeSuffix "/default.nix")
+          (lib.removeSuffix ".nix")
+          kebabCaseToCamelCase
+          (builtins.replaceStrings [ "/" ] [ "-" ])
+        ];
+        inherit value;
+      }))
+      builtins.listToAttrs
+    ];
+
+  modulesFromDir = dir:
+    lib.pipe dir [
+      listNixFilesRecursiveToAttrs
+      (modules:
+        modules // {
+        })
+    ];
+
+
+}

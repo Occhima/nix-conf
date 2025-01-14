@@ -1,14 +1,19 @@
 nixpkgs:
 let
   lib = nixpkgs.lib;
-  extension = {
-    dirModules = import ./modules.nix {inherit lib;};
-    custom = import ./custom.nix { inherit lib ; };
-  };
+  modules = import ./modules.nix { inherit lib; };
+  attributes = import ./attrsets.nix { inherit lib; };
+  umport = import ./umport.nix { inherit (nixpkgs) lib; };
 
-  mkLib = pkgs:
-    pkgs.lib.extend
-    (_: _: extension );
+  allModules = modules // attributes // umport;
+
+  mkLib =
+    pkgs:
+    pkgs.lib.extend (
+      _: _: {
+        custom = allModules;
+      }
+    );
   customLib = (mkLib nixpkgs);
 in
-  customLib
+customLib

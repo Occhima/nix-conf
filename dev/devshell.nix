@@ -25,8 +25,15 @@
             nil
             home-manager
             colmena
-            inputs.omnix.packages.${system}.default
+
             config.pre-commit.settings.tools.convco
+
+            # Is this dumb??
+            config.formatter
+
+            inputs.omnix.packages.${system}.default
+            inputs.nix-unit.packages.${system}.default
+
           ];
 
           shellHook = ''

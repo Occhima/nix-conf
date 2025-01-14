@@ -3,7 +3,7 @@
 {
 
   imports = [
-    ./shell.nix
+    ./devshell.nix
     ./treefmt.nix
     ./pre-commit.nix
     ./just.nix

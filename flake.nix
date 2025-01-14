@@ -1,42 +1,24 @@
 {
   description = "My NixOS config";
 
-  outputs = { flake-parts, nixpkgs,... }@inputs:
-    let
-      customLib = import ./lib  nixpkgs;
-    in
-    flake-parts.lib.mkFlake { inherit inputs; }
-
-    {
-
-      # NOTE: For debugging, see:
-      # https://flake.parts/debug
-      debug = true;
-
-      systems = import inputs.systems;
-      imports = [ inputs.flake-parts.flakeModules.partitions ];
-
-      # partitions
-      partitionedAttrs = {
-        checks = "dev";
-        devShells = "dev";
-        githubActions = "dev";
-        tests = "dev";
-      };
-
-      partitions = {
-        dev = {
-          extraInputsFlake = ./dev;
-          module.imports = [ ./dev/flake-module.nix ];
-        };
-
-      };
-
-      flake = {
-        lib = customLib;
-      };
-
-    };
+  outputs = { flake-parts, ... }@inputs:
+    flake-parts.lib.mkFlake { inherit inputs; } (
+      {flake-parts-lib, config, options, lib, ...}:
+      let
+        inherit (flake-parts-lib) importApply;
+        flakeModule.default = importApply ./flake-module.nix {
+              inherit
+                config
+                inputs
+                options
+                lib
+                ;
+               };
+      in
+      {
+        imports = [flakeModule.default];
+      }
+    );
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
