@@ -55,5 +55,35 @@
       url = "github:nix-systems/default";
     };
 
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Sec
+    agenix-shell = {
+      url = "github:aciceri/agenix-shell";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+    agenix-rekey = {
+      url = "github:oddlama/agenix-rekey";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
+    sops = {
+      url = "github:Mic92/sops-nix";
+    };
+
   };
 }

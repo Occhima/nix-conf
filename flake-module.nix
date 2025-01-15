@@ -1,8 +1,10 @@
 localFlake:
 { ... }:
 let
+
   inherit (localFlake) inputs;
 in
+# parts = { };
 {
 
   # NOTE: For debugging, see:
@@ -13,6 +15,7 @@ in
   imports = [
     inputs.flake-parts.flakeModules.partitions
     ./lib/flake-module.nix
+    ./overlays/flake-module.nix
   ];
 
   # partitions
@@ -30,5 +33,7 @@ in
     };
 
   };
+
+  # flake = {};
 
 }

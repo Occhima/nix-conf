@@ -1,5 +1,6 @@
 # overlays/default.nix
-{ ... }:
+{ inputs, ... }:
 {
-  # Example overlay: Add or override packages here.
+  nur = inputs.nur.overlay;
+
 }
