@@ -12,6 +12,7 @@ let
 
   testSuiteFiles = {
     "custom" = ./testCustom.nix;
+    "nixos" = ./testNixos.nix;
   };
 in
 lib.attrsets.mergeAttrsList (lib.attrValues (lib.mapAttrs loadTestSuite testSuiteFiles))

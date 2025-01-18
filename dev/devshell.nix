@@ -62,6 +62,7 @@
             omnix
             nix-unit
             colmena
+
           ];
 
           devshell = {

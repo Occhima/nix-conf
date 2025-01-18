@@ -1,4 +1,4 @@
-{ localFlake, ... }:
+{ localFlake, importApply, ... }:
 { ... }:
 let
 
@@ -6,6 +6,8 @@ let
 
   lib = import ./lib/flake-module.nix { inherit inputs; };
   nixosModules = import ./modules/flake-module.nix { inherit lib; };
+  overlays.default = importApply ./overlays/flake-module.nix { inherit localFlake; };
+
 in
 
 {
@@ -17,10 +19,8 @@ in
   systems = import inputs.systems;
   imports = [
     inputs.flake-parts.flakeModules.partitions
-    ./parts
-
-    # FIXME: Still don't understand how overlays works
-    # ./overlays/flake-module.nix
+    overlays.default
+    ./parts/flake-module.nix
   ];
 
   # partitions
