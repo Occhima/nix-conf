@@ -18,8 +18,9 @@
         experimental-features = nix-command flakes
         use-xdg-base-directories = true
       '';
+
       omnix = inputs'.omnix.packages.default;
-      nix-unit = inputs'.nix-unit.packages.nix-unit;
+      nix-unit = inputs'.nix-unit.packages.default;
 
     in
 
@@ -41,25 +42,26 @@
             }
 
           ];
-          packagesFrom = [ ];
+          packagesFrom = [
+            config.treefmt.build.devShell
+            config.just-flake.outputs.devShell
+            config.pre-commit.devShell
+            config.formatter
+
+          ];
+
           packages = with pkgs; [
             direnv
 
             nil
             home-manager
-            just
             gitAndTools.hub
             onefetch
             fastfetch
-            # I feel that this is dumb
 
-            # omnix
-            colmena
             omnix
             nix-unit
-
-            # formatter
-            config.formatter
+            colmena
           ];
 
           devshell = {

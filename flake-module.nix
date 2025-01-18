@@ -1,10 +1,13 @@
-localFlake:
+{ localFlake, ... }:
 { ... }:
 let
 
   inherit (localFlake) inputs;
+
+  lib = import ./lib/flake-module.nix { inherit inputs; };
+  nixosModules = import ./modules/flake-module.nix { inherit lib; };
 in
-# parts = { };
+
 {
 
   # NOTE: For debugging, see:
@@ -14,8 +17,10 @@ in
   systems = import inputs.systems;
   imports = [
     inputs.flake-parts.flakeModules.partitions
-    ./lib/flake-module.nix
-    ./overlays/flake-module.nix
+    ./parts
+
+    # FIXME: Still don't understand how overlays works
+    # ./overlays/flake-module.nix
   ];
 
   # partitions
@@ -31,9 +36,10 @@ in
       extraInputsFlake = ./dev;
       module.imports = [ ./dev/flake-module.nix ];
     };
-
   };
 
-  # flake = {};
+  flake = {
+    inherit lib nixosModules;
+  };
 
 }

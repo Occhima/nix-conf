@@ -6,6 +6,7 @@
     {
       formatter = config.treefmt.programs.nixfmt.package;
       treefmt = {
+
         # enabled to be the base formatter
         flakeFormatter = true;
 

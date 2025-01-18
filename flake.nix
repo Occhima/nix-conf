@@ -13,13 +13,16 @@
       }:
       let
         inherit (flake-parts-lib) importApply;
-        flakeModule.default = importApply ./flake-module.nix {
+        localFlake = {
           inherit
             config
             inputs
             options
             lib
             ;
+        };
+        flakeModule.default = importApply ./flake-module.nix {
+          inherit localFlake importApply;
         };
       in
       {
@@ -61,12 +64,7 @@
     };
 
     # Sec
-    agenix-shell = {
-      url = "github:aciceri/agenix-shell";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
+
     agenix-rekey = {
       url = "github:oddlama/agenix-rekey";
       inputs = {

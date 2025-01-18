@@ -55,6 +55,14 @@
       };
     };
 
+    # for the dev shell
+    agenix-shell = {
+      url = "github:aciceri/agenix-shell";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
   };
 
   outputs = _: { };
