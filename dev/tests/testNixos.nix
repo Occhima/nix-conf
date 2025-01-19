@@ -2,6 +2,7 @@
 let
   inherit (lib.custom)
     attrsToList
+    mapModulesRec
     ;
 in
 {
@@ -29,24 +30,24 @@ in
 
   # "test mapFilterAttrs with predicate and function" = {
   #   expr = mapFilterAttrs (name: _: name != "b") (name: value: value * 2) {
-  #     a = 1;
-  #     b = 2;
-  #     c = 3;
+  #     a = "a";
+  #     b = "b";
+  #     c = "c";
   #   };
   #   expected = {
-  #     a = 2;
-  #     c = 6;
+  #     a = "a";
+  #     c = "c";
   #   };
   # };
 
-  # "test mapModulesRec with sample directory" = {
-  #   expr = mapModulesRec ./sampleDir (path: path);
-  #   expected = {
-  #     module1 = ./sampleDir/module1.nix;
-  #     subdir = {
-  #       module2 = ./sampleDir/subdir/module2.nix;
-  #     };
-  #   };
-  # };
+  "test mapModulesRec with empty directory" = {
+    expr = mapModulesRec ./fixtures/empty-dir import [ ];
+    expected = { };
+  };
+
+  "test mapModulesRec with directory and excludes" = {
+    expr = mapModulesRec ./fixtures/empty-dir import [ "default.nix" ];
+    expected = { };
+  };
 
 }

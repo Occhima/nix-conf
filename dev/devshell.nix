@@ -7,7 +7,6 @@
   perSystem =
     {
       config,
-      inputs',
       pkgs,
       ...
     }:
@@ -19,9 +18,9 @@
         use-xdg-base-directories = true
       '';
 
-      omnix = inputs'.omnix.packages.default;
-      nix-unit = inputs'.nix-unit.packages.default;
-      colmena = inputs'.colmena.packages.colmena;
+      # omnix = inputs'.omnix.packages.default;
+      # nix-unit = inputs'.nix-unit.packages.default;
+      # colmena = inputs'.colmena.packages.colmena;
 
     in
 
@@ -45,7 +44,6 @@
           ];
           packagesFrom = [
             config.treefmt.build.devShell
-            config.just-flake.outputs.devShell
             config.pre-commit.devShell
             config.formatter
           ];
@@ -59,7 +57,8 @@
             onefetch
             fastfetch
 
-            omnix
+            just
+            # omnix XXX: too big
             nix-unit
             colmena
           ];
@@ -98,7 +97,7 @@
               name = "flake-show";
               category = "info";
               help = "display your flake outputs";
-              command = "om show .";
+              command = "nix flake show";
             }
             {
               name = "tests";

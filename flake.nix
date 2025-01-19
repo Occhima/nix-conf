@@ -83,5 +83,12 @@
       url = "github:Mic92/sops-nix";
     };
 
+    colmena = {
+      url = "github:zhaofengli/colmena";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
   };
 }

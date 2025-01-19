@@ -10,7 +10,7 @@ rec {
     filterAttrs pred (mapAttrs' f attrs);
 
   mapModulesRec =
-    dir: fn:
+    dir: fn: excludes:
     mapFilterAttrs (n: v: v != null && !(hasPrefix "_" n)) (
       n: v:
       let
@@ -18,27 +18,19 @@ rec {
       in
       if v == "directory" then
         nameValuePair n (mapModulesRec path fn)
-      else if v == "regular" && n != "default.nix" && hasSuffix ".nix" n then
+      else if v == "regular" && !elem n excludes && hasSuffix ".nix" n then
         nameValuePair (removeSuffix ".nix" n) (fn path)
       else
         nameValuePair "" null
     ) (readDir dir);
 
-  # mapModules =
-  #   dir: fn:
-  #   mapFilterAttrs (n: v: v != null && !(hasPrefix "_" n)) (
-  #     n: v:
-  #     let
-  #       path = "${toString dir}/${n}";
-  #     in
-  #     if v == "directory" && pathExists "${path}/default.nix" then
-  #       nameValuePair n (fn path)
-  #     else if v == "regular" && n != "default.nix" && hasSuffix ".nix" n then
-  #       nameValuePair (removeSuffix ".nix" n) (fn path)
-  #     else
-  #       nameValuePair "" null
-  #   ) (readDir dir);
+  # mkModules =
+  #   {
+  #     path,
+  #   }:
+  #   {
 
+  #   };
   # mkHost =
   #   path:
   #   attrs@{
@@ -60,7 +52,5 @@ rec {
   #       (import path)
   #     ];
   #   };
-
-  # mapHosts = dir: attrs: mapModules dir (hostPath: mkHost hostPath attrs);
 
 }
