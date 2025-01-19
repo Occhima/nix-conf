@@ -6,9 +6,9 @@
     {
       just-flake = {
         features = {
-          treefmt.enable = true;
-          convco.enable = true;
-          hello = {
+          treefmt.enable = false;
+          convco.enable = false;
+          nixos-dev = {
             enable = true;
             justfile = ''
               # Dev: Reloads the current direnv config

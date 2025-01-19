@@ -21,6 +21,7 @@
 
       omnix = inputs'.omnix.packages.default;
       nix-unit = inputs'.nix-unit.packages.default;
+      colmena = inputs'.colmena.packages.colmena;
 
     in
 
@@ -47,7 +48,6 @@
             config.just-flake.outputs.devShell
             config.pre-commit.devShell
             config.formatter
-
           ];
 
           packages = with pkgs; [
@@ -62,7 +62,6 @@
             omnix
             nix-unit
             colmena
-
           ];
 
           devshell = {
@@ -105,7 +104,7 @@
               name = "tests";
               category = "dev";
               help = "run unit tests";
-              command = "echo Todo";
+              command = "nix-unit --flake .#tests";
             }
           ];
 

@@ -1,5 +1,5 @@
 # See flake.nix (just-flake)
-import? 'just-flake.just'
+import 'just-flake.just'
 
 # Display the list of recipes
 [group('summary')]

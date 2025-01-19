@@ -1,7 +1,9 @@
 { localFlake, ... }:
 { ... }:
 let
-  inherit (localFlake.inputs) nixpkgs nur;
+  inherit (localFlake) inputs;
+  inherit (inputs) nixpkgs;
+  overlays = import ./. { inherit inputs; };
 in
 {
   perSystem =
@@ -9,7 +11,7 @@ in
     {
       _module.args.pkgs = import nixpkgs {
         inherit system;
-        overlays = [ nur.overlays.default ];
+        overlays = builtins.attrValues overlays;
         config = {
           allowUnfree = true;
         };
