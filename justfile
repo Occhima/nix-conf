@@ -1,40 +1,44 @@
 # See flake.nix (just-flake)
+
 import? 'just-flake.just'
 
-# Display the list of recipes
-[group('summary')]
 default:
-    @just --list
+    @just --choose
 
-# Reload direnv
+# <- Reload direnv
 [group('dev')]
 reload:
     direnv reload
 
-# Reload direnv and runs flake check
+# <- Reload direnv and runs flake check
 [group('dev')]
 check:
     @just reload
     nix flake check
 
-# Reload direnv and show current flake
+# <- Reload direnv and show current flake
 [group('dev')]
 show:
     nix flake show
 
-# Reload direnv and runs nix-unit tests
+# <- Reload direnv and runs nix-unit tests ( one day with namaka )
 [group('dev')]
 test:
     @just reload
     tests
 
-# runs tree format
+#  <- Runs tree format
 [group('dev')]
 fmt:
     treefmt
 
-# Locks all nix tree format
+# <- Locks all nix tree format
 [group('dev')]
 lock:
     nix flake lock
     nix flake lock ./dev
+
+# <- Inspects flake output
+[group('dev')]
+inspect:
+    nix-inspect --path .

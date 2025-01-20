@@ -8,6 +8,7 @@
     {
       config,
       pkgs,
+      inputs',
       ...
     }:
     let
@@ -19,8 +20,9 @@
       '';
 
       # omnix = inputs'.omnix.packages.default;
-      # nix-unit = inputs'.nix-unit.packages.default;
-      # colmena = inputs'.colmena.packages.colmena;
+      nix-unit = inputs'.nix-unit.packages.default;
+      # nix-inspect = inputs'.nix-inspect.packages.default;
+      colmena = inputs'.colmena.packages.colmena;
 
     in
 
@@ -44,8 +46,7 @@
           ];
           packagesFrom = [
             config.treefmt.build.devShell
-            config.pre-commit.devShell
-            config.formatter
+
           ];
 
           packages = with pkgs; [
@@ -54,13 +55,18 @@
             nil
             home-manager
             gitAndTools.hub
+            gh
+            nh
             onefetch
             fastfetch
 
             just
-            # omnix XXX: too big
+            # omnix # XXX: too big
             nix-unit
+            nix-inspect
+
             colmena
+            config.formatter
           ];
 
           devshell = {

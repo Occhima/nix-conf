@@ -2,10 +2,10 @@
 { ... }:
 let
 
-  inherit (localFlake) inputs;
+  inherit (localFlake) inputs config;
 
   lib = import ./lib/flake-module.nix { inherit inputs; };
-  nixosModules = import ./modules/flake-module.nix { inherit lib; };
+  nixosModules = import ./modules/flake-module.nix { inherit inputs config; };
   overlays.default = importApply ./overlays/flake-module.nix { inherit localFlake; };
 
 in

@@ -25,11 +25,24 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+    # nix-inspect = {
+    #   url = "github:bluskript/nix-inspect";
+    # };
+
+    # TODO: snapshot testing
+    # namaka = {
+    #   url = "github:nix-community/namaka";
+    #   inputs = {
+    #     haumea.follows = "haumea";
+    #     nixpkgs.follows = "nixpkgs";
+    #   };
+    # };
 
     # omnix = {
     #   url = "github:juspay/omnix";
     # };
 
+    # Does not work anymore, I must hav emade something stupid
     # just-flake = {
     #   url = "github:juspay/just-flake";
     # };

@@ -1,9 +1,15 @@
-{ lib, ... }:
+{
+  config,
+  inputs,
+  ...
+}:
 let
-  inherit (lib.custom) mapModulesRec;
-  modules = mapModulesRec ./. import [
-    "default.nix"
-    "flake-module.nix"
-  ];
+  inherit (inputs) haumea;
+  modules = haumea.lib.load {
+    src = ./.;
+    inputs = {
+      inherit inputs config;
+    };
+  };
 in
 modules
