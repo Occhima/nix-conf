@@ -5,7 +5,6 @@ let
   inherit (localFlake) inputs config options;
   inherit (inputs) haumea nixpkgs;
 
-
   lib = import ./lib nixpkgs;
 
   nixosModules = haumea.lib.load {
@@ -14,7 +13,6 @@ let
       inherit inputs config options;
     };
   };
-
 
   overlays.default = importApply ./overlays/flake-module.nix { inherit localFlake; };
 
