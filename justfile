@@ -42,3 +42,8 @@ lock:
 [group('dev')]
 inspect:
     nix-inspect --path .
+
+# <- Cleanup nix garbage
+[group('dev')]
+clean:
+    nix-collect-garbage

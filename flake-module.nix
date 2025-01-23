@@ -2,10 +2,20 @@
 { ... }:
 let
 
-  inherit (localFlake) inputs config;
+  inherit (localFlake) inputs config options;
+  inherit (inputs) haumea nixpkgs;
 
-  lib = import ./lib/flake-module.nix { inherit inputs; };
-  nixosModules = import ./modules/flake-module.nix { inherit inputs config; };
+
+  lib = import ./lib nixpkgs;
+
+  nixosModules = haumea.lib.load {
+    src = ./modules;
+    inputs = {
+      inherit inputs config options;
+    };
+  };
+
+
   overlays.default = importApply ./overlays/flake-module.nix { inherit localFlake; };
 
 in
@@ -19,8 +29,9 @@ in
   systems = import inputs.systems;
   imports = [
     inputs.flake-parts.flakeModules.partitions
+
     overlays.default
-    ./parts/flake-module.nix
+
   ];
 
   # partitions
@@ -39,7 +50,7 @@ in
   };
 
   flake = {
-    inherit lib nixosModules;
+    inherit lib nixosModules overlays;
   };
 
 }
