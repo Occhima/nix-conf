@@ -13,19 +13,7 @@ let
   lib = import ./lib nixpkgs;
 
   nixosModules = haumea.lib.load {
-    src = ./modules/nixos;
-    inputs = {
-      inherit
-        inputs
-        config
-        options
-        pkgs
-        ;
-    };
-  };
-
-  homeManagerModules = haumea.lib.load {
-    src = ./modules/home;
+    src = ./modules;
     inputs = {
       inherit
         inputs
@@ -74,7 +62,6 @@ in
       lib
       nixosModules
       overlays
-      homeManagerModules
       ;
   };
 

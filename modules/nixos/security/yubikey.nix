@@ -14,7 +14,7 @@ in
   options.modules.yubikey = {
     enable = mkEnableOption "YubiKey support";
 
-    serial = mkOption {
+    serialNumber = mkOption {
       type = types.str;
       default = "";
       example = "12345678";
@@ -122,18 +122,6 @@ in
         };
       }
     );
-
-    systemd.services.yubikey-health = {
-      description = "YubiKey health check service";
-      script = ''
-        ${optionalString cfg.debug "set -x"}
-        ${pkgs.yubikey-manager}/bin/ykman info || exit 1
-        ${optionalString cfg.security.requirePresenceForLogin ''
-          test -f /run/yubikey-present || exit 1
-        ''}
-      '';
-      startAt = "hourly";
-    };
 
     environment.sessionVariables = mkIf cfg.debug {
       YKMAN_DEBUG = "1";
