@@ -2,15 +2,37 @@
 { ... }:
 let
 
-  inherit (localFlake) inputs config options;
+  inherit (localFlake)
+    inputs
+    config
+    options
+    pkgs
+    ;
   inherit (inputs) haumea nixpkgs;
 
   lib = import ./lib nixpkgs;
 
   nixosModules = haumea.lib.load {
-    src = ./modules;
+    src = ./modules/nixos;
     inputs = {
-      inherit inputs config options;
+      inherit
+        inputs
+        config
+        options
+        pkgs
+        ;
+    };
+  };
+
+  homeManagerModules = haumea.lib.load {
+    src = ./modules/home;
+    inputs = {
+      inherit
+        inputs
+        config
+        options
+        pkgs
+        ;
     };
   };
 
@@ -48,7 +70,12 @@ in
   };
 
   flake = {
-    inherit lib nixosModules overlays;
+    inherit
+      lib
+      nixosModules
+      overlays
+      homeManagerModules
+      ;
   };
 
 }

@@ -9,6 +9,7 @@
         config,
         options,
         lib,
+        pkgs,
         ...
       }:
       let
@@ -19,6 +20,7 @@
             inputs
             options
             lib
+            pkgs
             ;
         };
         flakeModule.default = importApply ./flake-module.nix {
