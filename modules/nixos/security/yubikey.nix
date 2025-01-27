@@ -9,6 +9,7 @@ with lib;
 
 let
   cfg = config.modules.yubikey;
+  homeDir = config.modules.users.user.homeDir;
 in
 {
   options.modules.yubikey = {
@@ -25,36 +26,6 @@ in
           str
         else
           throw "Invalid YubiKey serial number format";
-    };
-
-    pam = {
-      enable = mkEnableOption "YubiKey PAM authentication";
-
-      allowSudo = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Allow YubiKey authentication for sudo commands";
-      };
-
-      requiredForSudo = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Require YubiKey authentication for all sudo commands";
-      };
-    };
-
-    security = {
-      lockOnRemoval = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Lock system when YubiKey is removed";
-      };
-
-      requirePresenceForLogin = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Require YubiKey presence for login";
-      };
     };
 
   };
@@ -77,9 +48,9 @@ in
     };
 
     environment.systemPackages = with pkgs; [
-      yubikey-personalization
       yubikey-manager
       yubico-piv-tool
+      pam_u2f
     ];
 
     services.udev = {
@@ -104,24 +75,22 @@ in
       '';
     };
 
-    security.pam = mkIf cfg.pam.enable (
-      lib.optionalAttrs pkgs.stdenv.isLinux {
-        u2f = {
-          enable = true;
-          settings = {
-            cue = true;
-            authFile = "/home/Occhima/.config/Yubico/u2f_keys";
-          };
+    security.pam = {
+      u2f = {
+        enable = true;
+        settings = {
+          cue = true;
+          authFile = "${homeDir}/.config/Yubico/u2f_keys";
         };
+      };
 
-        services = mkIf cfg.pam.allowSudo {
-          sudo = {
-            u2fAuth = true;
-            requireU2F = cfg.pam.requiredForSudo;
-          };
+      services = {
+        sudo = {
+          u2fAuth = true;
+          requireU2F = cfg.pam.requiredForSudo;
         };
-      }
-    );
+      };
+    };
 
     environment.sessionVariables = mkIf cfg.debug {
       YKMAN_DEBUG = "1";

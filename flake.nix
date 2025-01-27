@@ -83,9 +83,9 @@
       };
     };
 
-    sops = {
-      url = "github:Mic92/sops-nix";
-    };
+    # sops = {
+    #   url = "github:Mic92/sops-nix";
+    # };
 
     # deployment tools
     colmena = {
