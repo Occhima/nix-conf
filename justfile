@@ -47,3 +47,14 @@ inspect:
 [group('dev')]
 clean:
     nix-collect-garbage
+
+
+# <- Runs system lint
+[group('dev')]
+lint:
+    deadnix .
+
+# <- Runs configured pre commit
+[group('dev')]
+pc:
+  pre-commit run

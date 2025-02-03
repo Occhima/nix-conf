@@ -6,7 +6,12 @@ let
   umport = import ./umport.nix { inherit (nixpkgs) lib; };
   nixos = import ./nixos.nix { inherit lib; };
 
-  allModules = modules // attributes // umport // nixos;
+  allModules = lib.foldl (acc: x: acc // x) { } [
+    modules
+    attributes
+    umport
+    nixos
+  ];
 
   mkLib = pkgs: pkgs.lib.extend (_: _: { custom = allModules; });
   customLib = (mkLib nixpkgs);

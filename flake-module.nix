@@ -1,31 +1,21 @@
 { localFlake, importApply, ... }:
-{ ... }:
 let
-
   inherit (localFlake)
     inputs
+
     ;
   inherit (inputs) nixpkgs;
 
   lib = import ./lib nixpkgs;
 
-  # nixosConfigutarions = { };
-  # homeConfigutarions = { };
-
-  # homeModules = haumea.lib.load {
-  #   src = ./modules/home;
-  #   inputs = {
-  #     inherit
-  #       inputs
-  #       config
-  #       options
-  #       pkgs
-  #       ;
-  #   };
-  # };
-  #
-  modules.default = importApply ./modules/flake-module.nix { inherit localFlake lib; };
   overlays.default = importApply ./overlays/flake-module.nix { inherit localFlake; };
+  hosts.default = importApply ./hosts/flake-module.nix { inherit localFlake lib; };
+  mods.default = importApply ./modules/flake-module.nix {
+    inherit
+      localFlake
+      lib
+      ;
+  };
 
 in
 
@@ -33,15 +23,15 @@ in
 
   # NOTE: For debugging, see:
   # https://flake.parts/debug
+
+  systems = [ "x86_64-linux" ];
   debug = true;
 
-  systems = import inputs.systems;
   imports = [
     inputs.flake-parts.flakeModules.partitions
-
     overlays.default
-    modules.default
-
+    mods.default
+    hosts.default
   ];
 
   # partitions
@@ -58,11 +48,8 @@ in
       module.imports = [ ./dev/flake-module.nix ];
     };
   };
-
   flake = {
-    inherit
-      lib
-      ;
+    inherit lib;
   };
 
 }

@@ -3,6 +3,8 @@ let
   inherit (lib.custom)
     attrsToList
     mapModulesRec
+    collectNixModulePaths
+    filterNixFiles
     ;
 in
 {
@@ -41,13 +43,40 @@ in
   # };
 
   "test mapModulesRec with empty directory" = {
-    expr = mapModulesRec ./fixtures/empty-dir import [ ];
+    expr = mapModulesRec ./fixtures/empty-dir import;
     expected = { };
   };
 
   "test mapModulesRec with directory and excludes" = {
-    expr = mapModulesRec ./fixtures/empty-dir import [ "default.nix" ];
+    expr = mapModulesRec ./fixtures/empty-dir import;
     expected = { };
+  };
+  "test filterNixFiles filters only .nix files" = {
+    expr = filterNixFiles [
+      "foo.nix"
+      "bar.txt"
+      "baz.nix"
+      "README.md"
+    ];
+    expected = [
+      "foo.nix"
+      "baz.nix"
+    ];
+  };
+
+  "test filterNixFiles with empty input" = {
+    expr = filterNixFiles [ ];
+    expected = [ ];
+  };
+
+  #####################################################################
+  # Tests for collectNixModulePaths
+  #####################################################################
+
+  # Assuming that ./fixtures/empty-dir is an empty directory.
+  "test collectNixModulePaths with empty directory" = {
+    expr = collectNixModulePaths ./fixtures/empty-dir;
+    expected = [ ];
   };
 
 }

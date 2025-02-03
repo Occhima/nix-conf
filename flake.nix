@@ -23,82 +23,129 @@
             pkgs
             ;
         };
-        flakeModule.default = importApply ./flake-module.nix {
+        flakeModule = import ./flake-module.nix {
           inherit localFlake importApply;
         };
       in
       {
-        imports = [ flakeModule.default ];
+        imports = [ flakeModule ];
+
+        # flake = {
+        # inherit flakeModule;
+        # };
+
       }
     );
 
   inputs = {
-
     # Sources
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs = {
+      type = "github";
+      owner = "nixos";
+      repo = "nixpkgs";
+      ref = "nixos-unstable";
+    };
+
+    nixpkgs-unstable = {
+      type = "github";
+      owner = "NixOS";
+      repo = "nixpkgs";
+      ref = "nixos-unstable";
+    };
 
     # ========= Utilities =========
     disko = {
-      url = "github:nix-community/disko";
+      type = "github";
+      owner = "nix-community";
+      repo = "disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     flake-parts = {
-      url = "github:hercules-ci/flake-parts";
+      type = "github";
+      owner = "hercules-ci";
+      repo = "flake-parts";
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      type = "github";
+      owner = "nix-community";
+      repo = "home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     hyprland = {
-      url = "github:cachix/git-hooks.nix";
+      type = "github";
+      owner = "cachix";
+      repo = "git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     systems = {
-      url = "github:nix-systems/default";
+      type = "github";
+      owner = "nix-systems";
+      repo = "default";
     };
 
     nur = {
-      url = "github:nix-community/NUR";
+      type = "github";
+      owner = "nix-community";
+      repo = "NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Sec
-
-    agenix-rekey = {
-      url = "github:oddlama/agenix-rekey";
+    nixos-wsl = {
+      type = "github";
+      owner = "nix-community";
+      repo = "NixOS-WSL";
       inputs = {
         nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "";
       };
     };
 
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
-
-    # sops = {
-    #   url = "github:Mic92/sops-nix";
+    # Sec (commented out)
+    # agenix-rekey = {
+    #   type = "github";
+    #   owner = "oddlama";
+    #   repo = "agenix-rekey";
+    #   inputs = {
+    #     nixpkgs.follows = "nixpkgs";
+    #   };
     # };
 
-    # deployment tools
+    agenix = {
+      type = "github";
+      owner = "ryantm";
+      repo = "agenix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "nixpkgs";
+      };
+    };
+
+    # sops (commented out)
+    # sops = {
+    #   type = "github";
+    #   owner = "Mic92";
+    #   repo = "sops-nix";
+    # };
+
+    # Deployment tools
     colmena = {
-      url = "github:zhaofengli/colmena";
+      type = "github";
+      owner = "zhaofengli";
+      repo = "colmena";
       inputs = {
         nixpkgs.follows = "nixpkgs";
       };
     };
 
-    # utility for importing modules
+    # Utility for importing modules
     haumea = {
-      url = "github:nix-community/haumea";
+      type = "github";
+      owner = "nix-community";
+      repo = "haumea";
     };
-
   };
 }

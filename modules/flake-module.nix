@@ -1,43 +1,43 @@
-{ localFlake, ... }:
-{ ... }:
+{ localFlake, lib, ... }:
+{
+  ...
+}:
 let
   inherit (localFlake)
     inputs
     config
-    options
     pkgs
+    options
     ;
   inherit (inputs) haumea;
 
-  nixModules = haumea.lib.load {
+  nixosModules = haumea.lib.load {
     src = ./nixos;
+
     inputs = {
       inherit
         inputs
         config
         options
+        lib
         pkgs
         ;
     };
-  };
 
-  # homeModules = haumea.lib.load {
-  #   src = ./home-manager;
-  #   inputs = {
-  #     inherit
-  #       inputs
-  #       config
-  #       options
-  #       pkgs
-  #       ;
-  #   };
-  # };
+  };
 
 in
 {
 
-  flake = {
-    nixosModules = nixModules;
+  imports = [
+    inputs.flake-parts.flakeModules.modules
+  ];
 
+  flake = {
+    modules = {
+      nixos = nixosModules;
+      home = { };
+    };
+    nixosModules = config.flake.modules.nixos;
   };
 }

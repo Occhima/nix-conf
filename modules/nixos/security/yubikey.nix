@@ -8,11 +8,11 @@
 with lib;
 
 let
-  cfg = config.modules.yubikey;
+  cfg = config.modules.security.yubikey;
   homeDir = config.modules.users.user.homeDir;
 in
 {
-  options.modules.yubikey = {
+  options.modules.security.yubikey = {
     enable = mkEnableOption "YubiKey support";
 
     serialNumber = mkOption {
@@ -31,30 +31,30 @@ in
   };
 
   config = mkIf cfg.enable {
-    assertions = [
-      {
-        assertion = config.services.pcscd.enable;
-        message = "YubiKey module requires pcscd service to be enabled";
-      }
-      {
-        assertion = !cfg.pam.requiredForSudo || cfg.pam.allowSudo;
-        message = "Cannot require YubiKey for sudo when sudo support is disabled";
-      }
-    ];
+    # assertions = [
+    #   {
+    #     assertion = config.services.pcscd.enable;
+    #     message = "YubiKey module requires pcscd service to be enabled";
+    #   }
+    #   {
+    #     assertion = !cfg.pam.requiredForSudo || cfg.pam.allowSudo;
+    #     message = "Cannot require YubiKey for sudo when sudo support is disabled";
+    #   }
+    # ];
 
     services = {
       pcscd.enable = true;
       yubikey-agent.enable = true;
     };
 
-    environment.systemPackages = with pkgs; [
-      yubikey-manager
-      yubico-piv-tool
-      pam_u2f
-    ];
+    # environment.systemPackages = with pkgs; [
+    #   yubikey-manager
+    #   yubico-piv-tool
+    #   pam_u2f
+    # ];
 
     services.udev = {
-      packages = [ pkgs.yubikey-personalization ];
+      # packages = [ pkgs.yubikey-personalization ];
       extraRules = ''
         # YubiKey state tracking
         SUBSYSTEM=="usb", ACTION=="add", ATTR{idVendor}=="1050", \
@@ -92,8 +92,5 @@ in
       };
     };
 
-    environment.sessionVariables = mkIf cfg.debug {
-      YKMAN_DEBUG = "1";
-    };
   };
 }

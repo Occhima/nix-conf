@@ -11,11 +11,12 @@
       inputs',
       ...
     }:
+
     let
       nixConfig = builtins.toFile "nix.conf" ''
         warn-dirty = false
         http2 = true
-        experimental-features = nix-command flakes
+        experimental-features = nix-command flakes pipe-operators
         use-xdg-base-directories = true
       '';
 
@@ -31,7 +32,7 @@
       devshells = {
 
         default = {
-          name = "nixox-config-dev";
+          name = "nixos-config-dev";
           env = [
             {
 
@@ -62,8 +63,8 @@
 
             just
             # omnix # XXX: too big
+            deadnix
             nix-unit
-            nix-inspect
 
             colmena
             config.formatter
