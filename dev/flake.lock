@@ -140,6 +140,21 @@
         "type": "github"
       }
     },
+    "just-flake": {
+      "locked": {
+        "lastModified": 1713316411,
+        "narHash": "sha256-NkJfU6H+6vgHkPtZ2ESbZ/h2wnsDQrZvB4vbdUIBx8Q=",
+        "owner": "juspay",
+        "repo": "just-flake",
+        "rev": "0e33952a4bcd16cd54ee3aba8111606c237d4526",
+        "type": "github"
+      },
+      "original": {
+        "owner": "juspay",
+        "repo": "just-flake",
+        "type": "github"
+      }
+    },
     "nix-github-actions": {
       "inputs": {
         "nixpkgs": [
@@ -258,6 +273,7 @@
         "agenix-shell": "agenix-shell",
         "devshell": "devshell",
         "git-hooks": "git-hooks",
+        "just-flake": "just-flake",
         "nix-github-actions": "nix-github-actions_2",
         "nix-unit": "nix-unit",
         "nixpkgs": "nixpkgs",

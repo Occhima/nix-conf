@@ -24,16 +24,11 @@
             ;
         };
         flakeModule = import ./flake-module.nix {
-          inherit localFlake importApply;
+          inherit localFlake importApply flake-parts-lib;
         };
       in
       {
         imports = [ flakeModule ];
-
-        # flake = {
-        # inherit flakeModule;
-        # };
-
       }
     );
 
@@ -69,8 +64,8 @@
 
     home-manager = {
       type = "github";
-      owner = "nix-community";
-      repo = "home-manager";
+      owner = "serokell";
+      repo = "deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -104,15 +99,21 @@
       };
     };
 
+    easy-hosts = {
+      type = "github";
+      owner = "tgirlcloud";
+      repo = "easy-hosts";
+    };
+
     # Sec (commented out)
-    # agenix-rekey = {
-    #   type = "github";
-    #   owner = "oddlama";
-    #   repo = "agenix-rekey";
-    #   inputs = {
-    #     nixpkgs.follows = "nixpkgs";
-    #   };
-    # };
+    agenix-rekey = {
+      type = "github";
+      owner = "oddlama";
+      repo = "agenix-rekey";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
 
     agenix = {
       type = "github";
@@ -132,10 +133,10 @@
     # };
 
     # Deployment tools
-    colmena = {
+    deploy-rs = {
       type = "github";
-      owner = "zhaofengli";
-      repo = "colmena";
+      owner = "serokell";
+      repo = "deploy-rs";
       inputs = {
         nixpkgs.follows = "nixpkgs";
       };

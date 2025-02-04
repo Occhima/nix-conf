@@ -1,11 +1,9 @@
 * TODO's
 - [ ] Namaka
-- [ ] Sec files
-- [ ] Nixosconfigurations
-- [ ] Deployments
-- [ ] Module collection
-- [ ] MkHosts
+- [ ] Secrets
 
-* Based on:
+* References:
 - https://github.com/EmergentMind/nix-config/
--  https://github.com/edmundmiller/dotfiles
+- https://github.com/edmundmiller/dotfiles
+- https://github.com/remi-gelinas/rosetta/
+- https://github.com/isabelroses/dotfiles

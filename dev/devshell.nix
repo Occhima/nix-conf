@@ -7,6 +7,7 @@
   perSystem =
     {
       config,
+      lib,
       pkgs,
       inputs',
       ...
@@ -20,11 +21,9 @@
         use-xdg-base-directories = true
       '';
 
-      # omnix = inputs'.omnix.packages.default;
       nix-unit = inputs'.nix-unit.packages.default;
-      # nix-inspect = inputs'.nix-inspect.packages.default;
-      colmena = inputs'.colmena.packages.colmena;
-
+      deploy-rs = inputs'.deploy-rs.packages.deploy-rs; # remote deployment
+      agenix = inputs'.agenix.packages.agenix; # remote deployment
     in
 
     {
@@ -47,28 +46,29 @@
           ];
           packagesFrom = [
             config.treefmt.build.devShell
-
           ];
 
-          packages = with pkgs; [
-            direnv
+          packages =
+            with pkgs;
+            [
+              direnv
+              nil
+              nix-output-monitor
+              nh
 
-            nil
-            home-manager
-            gitAndTools.hub
-            gh
-            nh
-            onefetch
-            fastfetch
+              gitAndTools.hub
+              gh
 
-            just
-            # omnix # XXX: too big
-            deadnix
-            nix-unit
+              onefetch
+              fastfetch
 
-            colmena
-            config.formatter
-          ];
+              just
+              agenix
+              nix-unit
+
+              config.formatter
+            ]
+            ++ lib.lists.optionals pkgs.stdenv.hostPlatform.isLinux [ deploy-rs ];
 
           devshell = {
             startup = {

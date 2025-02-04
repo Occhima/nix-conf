@@ -2,8 +2,10 @@
 
 import? 'just-flake.just'
 
+flake :=  justfile_directory()
+
 default:
-    @just --choose
+    @just --list
 
 # <- Reload direnv
 [group('dev')]
@@ -43,10 +45,6 @@ lock:
 inspect:
     nix-inspect --path .
 
-# <- Cleanup nix garbage
-[group('dev')]
-clean:
-    nix-collect-garbage
 
 
 # <- Runs system lint
@@ -58,3 +56,66 @@ lint:
 [group('dev')]
 pc:
   pre-commit run
+
+
+# <- clean the nix store and optimise it
+[group('dev')]
+clean:
+    nh clean all -K 3d
+    nix store optimise
+
+# <- clean the nix store and optimise it the old way
+[group('dev')]
+oldclean:
+    nix-collect-garbage
+    nix store optimise
+
+# <- setup our nixos builder
+[group('rebuild')]
+[linux]
+[private]
+builder goal *args:
+    nh os {{ goal }} -- {{ args }}
+
+
+# <- we have this setup incase i ever want to go back and use the old stuff
+[group('rebuild')]
+[linux]
+[private]
+classic goal *args:
+    sudo nixos-rebuild {{ goal }} --flake {{ flake }} {{ args }} |& nom
+
+# <- rebuild the boot
+[group('rebuild')]
+boot *args: (builder "boot" args)
+
+# <- test what happens when you switch
+[group('rebuild')]
+test-switch *args: (builder "test" args)
+
+# <- switch the new system configuration
+[group('rebuild')]
+switch *args: (builder "switch" args)
+
+
+# <- build the package, you must specify the package you want to build
+[group('package')]
+build pkg:
+    nix build {{ flake }}#{{ pkg }} --log-format internal-json -v |& nom --json
+
+# <- build the iso image, you must specify the image you want to build ( not working yet )
+[group('package')]
+iso image: (build "nixosConfigurations." + image + ".config.system.build.isoImage")
+
+# <- build the tarball, you must specify the host you want to build ( not working yet )
+[group('package')]
+tar host:
+    sudo nix run {{ flake }}#nixosConfigurations.{{ host }}.config.system.build.tarballBuilder
+
+[private]
+verify *args:
+    nix-store --verify {{ args }}
+
+# <- repairs the nix store from any breakages it may have
+[group('dev')]
+repair: (verify "--check-contents --repair")

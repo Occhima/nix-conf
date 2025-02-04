@@ -26,7 +26,7 @@
           };
 
           deadnix = {
-            enable = false;
+            enable = true;
           };
 
           # Github Actions

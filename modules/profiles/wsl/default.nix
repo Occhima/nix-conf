@@ -1,14 +1,11 @@
 {
   lib,
   pkgs,
-  config,
   inputs,
   ...
 }:
-with lib;
 let
   inherit (lib.modules) mkForce;
-  enabled = (config.modules.device.type == "wsl");
 in
 
 {
@@ -22,7 +19,8 @@ in
   ##############################
   # Conditional Configuration
   ##############################
-  config = mkIf enabled {
+  config = {
+    modules.device.type = "wsl";
 
     # WSL-specific settings.
     wsl = {
