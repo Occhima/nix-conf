@@ -26,6 +26,21 @@ let
 
   };
 
+  homeManagerModules = haumea.lib.load {
+    src = ./home-manager;
+
+    inputs = {
+      inherit
+        inputs
+        config
+        options
+        lib
+        pkgs
+        ;
+    };
+
+  };
+
 in
 {
 
@@ -36,8 +51,9 @@ in
   flake = {
     modules = {
       nixos = nixosModules;
-      home = { };
+      home = homeManagerModules;
     };
     nixosModules = config.flake.modules.nixos;
+    homeManagerModules = config.flake.modules.home;
   };
 }

@@ -24,7 +24,7 @@
             ;
         };
         flakeModule = import ./flake-module.nix {
-          inherit localFlake importApply flake-parts-lib;
+          inherit localFlake importApply;
         };
       in
       {
@@ -64,8 +64,8 @@
 
     home-manager = {
       type = "github";
-      owner = "serokell";
-      repo = "deploy-rs";
+      owner = "nix-community";
+      repo = "home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -140,6 +140,17 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
       };
+    };
+
+    # https://github.com/search?q=colmena&type=repositories
+    colmena = {
+      type = "github";
+      owner = "zhaofengli";
+      repo = "colmena";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+
     };
 
     # Utility for importing modules

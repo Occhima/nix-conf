@@ -2,7 +2,6 @@
 {
   localFlake,
   importApply,
-  # flake-parts-lib,
   ...
 }:
 let
@@ -15,7 +14,12 @@ let
 
   overlays.default = importApply ./overlays/flake-module.nix { inherit localFlake; };
   hosts.default = importApply ./hosts/flake-module.nix { inherit localFlake lib; };
-  # home.default = importApply ./home/flake-module.nix { inherit localFlake lib flake-parts-lib; };
+  home.default = importApply ./home/flake-module.nix {
+    inherit
+      localFlake
+      lib
+      ;
+  };
   customModules.default = importApply ./modules/flake-module.nix {
     inherit
       localFlake
@@ -40,6 +44,7 @@ in
     overlays.default
     customModules.default
     hosts.default
+    home.default
   ];
 
   # partitions

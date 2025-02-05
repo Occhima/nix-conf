@@ -22,7 +22,7 @@ in
       magicRollback = true;
 
       nodes = mapAttrs (name: node: {
-        hostname = name;
+        hostname = "localhost"; # all of my configs are local,
         profiles.system = {
           user = "root";
           sshUser = node.config.homeModules.user.mainUser or "root";

@@ -11,12 +11,14 @@ default:
 [group('dev')]
 reload:
     direnv reload
+alias r:= reload
 
 # <- Reload direnv and runs flake check
 [group('dev')]
 check:
     @just reload
     nix flake check
+alias ch := check
 
 # <- Reload direnv and show current flake
 [group('dev')]
@@ -28,6 +30,7 @@ show:
 test:
     @just reload
     tests
+alias t := test
 
 #  <- Runs tree format
 [group('dev')]
@@ -39,6 +42,7 @@ fmt:
 lock:
     nix flake lock
     nix flake lock ./dev
+alias lo := lock
 
 # <- Inspects flake output
 [group('dev')]
@@ -51,24 +55,29 @@ inspect:
 [group('dev')]
 lint:
     deadnix .
+alias l := lint
 
 # <- Runs configured pre commit
 [group('dev')]
-pc:
+pre-commit:
   pre-commit run
 
+alias pc := pre-commit
 
 # <- clean the nix store and optimise it
 [group('dev')]
 clean:
     nh clean all -K 3d
     nix store optimise
+alias c := clean
+
 
 # <- clean the nix store and optimise it the old way
 [group('dev')]
 oldclean:
     nix-collect-garbage
     nix store optimise
+alias oc := oldclean
 
 # <- setup our nixos builder
 [group('rebuild')]
@@ -92,10 +101,12 @@ boot *args: (builder "boot" args)
 # <- test what happens when you switch
 [group('rebuild')]
 test-switch *args: (builder "test" args)
+alias ts := test-switch
 
 # <- switch the new system configuration
 [group('rebuild')]
 switch *args: (builder "switch" args)
+alias s := switch
 
 
 # <- build the package, you must specify the package you want to build
@@ -115,7 +126,16 @@ tar host:
 [private]
 verify *args:
     nix-store --verify {{ args }}
+alias v := verify
 
 # <- repairs the nix store from any breakages it may have
 [group('dev')]
 repair: (verify "--check-contents --repair")
+alias re := repair
+
+
+# update the lock file, if inputs are provided, only update those, otherwise update all
+[group('dev')]
+update *input:
+    nix flake update {{ input }} --refresh
+alias u := update
