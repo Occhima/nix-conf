@@ -27,7 +27,7 @@ let
         ++ extraModules;
 
       extraSpecialArgs = {
-        inherit lib inputs hostname;
+        inherit inputs hostname;
       };
     };
 
