@@ -31,7 +31,6 @@ in
           wsl
           headless
         ];
-
       };
     };
   };

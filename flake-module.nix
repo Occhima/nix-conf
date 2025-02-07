@@ -8,9 +8,11 @@ let
   inherit (localFlake)
     inputs
     ;
-  inherit (inputs) nixpkgs;
+  inherit (inputs) nixpkgs home-manager;
 
-  lib = import ./lib nixpkgs;
+  customLib = import ./lib nixpkgs;
+
+  lib = customLib // home-manager.lib;
 
   overlays.default = importApply ./overlays/flake-module.nix { inherit localFlake; };
   hosts.default = importApply ./hosts/flake-module.nix { inherit localFlake lib; };

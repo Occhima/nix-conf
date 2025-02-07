@@ -31,10 +31,8 @@ let
       };
     };
 
-  # Get hostnames from nixosConfigurations
   hostnames = builtins.attrNames localFlake.config.easy-hosts.hosts;
 
-  # Create home configurations for each host
   homeConfigs = lib.genAttrs (map (hostname: "occhima@${hostname}") hostnames) (
     hostname:
     let
