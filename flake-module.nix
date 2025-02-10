@@ -64,7 +64,7 @@ in
     };
   };
   flake = {
-    inherit lib;
+    inherit lib overlays;
   };
 
 }

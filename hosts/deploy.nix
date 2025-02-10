@@ -12,21 +12,31 @@ let
   deployableSystems = attrNames (filterAttrs (_: attrs: attrs.deployable) config.easy-hosts.hosts);
   deployableConfigs = filterAttrs (name: _: elem name deployableSystems) self.nixosConfigurations;
 
-  nodes = mapAttrs (hostname: node: {
-    inherit hostname;
-    profiles = {
-      system = {
-        user = "root";
-        path = inputs.deploy-rs.lib.${config.easy-hosts.hosts.${hostname}.system}.activate.nixos node;
+  nodes = mapAttrs (
+    hostname: node:
+    let
+      system = self.nixosConfigurations.${hostname}._module.args.pkgs.system;
+    in
+    {
+      hostname = "localhost";
+      profilesOrder = [
+        "system"
+        "home"
+      ];
+      profiles = {
+        system = {
+          user = "root";
+          path = inputs.deploy-rs.lib.${system}.activate.nixos node;
+        };
+        home = {
+          user = "occhima";
+          path =
+            inputs.deploy-rs.lib.${system}.activate.home-manager
+              self.homeConfigurations."occhima@${hostname}";
+        };
       };
-      home = {
-        user = "occhima";
-        path =
-          inputs.deploy-rs.lib.${config.easy-hosts.hosts.${hostname}.system}.activate.home-manager
-            self.homeConfigurations."occhima@${hostname}";
-      };
-    };
-  }) deployableConfigs;
+    }
+  ) deployableConfigs;
 in
 {
   flake = {
@@ -34,7 +44,6 @@ in
       remoteBuild = false;
       magicRollback = true;
       inherit nodes;
-
     };
     checks = mapAttrs (_: deployLib: deployLib.deployChecks self.deploy) inputs.deploy-rs.lib;
   };

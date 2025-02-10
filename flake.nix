@@ -69,6 +69,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    impermanence = {
+      type = "github";
+      owner = "nix-community";
+      repo = "impermanence";
+    };
+
     hyprland = {
       type = "github";
       owner = "cachix";
@@ -143,15 +149,16 @@
     };
 
     # https://github.com/search?q=colmena&type=repositories
-    colmena = {
-      type = "github";
-      owner = "zhaofengli";
-      repo = "colmena";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
+    # For now, Im using deploy-rs as reployment tool
+    # colmena = {
+    #   type = "github";
+    #   owner = "zhaofengli";
+    #   repo = "colmena";
+    #   inputs = {
+    #     nixpkgs.follows = "nixpkgs";
+    #   };
 
-    };
+    # };
 
     # Utility for importing modules
     haumea = {

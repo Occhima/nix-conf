@@ -1,11 +1,11 @@
 {
   config = {
-    system.stateVersion = "25.05"; # Did you read the comment?
+
+    system.stateVersion = "24.11";
 
     modules = {
       secrets = {
         agenix.enable = false;
-
       };
     };
   };

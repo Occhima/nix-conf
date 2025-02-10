@@ -127,7 +127,7 @@ iso image: (build "nixosConfigurations." + image + ".config.system.build.isoImag
 # <- build the tarball, you must specify the host you want to build ( not working yet )
 [group('package')]
 tar host:
-    sudo nix run {{ flake }}#nixosConfigurations.{{ host }}.config.system.build.tarballBuilder
+    nix run {{ flake }}#nixosConfigurations.{{ host }}.config.system.build.tarballBuilder
 
 [private]
 verify *args:

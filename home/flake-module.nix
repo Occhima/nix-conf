@@ -15,10 +15,10 @@ let
       extraModules ? [ ],
 
     }:
-    home-manager.lib.homeManagerConfiguration {
-      # maybe this is not necessary, see useGlobalPkgs;
-      pkgs = pkgs;
 
+    # maake it user generic
+    home-manager.lib.homeManagerConfiguration {
+      pkgs = pkgs;
       modules =
         [
           ./occhima
