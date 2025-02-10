@@ -4,25 +4,17 @@
   perSystem =
     { ... }:
     {
-      just-flake = {
-        features = {
-          treefmt.enable = true;
-          nixox-dev = {
-            enable = true;
-            justfile = ''
-              # Dev: Reloads the current direnv config
-              [group('dev')]
-              reload:
-                  direnv reload
-
-              # Dev: Reloads the current direnv config and run check
-              [group('dev')]
-              check:
-                  direnv reload && nix flake check
-            '';
-          };
+      just-flake.features = {
+        treefmt.enable = true;
+        rust.enable = true;
+        convco.enable = true;
+        hello = {
+          enable = true;
+          justfile = ''
+            hello:
+            echo Hello World
+          '';
         };
       };
-
     };
 }

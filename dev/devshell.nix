@@ -28,9 +28,13 @@
 
     {
 
+      # Now I know what happened to just-flake. Change this to devshells made me unable to define the inputsFrom attr
+      # devShells.default.inputsFrom = [ config.just-flake.outputs.devShell ];
+
       devshells = {
 
         default = {
+
           name = "nixos-config-dev";
           env = [
             {
@@ -46,6 +50,7 @@
           ];
           packagesFrom = [
             config.treefmt.build.devShell
+
           ];
 
           packages =

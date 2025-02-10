@@ -2,6 +2,7 @@
 - [ ] Namaka
 - [ ] Secrets
 - [ ] Nixos base profile module, like the one in  isabelroses/dotfiles
+- [ ] Use devenv to define multiple developer environments (https://flake.parts/options/devenv.html)
 
 * References:
 - https://github.com/EmergentMind/nix-config/
