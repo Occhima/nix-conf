@@ -16,5 +16,8 @@
           '';
         };
       };
+
+      # devShells.default.inputsFrom = self.just-flake.outputs,devShelll;
     };
+
 }

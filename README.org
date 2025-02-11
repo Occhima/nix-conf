@@ -10,3 +10,6 @@
 - https://github.com/remi-gelinas/rosetta/
 - https://github.com/isabelroses/dotfiles
 - https://github.com/montchr/dotfield
+- https://github.com/hlissner/dotfiles
+- https://github.com/mstream/nix-chad
+- https://github.com/Misterio77/nix-config
