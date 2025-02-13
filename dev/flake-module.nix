@@ -9,6 +9,7 @@
     ./nix-unit.nix
     ./devshell.nix
     ./just.nix
+    ./agenix.nix
   ];
 
 }

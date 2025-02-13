@@ -23,7 +23,6 @@
 
       nix-unit = inputs'.nix-unit.packages.default;
       deploy-rs = inputs'.deploy-rs.packages.deploy-rs; # remote deployment
-      agenix = inputs'.agenix.packages.agenix; # remote deployment
     in
 
     {
@@ -68,10 +67,12 @@
               fastfetch
 
               just
-              agenix
               nix-unit
+              age-plugin-yubikey
+              agenix-rekey
 
               config.formatter
+
             ]
             ++ lib.lists.optionals pkgs.stdenv.hostPlatform.isLinux [ deploy-rs ];
 

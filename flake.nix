@@ -112,14 +112,6 @@
     };
 
     # Sec (commented out)
-    agenix-rekey = {
-      type = "github";
-      owner = "oddlama";
-      repo = "agenix-rekey";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
 
     agenix = {
       type = "github";
@@ -128,6 +120,15 @@
       inputs = {
         nixpkgs.follows = "nixpkgs";
         home-manager.follows = "nixpkgs";
+      };
+    };
+
+    agenix-rekey = {
+      type = "github";
+      owner = "oddlama";
+      repo = "agenix-rekey";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
       };
     };
 

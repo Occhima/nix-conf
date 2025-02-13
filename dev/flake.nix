@@ -72,12 +72,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    agenix-rekey = {
-      type = "github";
-      owner = "oddlama";
-      repo = "agenix-rekey";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = _: { };

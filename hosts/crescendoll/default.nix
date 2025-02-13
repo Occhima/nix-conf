@@ -1,17 +1,18 @@
 {
   config = {
 
+    networking.hostName = "crescendoll";
     modules = {
+      hardware = {
+        yubikey.enable = true;
+      };
       secrets = {
-        yubikey = {
+        agenix-rekey = {
           enable = true;
-          containsAgeKeys = true;
-          enableSudo = false;
-        };
-        agenix = {
-          enable = true;
-          secretsDir = ../secrets;
-          identityPaths = [ ../secrets/identity/yubi-identity.txt ];
+          secretsDir = ../secrets/vault;
+          hostPublicKey = ../secrets/identity/id_ed25519.pub;
+          publicKeys = [ ../secrets/identity/yubi-identity.pub ];
+          storageDir = ./rekeyed;
         };
 
       };

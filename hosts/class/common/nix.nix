@@ -63,7 +63,7 @@
         # "repl-flake"
 
         # allow usage of the pipe operator in nix expressions
-        # "pipe-operator"
+        "pipe-operators"
 
         # enable the use of the fetchClosure built-in function in the Nix language.
         "fetch-closure"

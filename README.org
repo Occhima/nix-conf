@@ -1,7 +1,7 @@
 * TODO's
 - [ ] Namaka
-- [ ] Secrets
-- [ ] Nixos base profile module, like the one in  isabelroses/dotfiles
+- [ ] Enhance checks with CI ( ggscan + agenix-rekey )
+- [ ]  agenix-rekey
 - [ ] Use devenv to define multiple developer environments (https://flake.parts/options/devenv.html)
 
 * References:

@@ -53,6 +53,7 @@ in
   partitionedAttrs = {
     checks = "dev";
     devShells = "dev";
+    agenix-rekey = "dev";
     githubActions = "dev";
     tests = "dev";
   };

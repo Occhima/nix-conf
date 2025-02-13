@@ -64,7 +64,7 @@ in
         ) (import secretsFile);
       identityPaths = concatLists [
         cfg.identityPaths
-        options.age.identityPaths.default
+        # options.age.identityPaths.default
       ];
     };
 
