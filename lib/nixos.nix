@@ -60,4 +60,7 @@ rec {
   # the result with filterNixFiles.
   #####################################################################
   collectNixModulePaths = dir: filterNixFiles (listFilesRecursive dir);
+
+  # stolen from :https://github.com/isabelroses/dotfiles/blob/main/modules/flake/lib/validators.nix
+  ifTheyExist = config: groups: filter (group: hasAttr group config.users.groups) groups;
 }

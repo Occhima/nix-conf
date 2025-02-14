@@ -31,7 +31,6 @@ in
       username = cfg.username; # Use cfg.username directly
       homeDirectory = "/home/${cfg.username}";
 
-      # files that don't change
       persistence = {
         "/persist/${config.home.homeDirectory}" = {
           defaultDirectoryMethod = "symlink";

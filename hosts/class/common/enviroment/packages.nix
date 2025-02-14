@@ -10,4 +10,6 @@
     ];
 
   };
+
+  programs.zsh.enable = true;
 }

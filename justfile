@@ -86,6 +86,12 @@ alias oc := oldclean
 builder goal *args:
     nh os {{ goal }} -- {{ args }}
 
+# <- Rekey all agenix keys
+[group('rebuild')]
+rekey:
+    agenix rekey -a
+alias rk := rekey
+
 
 # <- we have this setup incase i ever want to go back and use the old stuff
 [group('rebuild')]

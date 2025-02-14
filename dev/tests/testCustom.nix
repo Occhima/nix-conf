@@ -5,6 +5,7 @@ let
     modulesFromDir
     umport
     recursiveMergeAttrs
+    ifTheyExist
     ;
 in
 {
@@ -67,6 +68,27 @@ in
         c = "bar";
       };
     };
+  };
+
+  "test if can filter groups" = {
+    # Example from the docstring
+    expr =
+      let
+        conf.users.groups = {
+          "a" = "a";
+          "b" = "b";
+        };
+        groups = [
+          "a"
+          "b"
+          "c"
+        ];
+      in
+      ifTheyExist conf groups;
+    expected = [
+      "a"
+      "b"
+    ];
   };
 
 }

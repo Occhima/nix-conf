@@ -1,6 +1,7 @@
 # stolen from: https://github.com/isabelroses/dotfiles/blob/main/modules/base/nix/nix.nix
 {
   pkgs,
+  lib,
   ...
 }:
 
@@ -10,6 +11,11 @@
     gc = {
       automatic = true;
       options = "--delete-older-than 3d";
+    };
+    package = lib.mkDefault pkgs.nix;
+    optimise = {
+      automatic = true;
+      dates = [ "04:00" ];
     };
 
     settings = {

@@ -1,3 +1,4 @@
+# This was stolen from : https://github.com/mstream/nix-chad/blob/main/test/default.nix
 { lib, ... }:
 let
   loadTestSuite =

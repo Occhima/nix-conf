@@ -24,14 +24,11 @@ in
     perClass = class: {
       modules = concatLists [
 
-        # From class
-        (collectNixModulePaths ./class/${class})
-
         # common  nix stuff aacross a
         (collectNixModulePaths ./class/common)
 
-        # all of my nixos modules
-        (collectNixModulePaths ../modules/nixos)
+        # per class modules
+        (collectNixModulePaths ../modules/${class})
 
       ];
     };
@@ -46,6 +43,14 @@ in
         path = ./crescendoll;
         modules = [
           wsl
+          headless
+        ];
+      };
+
+      face2face = {
+        deployable = true;
+        path = ./face2face;
+        modules = [
           headless
         ];
       };
