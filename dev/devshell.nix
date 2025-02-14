@@ -45,6 +45,14 @@
               name = "PATH";
               prefix = "bin";
             }
+            {
+              name = "FLAKE";
+              value = ".";
+            }
+            {
+              name = "NH_FLAKE";
+              value = ".";
+            }
 
           ];
           packagesFrom = [

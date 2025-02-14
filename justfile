@@ -2,7 +2,8 @@
 
 import? 'just-flake.just'
 
-flake :=  justfile_directory()
+flake_var := env_var('FLAKE')
+flake := if flake_var =~ '^\.*$' { justfile_directory() } else { flake_var }
 
 default:
     @just --list
