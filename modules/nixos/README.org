@@ -1,0 +1,1 @@
+- modules stolen from: https://github.com/isabelroses/dotfiles/blob/main/modules/nixos

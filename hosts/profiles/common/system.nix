@@ -1,5 +1,4 @@
 { lib, ... }:
-with lib;
 {
-  system.stateVersion = mkDefault "25.05";
+  system.stateVersion = lib.mkDefault "25.05";
 }

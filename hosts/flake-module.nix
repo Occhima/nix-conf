@@ -54,7 +54,7 @@ in
       };
 
       steammachine = {
-        deployable = true;
+        deployable = false;
         path = ./steammachine;
         modules = [
           desktop
@@ -63,7 +63,7 @@ in
 
       # future ISO
       face2face = {
-        deployable = false;
+        deployable = true;
         path = ./face2face;
         modules = [
           headless
