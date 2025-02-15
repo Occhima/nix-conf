@@ -7,8 +7,12 @@ let
   inherit (lib.custom) collectNixModulePaths;
   inherit (lib) concatLists;
 
-  profilesPath = ./class/profiles; # the base directory for the types module
+  # Modules
+  modulesPath = ../modules;
 
+  # Profiles
+  profilesPath = ./profiles; # the base directory for the types module
+  commonModules = profilesPath + /common; # common config across all classes
   wsl = profilesPath + /wsl; # for wsl systems
   headless = profilesPath + /headless; # for wsl systems
 
@@ -24,11 +28,11 @@ in
     perClass = class: {
       modules = concatLists [
 
-        # common  nix stuff aacross a
-        (collectNixModulePaths ./class/common)
+        # common  nix  modules stuff aacross all classes
+        (collectNixModulePaths commonModules)
 
         # per class modules
-        (collectNixModulePaths ../modules/${class})
+        (collectNixModulePaths "${modulesPath}/${class}")
 
       ];
     };
@@ -47,8 +51,14 @@ in
         ];
       };
 
-      face2face = {
+      steammachine = {
         deployable = true;
+        path = ./steammachine;
+      };
+
+      # future ISO
+      face2face = {
+        deployable = false;
         path = ./face2face;
         modules = [
           headless

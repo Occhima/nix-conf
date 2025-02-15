@@ -1,62 +1,64 @@
 { inputs, ... }:
+
 {
   imports = [ inputs.disko.nixosModules.disko ];
+
   disko.devices = {
     disk = {
-      system = {
+      sdb = {
         device = "/dev/sdb";
         type = "disk";
         content = {
-          type = "gpt"; # Specify GPT partition table
+          type = "gpt";
           partitions = {
-            boot = {
-              size = "1M";
-              type = "EF02";
-            };
             ESP = {
+              size = "512M";
               type = "EF00";
-              size = "1G";
               content = {
-                type = "filesystem"; # EFI partition type
+                type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "umask=0077" ];
+                mountOptions = [
+                  "defaults"
+                  "umask=0077"
+                ];
               };
             };
-            # Root partition with the rest of the disk
             root = {
-              size = "95%"; # Adjust size to leave space for swap type = "8304";       # Linux x86-64 root GUID
+              size = "100%";
               content = {
-                type = "filesystem"; # EFI partition type
-                format = "ext4"; # or btrfs, if you prefer
+                type = "filesystem";
+                format = "ext4";
                 mountpoint = "/";
-              };
-            };
-            # Swap partition
-            swap = {
-              size = "5%";
-              content = {
-                type = "swap";
-                discardPolicy = "both";
-                resumeDevice = true; # resume from hiberation from this device
+                # ext4 optimization for modern hardware:
+                # extraFormatArgs = [ "-O 64bit,metadata_csum,has_journal" ];
+                mountOptions = [
+                  "noatime"
+                  "discard"
+                  "errors=remount-ro"
+                ];
               };
             };
           };
         };
       };
 
-      homeDisk = {
+      sda = {
         device = "/dev/sda";
         type = "disk";
         content = {
-          type = "gpt"; # Specify GPT partition table
+          type = "gpt";
           partitions = {
             home = {
               size = "100%";
               content = {
-                type = "filesystem"; # Linux filesystem
+                type = "filesystem";
                 format = "ext4";
                 mountpoint = "/home";
+                mountOptions = [
+                  "noatime"
+                  "discard"
+                ];
               };
             };
           };
