@@ -12,9 +12,11 @@ let
 
   # Profiles
   profilesPath = ./profiles; # the base directory for the types module
-  commonModules = profilesPath + /common; # common config across all classes
+
+  common = profilesPath + /common; # common config across all classes
   wsl = profilesPath + /wsl; # for wsl systems
   headless = profilesPath + /headless; # for wsl systems
+  desktop = profilesPath + /desktop; # for wsl systems
 
 in
 {
@@ -29,7 +31,7 @@ in
       modules = concatLists [
 
         # common  nix  modules stuff aacross all classes
-        (collectNixModulePaths commonModules)
+        (collectNixModulePaths common)
 
         # per class modules
         (collectNixModulePaths "${modulesPath}/${class}")
@@ -54,6 +56,9 @@ in
       steammachine = {
         deployable = true;
         path = ./steammachine;
+        modules = [
+          desktop
+        ];
       };
 
       # future ISO
