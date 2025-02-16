@@ -56,6 +56,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixos-hardware = {
+      type = "github";
+      owner = "NixOS";
+      repo = "nixos-hardware";
+    };
+
     flake-parts = {
       type = "github";
       owner = "hercules-ci";

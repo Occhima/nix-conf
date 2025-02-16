@@ -1,29 +1,24 @@
 {
+
+  imports = [ ./disko.nix ];
   networking.hostName = "face2face";
   modules = {
     system = {
       boot = {
-        loader.none.enable = true;
-        tmpOnTmpfs = true;
-        enableKernelTweaks = true;
+        loader.systemd.enable = true;
+        tmpOnTmpfs = false;
+        enableKernelTweaks = false;
         loadRecommendedModules = true;
 
         initrd = {
-          enableTweaks = true;
-          optimizeCompressor = true;
+          enableTweaks = false;
+          optimizeCompressor = false;
         };
-      };
-      fs = {
-        default = true;
-        support = [
-          "ext4"
-          "vfat"
-        ];
       };
 
     };
     hardware = {
-      yubikey.enable = true;
+      yubikey.enable = false;
     };
     secrets = {
       agenix-rekey = {

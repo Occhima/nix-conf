@@ -121,18 +121,32 @@ install host:
     deploy -cid {{host}}
 alias i := install
 
+# <- Deploys the config on a machine using nixos-install ( no remote build )
+[group('rebuild')]
+classic-install host:
+    sudo nixos-install --flake {{ flake }}.#{{host}} |& nom
+alias in := install
 
+# <- Deploys the config on a machine using disko-install ( this will also partition things ).
+[group('rebuild')]
+parition-install host disk device:
+    sudo nix run 'github:nix-community/disko/latest#disko-install' -- --flake .#{{ host }} --disk {{ disk }} {{device}}
+alias pi := install
 
 # <- build the package, you must specify the package you want to build
 [group('package')]
 build pkg:
     nix build {{ flake }}#{{ pkg }} --log-format internal-json -v |& nom --json
 
-# <- build the iso image, you must specify the image you want to build ( not working yet )
+# <- build the iso image, you must specify the image you want to build ( not working yet ) TODO
 [group('package')]
 iso image: (build "nixosConfigurations." + image + ".config.system.build.isoImage")
 
-# <- build the tarball, you must specify the host you want to build ( not working yet )
+# <- build the .qcow2 image
+[group('package')]
+vm image: (build "nixosConfigurations." + image + ".config.system.build.vmWithDisko")
+
+# <- build the tarball, you must specify the host you want to build ( not working yet ) TODO
 [group('package')]
 tar host:
     nix run {{ flake }}#nixosConfigurations.{{ host }}.config.system.build.tarballBuilder
