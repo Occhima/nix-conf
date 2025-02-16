@@ -1,17 +1,22 @@
+{ inputs, ... }:
 {
 
-  imports = [ ./disko.nix ];
+  imports = [
+    inputs.disko.nixosModules.disko
+    ./disko.nix
+
+  ];
   networking.hostName = "face2face";
   modules = {
     system = {
       boot = {
         loader.systemd.enable = true;
-        tmpOnTmpfs = false;
-        enableKernelTweaks = false;
+        tmpOnTmpfs = true;
+        enableKernelTweaks = true;
         loadRecommendedModules = true;
 
         initrd = {
-          enableTweaks = false;
+          enableTweaks = true;
           optimizeCompressor = false;
         };
       };
