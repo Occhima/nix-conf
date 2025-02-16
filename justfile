@@ -18,7 +18,7 @@ alias r:= reload
 [group('dev')]
 check:
     @just reload
-    nix flake check
+    nix flake check --show-trace |& nom
 alias ch := check
 
 # <- Reload direnv and show current flake

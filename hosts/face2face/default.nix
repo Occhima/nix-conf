@@ -1,27 +1,37 @@
-{ inputs, ... }:
+{ inputs, modulesPath, ... }:
 {
 
   imports = [
+    (modulesPath + "/profiles/qemu-guest.nix")
     inputs.disko.nixosModules.disko
     ./disko.nix
-
   ];
-  networking.hostName = "face2face";
-  modules = {
-    system = {
-      boot = {
-        loader.systemd.enable = true;
-        tmpOnTmpfs = true;
-        enableKernelTweaks = true;
-        loadRecommendedModules = true;
 
-        initrd = {
-          enableTweaks = true;
-          optimizeCompressor = false;
-        };
-      };
+  networking = {
+    useDHCP = true;
+    hostName = "face2face";
+  };
 
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
     };
+    initrd = {
+      availableKernelModules = [
+        "ahci"
+        "xhci_pci"
+        "virtio_pci"
+        "sr_mod"
+        "virtio_blk"
+      ];
+      kernelModules = [ ];
+    };
+    kernelModules = [ "kvm-amd" ];
+    extraModulePackages = [ ];
+  };
+
+  modules = {
     hardware = {
       yubikey.enable = false;
     };
