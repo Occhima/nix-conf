@@ -43,3 +43,4 @@ ops/keys/ssh/*
 ##: temporary files
 *.tmp
 tmp/
+.aider*

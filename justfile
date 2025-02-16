@@ -115,7 +115,7 @@ alias ts := test-switch
 switch *args: (builder "switch" args)
 alias s := switch
 
-# <- Deploys the config on a machine using deploy-rs ( no remote build )
+# <- TODO Deploys the config on a machine using deploy-rs ( no remote build )
 [group('rebuild')]
 install host:
     deploy -cid {{host}}
@@ -124,14 +124,21 @@ alias i := install
 # <- Deploys the config on a machine using nixos-install ( no remote build )
 [group('rebuild')]
 classic-install host:
-    sudo nixos-install --flake {{ flake }}.#{{host}} |& nom
-alias in := install
+    sudo nixos-install --flake {{ flake }}#{{host}} |& nom
+alias ci := classic-install
 
-# <- Deploys the config on a machine using disko-install ( this will also partition things ).
+# <- TODO: Deploys the config on a machine using disko-install ( this will also partition things )
 [group('rebuild')]
-parition-install host disk device:
-    sudo nix run 'github:nix-community/disko/latest#disko-install' -- --flake .#{{ host }} --disk {{ disk }} {{device}}
-alias pi := install
+partition-install host disk device:
+    sudo nix run 'github:nix-community/disko/latest#disko-install' -- --flake {{flake}}#{{ host }} --disk {{ disk }} {{device}} |& nom
+alias pi := partition-install
+
+# <- Partitions the disk using disko
+[group("rebuild")]
+partition disko_file:
+    sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount {{disko_file}}
+alias pa := partition
+
 
 # <- build the package, you must specify the package you want to build
 [group('package')]
