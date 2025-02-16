@@ -130,7 +130,7 @@ alias ci := classic-install
 # <- TODO: Deploys the config on a machine using disko-install ( this will also partition things )
 [group('rebuild')]
 partition-install host disk device:
-    sudo nix run 'github:nix-community/disko/latest#disko-install' -- --flake {{flake}}#{{ host }} --disk {{ disk }} {{device}} |& nom
+    sudo nix run --experimental-features "nix-command flakes" 'github:nix-community/disko/latest#disko-install' -- --flake {{flake}}#{{ host }} --disk {{ disk }} {{device}} |& nom
 alias pi := partition-install
 
 # <- Partitions the disk using disko

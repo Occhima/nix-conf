@@ -12,6 +12,7 @@
     hostName = "face2face";
   };
 
+  # had to do this outside of modules, I've broke the modules config
   boot = {
     loader = {
       systemd-boot.enable = true;
