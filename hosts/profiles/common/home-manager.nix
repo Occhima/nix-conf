@@ -8,6 +8,5 @@
 
   home-manager = {
     useGlobalPkgs = true;
-
   };
 }
