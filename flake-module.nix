@@ -28,6 +28,7 @@ let
       lib
       ;
   };
+  packages.default = ./packages/flake-module.nix;
 
 in
 
@@ -47,6 +48,7 @@ in
     customModules.default
     hosts.default
     home.default
+    packages.default
   ];
 
   # partitions

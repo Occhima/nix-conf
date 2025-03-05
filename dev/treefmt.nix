@@ -36,7 +36,7 @@
 
           # Bash
           beautysh = {
-            enable = false;
+            enable = true;
           };
 
           # TypeScript / JSON

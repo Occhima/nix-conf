@@ -107,7 +107,6 @@
       repo = "NixOS-WSL";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        flake-compat.follows = "";
       };
     };
 

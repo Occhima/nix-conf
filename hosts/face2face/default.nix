@@ -1,50 +1,47 @@
-{ inputs, modulesPath, ... }:
+{ inputs, ... }:
 {
-
   imports = [
-    (modulesPath + "/profiles/qemu-guest.nix")
     inputs.disko.nixosModules.disko
     ./disko.nix
-  ];
 
+  ];
   networking = {
     useDHCP = true;
     hostName = "face2face";
   };
 
-  # had to do this outside of modules, I've broke the modules config
-  boot = {
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-    initrd = {
-      availableKernelModules = [
-        "ahci"
-        "xhci_pci"
-        "virtio_pci"
-        "sr_mod"
-        "virtio_blk"
-      ];
-      kernelModules = [ ];
-    };
-    kernelModules = [ "kvm-amd" ];
-    extraModulePackages = [ ];
-  };
-
+  # Virtualization configuration
   modules = {
-    hardware = {
-      yubikey.enable = false;
-    };
-    secrets = {
-      agenix-rekey = {
+    # Enable overall virtualization support
+    virtualisation = {
+
+      # Configure as VM guest
+      vm = {
         enable = true;
-        secretsDir = ../secrets/vault;
-        hostPublicKey = ../secrets/identity/id_ed25519.pub;
-        publicKeys = [ ../secrets/identity/yubi-identity.pub ];
-        storageDir = ./rekeyed;
+        memorySize = 8192; # 8GB RAM
+        diskSize = 40960; # 40GB disk
       };
 
+      # Add container support
+      docker = {
+        enable = true;
+        usePodman = true; # Use podman for docker compatibility
+      };
+
+      distrobox.enable = true;
+      qemu.enable = false; # Not needed for a headless VM
+    };
+
+    # Hardware configuration
+    hardware.yubikey.enable = false;
+
+    # Secrets management
+    secrets.agenix-rekey = {
+      enable = true;
+      secretsDir = ../secrets/vault;
+      hostPublicKey = ../secrets/identity/id_ed25519.pub;
+      publicKeys = [ ../secrets/identity/yubi-identity.pub ];
+      storageDir = ./rekeyed;
     };
   };
 

@@ -1,5 +1,6 @@
 * TODO's
 - [ ] Namaka
+- [ ] Solve the homeManagerModules by adding files and classes ( see: https://github.com/isabelroses/dotfiles/blob/main/modules/flake/modules.nix )
 - [ ] Nixos-hardware for modules/hardware common definitions
 - [ ] Disko-install for automatic partitioning
 - [ ] Enhance checks with CI ( ggscan + agenix-rekey )

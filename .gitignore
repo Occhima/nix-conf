@@ -4,7 +4,8 @@
 # SPDX-License-Identifier: CC0-1.0
 
 .pre-commit-config.yaml
-
+*.fd
+result
 .direnv
 just-flake.just
 

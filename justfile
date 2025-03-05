@@ -115,6 +115,12 @@ alias ts := test-switch
 switch *args: (builder "switch" args)
 alias s := switch
 
+# <- switch home-manager configuration
+[group('rebuild')]
+home-switch host="":
+    home-manager switch --flake {{ flake }}#occhima@$([[ -z "{{host}}" ]] && hostname || echo "{{host}}")
+alias hs := home-switch
+
 # <- TODO Deploys the config on a machine using deploy-rs ( no remote build )
 [group('rebuild')]
 install host:
@@ -152,6 +158,11 @@ iso image: (build "nixosConfigurations." + image + ".config.system.build.isoImag
 # <- build the .qcow2 image
 [group('package')]
 vm image: (build "nixosConfigurations." + image + ".config.system.build.vmWithDisko")
+
+# <- run a VM for a specified host (defaults to face2face)
+[group('package')]
+run-vm host="face2face":
+    nix run .#run-vm -- {{host}} |& nom
 
 # <- build the tarball, you must specify the host you want to build ( not working yet ) TODO
 [group('package')]

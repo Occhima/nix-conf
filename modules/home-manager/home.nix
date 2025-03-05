@@ -32,7 +32,7 @@ in
       homeDirectory = "/home/${cfg.username}";
 
       persistence = {
-        "/persist/${config.home.homeDirectory}" = {
+        "${config.home.homeDirectory}/persist" = {
           defaultDirectoryMethod = "symlink";
           directories = [
             "Documents"

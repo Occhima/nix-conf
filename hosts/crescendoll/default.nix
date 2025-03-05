@@ -14,8 +14,8 @@
           publicKeys = [ ../secrets/identity/yubi-identity.pub ];
           storageDir = ./rekeyed;
         };
-
       };
+
     };
   };
 

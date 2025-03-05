@@ -29,23 +29,18 @@ in
 
     perClass = class: {
       modules = concatLists [
-
-        # common  nix  modules stuff aacross all classes
-        (collectNixModulePaths common)
-
-        # per class modules
         (collectNixModulePaths "${modulesPath}/${class}")
-
       ];
     };
 
     shared = {
+      modules = collectNixModulePaths common;
       specialArgs = { inherit lib inputs; };
     };
 
     hosts = {
       crescendoll = {
-        deployable = true;
+        deployable = false;
         path = ./crescendoll;
         modules = [
           wsl
@@ -54,7 +49,7 @@ in
       };
 
       steammachine = {
-        deployable = false;
+        deployable = true;
         path = ./steammachine;
         modules = [
           desktop
@@ -63,7 +58,7 @@ in
 
       # future ISO
       face2face = {
-        deployable = true;
+        deployable = false;
         path = ./face2face;
         modules = [
           headless
