@@ -58,7 +58,7 @@ in
 
       # future ISO
       face2face = {
-        deployable = false;
+        deployable = true;
         path = ./face2face;
         modules = [
           headless

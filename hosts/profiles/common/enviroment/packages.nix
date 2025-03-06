@@ -1,15 +1,6 @@
 {
-  pkgs,
-  ...
-}:
-{
-  environment = {
-    systemPackages = with pkgs; [
-      git
-      vim
-    ];
-
+  programs = {
+    git.enable = true;
+    vim.enable = true;
   };
-
-  programs.zsh.enable = true;
 }

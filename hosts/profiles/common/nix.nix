@@ -104,6 +104,7 @@
       keep-outputs = true;
 
       use-xdg-base-directories = true;
+      use-cgroups = true;
 
     };
 

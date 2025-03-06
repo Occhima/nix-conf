@@ -24,12 +24,12 @@ in
   };
 
   config = mkIf cfg.enable {
-    programs.home-manager.enable = true;
 
     home = {
-      stateVersion = "23.11"; # This needs to be at the top level
+
       username = cfg.username; # Use cfg.username directly
       homeDirectory = "/home/${cfg.username}";
+      stateVersion = "23.11";
 
       persistence = {
         "${config.home.homeDirectory}/persist" = {

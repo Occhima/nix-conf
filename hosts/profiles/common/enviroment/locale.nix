@@ -6,9 +6,10 @@
   };
 
   i18n = {
-    defaultLocale = "pt_BR.utf8";
+    defaultLocale = "pt_BR.UTF-8";
     supportedLocales = lib.modules.mkDefault [
       "en_US.UTF-8/UTF-8"
+      "pt_BR.UTF-8/UTF-8"
     ];
   };
 }
