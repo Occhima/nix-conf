@@ -14,13 +14,9 @@ in
     programs.zsh = {
       enable = true;
       enableCompletion = true;
-
-      # Basic configuration
-      initExtra = ''
-        bindkey -e
-
-      '';
-
+      syntaxHighlighting.enable = true;
+      autosuggestion.enable = true;
+      dotDir = config.xdg.configHome;
       oh-my-zsh = {
         enable = true;
         plugins = [
@@ -28,7 +24,7 @@ in
           "colored-man-pages"
           "command-not-found"
         ];
-        theme = "robyrussel";
+        theme = "robyrussell";
       };
     };
   };

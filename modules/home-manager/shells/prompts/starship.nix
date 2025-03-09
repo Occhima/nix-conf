@@ -11,6 +11,7 @@ let
   cfg = config.modules.shell;
   capitalize = str: strings.toUpper (builtins.substring 0 1 str) + builtins.substring 1 (-1) str;
 in
+
 {
   config = mkIf (cfg.prompt.type == "starship") {
     programs.starship = {
@@ -18,8 +19,8 @@ in
       enable = true;
 
       # Dynamically enable integration based on the selected shell
-      "enable${capitalize cfg.type}Integration" = true;
-
+      "enable${capitalize cfg.type}Integration" = false;
+      # enableZshIntegration = true;
       # Import your existing Starship config
       settings = {
         # Your existing format configuration

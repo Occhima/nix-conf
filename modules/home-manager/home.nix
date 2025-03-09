@@ -30,7 +30,7 @@ in
       username = cfg.username; # Use cfg.username directly
       homeDirectory = "/home/${cfg.username}";
       stateVersion = "23.11";
-
+      preferXdgDirectories = true;
       persistence = {
         "${config.home.homeDirectory}/persist" = {
           defaultDirectoryMethod = "symlink";
