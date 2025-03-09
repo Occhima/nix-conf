@@ -16,7 +16,7 @@ in
       enableCompletion = true;
       syntaxHighlighting.enable = true;
       autosuggestion.enable = true;
-      dotDir = config.xdg.configHome;
+      dotDir = ".config/zsh";
       oh-my-zsh = {
         enable = true;
         # plugins = [

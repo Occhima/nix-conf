@@ -31,6 +31,9 @@ in
       homeDirectory = "/home/${cfg.username}";
       stateVersion = "23.11";
       preferXdgDirectories = true;
+      # sessionVariables = {
+
+      # }
       persistence = {
         "${config.home.homeDirectory}/persist" = {
           defaultDirectoryMethod = "symlink";
