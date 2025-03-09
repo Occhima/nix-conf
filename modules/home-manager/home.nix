@@ -7,15 +7,15 @@
 
 with lib;
 let
-  cfg = config.modules.home-manager;
+  cfg = config.modules.home;
 in
 {
   imports = [
     inputs.impermanence.homeManagerModules.impermanence
   ];
 
-  options.modules.home-manager = {
-    enable = mkEnableOption "home-manager module";
+  options.modules.home = {
+    enable = mkEnableOption "home-manager module to define home stuff";
     username = mkOption {
       type = types.str;
       default = "occhima";

@@ -39,6 +39,7 @@ in
       "git"
       "libvirtd"
       "cloudflared"
+      "wheel" # For sudo access
     ];
 
   };

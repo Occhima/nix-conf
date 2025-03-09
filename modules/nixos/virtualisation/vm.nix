@@ -8,6 +8,8 @@ with lib;
 
 let
   cfg = config.modules.virtualisation.vm;
+  hasDiskoConfig = config ? disko;
+  vmVariantAttr = if hasDiskoConfig then "vmVariantWithDisko" else "vmVariant";
 in
 {
   options.modules.virtualisation.vm = {
@@ -25,7 +27,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    # VM-specific configuration
     boot.initrd.availableKernelModules = [
       "virtio_net"
       "virtio_pci"
@@ -41,13 +42,19 @@ in
       "virtio_rng"
     ];
 
-    # Enable guest additions
     services.qemuGuest.enable = true;
     services.spice-vdagentd.enable = true;
 
-    # Configure boot for VM
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
 
+    virtualisation = {
+      ${vmVariantAttr} = {
+        virtualisation = {
+          memorySize = cfg.memorySize;
+          diskSize = cfg.diskSize;
+        };
+      };
+    };
   };
 }

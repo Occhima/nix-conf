@@ -9,22 +9,24 @@
     hostName = "face2face";
   };
 
+  # Add swap file to help with memory-intensive operations
+
   modules = {
     virtualisation = {
 
       vm = {
         enable = true;
-        memorySize = 10192; # 8GB RAM
-        diskSize = 180960; # 40GB disk
+        memorySize = 8192; # 8GB RAM - balanced for performance and host resource usage
+        diskSize = 40960; # 40GB disk
       };
 
       docker = {
-        enable = true;
-        usePodman = true; # Use podman for docker compatibility
+        enable = false;
+        usePodman = false; # Use podman for docker compatibility
       };
 
-      distrobox.enable = true;
-      qemu.enable = false; # Not needed for a headless VM
+      distrobox.enable = false;
+      qemu.enable = true;
     };
 
     home-manager.enable = true;

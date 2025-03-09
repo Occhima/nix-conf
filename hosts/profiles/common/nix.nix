@@ -31,7 +31,7 @@
         "nixos-test"
         "kvm"
         "recursive-nix"
-        "big-parallel"
+        # "big-parallel"
       ];
 
       # continue building derivations even if one fails

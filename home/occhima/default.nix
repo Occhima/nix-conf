@@ -1,13 +1,9 @@
 {
   config = {
     modules = {
-      home-manager.enable = true;
-
-      # Shell configuration with zsh
+      home.enable = true;
       shell = {
         type = "zsh";
-
-        # Starship prompt
         prompt.type = "starship";
       };
     };

@@ -26,6 +26,7 @@ in
           packages = [ pkgs.OVMFFull.fd ];
         };
       };
+
     };
 
     virtualisation.kvmgt.enable = true;
