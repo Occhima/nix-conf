@@ -13,10 +13,10 @@ in
   config = mkIf (cfg.type == "zsh") {
     programs.zsh = {
       enable = true;
-      enableCompletion = true;
+      # enableCompletion = true;
       syntaxHighlighting.enable = true;
       autosuggestion.enable = true;
-      dotDir = ".config/zsh";
+      dotDir = (strings.removePrefix (config.home.homeDirectory + "/") config.xdg.configHome) + "/zsh";
       oh-my-zsh = {
         enable = true;
         # plugins = [

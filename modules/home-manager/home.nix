@@ -27,7 +27,7 @@ in
 
     home = {
 
-      username = cfg.username; # Use cfg.username directly
+      username = cfg.username;
       homeDirectory = "/home/${cfg.username}";
       stateVersion = "23.11";
       preferXdgDirectories = true;
