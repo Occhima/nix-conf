@@ -19,12 +19,12 @@ in
       dotDir = config.xdg.configHome;
       oh-my-zsh = {
         enable = true;
-        plugins = [
-          "git"
-          "colored-man-pages"
-          "command-not-found"
-        ];
-        theme = "robyrussell";
+        # plugins = [
+        #   "git"
+        #   "colored-man-pages"
+        #   "command-not-found"
+        # ];
+        # theme = "robyrussell";
       };
     };
   };
