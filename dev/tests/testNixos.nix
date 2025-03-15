@@ -5,6 +5,7 @@ let
     mapModulesRec
     collectNixModulePaths
     filterNixFiles
+    filterIgnoreModules
     ;
 in
 {
@@ -77,6 +78,52 @@ in
   "test collectNixModulePaths with empty directory" = {
     expr = collectNixModulePaths ./fixtures/empty-dir;
     expected = [ ];
+  };
+
+  #####################################################################
+  # Tests for filterIgnoreModules
+  #####################################################################
+
+  "test filterIgnoreModules with no flag" = {
+    expr = filterIgnoreModules [
+      "/test/dir1/file1.nix"
+      "/test/dir2/file2.nix"
+      "/test/dir3/file3.nix"
+    ];
+
+    expected = [
+      "/test/dir1/file1.nix"
+      "/test/dir2/file2.nix"
+      "/test/dir3/file3.nix"
+    ];
+  };
+
+  "test filterIgnoreModules with empty input" = {
+    expr = filterIgnoreModules [ ];
+    expected = [ ];
+  };
+
+  "test filterIgnoreModules with flag" = {
+    expr = filterIgnoreModules [
+      "/test/dir1/file1.nix"
+      "/test/dir2/file2.nix"
+      "/test/dir3/file3.nix"
+      "/test/dir4/.moduleIgnore"
+      "/test/dir4/file1.nix"
+      "/test/dir4/file2.nix"
+      "/test/dir4/dir5/file.nix"
+      "/test/dir4/a/b/c/file.nix"
+      "/test/a/b/c/d/.moduleIgnore"
+      "/test/a/b/c/d/test.nix"
+      "/test/a/b/c/test.nix"
+    ];
+
+    expected = [
+      "/test/dir1/file1.nix"
+      "/test/dir2/file2.nix"
+      "/test/dir3/file3.nix"
+      "/test/a/b/c/test.nix"
+    ];
   };
 
 }

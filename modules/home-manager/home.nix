@@ -1,39 +1,23 @@
 {
   inputs,
   config,
-  lib,
+  username,
   ...
 }:
 
-with lib;
-let
-  cfg = config.modules.home;
-in
 {
   imports = [
     inputs.impermanence.homeManagerModules.impermanence
   ];
 
-  options.modules.home = {
-    enable = mkEnableOption "home-manager module to define home stuff";
-    username = mkOption {
-      type = types.str;
-      default = "occhima";
-      description = "The user to configure home-manager for";
-    };
-  };
-
-  config = mkIf cfg.enable {
+  config = {
 
     home = {
-
-      username = cfg.username;
-      homeDirectory = "/home/${cfg.username}";
-      stateVersion = "23.11";
+      stateVersion = "24.11";
+      homeDirectory = "/home/${username}";
+      username = username;
       preferXdgDirectories = true;
-      # sessionVariables = {
 
-      # }
       persistence = {
         "${config.home.homeDirectory}/persist" = {
           defaultDirectoryMethod = "symlink";
@@ -59,6 +43,9 @@ in
       dataHome = "${config.home.homeDirectory}/.local/share";
       cacheHome = "${config.home.homeDirectory}/.cache";
     };
+
+    systemd.user.startServices = "sd-switch";
+    programs.home-manager.enable = true;
 
   };
 }

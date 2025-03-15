@@ -29,7 +29,16 @@
       qemu.enable = true;
     };
 
-    home-manager.enable = true;
+    # User accounts management
+    accounts = {
+      enable = true;
+      enabledUsers = [
+        "occhima"
+        "root"
+      ];
+      enableHomeManager = true;
+    };
+
     hardware.yubikey.enable = false;
 
     secrets.agenix-rekey = {

@@ -54,6 +54,6 @@ in
       home = homeManagerModules;
     };
     nixosModules = config.flake.modules.nixos;
-    homeManagerModules = config.flake.modules.home;
+    homeModules = config.flake.modules.home;
   };
 }

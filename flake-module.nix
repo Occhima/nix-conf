@@ -15,6 +15,7 @@ let
   lib = customLib // home-manager.lib;
 
   overlays.default = importApply ./overlays/flake-module.nix { inherit localFlake; };
+
   hosts.default = importApply ./hosts/flake-module.nix { inherit localFlake lib; };
   home.default = importApply ./home/flake-module.nix {
     inherit
@@ -42,6 +43,7 @@ in
   debug = true;
 
   imports = [
+
     inputs.flake-parts.flakeModules.partitions
 
     overlays.default

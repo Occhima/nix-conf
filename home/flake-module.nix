@@ -1,33 +1,33 @@
 { localFlake, lib, ... }:
-{ ... }:
+{ config, ... }:
 
 let
   inherit (localFlake) inputs;
   inherit (inputs) home-manager;
   inherit (lib.custom) collectNixModulePaths;
-
-  sharedModules = collectNixModulePaths ../modules/home-manager;
+  inherit (lib) concatLists;
 
   mkHomeConfiguration =
     {
       hostname,
       pkgs,
+      username ? "occhima",
       extraModules ? [ ],
-
     }:
 
     # maake it user generic
     home-manager.lib.homeManagerConfiguration {
       pkgs = pkgs;
-      modules =
+      modules = concatLists [
         [
           ./occhima
         ]
-        ++ sharedModules
-        ++ extraModules;
+        (collectNixModulePaths ../modules/home-manager)
+        extraModules
+      ];
 
       extraSpecialArgs = {
-        inherit inputs hostname;
+        inherit inputs hostname username;
       };
     };
 
