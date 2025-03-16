@@ -1,0 +1,87 @@
+#+TITLE: Nix Modules
+#+AUTHOR: occhima
+#+DESCRIPTION: Reusable modules for NixOS and Home Manager configuration
+
+* Overview
+
+This directory contains reusable modules for both NixOS and Home Manager. The modules are organized into two main directories:
+
+- ~nixos/~ - System-level modules for NixOS
+- ~home-manager/~ - User-level modules for Home Manager
+
+Each module follows a declarative design pattern with options and implementation.
+
+* Module Structure
+
+Modules follow a standard structure:
+
+#+begin_src nix
+{ config, lib, ... }:
+
+let
+  cfg = config.modules.<category>.<module>;
+in
+{
+  options.modules.<category>.<module> = {
+    enable = lib.mkEnableOption "Enable module";
+    # Other options...
+  };
+
+  config = lib.mkIf cfg.enable {
+    # Implementation when enabled
+  };
+}
+#+end_src
+
+* Using Modules
+
+Modules can be imported and enabled in your NixOS or Home Manager configuration:
+
+#+begin_src nix
+{ ... }:
+{
+  imports = [
+    # Your imports...
+  ];
+
+  # Enable modules
+  modules.category.module.enable = true;
+}
+#+end_src
+
+* Module Categories
+
+** NixOS Modules
+
+- ~accounts~ - User account management
+- ~editor~ - Text editor configurations
+- ~hardware~ - Hardware-specific settings
+- ~network~ - Networking configurations
+- ~secrets~ - Secret management
+- ~security~ - Security settings
+- ~services~ - System services
+- ~system~ - Core system settings
+- ~virtualisation~ - Virtualization support
+
+** Home Manager Modules
+
+- ~data~ - Data management (XDG, persistence)
+- ~desktop~ - Desktop applications and environment
+- ~shells~ - Shell configuration
+- ~themes~ - Visual themes
+
+* Adding New Modules
+
+To add a new module:
+
+1. Create a new file in the appropriate category directory
+2. Follow the standard module structure
+3. Import the module in the category's default.nix (if it exists)
+4. Document the module
+
+* Further Documentation
+
+See the following for detailed module documentation:
+
+- [[../docs/modules/nixos/index.md][NixOS Module Documentation]]
+- [[../docs/modules/home-manager/index.md][Home Manager Module Documentation]]

@@ -145,6 +145,11 @@ partition disko_file:
     sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount {{disko_file}}
 alias pa := partition
 
+# <- Builds home configuration
+[group("rebuild")]
+build-home home-config:
+    nix run nixpkgs#home-manager -- switch -b backup --flake {{ flake }}#{{ home-config }}
+alias bh := partition
 
 # <- build the package, you must specify the package you want to build
 [group('package')]

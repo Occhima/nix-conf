@@ -1,0 +1,84 @@
+#+TITLE: Nixpkgs Overlays
+#+AUTHOR: occhima
+#+DESCRIPTION: Custom nixpkgs overlays
+
+* Overview
+
+This directory contains nixpkgs overlays that modify or extend packages from the nixpkgs repository. Overlays allow for customizing packages without forking the entire nixpkgs repository.
+
+* Directory Structure
+
+- ~flake-module.nix~ - Exports overlays as flake outputs
+- ~default.nix~ - Main overlay definition
+
+* How Overlays Work
+
+Overlays are functions that take two arguments:
+1. ~self~ - The final package set after all overlays are applied
+2. ~super~ - The original package set before the overlay is applied
+
+Using these arguments, you can:
+- Override existing packages
+- Add new packages
+- Modify package attributes
+
+* Example Overlay
+
+Here's an example of an overlay:
+
+#+begin_src nix
+final: prev: {
+  # Override an existing package
+  somePackage = prev.somePackage.overrideAttrs (oldAttrs: {
+    # Override attributes
+    pname = "modified-package";
+    version = "2.0.0";
+
+    # Add extra patches
+    patches = (oldAttrs.patches or []) ++ [
+      ./path/to/patch.patch
+    ];
+  });
+
+  # Add a new package
+  newPackage = prev.stdenv.mkDerivation {
+    name = "new-package";
+    # ...
+  };
+}
+#+end_src
+
+* Adding New Overlays
+
+To add a new overlay:
+
+1. Add your overlay function to ~default.nix~ or create a new file
+2. Import the overlay in ~flake-module.nix~
+
+* Using Overlays
+
+Overlays from this directory are automatically applied to the nixpkgs instance used in your system configuration. You can use the modified packages just like regular packages:
+
+#+begin_src nix
+{ pkgs, ... }:
+{
+  environment.systemPackages = with pkgs; [
+    # Modified or added packages are available here
+    somePackage
+    newPackage
+  ];
+}
+#+end_src
+
+* Best Practices
+
+1. **Keep overlays minimal and focused** - Each overlay should have a clear purpose
+2. **Document changes clearly** - Explain why the package is being modified
+3. **Try to upstream changes** - If your changes are broadly useful, consider contributing them to nixpkgs
+4. **Avoid unnecessary overrides** - Only override what you need to change
+
+* Further Reading
+
+For more information on nixpkgs overlays, see:
+- [Nixpkgs Overlays](https://nixos.wiki/wiki/Overlays)
+- [Nixpkgs Manual](https://nixos.org/manual/nixpkgs/stable/#chap-overlays)

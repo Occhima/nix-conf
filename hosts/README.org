@@ -1,0 +1,139 @@
+#+TITLE: NixOS Hosts
+#+AUTHOR: occhima
+#+DESCRIPTION: Host-specific NixOS configurations
+
+* Overview
+
+This directory contains host-specific NixOS configurations. Each host has its own directory with machine-specific settings, while inheriting shared modules and configurations.
+
+* Directory Structure
+
+- ~flake-module.nix~ - Exports all host configurations as nixosConfigurations
+- ~deploy.nix~ - Configuration for remote deployment with deploy-rs
+- ~hive.nix~ - Advanced configuration for host organization
+- ~profiles/~ - Shared configurations for similar types of hosts
+  - ~common/~ - Configuration shared by all hosts
+  - ~desktop/~ - Desktop-specific configuration
+  - ~headless/~ - Server/headless configuration
+  - ~iso/~ - Configuration for bootable ISO images
+  - ~wsl/~ - Configuration for Windows Subsystem for Linux
+
+* Hosts
+
+** crescendoll
+
+Development environment in Windows Subsystem for Linux.
+
+** face2face
+
+ISO image with installer.
+
+** steammachine
+
+Gaming desktop system with NVIDIA GPU support.
+
+* Host Definition
+
+Each host directory typically contains:
+
+- ~default.nix~ - Main system configuration
+- ~hardware.nix~ - Hardware-specific settings (optional)
+- ~disko.nix~ - Disk partitioning configuration (optional)
+- ~rekeyed/~ - Host-specific rekey files for agenix
+
+* Profiles
+
+Profiles in the ~profiles/~ directory group common settings for different types of systems:
+
+** common
+
+Settings shared by all hosts, including:
+- Environment settings
+- System settings
+- Nix configuration
+- Common packages
+
+** desktop
+
+Settings for desktop/laptop installations:
+- GUI applications
+- Desktop environment
+- Gaming support
+- Multimedia
+
+** headless
+
+Settings for servers without a GUI:
+- Server services
+- Minimal environment
+- Performance optimizations
+
+** iso
+
+Settings for bootable ISO images:
+- Installation media configuration
+- Live system settings
+
+** wsl
+
+Settings for Windows Subsystem for Linux:
+- WSL-specific settings
+- Integration with Windows
+
+* Adding a New Host
+
+To add a new host:
+
+1. Create a new directory under ~hosts/~ (e.g., ~hosts/newhost/~)
+2. Add a ~default.nix~ file with the host configuration
+3. Optionally add ~hardware.nix~ and ~disko.nix~ files
+4. Register the host in ~hosts/flake-module.nix~
+
+Example host registration in ~hosts/flake-module.nix~:
+
+#+begin_src nix
+hosts = {
+  # Existing hosts...
+
+  newhost = {
+    deployable = true;  # or false if this isn't for remote deployment
+    path = ./newhost;
+    modules = [
+      # Select appropriate profiles
+      desktop  # For desktop systems
+      # or
+      headless # For servers
+    ];
+  };
+};
+#+end_src
+
+* Remote Deployment
+
+To deploy a host remotely, add it to the ~deploy.nix~ file:
+
+#+begin_src nix
+nodes = {
+  # Existing nodes...
+
+  "newhost" = {
+    hostname = "10.0.0.2";  # Replace with actual IP or hostname
+    profiles.system = {
+      user = "root";
+      path = nixosConfigurations.newhost;
+    };
+  };
+};
+#+end_src
+
+Then deploy using:
+
+#+begin_src bash
+just install newhost
+#+end_src
+
+* Further Reading
+
+For detailed information on adding and configuring hosts, see:
+- [[../docs/guides/adding-host.md][Adding a New Host Guide]]
+- [[../docs/guides/installation.md][Installation Guide]]

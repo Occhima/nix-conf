@@ -1,0 +1,78 @@
+site_name: NixOS Configuration
+site_description: Documentation for occhima's NixOS configuration
+site_author: occhima
+
+repo_url: https://github.com/occhima/nixos
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+    - content.action.edit
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Guides:
+      - Installation: guides/installation.md
+      - Adding a Host: guides/adding-host.md
+      - Adding a User: guides/adding-user.md
+      - Development Workflow: guides/development.md
+  - Modules:
+      - NixOS Modules: modules/nixos/index.md
+      - Home Manager Modules:
+          - Overview: modules/home-manager/index.md
+          - Data Modules: modules/home-manager/data.md
+          - Shell Modules: modules/home-manager/shells.md
+          - Desktop Modules: modules/home-manager/desktop.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/occhima
+
+plugins:
+  - search
+  - git-revision-date-localized:
+      enable_creation_date: true
+  - mkdocstrings

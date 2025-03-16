@@ -2,12 +2,14 @@
   config,
   lib,
   inputs,
+  self,
   ...
 }:
 
 with lib;
 with lib.types;
 with lib.attrsets;
+with lib.custom;
 
 let
   cfg = config.modules.accounts;
@@ -16,11 +18,7 @@ let
     root = import ./users/root.nix;
   };
 
-  mkHomeManagerConfig = username: {
-    home.username = mkDefault username;
-    home.stateVersion = mkDefault "23.11";
-    programs.home-manager.enable = true;
-  };
+  mkHomeManagerConfig = username: import "${self}/home/${username}";
 in
 {
   imports = [
@@ -59,13 +57,30 @@ in
     ];
 
     users.users = filterAttrs (username: _: elem username cfg.enabledUsers) allUsers;
-
     users.mutableUsers = false;
+
     home-manager = mkIf cfg.enableHomeManager {
       verbose = true;
       useGlobalPkgs = true;
       useUserPackages = true;
       backupFileExtension = "bak";
+
+      sharedModules = concatLists [
+
+        [
+          {
+            home.stateVersion = "24.11";
+            programs.home-manager.enable = true;
+            systemd.user.startServices = "sd-switch";
+          }
+        ]
+
+        (collectNixModulePaths "${self}/modules/home-manager")
+      ];
+
+      extraSpecialArgs = {
+        inherit hostname inputs;
+      };
 
       users = genAttrs (filter (username: username != "root" && elem username cfg.enabledUsers) (
         attrNames allUsers

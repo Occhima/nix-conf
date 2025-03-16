@@ -1,14 +1,11 @@
 # idea stolen from:https://github.com/isabelroses/dotfiles/blob/8638011479e9906ab234fbd759dee9e9828d357e/systems/default.nix
 { localFlake, lib, ... }:
-{ ... }:
+{ self, ... }:
 
 let
   inherit (localFlake) inputs;
   inherit (lib.custom) collectNixModulePaths;
   inherit (lib) concatLists;
-
-  # Modules
-  modulesPath = ../modules;
 
   # Profiles
   profilesPath = ./profiles; # the base directory for the types module
@@ -29,7 +26,7 @@ in
 
     perClass = class: {
       modules = concatLists [
-        (collectNixModulePaths "${modulesPath}/${class}")
+        (collectNixModulePaths "${self}/modules/${class}")
       ];
     };
 

@@ -1,17 +1,254 @@
-* TODO's
-- [ ] Namaka
-- [ ] Solve the homeManagerModules by adding files and classes ( see: https://github.com/isabelroses/dotfiles/blob/main/modules/flake/modules.nix )
-- [ ] Nixos-hardware for modules/hardware common definitions
-- [ ] Disko-install for automatic partitioning
-- [ ] Enhance checks with CI ( ggscan + agenix-rekey )
-- [ ] Use devenv to define multiple developer environments (https://flake.parts/options/devenv.html)
+#+TITLE: NixOS Configuration
+#+AUTHOR: occhima
+#+DESCRIPTION: A modular, reproducible NixOS configuration using flakes and home-manager
+#+OPTIONS: toc:3
 
-* References:
-- https://github.com/EmergentMind/nix-config/
-- https://github.com/edmundmiller/dotfiles
-- https://github.com/remi-gelinas/rosetta/
-- https://github.com/isabelroses/dotfiles
-- https://github.com/montchr/dotfield
-- https://github.com/hlissner/dotfiles
-- https://github.com/mstream/nix-chad
-- https://github.com/Misterio77/nix-config
+* Overview
+
+This repository contains a complete NixOS system configuration that follows modern best practices:
+
+- Uses the Nix Flakes feature for reproducible builds and dependency management
+- Employs a modular architecture to separate concerns and improve maintainability
+- Integrates home-manager for user-level configuration management
+- Supports multiple host configurations with shared modules
+- Includes tools for secrets management, persistence, deployment, and testing
+
+** Key Features
+
+- *Modular Design*: System configuration split into logical, reusable components
+- *Multi-Host Support*: Define multiple systems with shared configurations
+- *Home Manager Integration*: User configurations managed alongside system configs
+- *Impermanence*: Support for ephemeral root with persistent state
+- *Secret Management*: Secure secrets handling with Agenix
+- *Deployment Tools*: Remote deployment with deploy-rs
+- *Development Environment*: Comprehensive dev tools and testing framework
+
+** Directory Structure
+
+| Directory         | Description                                     |
+|-------------------+-------------------------------------------------|
+| ~flake.nix~       | Main flake entry point                          |
+| ~flake-module.nix~ | Root flake module imported by flake.nix         |
+| ~hosts/~          | Host-specific configurations                    |
+| ~home/~           | User home configurations via home-manager       |
+| ~modules/~        | Shared NixOS and home-manager modules           |
+| ~packages/~       | Custom packages                                 |
+| ~overlays/~       | Nixpkgs overlays                                |
+| ~lib/~            | Custom library functions                        |
+| ~dev/~            | Development tools and tests                     |
+
+* Quick Start
+
+** Installation
+
+To install this configuration on a new system:
+
+#+begin_src shell
+# Clone the repository
+git clone https://github.com/occhima/nixos.git ~/.config/nixos
+
+# Build and switch to the configuration for your host
+cd ~/.config/nixos
+just switch
+#+end_src
+
+** Available Commands
+
+This repository uses [[https://github.com/casey/just][just]] as a command runner. Here are the key commands:
+
+#+begin_src shell
+# List all available commands
+just
+
+# Switch to the new system configuration
+just switch
+
+# Apply home-manager configuration
+just home-switch
+
+# Test configuration without applying
+just test-switch
+
+# Update flake lock file
+just update
+
+# Format code
+just fmt
+
+# Run tests
+just test
+
+# Clean the nix store
+just clean
+#+end_src
+
+** Adding a New Host
+
+1. Create a new directory under ~hosts/~ for your host
+2. Add a ~default.nix~ file with the host-specific configuration
+3. Update ~hosts/flake-module.nix~ to include the new host in ~hosts~ attribute
+4. Configure deployment settings in ~hosts/deploy.nix~ if needed
+
+** Adding a New User
+
+1. Create a user config file in ~modules/nixos/accounts/users/~
+2. Add the user to ~allUsers~ in ~modules/nixos/accounts/accounts.nix~
+3. Create a home-manager configuration in ~home/username/~
+4. Enable the user by adding to ~enabledUsers~ in your host configuration
+
+* Architecture
+
+** Flake Structure
+
+This configuration uses [[https://flake.parts/][flake-parts]] to organize the flake into modular components:
+
+- *flake.nix* - Entry point with input definitions
+- *flake-module.nix* - Root module that composes all components
+- Component flake modules:
+  - hosts/flake-module.nix
+  - home/flake-module.nix
+  - modules/flake-module.nix
+  - overlays/flake-module.nix
+  - packages/flake-module.nix
+
+** Host Configuration
+
+Hosts are defined in ~hosts/~ with a structure that follows:
+
+#+begin_src
+hosts/
+├── hostname/
+│   ├── default.nix    # Main system configuration
+│   ├── hardware.nix   # Hardware-specific settings
+│   └── disko.nix      # Optional disk partitioning config
+├── flake-module.nix   # Exports nixosConfigurations
+├── deploy.nix         # Deployment configuration
+└── profiles/          # Shared profiles for similar systems
+    ├── common/        # Configurations shared by all hosts
+    ├── desktop/       # Desktop-specific configurations
+    ├── headless/      # Server configurations
+    ├── iso/           # ISO image configurations
+    └── wsl/           # Windows Subsystem for Linux configs
+#+end_src
+
+** Home Manager Integration
+
+Home Manager is integrated in two ways:
+
+1. *NixOS Module* - For users on NixOS systems via ~modules/nixos/accounts/accounts.nix~
+2. *Standalone* - For users on non-NixOS systems via ~home/flake-module.nix~
+
+Each user's configuration is stored in ~home/username/~.
+
+** Modules System
+
+The ~modules/~ directory contains reusable configuration modules:
+
+#+begin_src
+modules/
+├── flake-module.nix
+├── nixos/                # System-level modules
+│   ├── accounts/         # User account management
+│   ├── hardware/         # Hardware-specific configs
+│   ├── network/          # Networking configurations
+│   ├── system/           # Core system settings
+│   └── ...
+└── home-manager/         # User-level modules
+    ├── data/             # XDG and persistence
+    ├── desktop/          # Desktop environment
+    ├── shells/           # Shell configurations
+    └── ...
+#+end_src
+
+** Secrets Management
+
+This configuration uses [[https://github.com/ryantm/agenix][agenix]] for secrets management:
+
+- Keys are stored in ~hosts/secrets/identity/~
+- Encrypted secrets are in ~hosts/secrets/vault/~
+- Rekey functionality via ~agenix-rekey~ facilitates key rotation
+
+** State Persistence
+
+The configuration supports ephemeral root with persistent state via the [[https://github.com/nix-community/impermanence][impermanence]] module:
+
+- System-level persistence in ~modules/nixos/system/file-system/impermanence.nix~
+- User-level persistence in ~modules/home-manager/data/persistence.nix~
+
+* Development
+
+** Development Environment
+
+To set up the development environment:
+
+#+begin_src shell
+# Enter development shell with all tools
+nix develop
+
+# Reload development environment
+just reload
+#+end_src
+
+** Testing
+
+Tests can be run with:
+
+#+begin_src shell
+# Run all tests
+just test
+
+# Run Nix unit tests
+nix run ./dev#test
+#+end_src
+
+** Code Formatting
+
+The codebase uses [[https://github.com/numtide/treefmt][treefmt]] for formatting:
+
+#+begin_src shell
+# Format all files
+just fmt
+#+end_src
+
+** Pre-commit Hooks
+
+Pre-commit hooks are configured in ~dev/pre-commit.nix~ and can be run with:
+
+#+begin_src shell
+just pre-commit
+#+end_src
+
+* Documentation
+
+Comprehensive documentation is available in the [[./docs][docs directory]]. The documentation includes:
+
+- Installation guide
+- Adding new hosts and users
+- Module documentation
+- Development workflow
+
+The documentation can be built with MkDocs. See the [[./docs/README.md][docs README]] for instructions.
+
+* Roadmap
+
+The following features are planned for implementation:
+
+- [ ] Use Namaka for improved testing
+- [ ] Improve home-manager modules with better file/class organization
+- [ ] Add nixos-hardware for common hardware definitions
+- [ ] Improve disko-install for automatic partitioning
+- [ ] Enhance CI checks with ggscan and agenix-rekey
+- [ ] Use devenv to define multiple developer environments
+
+* References
+
+This configuration was inspired by and borrows from several excellent NixOS configurations:
+
+- [[https://github.com/EmergentMind/nix-config/][EmergentMind's nix-config]]
+- [[https://github.com/edmundmiller/dotfiles][Edmund Miller's dotfiles]]
+- [[https://github.com/remi-gelinas/rosetta/][Remi Gelinas' rosetta]]
+- [[https://github.com/isabelroses/dotfiles][Isabel Roses' dotfiles]]
+- [[https://github.com/montchr/dotfield][Montchr's dotfield]]
+- [[https://github.com/hlissner/dotfiles][Henrik Lissner's dotfiles]]
+- [[https://github.com/mstream/nix-chad][MStream's nix-chad]]
+- [[https://github.com/Misterio77/nix-config][Misterio77's nix-config]]

@@ -1,5 +1,5 @@
 { localFlake, lib, ... }:
-{ config, ... }:
+{ config, self, ... }:
 
 let
   inherit (localFlake) inputs;
@@ -20,15 +20,20 @@ let
       pkgs = pkgs;
       modules = concatLists [
         [
-          ./occhima
+          {
+            home.stateVersion = "24.11";
+            programs.home-manager.enable = true;
+            systemd.user.startServices = "sd-switch";
+          }
+          ./${username}
         ]
-        (collectNixModulePaths ../modules/home-manager)
+        (collectNixModulePaths "${self}/modules/home-manager")
         extraModules
       ];
-
       extraSpecialArgs = {
         inherit inputs hostname username;
       };
+
     };
 
   hostnames = builtins.attrNames localFlake.config.easy-hosts.hosts;

@@ -1,19 +1,12 @@
-#+TITLE: NixOS Modules
-#+AUTHOR: occhima
-#+DESCRIPTION: System-level modules for NixOS configuration
-#+OPTIONS: toc:3
-
-* Overview
+# NixOS Modules
 
 This directory contains reusable NixOS modules that can be imported into your host configurations. These modules follow functional programming principles and provide a clear interface with options and implementation separated.
 
-Some modules are inspired by [[https://github.com/isabelroses/dotfiles/blob/main/modules/nixos][isabelroses/dotfiles]].
-
-* Module Structure
+## Module Structure
 
 Each module follows a standard structure:
 
-#+begin_src nix
+```nix
 { config, lib, ... }:
 
 let
@@ -29,22 +22,22 @@ in
     # Implementation when enabled
   };
 }
-#+end_src
+```
 
-* Available Modules
+## Available Modules
 
-** Accounts
+### Accounts
 
 The accounts module provides user account management with home-manager integration:
 
-- *accounts.nix* - Main module that manages users and integrates Home Manager
-- *users/* - Individual user definitions
+- **accounts.nix** - Main module that manages users and integrates Home Manager
+- **users/** - Individual user definitions
 
-*** Usage
+#### Usage
 
 To use the accounts module in your configuration:
 
-#+begin_src nix
+```nix
 { ... }:
 {
   modules.accounts = {
@@ -53,23 +46,23 @@ To use the accounts module in your configuration:
     enableHomeManager = true;  # Set to false to disable home-manager integration
   };
 }
-#+end_src
+```
 
-** Hardware
+### Hardware
 
 Hardware-specific configurations:
 
-- *audio.nix* - Audio configuration with PipeWire/PulseAudio
-- *bluetooth.nix* - Bluetooth support
-- *cpu/* - CPU-specific optimizations
-- *gpu/* - Graphics drivers (NVIDIA, Intel, AMD)
-- *monitors.nix* - Monitor configuration
-- *ssd.nix* - SSD optimizations
-- *yubikey.nix* - YubiKey support
+- **audio.nix** - Audio configuration with PipeWire/PulseAudio
+- **bluetooth.nix** - Bluetooth support
+- **cpu/** - CPU-specific optimizations
+- **gpu/** - Graphics drivers (NVIDIA, Intel, AMD)
+- **monitors.nix** - Monitor configuration
+- **ssd.nix** - SSD optimizations
+- **yubikey.nix** - YubiKey support
 
-*** Usage Example
+#### Usage Example
 
-#+begin_src nix
+```nix
 { ... }:
 {
   modules.hardware = {
@@ -79,19 +72,19 @@ Hardware-specific configurations:
     ssd.enable = true;
   };
 }
-#+end_src
+```
 
-** Network
+### Network
 
 Networking configurations:
 
-- *blocker.nix* - Ad and tracker blocking
-- *networkmanager.nix* - NetworkManager configuration
-- *wireless.nix* - Wireless networking
+- **blocker.nix** - Ad and tracker blocking
+- **networkmanager.nix** - NetworkManager configuration
+- **wireless.nix** - Wireless networking
 
-*** Usage Example
+#### Usage Example
 
-#+begin_src nix
+```nix
 { ... }:
 {
   modules.network = {
@@ -103,18 +96,18 @@ Networking configurations:
     };
   };
 }
-#+end_src
+```
 
-** Editor
+### Editor
 
 Text editor configurations:
 
-- *emacs.nix* - Emacs configuration
-- *neovim.nix* - Neovim configuration
+- **emacs.nix** - Emacs configuration
+- **neovim.nix** - Neovim configuration
 
-*** Usage Example
+#### Usage Example
 
-#+begin_src nix
+```nix
 { ... }:
 {
   modules.editor = {
@@ -125,20 +118,20 @@ Text editor configurations:
     };
   };
 }
-#+end_src
+```
 
-** Secrets
+### Secrets
 
 Secret management:
 
-- *agenix.nix* - Integration with agenix
-- *agenix-rekey.nix* - Support for key rotation
-- *ragenix.nix* - Enhanced agenix functionality
-- *sops.nix* - Alternative using sops-nix
+- **agenix.nix** - Integration with agenix
+- **agenix-rekey.nix** - Support for key rotation
+- **ragenix.nix** - Enhanced agenix functionality
+- **sops.nix** - Alternative using sops-nix
 
-*** Usage Example
+#### Usage Example
 
-#+begin_src nix
+```nix
 { ... }:
 {
   modules.secrets = {
@@ -155,18 +148,18 @@ Secret management:
     };
   };
 }
-#+end_src
+```
 
-** Security
+### Security
 
 Security-related configurations:
 
-- *clamav.nix* - Antivirus scanning
-- *kernel.nix* - Kernel hardening options
+- **clamav.nix** - Antivirus scanning
+- **kernel.nix** - Kernel hardening options
 
-*** Usage Example
+#### Usage Example
 
-#+begin_src nix
+```nix
 { ... }:
 {
   modules.security = {
@@ -180,18 +173,18 @@ Security-related configurations:
     clamav.enable = true;
   };
 }
-#+end_src
+```
 
-** Services
+### Services
 
 System services:
 
-- *systemd.nix* - Systemd configuration and optimizations
-- *xserver.nix* - X server configuration
+- **systemd.nix** - Systemd configuration and optimizations
+- **xserver.nix** - X server configuration
 
-*** Usage Example
+#### Usage Example
 
-#+begin_src nix
+```nix
 { ... }:
 {
   modules.services = {
@@ -201,19 +194,19 @@ System services:
     };
   };
 }
-#+end_src
+```
 
-** System
+### System
 
 Core system settings:
 
-- *boot/* - Boot loader configurations
-- *display/* - Display server configurations
-- *file-system/* - File system configurations and persistence
+- **boot/** - Boot loader configurations
+- **display/** - Display server configurations
+- **file-system/** - File system configurations and persistence
 
-*** Usage Example
+#### Usage Example
 
-#+begin_src nix
+```nix
 { ... }:
 {
   modules.system = {
@@ -233,22 +226,22 @@ Core system settings:
     };
   };
 }
-#+end_src
+```
 
-** Virtualization
+### Virtualization
 
 Virtualization support:
 
-- *distrobox.nix* - Distrobox container management
-- *docker.nix* - Docker configuration
-- *iso.nix* - ISO image creation
-- *podman.nix* - Podman container runtime
-- *qemu.nix* - QEMU/KVM virtualization
-- *vm.nix* - Virtual machine configuration
+- **distrobox.nix** - Distrobox container management
+- **docker.nix** - Docker configuration
+- **iso.nix** - ISO image creation
+- **podman.nix** - Podman container runtime
+- **qemu.nix** - QEMU/KVM virtualization
+- **vm.nix** - Virtual machine configuration
 
-*** Usage Example
+#### Usage Example
 
-#+begin_src nix
+```nix
 { ... }:
 {
   modules.virtualization = {
@@ -259,30 +252,30 @@ Virtualization support:
     };
   };
 }
-#+end_src
+```
 
-* Module Options
+## Module Options
 
 Each module exposes a set of options that can be configured. The basic pattern is:
 
-#+begin_src nix
+```nix
 modules.<category>.<module>.enable = true;
-#+end_src
+```
 
 For more detailed options, refer to the documentation in each module file.
 
-* Creating New Modules
+## Creating New Modules
 
 To create a new module:
 
 1. Create a new .nix file in the appropriate category directory
 2. Follow the standard module structure (options/config pattern)
 3. Import the module in the category's default.nix (if it exists)
-4. Add documentation for the module in this README
+4. Add documentation for the module
 
 Example module template:
 
-#+begin_src nix
+```nix
 { config, lib, ... }:
 
 with lib;
@@ -307,4 +300,4 @@ in
     # Implementation when the module is enabled
   };
 }
-#+end_src
+```

@@ -1,0 +1,94 @@
+#+TITLE: Custom Packages
+#+AUTHOR: occhima
+#+DESCRIPTION: Custom Nix packages and overlays
+
+* Overview
+
+This directory contains custom Nix packages and scripts that are not available in nixpkgs or require customization.
+
+* Directory Structure
+
+- ~flake-module.nix~ - Exports packages as flake outputs
+- ~package.nix~ - Package definitions
+- ~scripts/~ - Custom scripts
+  - ~run-vm.sh~ - Helper script for running VMs
+
+* Adding New Packages
+
+To add a new package:
+
+1. Create a new file or add to an existing file
+2. Define the package using standard Nix derivation techniques
+3. Add the package to the flake outputs in ~flake-module.nix~
+
+* Package Definition Example
+
+Here's an example of a package definition:
+
+#+begin_src nix
+{ pkgs, ... }:
+
+pkgs.stdenv.mkDerivation {
+  name = "custom-package";
+  version = "1.0.0";
+
+  src = pkgs.fetchFromGitHub {
+    owner = "username";
+    repo = "repo";
+    rev = "v1.0.0";
+    sha256 = "sha256-...";
+  };
+
+  buildInputs = with pkgs; [
+    # Dependencies...
+  ];
+
+  # Build instructions...
+}
+#+end_src
+
+* Building and Using Packages
+
+To build a specific package:
+
+#+begin_src bash
+nix build .#packageName
+#+end_src
+
+Or using the convenience command:
+
+#+begin_src bash
+just build packageName
+#+end_src
+
+* Scripts
+
+The ~scripts/~ directory contains utility scripts:
+
+** run-vm.sh
+
+Helper script for running virtual machines:
+
+#+begin_src bash
+# Run a VM for a specific host
+just run-vm hostname
+#+end_src
+
+* Integration with System Configuration
+
+To use these packages in your system configuration:
+
+#+begin_src nix
+{ pkgs, ... }:
+{
+  environment.systemPackages = with pkgs; [
+    # Custom packages available via flake outputs
+  ];
+}
+#+end_src
+
+* Further Reading
+
+For more information on creating Nix packages, see:
+- [Nixpkgs Manual](https://nixos.org/manual/nixpkgs/stable/)
+- [Nix Pills](https://nixos.org/guides/nix-pills/)
