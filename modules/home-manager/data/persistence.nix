@@ -26,13 +26,10 @@ in
     directories = mkOption {
       type = types.listOf types.str;
       default = [
-        "Documents"
-        "Downloads"
-        "Pictures"
-        "Videos"
-        ".local/bin"
-        ".ssh"
-        ".local/share/nix" # trusted settings and repl history
+        "documents"
+        "downloads"
+        "media/pictures"
+        "media/videos"
       ];
       description = "Directories to persist";
     };

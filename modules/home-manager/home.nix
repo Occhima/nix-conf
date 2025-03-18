@@ -5,6 +5,7 @@
     home = {
       stateVersion = "25.05";
       homeDirectory = "/home/${config.home.username}";
+      preferXdgDirectories = true;
       sessionVariables = {
         # EDITOR = config.modules.editor;
         FLAKE = ".config/flake";
@@ -21,7 +22,17 @@
         DO_NOT_TRACK = 1;
 
       };
-      shellAliases = { };
+      shellAliases = {
+        mkdir = "mkdir -pv";
+        df = "df -h";
+        reboot = "systemctl reboot";
+        sysctl = "sudo systemctl";
+        jctl = "journalctl -p 3 -xb";
+      };
+
+      shell = {
+        enableShellIntegration = false;
+      };
     };
 
     programs.home-manager.enable = true;

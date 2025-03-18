@@ -27,5 +27,6 @@ in
         # theme = "robyrussell";
       };
     };
+    home.shell.enableZshIntegration = true;
   };
 }
