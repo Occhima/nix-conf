@@ -1,15 +1,10 @@
 {
   lib,
   pkgs,
-  config,
   ...
 }:
-let
-  inherit (lib.modules) mkIf;
-  inherit (config.garden) device;
-in
 {
-  config = mkIf (device.type != "server") {
+  config = {
     environment.systemPackages = [ pkgs.appimage-run ];
 
     # run appimages with appimage-run

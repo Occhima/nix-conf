@@ -1,4 +1,3 @@
-{ config, ... }:
 {
   programs = {
     # we need dconf to interact with gtk
@@ -8,6 +7,6 @@
     seahorse.enable = true;
 
     # networkmanager tray uility, pretty useful actually
-    nm-applet.enable = config.programs.waybar.enable;
+    # nm-applet.enable = config.programs.waybar.enable;
   };
 }
