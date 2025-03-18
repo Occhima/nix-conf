@@ -3,7 +3,6 @@
 
   imports = [
     inputs.agenix-rekey.flakeModule
-    # inputs.agenix-shell.flakeModule
   ];
 
   perSystem =

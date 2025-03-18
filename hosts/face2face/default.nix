@@ -9,26 +9,20 @@
     hostName = "face2face";
   };
 
-  # Add swap file to help with memory-intensive operations
-
   modules = {
     virtualisation = {
-
       vm = {
         enable = true;
         memorySize = 8192; # 8GB RAM - balanced for performance and host resource usage
         diskSize = 40960; # 40GB disk
       };
-
       docker = {
         enable = false;
         usePodman = false; # Use podman for docker compatibility
       };
-
       distrobox.enable = false;
       qemu.enable = true;
     };
-
     # User accounts management
     accounts = {
       enable = true;
@@ -39,7 +33,7 @@
       enableHomeManager = true;
     };
 
-    hardware.yubikey.enable = false;
+    hardware.yubikey.enable = true;
 
     secrets.agenix-rekey = {
       enable = true;

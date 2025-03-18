@@ -30,6 +30,7 @@ in
     environment.systemPackages = with pkgs; [
       yubikey-manager
       yubikey-personalization-gui
+      age-plugin-yubikey
       yubico-piv-tool
       pam_u2f
     ];

@@ -8,12 +8,12 @@ let
   inherit (lib) concatLists;
 
   # Profiles
-  profilesPath = ./profiles; # the base directory for the types module
+  profilesPath = ../modules/profiles; # the base directory for the types module
 
   common = profilesPath + /common; # common config across all classes
   wsl = profilesPath + /wsl; # for wsl systems
   headless = profilesPath + /headless; # for wsl systems
-  desktop = profilesPath + /desktop; # for wsl systems
+  desktop = profilesPath + /desktop; # for wsl systems # for wsl systems
 
 in
 {
@@ -58,6 +58,7 @@ in
         deployable = true;
         path = ./face2face;
         modules = [
+          desktop
           headless
         ];
       };

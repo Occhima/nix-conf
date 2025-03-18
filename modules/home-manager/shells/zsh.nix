@@ -13,7 +13,6 @@ in
   config = mkIf (cfg.type == "zsh") {
     programs.zsh = {
       enable = true;
-      # enableCompletion = true;
       syntaxHighlighting.enable = true;
       autosuggestion.enable = true;
       dotDir = (strings.removePrefix (config.home.homeDirectory + "/") config.xdg.configHome) + "/zsh";

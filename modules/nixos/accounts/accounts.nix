@@ -2,6 +2,7 @@
   config,
   lib,
   inputs,
+  pkgs,
   self,
   ...
 }:
@@ -14,8 +15,8 @@ with lib.custom;
 let
   cfg = config.modules.accounts;
   allUsers = {
-    occhima = import ./users/occhima.nix;
-    root = import ./users/root.nix;
+    occhima = import ./users/occhima.nix { inherit pkgs; };
+    root = ./users/root.nix;
   };
 
   mkHomeManagerConfig = username: import "${self}/home/${username}";
@@ -65,18 +66,7 @@ in
       useUserPackages = true;
       backupFileExtension = "bak";
 
-      sharedModules = concatLists [
-
-        [
-          {
-            home.stateVersion = "24.11";
-            programs.home-manager.enable = true;
-            systemd.user.startServices = "sd-switch";
-          }
-        ]
-
-        (collectNixModulePaths "${self}/modules/home-manager")
-      ];
+      sharedModules = collectNixModulePaths "${self}/modules/home-manager";
 
       extraSpecialArgs = {
         inherit hostname inputs;

@@ -20,11 +20,6 @@ let
       pkgs = pkgs;
       modules = concatLists [
         [
-          {
-            home.stateVersion = "24.11";
-            programs.home-manager.enable = true;
-            systemd.user.startServices = "sd-switch";
-          }
           ./${username}
         ]
         (collectNixModulePaths "${self}/modules/home-manager")

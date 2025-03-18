@@ -72,6 +72,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    mkdocs-flake = {
+      type = "github";
+      owner = "applicative-systems";
+      repo = "mkdocs-flake";
+    };
+
   };
 
   outputs = _: { };
