@@ -11,6 +11,7 @@ let
 in
 {
   config = mkIf (cfg.type == "zsh") {
+
     programs.zsh = {
       enable = true;
       syntaxHighlighting.enable = true;

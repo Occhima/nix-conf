@@ -239,6 +239,7 @@ The following features are planned for implementation:
 - [ ] Use devenv to define multiple developer environments
 - [ ] MKDocs
 - [ ] isoImage
+- [ ] Move yanked isabelroses graphical/laptop profiles in to modules/nixos
 
 * References
 

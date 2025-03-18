@@ -21,5 +21,6 @@ in
       dataHome = "${config.home.homeDirectory}/.local/share";
       cacheHome = "${config.home.homeDirectory}/.cache";
     };
+    home.preferXdgDirectories = true;
   };
 }

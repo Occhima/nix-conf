@@ -15,6 +15,12 @@ let
   headless = profilesPath + /headless; # for wsl systems
   desktop = profilesPath + /desktop; # for wsl systems # for wsl systems
 
+  # TODO...
+  # TODO: Turn graphical / laptop in to modules and iso to a proper profile
+  # graphical = profilesPath + /graphical;
+  # laptop = profilesPath + /laptop;
+  # iso = profilesPath + /iso;
+
 in
 {
   imports = [
@@ -53,7 +59,7 @@ in
         ];
       };
 
-      # future ISO
+      # Minmal VM
       face2face = {
         deployable = true;
         path = ./face2face;
@@ -62,6 +68,15 @@ in
           headless
         ];
       };
+
+      # ISO
+      # voyager = {
+      #   deployable = false;
+      #   path = ./voyager;
+      #   modules = [
+      #     iso
+      #   ];
+      # };
     };
   };
 }
