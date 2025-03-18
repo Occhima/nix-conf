@@ -36,5 +36,27 @@ in
         description = "The prompt to use";
       };
     };
+
+    cli = {
+      enable = mkEnableOption "Enable CLI tools and utilities";
+
+      tools = mkOption {
+        type = types.listOf (
+          types.enum [
+            "atuin"
+            "bat"
+            "direnv"
+            "eza"
+            "fzf"
+            "git"
+            "gpg"
+            "ripgrep"
+          ]
+        );
+        default = [ ];
+        description = "List of CLI tools to enable";
+        example = ''[ "bat" "eza" "fzf" "git" ]'';
+      };
+    };
   };
 }
