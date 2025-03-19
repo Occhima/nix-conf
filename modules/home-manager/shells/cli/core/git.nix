@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   config,
   ...
 }:
@@ -14,6 +15,7 @@ in
   config = {
     programs.git = {
       enable = true;
+      package = pkgs.gitAndTools.gitFull;
 
       # These would typically be user-specific options
       userName = config.home.username;

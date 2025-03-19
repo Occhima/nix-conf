@@ -37,20 +37,6 @@
       # this is not important when your in a ISO
       auto-optimise-store = false;
 
-      # fetch from a cache if we can
-      substituters = [
-        "https://nix-community.cachix.org" # nix-community cache
-        "https://cache.tgirl.cloud/prod" # tgirl.cloud cache
-        "https://catppuccin.cachix.org" # a cache for all catppuccin ports
-        "https://cosmic.cachix.org" # for the cosmic desktop
-      ];
-
-      trusted-public-keys = [
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "cache.tgirl.cloud-1:zr6UM/AEOP4MAPY0xWF2Pv+v5VVCKxnLaubXCjXtTmw="
-        "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
-        "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
-      ];
     };
   };
 }

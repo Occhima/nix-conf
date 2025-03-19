@@ -5,12 +5,11 @@
 let
   inherit (localFlake) inputs;
   inherit (lib.custom) collectNixModulePaths;
-  inherit (lib) concatLists;
+  inherit (lib) concatLists optionals;
 
   # Profiles
   profilesPath = ../modules/profiles; # the base directory for the types module
 
-  common = profilesPath + /common; # common config across all classes
   wsl = profilesPath + /wsl; # for wsl systems
   headless = profilesPath + /headless; # for wsl systems
   desktop = profilesPath + /desktop; # for wsl systems # for wsl systems
@@ -33,11 +32,11 @@ in
     perClass = class: {
       modules = concatLists [
         (collectNixModulePaths "${self}/modules/${class}")
+        (optionals (class != "iso") (collectNixModulePaths "${self}/modules/profiles/common"))
       ];
     };
 
     shared = {
-      modules = collectNixModulePaths common;
       specialArgs = { inherit lib inputs; };
     };
 
@@ -65,18 +64,18 @@ in
         path = ./face2face;
         modules = [
           desktop
-          headless
         ];
       };
 
       # ISO
-      # voyager = {
-      #   deployable = false;
-      #   path = ./voyager;
-      #   modules = [
-      #     iso
-      #   ];
-      # };
+      voyager = {
+        deployable = false;
+        path = ./voyager;
+        class = "iso";
+        modules = [
+          headless
+        ];
+      };
     };
   };
 }
