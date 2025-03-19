@@ -15,15 +15,6 @@ in
     programs.fzf = {
       enable = true;
 
-      enableZshIntegration = config.modules.shell.type == "zsh";
-      enableBashIntegration = config.modules.shell.type == "bash";
-      enableFishIntegration = config.modules.shell.type == "fish";
-
-      # Use fd for find if available
-      defaultCommand = "${pkgs.fd}/bin/fd --type f --hidden --exclude .git";
-      fileWidgetCommand = "${pkgs.fd}/bin/fd --type f --hidden --exclude .git";
-      changeDirWidgetCommand = "${pkgs.fd}/bin/fd --type d --hidden --exclude .git";
-
       defaultOptions = [
         "--height 40%"
         "--layout=reverse"

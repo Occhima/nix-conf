@@ -7,7 +7,7 @@
 
 This directory contains reusable NixOS modules that can be imported into your host configurations. These modules follow functional programming principles and provide a clear interface with options and implementation separated.
 
-Some modules are inspired by [[https://github.com/isabelroses/dotfiles/blob/main/modules/nixos][isabelroses/dotfiles]].
+Some modules are inspired by [[https://github.com/isabelroses/dotfiles/blob/main/modules/nixos][isabelroses/dotfiles]], the profiles logic were basically a copy paste + addaptations of the repo.
 
 * Module Structure
 

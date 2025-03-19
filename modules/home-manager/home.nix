@@ -22,6 +22,10 @@
         DO_NOT_TRACK = 1;
 
       };
+      # packages = with pkgs; [
+      #   home-manager
+      # ];
+
       shellAliases = {
         mkdir = "mkdir -pv";
         df = "df -h";

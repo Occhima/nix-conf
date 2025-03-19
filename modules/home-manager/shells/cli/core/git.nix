@@ -16,8 +16,8 @@ in
       enable = true;
 
       # These would typically be user-specific options
-      # userName = "Your Name";
-      # userEmail = "your.email@example.com";
+      userName = config.home.username;
+      userEmail = config.accounts.email.accounts.usp.address;
 
       # Enhanced features enabled only when explicitly requested in cli.tools
       delta = mkIf cfg.enable {

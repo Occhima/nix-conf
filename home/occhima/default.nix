@@ -1,8 +1,6 @@
-{ config, ... }:
 {
   home = {
     username = "occhima";
-    homeDirectory = "/home/${config.home.username}";
   };
 
   modules = {
