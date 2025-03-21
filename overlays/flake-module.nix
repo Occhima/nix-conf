@@ -1,7 +1,5 @@
-{ localFlake, ... }:
-{ ... }:
+{ inputs, ... }:
 let
-  inherit (localFlake) inputs;
   inherit (inputs) nixpkgs;
   overlays = import ./. { inherit inputs; };
 in
@@ -21,5 +19,6 @@ in
         };
       };
     };
+  flake.overlays = overlays;
 
 }

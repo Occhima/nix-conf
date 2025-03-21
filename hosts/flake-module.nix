@@ -1,9 +1,7 @@
 # idea stolen from:https://github.com/isabelroses/dotfiles/blob/8638011479e9906ab234fbd759dee9e9828d357e/systems/default.nix
-{ localFlake, lib, ... }:
-{ self, ... }:
-
+{ self, inputs, ... }:
 let
-  inherit (localFlake) inputs;
+  inherit (self) lib;
   inherit (lib.custom) collectNixModulePaths;
   inherit (lib) concatLists optionals;
 

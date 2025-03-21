@@ -1,8 +1,14 @@
-{ localFlake, lib, ... }:
-{ config, self, ... }:
+# { localFlake, lib, ... }:
+{
+  self,
+  config,
+  inputs,
+  ...
+}:
 
 let
-  inherit (localFlake) inputs;
+  # inherit (localFlake) inputs;
+  inherit (self) lib;
   inherit (inputs) home-manager;
   inherit (lib.custom) collectNixModulePaths;
   inherit (lib) concatLists;
@@ -31,13 +37,13 @@ let
 
     };
 
-  hostnames = builtins.attrNames localFlake.config.easy-hosts.hosts;
+  hostnames = builtins.attrNames config.easy-hosts.hosts;
 
   homeConfigs = lib.genAttrs (map (hostname: "occhima@${hostname}") hostnames) (
     hostname:
     let
       host = lib.removePrefix "occhima@" hostname;
-      pkgs = localFlake.config.flake.nixosConfigurations.${host}._module.args.pkgs;
+      pkgs = config.flake.nixosConfigurations.${host}._module.args.pkgs;
     in
     mkHomeConfiguration {
       hostname = host;

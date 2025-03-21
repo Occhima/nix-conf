@@ -1,14 +1,21 @@
-{ localFlake, lib, ... }:
+# { localFlake, lib, ... }:
 {
+  inputs,
+  options,
+  pkgs,
+  config,
+  self,
   ...
 }:
+
 let
-  inherit (localFlake)
-    inputs
-    config
-    pkgs
-    options
-    ;
+  inherit (self) lib;
+  # inherit (localFlake)
+  #   inputs
+  #   config
+  #   pkgs
+  #   options
+  #   ;
   inherit (inputs) haumea;
 
   nixosModules = haumea.lib.load {
