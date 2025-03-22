@@ -61,7 +61,7 @@ in
         deployable = true;
         path = ./face2face;
         modules = [
-          headless
+          desktop
         ];
       };
 

@@ -15,7 +15,7 @@ with lib.custom;
 let
   cfg = config.modules.accounts;
   allUsers = {
-    occhima = import ./users/occhima.nix { inherit pkgs; };
+    occhima = import ./users/occhima.nix { inherit pkgs lib config; };
     root = ./users/root.nix;
   };
 

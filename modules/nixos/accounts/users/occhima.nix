@@ -1,4 +1,12 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+let
+  inherit (lib.custom) ifTheyExist;
+in
 {
   initialPassword = "changeme";
   isNormalUser = true;
@@ -7,7 +15,7 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM/N9m28W8c9Fs9InErjlNRXCwPe1CR9HafzqjTcSis9"
   ];
   shell = pkgs.zsh;
-  extraGroups = [
+  extraGroups = ifTheyExist config [
     "networkmanager"
     "systemd-journal"
     "audio"
@@ -15,6 +23,6 @@
     "input"
     "nix"
     "docker"
-    "wheel" # For sudo access
+    "wheel"
   ];
 }

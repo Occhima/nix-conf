@@ -18,7 +18,7 @@ in
         pager = "less -FR";
         color = "always";
         style = "plain";
-        theme = "Catppuccin-mocha";
+        # theme = "Catppuccin-mocha";
       };
 
       # themes = {

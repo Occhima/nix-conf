@@ -1,4 +1,5 @@
 {
+  # modules.device.type = "headless";
   imports = [
     ./documentation.nix
     ./environment.nix
@@ -7,4 +8,5 @@
     ./systemd.nix
     ./xdg.nix
   ];
+
 }

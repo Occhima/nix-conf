@@ -1,8 +1,9 @@
 { pkgs, ... }:
 {
   fonts = {
-    packages = with pkgs; [
-      nerd-fonts.iosevka
+    packages = with pkgs.nerd-fonts; [
+      iosevka
+      terminess-ttf
     ];
 
     fontconfig = {
@@ -21,5 +22,7 @@
       enable = true;
       decompressFonts = true;
     };
+
   };
+
 }
