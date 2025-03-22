@@ -44,10 +44,11 @@ in
         reboot = "systemctl reboot";
         sysctl = "sudo systemctl";
         jctl = "journalctl -p 3 -xb";
+        errors = "journalctl -p err -b";
       };
 
       shell = {
-        enableShellIntegration = false;
+        enableShellIntegration = true;
       };
     };
 

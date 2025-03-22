@@ -19,14 +19,11 @@ in
       dotDir = (strings.removePrefix (config.home.homeDirectory + "/") config.xdg.configHome) + "/zsh";
       oh-my-zsh = {
         enable = true;
-        # plugins = [
-        #   "git"
-        #   "colored-man-pages"
-        #   "command-not-found"
-        # ];
+        plugins = [
+          "git"
+        ];
         # theme = "robyrussell";
       };
     };
-    home.shell.enableZshIntegration = true;
   };
 }

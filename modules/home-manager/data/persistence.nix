@@ -30,7 +30,6 @@ in
         "downloads"
         "media/pictures"
         "media/videos"
-        ".config/flake"
       ];
       description = "Directories to persist";
     };
@@ -44,8 +43,6 @@ in
       }
     ];
 
-    # home.persistence supports persistence for the user's home directory
-    # it maps to the impermanence module's functionality
     home.persistence = {
       "${config.home.homeDirectory}/${cfg.location}" = {
         defaultDirectoryMethod = "symlink";

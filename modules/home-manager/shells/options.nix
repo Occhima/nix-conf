@@ -26,11 +26,7 @@ in
       type = mkOption {
         type = types.enum [
           "starship"
-          "oh-my-zsh"
-          "oh-my-bash"
-          "pure"
           "powerlevel10k"
-          "none"
         ];
         default = "starship";
         description = "The prompt to use";
@@ -48,12 +44,19 @@ in
             "direnv"
             "eza"
             "fzf"
-            "git"
-            "gpg"
+            "zoxide"
             "ripgrep"
           ]
         );
-        default = [ ];
+        default = [
+          "atuin"
+          "bat"
+          "direnv"
+          "eza"
+          "fzf"
+          "zoxide"
+          "ripgrep"
+        ];
         description = "List of CLI tools to enable";
         example = ''[ "bat" "eza" "fzf" "git" ]'';
       };
