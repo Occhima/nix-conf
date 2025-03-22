@@ -1,11 +1,10 @@
 {
-  description = "My NixOS config";
+  description = "My extra bloated NixOS config";
 
   outputs =
     { flake-parts, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } (
       {
-        flake-parts-lib,
         config,
         options,
         lib,
@@ -13,7 +12,6 @@
         ...
       }:
       let
-        inherit (flake-parts-lib) importApply;
         localFlake = {
           inherit
             config
@@ -24,7 +22,7 @@
             ;
         };
         flakeModule = import ./flake-module.nix {
-          inherit localFlake importApply;
+          inherit localFlake;
         };
       in
       {
@@ -172,5 +170,13 @@
       owner = "nix-community";
       repo = "haumea";
     };
+
+    # my own nix flake
+    nixos-flake-config = {
+      type = "github";
+      owner = "Occhima";
+      repo = "nix-conf";
+    };
+
   };
 }

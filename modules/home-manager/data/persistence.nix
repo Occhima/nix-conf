@@ -30,6 +30,7 @@ in
         "downloads"
         "media/pictures"
         "media/videos"
+        ".config/flake"
       ];
       description = "Directories to persist";
     };

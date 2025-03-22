@@ -1,4 +1,9 @@
-{ config, ... }:
+{ config, inputs, ... }:
+let
+  localConfig = "${config.home.homeDirectory}/.config/flake";
+  configSource =
+    if builtins.pathExists localConfig then localConfig else inputs.nixos-flake-config.outPath;
+in
 {
 
   config = {
@@ -6,6 +11,13 @@
       stateVersion = "25.05";
       homeDirectory = "/home/${config.home.username}";
       preferXdgDirectories = true;
+
+      file = {
+        ".config/flake" = {
+          source = configSource;
+          recursive = true;
+        };
+      };
       sessionVariables = {
         # EDITOR = config.modules.editor;
         FLAKE = ".config/flake";
