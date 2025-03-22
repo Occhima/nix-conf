@@ -3,6 +3,7 @@
 
     networking.hostName = "crescendoll";
     modules = {
+
       hardware = {
         yubikey.enable = true;
       };

@@ -253,3 +253,17 @@ This configuration was inspired by and borrows from several excellent NixOS conf
 - [[https://github.com/hlissner/dotfiles][Henrik Lissner's dotfiles]]
 - [[https://github.com/mstream/nix-chad][MStream's nix-chad]]
 - [[https://github.com/Misterio77/nix-config][Misterio77's nix-config]]
+
+
+
+I'm writing some modules for my NixOS configuration project based on some really cool modules and configs i've  found online and I'd like you to port and enhance certain modules into my existing configuration, specifically, I'm only interested in porting and enhancing the modules from my references to the path `modules/nixos/hardware` of my config dir. that contain my custom nixos modules related to hardware: cpu, gpu, ssd, media and etc.
+
+The reference modules are available locally at:
+
+- Isabel modules directory: `./isabelroses-modules`
+- Hlissner modules directory: `./hlissner-modules`
+
+Your task is to create the my modules, inside modules/nixos/hardware, based on those two references like if it's a combination of the best in both references. I really like the way that both were defined! ALL of their modules should be ported in to my config but I preffer the way Hlissner define it's options rather then isabel ( his options are simpler and cleaner and more like my modules config ). But isabel's modules feels more complete.
+
+
+These are your instructions. Start by porting isabelroses hardware/media in to my modules, reviewing what hlissners module has for audio definition

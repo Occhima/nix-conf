@@ -49,7 +49,7 @@ in
       };
 
       steammachine = {
-        deployable = true;
+        deployable = false; # disabled bc of the time to build
         path = ./steammachine;
         modules = [
           desktop
@@ -61,7 +61,7 @@ in
         deployable = true;
         path = ./face2face;
         modules = [
-          desktop
+          headless
         ];
       };
 

@@ -9,9 +9,7 @@ in
       "laptop"
       "desktop"
       "server"
-      "hybrid"
       "wsl"
-      "lite"
       "vm"
     ];
     default = "";
