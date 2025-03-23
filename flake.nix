@@ -39,12 +39,12 @@
       ref = "nixos-unstable";
     };
 
-    nixpkgs-unstable = {
-      type = "github";
-      owner = "NixOS";
-      repo = "nixpkgs";
-      ref = "nixos-unstable";
-    };
+    # nixpkgs-unstable = {
+    #   type = "github";
+    #   owner = "NixOS";
+    #   repo = "nixpkgs";
+    #   ref = "nixos-unstable";
+    # };
 
     # ========= Utilities =========
     disko = {
@@ -169,13 +169,6 @@
       type = "github";
       owner = "nix-community";
       repo = "haumea";
-    };
-
-    # my own nix flake
-    nixos-flake-config = {
-      type = "github";
-      owner = "Occhima";
-      repo = "nix-conf";
     };
 
   };

@@ -12,7 +12,11 @@ let
 in
 {
   options.modules.data.xdg = {
-    enable = mkEnableOption "Enable XDG directory configuration";
+    enable = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Enable XDG directory configuration";
+    };
   };
 
   config = mkIf cfg.enable {

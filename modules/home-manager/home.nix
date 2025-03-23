@@ -1,10 +1,16 @@
-{ config, inputs, ... }:
-let
-  localConfig = "${config.home.homeDirectory}/.config/flake";
-  configSource =
-    if builtins.pathExists localConfig then localConfig else inputs.nixos-flake-config.outPath;
-in
 {
+  config,
+  lib,
+  ...
+}:
+{
+  options.modules.home = {
+    flakePath = lib.mkOption {
+      type = lib.types.str;
+      default = ".config/flake";
+      description = "Path to the flake configuration";
+    };
+  };
 
   config = {
     home = {
@@ -12,16 +18,32 @@ in
       homeDirectory = "/home/${config.home.username}";
       preferXdgDirectories = true;
 
-      file = {
-        ".config/flake" = {
-          source = configSource;
-          recursive = true;
-        };
-      };
+      # HACK: This creates a symlink, and i don't want that, this may be kinda dumb
+      # file = {
+      #   ".config/flake" = {
+      #     source = ../../.;
+      #     recursive = true;
+      #   };
+      # };
+      # activation = {
+      #   cloneFlakeConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      #     set -e
+      #     FLAKE_PATH="$HOME/${config.modules.home.flakePath}"
+
+      #     if [ ! -d "$FLAKE_PATH" ]; then
+      #       echo "Populating $FLAKE_PATH from pinned GitHub snapshot..."
+      #        mkdir -p $FLAKE_PATH
+      #       git clone https://github.com/Occhima/nix-conf $FLAKE_PATH
+      #       echo "Done!"
+      #     else
+      #       echo "$FLAKE_PATH already exists; skipping copy."
+      #     fi
+      #   '';
+      # };
       sessionVariables = {
         # EDITOR = config.modules.editor;
-        FLAKE = ".config/flake";
-        NH_FLAKE = ".config/flake";
+        FLAKE = config.modules.home.flakePath;
+        NH_FLAKE = config.modules.home.flakePath;
         # EDITOR = defaults.editor;
         # GIT_EDITOR = defaults.editor;
         # VISUAL = defaults.editor;
@@ -52,6 +74,7 @@ in
       };
     };
 
+    # FIXME: Don't know why, home-manager not available in path
     programs.home-manager.enable = true;
     systemd.user.startServices = "sd-switch";
 

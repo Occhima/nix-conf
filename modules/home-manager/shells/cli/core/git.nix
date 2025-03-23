@@ -17,11 +17,9 @@ in
       enable = true;
       package = pkgs.gitAndTools.gitFull;
 
-      # These would typically be user-specific options
       userName = config.home.username;
       userEmail = config.accounts.email.accounts.usp.address;
 
-      # Enhanced features enabled only when explicitly requested in cli.tools
       delta = mkIf cfg.enable {
         enable = true;
         options = {
@@ -32,7 +30,6 @@ in
       };
 
       extraConfig = {
-        # QoL improvements
         color.ui = "auto";
 
         diff = {
@@ -40,7 +37,6 @@ in
           colorMoved = "default";
         };
 
-        # Safer defaults
         pull.rebase = true;
         rebase = {
           autoSquash = true;
@@ -49,10 +45,8 @@ in
         merge.ff = "only";
         push.autoSetupRemote = true;
 
-        # Standard practices
         init.defaultBranch = "main";
 
-        # Data integrity
         transfer.fsckObjects = true;
         fetch.fsckObjects = true;
         receive.fsckObjects = true;

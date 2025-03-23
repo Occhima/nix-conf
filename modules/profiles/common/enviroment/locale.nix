@@ -1,7 +1,7 @@
 { lib, ... }:
 {
   time = {
-    timeZone = "America/New_York";
+    timeZone = "America/Sao_Paulo";
     hardwareClockInLocalTime = true;
   };
 

@@ -15,7 +15,11 @@ in
     inputs.impermanence.homeManagerModules.impermanence
   ];
   options.modules.data.persistence = {
-    enable = mkEnableOption "Enable persistence configuration for home directories";
+    enable = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Enable persistence configuration for home directories";
+    };
 
     location = mkOption {
       type = types.str;
@@ -27,9 +31,10 @@ in
       type = types.listOf types.str;
       default = [
         "documents"
+        "Dropbox"
         "downloads"
-        "media/pictures"
-        "media/videos"
+        # "media/pictures"
+        # "media/videos"
       ];
       description = "Directories to persist";
     };
