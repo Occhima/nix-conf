@@ -104,5 +104,22 @@
         storageDir = ./rekeyed;
       };
     };
+
+    services = {
+      systemd = {
+        enable = true;
+        optimizeServices = true;
+      };
+
+      oom = {
+        enable = true;
+        earlyoom = {
+          enable = true;
+          enableNotifications = true;
+        };
+      };
+
+      firmware.enable = true;
+    };
   };
 }

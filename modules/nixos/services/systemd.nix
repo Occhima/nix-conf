@@ -3,96 +3,65 @@
   lib,
   ...
 }:
-
-with lib;
-
 let
+  inherit (lib) mkEnableOption;
+  inherit (lib.modules) mkIf;
+
   cfg = config.modules.services.systemd;
+  hasDisplay = config.modules.system.display.type != null;
 in
 {
   options.modules.services.systemd = {
-    enable = mkEnableOption "Enable systemd optimizations";
-
-    oomd = mkEnableOption "Enable systemd-oomd to prevent OOM conditions";
-
-    networkd = mkEnableOption "Use systemd-networkd instead of NetworkManager";
-
-    optimizeServices = mkEnableOption "Apply performance optimizations to services";
+    enable = mkEnableOption "systemd optimizations";
+    optimizeServices = mkEnableOption "performance optimizations to services";
   };
 
   config = mkIf cfg.enable {
-    # Optimize systemd runtime
+    services = {
+      thermald.enable = true;
+      # smartd.enable = true;
+      lvm.enable = false;
+    };
+
     systemd = {
-      # Tune systemd's out-of-memory killer
-      oomd = mkIf cfg.oomd {
-        enable = true;
-        enableSystemSlice = true;
-        enableUserSlices = true;
-      };
-
-      # Use networkd instead of NetworkManager if enabled
-      network = mkIf cfg.networkd {
-        enable = true;
-        wait-online.enable = false;
-      };
-
-      # Enable resolved for DNS resolution through services module
-      # Using the separate services.resolved module
-
-      # Service optimizations
       services = mkIf cfg.optimizeServices {
-        # Adjust timeouts for shutdown
         "systemd-poweroff".serviceConfig.TimeoutStartSec = 10;
         "systemd-reboot".serviceConfig.TimeoutStartSec = 10;
-
-        # Speed up NetworkManager startup
         "NetworkManager".serviceConfig = {
           LimitNPROC = 100;
           LimitRTPRIO = 50;
         };
+        "serial-getty@".environment.TERM = "xterm-256color";
       };
 
-      # Global performance settings
       extraConfig = ''
-        # Reduce default timeout for stopping services
         DefaultTimeoutStopSec=15s
-
-        # Increase default timeout for starting services
         DefaultTimeoutStartSec=30s
-
-        # Always use tmpfs for /tmp
         JoinMountNamespace=yes
       '';
 
-      # Optimize user services
       user = {
-        services.graphical-session = {
-          description = "Graphical session";
-          before = [ "graphical-session-pre.target" ];
-          wants = [ "graphical-session-pre.target" ];
-          after = [ "systemd-user-sessions.service" ];
-          bindsTo = [ "graphical-session.target" ];
+        services = mkIf hasDisplay {
+          graphical-session = {
+            description = "Graphical session";
+            before = [ "graphical-session-pre.target" ];
+            wants = [ "graphical-session-pre.target" ];
+            after = [ "systemd-user-sessions.service" ];
+            bindsTo = [ "graphical-session.target" ];
+          };
         };
       };
+
+      coredump.enable = true;
     };
 
-    # Enable coredumps for better debugging
-    systemd.coredump.enable = true;
-
-    # Setup journald
     services.journald = {
       extraConfig = ''
-        # Limit journal size
-        SystemMaxUse=500M
+        SystemMaxUse=100M
         SystemMaxFileSize=50M
-
-        # Keep logs in volatile memory
+        RuntimeMaxUse=50M
         Storage=volatile
-
-        # Forward to syslog
         ForwardToSyslog=no
-
-        # Compress larger logs
         Compress=yes
       '';
     };
