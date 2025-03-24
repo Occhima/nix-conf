@@ -1,18 +1,18 @@
-# module stole from isabelroses ( no surprises here ... )
 { lib, config, ... }:
 let
-  inherit (lib.lists) concatLists;
+  inherit (lib.modules) mkIf;
+  inherit (lib.lists) optionals concatLists;
   inherit (lib.options) mkEnableOption;
 
-  sys = config.modules.security.kernel;
+  cfg = config.modules.security.kernel;
 in
 {
   options.modules.security.kernel = {
-    enable = mkEnableOption "Enable common sec options for linux kernel";
-    noMitigations = mkEnableOption "Disable all CPU mitigations.";
+    enable = mkEnableOption "Enable common security options for Linux kernel";
+    noMitigations = mkEnableOption "Disable all CPU mitigations";
   };
 
-  config = {
+  config = mkIf cfg.enable {
     security = {
       protectKernelImage = true;
       lockKernelModules = false; # breaks virtd, wireguard and iptables
@@ -20,8 +20,7 @@ in
       # force-enable the Page Table Isolation (PTI) Linux kernel feature
       forcePageTableIsolation = true;
 
-      # User namespaces are required for sandboxing.
-      # this means you cannot set `"user.max_user_namespaces" = 0;` in sysctl
+      # User namespaces are required for sandboxing
       allowUserNamespaces = true;
 
       # Disable unprivileged user namespaces, unless containers are enabled
@@ -30,18 +29,9 @@ in
       allowSimultaneousMultithreading = true;
     };
 
-    # you can find out whats recommended for you, by following these steps
-    # > sudo sysctl -a > sysctl.txt
-    # > kernel-hardening-checker -l /proc/cmdline -c /proc/config.gz -s ./sysctl.txt
     boot = {
-      # better read up
-      # https://docs.kernel.org/admin-guide/sysctl/vm.html
-      #
-      # a good place to quickly find what each setting does
-      # https://sysctl-explorer.net/
-      #
-      # we disable sysctl tweaks on wsl since they don't work
-      kernel.sysctl = {
+      # sysctl settings for kernel hardening
+      kernel.sysctl = mkIf (config.modules.device.type != "wsl") {
         # The Magic SysRq key is a key combo that allows users connected to the
         # system console of a Linux kernel to perform some low-level commands.
         # Disable it, since we don't need it, and is a potential security concern.
@@ -60,7 +50,7 @@ in
         # Disable ftrace debugging
         "kernel.ftrace_enabled" = false;
 
-        # Avoid kernel memory address exposures via dmesg (this value can also be set by CONFIG_SECURITY_DMESG_RESTRICT).
+        # Avoid kernel memory address exposures via dmesg
         "kernel.dmesg_restrict" = 1;
 
         # Prevent unintentional fifo writes
@@ -76,8 +66,6 @@ in
         "fs.protected_symlinks" = 1;
         "fs.protected_hardlinks" = 1;
 
-        # Disable late module loading
-        # "kernel.modules_disabled" = 1;
         # Disallow profiling at all levels without CAP_SYS_ADMIN
         "kernel.perf_event_paranoid" = 3;
 
@@ -87,75 +75,36 @@ in
         # Prevent boot console log leaking information
         "kernel.printk" = "3 3 3 3";
 
-        # Restrict loading TTY line disaciplines to the CAP_SYS_MODULE capablitiy to
-        # prevent unprvileged attackers from loading vulnrable line disaciplines
+        # Restrict loading TTY line disciplines to the CAP_SYS_MODULE capability
         "dev.tty.ldisc_autoload" = 0;
 
-        # Kexec allows replacing the current running kernel. There may be an edge case where
-        # you wish to boot into a different kernel, but I do not require kexec. Disabling it
-        # patches a potential security hole in our system.
+        # Disable kexec
         "kernel.kexec_load_disabled" = true;
 
-        # Disable TIOCSTI ioctl, which allows a user to insert characters into the input queue of a terminal
-        # this has been known for a long time to be used in privilege escalation attacks
+        # Disable TIOCSTI ioctl
         "dev.tty.legacy_tiocsti" = 0;
 
-        # Disable the ability to load kernel modules, we already load the ones that we need
-        # FIXME: this breaks boot, so we should track down what modules we need to boot if
-        # we are going to commit to enabling this
-        # "kernel.modules_disabled" = 1;
-
-        # This enables hardening for the BPF JIT compiler, however it costs at a performance cost
-        # "net.core.bpf_jit_harden" = 2;
+        # Commented but preserved options below
+        # "kernel.modules_disabled" = 1; # FIXME: breaks boot
+        # "net.core.bpf_jit_harden" = 2; # Performance impact
       };
 
-      # https://www.kernel.org/doc/html/latest/admin-guide/kernel-parameters.html
+      # Kernel parameters for hardening
       kernelParams =
-        if sys.noMitigations then
+        if cfg.noMitigations then
           [
-            # disables the L1 Terminal Fault (L1TF) mitigation, which is a hardware mitigation
-            # for L1TF (CVE-2018-3620 and CVE-2018-3646).
+            # Disable CPU vulnerability mitigations
             "l1tf=off"
-
-            # Disables the Microarchitectural Data Sampling (MDS) mitigation, which is
-            # a hardware mitigation for MDS (CVE-2018-12126, CVE-2018-12127, CVE-2018-12130, CVE-2019-11091)
             "mds=off"
-
-            # Disables the Single Thread Indirect Branch Predictors (STIBP) feature,
-            # which is a hardware mitigation for Spectre variant 2
             "no_stf_barrier"
-
-            # disables the Indirect Branch Predictor Barrier (IBPB) feature, which is a software
-            # mitigation for Spectre variant 2
             "noibpb"
-
-            # disables the Indirect Branch Restricted Speculation (IBRS) feature, which is
-            # a hardware mitigation for Spectre variant 2 (CVE-2017-5715)
             "noibrs"
-
-            # disables the Kernel Page Table Isolation (KPTI) feature, which is a software
-            # mitigation for Meltdown (CVE-2017-5754)
             "nopti"
-
-            # disables the Speculative Store Bypass Disable (SSBD) feature, which is a
-            # hardware mitigation for Spectre variant 4 (CVE-2018-3639)
             "nospec_store_bypass_disable"
-
-            # disables all mitigations for Spectre variant 1 (CVE-2017-5753)
             "nospectre_v1"
-
-            # disables all mitigations for Spectre variant 2, including IBRS and IBPB.
             "nospectre_v2"
-
-            # enables Intel Transactional Synchronization Extensions (TSX), which can
-            # improve performance for certain workloads that use transactional memory
             "tsx=on"
-
-            # disables the TSX Asynchronous Abort (TAA) mitigation, which is a hardware
-            # mitigation for TAA (CVE-2019-11135)
             "tsx_async_abort=off"
-
-            # Disable all mitigations
             "mitigations=off"
           ]
         else
@@ -167,7 +116,7 @@ in
             # make stack-based attacks on the kernel harder
             "randomize_kstack_offset=on"
 
-            # controls the behavior of vsyscalls. this has been defaulted to none back in 2016 - break really old binaries for security
+            # controls the behavior of vsyscalls
             "vsyscall=none"
 
             # reduce most of the exposure of a heap attack to a single cache
@@ -176,29 +125,28 @@ in
             # Disable debugfs which exposes sensitive kernel data
             "debugfs=off"
 
-            # Sometimes certain kernel exploits will cause what is called an "oops" which is a kernel panic
-            # that is recoverable. This will make it unrecoverable, and therefore safe to those attacks
+            # Convert kernel oops to panic
             "oops=panic"
 
             # only allow signed modules
             "module.sig_enforce=1"
 
-            # blocks access to all kernel memory, even preventing administrators from being able to inspect and probe the kernel
+            # blocks access to all kernel memory
             "lockdown=confidentiality"
 
             # enable buddy allocator free poisoning
             "page_poison=on"
 
-            # performance improvement for direct-mapped memory-side-cache utilization, reduces the predictability of page allocations
+            # performance improvement for direct-mapped memory-side-cache
             "page_alloc.shuffle=1"
 
             # for debugging kernel-level slab issues
             "slub_debug=FZP"
 
-            # disable sysrq keys. sysrq is seful for debugging, but also insecure
-            "sysrq_always_enabled=0" # 0 | 1 # 0 means disabled
+            # disable sysrq keys
+            "sysrq_always_enabled=0"
 
-            # ignore access time (atime) updates on files, except when they coincide with updates to the ctime or mtime
+            # ignore access time updates on files
             "rootflags=noatime"
 
             # linux security modules
@@ -278,13 +226,11 @@ in
           "firewire-core"
         ]
 
-        # this is why your webcam no worky
-        # (optionals (!sys.security.fixWebcam) [ "uvcvideo" ])
-
-        # (optionals (!config.modules.hardware.bluetooth.enable) [
-        #   "bluetooth"
-        #   "btusb" # bluetooth dongles
-        # ])
+        # Bluetooth modules (conditionally disabled if bluetooth is disabled)
+        (optionals (!config.hardware.bluetooth.enable or false) [
+          "bluetooth"
+          "btusb" # bluetooth dongles
+        ])
       ];
     };
   };

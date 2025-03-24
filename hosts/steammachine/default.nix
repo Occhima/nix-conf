@@ -63,6 +63,11 @@
       yubikey.enable = true;
     };
 
+    security = {
+      kernel.enable = true;
+      auditd.enable = true;
+    };
+
     system = {
       boot = {
         loader = {
