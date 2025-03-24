@@ -8,7 +8,7 @@
 with lib;
 
 let
-  cfg = config.modules.login;
+  cfg = config.modules.system.login;
   sessionData = config.services.displayManager.sessionData.desktops;
   sessionPath = concatStringsSep ":" [
     "${sessionData}/share/xsessions"

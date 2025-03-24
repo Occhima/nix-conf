@@ -1,42 +1,52 @@
 {
-
   lib,
   pkgs,
   config,
   ...
 }:
 let
-  inherit (lib.modules) mkIf mkDefault;
-  inherit (lib.attrsets) optionalAttrs;
-  inherit (lib.options) mkEnableOption mkPackageOption;
+  inherit (lib.modules) mkIf mkMerge;
+  inherit (lib.options) mkOption mkEnableOption mkPackageOption;
+  inherit (lib.types) int;
 
-  cfg = config.modules.system.boot.loader.systemd;
+  cfg = config.modules.system.boot.loader;
 in
 {
+
   options.modules.system.boot.loader.systemd = {
-    enable = mkEnableOption "enable systemd boot";
     memtest = {
       enable = mkEnableOption "memtest86+";
       package = mkPackageOption pkgs "memtest86plus" { };
     };
+
+    configurationLimit = mkOption {
+      type = int;
+      default = 15;
+      description = "Maximum number of configurations in boot menu";
+    };
   };
 
-  config = mkIf cfg.enable {
-    boot.loader.systemd-boot =
+  config = mkIf (cfg.type == "systemd-boot") {
+    boot.loader.systemd-boot = mkMerge [
       {
-        enable = mkDefault true;
-        configurationLimit = 15; # prevent "too many" configuration from showing up on the boot menu
-        consoleMode = mkDefault "max"; # the default is "keep"
-
-        # Fix a security hole. See desc in nixpkgs/nixos/modules/system/boot/loader/systemd-boot/systemd-boot.nix
+        enable = true;
+        configurationLimit = cfg.systemd.configurationLimit;
+        consoleMode = "max";
         editor = false;
       }
-      // optionalAttrs cfg.memtest.enable {
-        extraFiles."efi/memtest86plus/memtest.efi" = "${cfg.boot.memtest.package}/memtest.efi";
-        extraEntries."memtest86plus.conf" = ''
-          title MemTest86+
-          efi   /efi/memtest86plus/memtest.efi
-        '';
-      };
+
+      (mkIf cfg.systemd.memtest.enable {
+        extraFiles = {
+          "efi/memtest86plus/memtest.efi" = "${cfg.systemd.memtest.package}/memtest.efi";
+        };
+
+        extraEntries = {
+          "memtest86plus.conf" = ''
+            title MemTest86+
+            efi   /efi/memtest86plus/memtest.efi
+          '';
+        };
+      })
+    ];
   };
 }

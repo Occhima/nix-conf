@@ -1,16 +1,10 @@
 { lib, config, ... }:
 let
   inherit (lib.modules) mkIf mkForce;
-  inherit (lib.options) mkEnableOption;
-  cfg = config.modules.system.boot.loader.none;
+  cfg = config.modules.system.boot.loader;
 in
 {
-
-  options.modules.system.boot.loader.none = {
-    enable = mkEnableOption "Enable no boot loader";
-
-  };
-  config = mkIf cfg.enable {
+  config = mkIf (cfg.type == "none") {
     boot.loader = {
       grub.enable = mkForce false;
       systemd-boot.enable = mkForce false;

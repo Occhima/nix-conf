@@ -135,6 +135,17 @@
       };
     };
 
+    # For secure boot support
+    lanzaboote = {
+      type = "github";
+      owner = "nix-community";
+      repo = "lanzaboote";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-parts.follows = "flake-parts";
+      };
+    };
+
     # sops (commented out)
     # sops = {
     #   type = "github";

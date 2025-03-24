@@ -7,13 +7,13 @@
 with lib;
 
 let
-  cfg = config.modules.login;
+  cfg = config.modules.system.login;
 in
 {
   config = mkIf (cfg.enable && cfg.manager == "sddm") {
-    services.xserver.displayManager.sddm = {
+    services.displayManager.sddm = {
       enable = true;
-      wayland.enable = config.modules.display.wayland.enable or false;
+      wayland.enable = config.modules.system.display.type == "wayland";
       enableHidpi = true;
 
       settings = {

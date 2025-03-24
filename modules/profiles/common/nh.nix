@@ -10,5 +10,6 @@
       enable = !config.nix.gc.automatic;
       dates = "weekly";
     };
+
   };
 }

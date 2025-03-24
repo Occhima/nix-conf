@@ -4,18 +4,11 @@
     ./hardware.nix
   ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  # enabling modules
   modules = {
-    # Hardware configuration
     hardware = {
-      # CPU and GPU
       cpu.type = "amd";
       gpu.type = "nvidia";
 
-      # Media
       media = {
         sound = {
           enable = true;
@@ -28,7 +21,6 @@
         };
       };
 
-      # Input devices
       input = {
         keyboard = {
           layout = "us";
@@ -37,7 +29,6 @@
         naturalScrolling = true;
       };
 
-      # Monitors configuration
       monitors = {
         primaryMonitorName = "dp1";
         displays = {
@@ -49,7 +40,6 @@
         };
       };
 
-      # Wireless and Bluetooth
       bluetooth = {
         enable = true;
         gui = true;
@@ -61,11 +51,41 @@
         interfaces = [ "wlan0" ];
       };
 
-      # Security devices
       yubikey.enable = true;
     };
 
-    # Secrets management
+    system = {
+      boot = {
+        loader = {
+          type = "grub";
+          grub = {
+            device = "nodev";
+          };
+        };
+        kernel = {
+          enableKernelTweaks = true;
+          silentBoot = true;
+          tmpOnTmpfs = true;
+          loadRecommendedModules = true;
+          initrd = {
+            enableTweaks = true;
+            optimizeCompressor = true;
+          };
+        };
+        plymouth.enable = true;
+      };
+
+      display = {
+        type = "wayland";
+      };
+
+      login = {
+        enable = true;
+        manager = "sddm";
+        autoLogin = false;
+      };
+    };
+
     secrets = {
       agenix-rekey = {
         enable = true;

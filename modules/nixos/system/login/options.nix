@@ -7,7 +7,7 @@ let
   inherit (lib) mkOption mkEnableOption types;
 in
 {
-  options.modules.login = {
+  options.modules.system.login = {
     enable = mkEnableOption "Enable login manager configuration";
 
     manager = mkOption {
