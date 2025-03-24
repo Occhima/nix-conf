@@ -1,8 +1,7 @@
-
-
 # SPDX-FileCopyrightText: 2022-2023 Chris Montgomery <chris@cdom.io>
 # SPDX-License-Identifier: CC0-1.0
-
+# project stuff
+.projectile-cache.eld
 .pre-commit-config.yaml
 *.fd
 result

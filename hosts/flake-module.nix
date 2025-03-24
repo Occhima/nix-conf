@@ -14,7 +14,7 @@ let
 
   # TODO...
   # TODO: Turn graphical / laptop in to modules and iso to a proper profile
-  # graphical = profilesPath + /graphical;
+  graphical = profilesPath + /graphical;
   # laptop = profilesPath + /laptop;
   # iso = profilesPath + /iso;
 
@@ -53,6 +53,7 @@ in
         path = ./steammachine;
         modules = [
           desktop
+          graphical
         ];
       };
 

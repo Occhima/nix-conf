@@ -44,6 +44,7 @@ in
             "direnv"
             "eza"
             "fzf"
+            "gh"
             "zoxide"
             "ripgrep"
           ]
@@ -56,6 +57,7 @@ in
           "fzf"
           "zoxide"
           "ripgrep"
+          "gh"
         ];
         description = "List of CLI tools to enable";
         example = ''[ "bat" "eza" "fzf" "git" ]'';
