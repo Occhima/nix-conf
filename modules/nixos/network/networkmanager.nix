@@ -4,11 +4,13 @@
   pkgs,
   ...
 }:
-
-with lib;
-
 let
+  inherit (lib.modules) mkIf mkForce;
+  inherit (lib.lists) optionals;
+  inherit (lib) mkEnableOption;
+
   cfg = config.modules.network.networkmanager;
+  isGui = config.modules.system.display.type != null;
 in
 {
   options.modules.network.networkmanager = {
@@ -16,9 +18,13 @@ in
   };
 
   config = mkIf cfg.enable {
+    environment.systemPackages = optionals isGui [
+      pkgs.networkmanagerapplet
+    ];
+
     networking.networkmanager = {
       enable = true;
-      plugins = mkForce [ pkgs.networkmanager-openvpn ];
+      plugins = mkForce (optionals isGui [ pkgs.networkmanager-openvpn ]);
       dns = "systemd-resolved";
       unmanaged = [
         "interface-name:tailscale*"

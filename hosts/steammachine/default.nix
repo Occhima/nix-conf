@@ -5,6 +5,15 @@
   ];
 
   modules = {
+    network = {
+      enable = true;
+      hostName = "steammachine";
+      networkmanager.enable = true;
+      firewall.enable = true;
+      blocker.enable = true;
+      wireless.enable = true;
+    };
+
     hardware = {
       cpu.type = "amd";
       gpu.type = "nvidia";

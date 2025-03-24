@@ -1,12 +1,16 @@
-{ config, lib, ... }:
-
-with lib;
-
+{
+  config,
+  lib,
+  ...
+}:
 let
-  cfg = config.modules.networking.blocker;
+  inherit (lib.modules) mkIf;
+  inherit (lib) mkEnableOption;
+
+  cfg = config.modules.network.blocker;
 in
 {
-  options.modules.networking.blocker = {
+  options.modules.network.blocker = {
     enable = mkEnableOption "StevenBlack hosts file blocking";
   };
 
@@ -16,6 +20,7 @@ in
       block = [
         "fakenews"
         "gambling"
+        "porn"
       ];
     };
   };

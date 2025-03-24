@@ -4,9 +4,13 @@
     inputs.disko.nixosModules.disko
     ./disko.nix
   ];
-  networking = {
-    useDHCP = true;
+
+  modules.network = {
+    enable = true;
     hostName = "face2face";
+    networkmanager.enable = true;
+    firewall.enable = true;
+    blocker.enable = true;
   };
 
   modules = {
