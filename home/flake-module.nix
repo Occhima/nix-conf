@@ -32,6 +32,7 @@ let
         extraModules
       ];
       extraSpecialArgs = {
+        osConfig = self.nixosConfigurations.${hostname}.config;
         inherit inputs hostname username;
       };
 
