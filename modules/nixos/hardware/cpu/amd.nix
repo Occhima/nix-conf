@@ -16,11 +16,10 @@ in
     boot = {
       kernelModules = [
         "kvm-amd"
-        "amd-pstate"
+        # "amd-pstate"
       ];
 
       kernelParams = [
-        "amd_pstate=active" # For Linux 6.3+
       ];
     };
   };

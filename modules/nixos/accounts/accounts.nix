@@ -69,7 +69,7 @@ in
       sharedModules = collectNixModulePaths "${self}/modules/home-manager";
 
       extraSpecialArgs = {
-        inherit hostname inputs;
+        inherit hostname inputs self;
       };
 
       users = genAttrs (filter (username: username != "root" && elem username cfg.enabledUsers) (

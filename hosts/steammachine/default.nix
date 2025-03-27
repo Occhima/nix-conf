@@ -1,10 +1,20 @@
+{ inputs, ... }:
 {
   imports = [
-    ./disko.nix
-    ./hardware.nix
+    inputs.disko.nixosModules.disko
+    ../face2face/disko.nix
   ];
 
   modules = {
+    accounts = {
+      enable = true;
+      enabledUsers = [
+        "occhima"
+        "root"
+      ];
+      enableHomeManager = true;
+    };
+
     network = {
       enable = true;
       hostName = "steammachine";
@@ -33,9 +43,8 @@
       input = {
         keyboard = {
           layout = "us";
-          variant = "";
+          variant = "intl";
         };
-        naturalScrolling = true;
       };
 
       monitors = {
@@ -46,57 +55,53 @@
             mode = "2560x1440@144";
             position = "0,0";
           };
+          hdmi = {
+            name = "HDMI-1";
+            mode = "2560x1440@144";
+            position = "0,0";
+          };
         };
       };
 
       bluetooth = {
         enable = true;
         gui = true;
-        autoReset = true;
+        autoReset = false;
       };
 
       wifi = {
-        enable = true;
-        interfaces = [ "wlan0" ];
+        enable = false;
       };
 
       yubikey.enable = true;
     };
 
     security = {
-      kernel.enable = true;
-      auditd.enable = true;
+      kernel.enable = false;
+      # auditd.enable = true;
     };
 
     system = {
       boot = {
         loader = {
           type = "grub";
-          grub = {
-            device = "nodev";
-          };
         };
         kernel = {
           enableKernelTweaks = true;
-          silentBoot = true;
-          tmpOnTmpfs = true;
           loadRecommendedModules = true;
           initrd = {
             enableTweaks = true;
-            optimizeCompressor = true;
           };
         };
-        plymouth.enable = true;
       };
 
       display = {
-        type = "wayland";
+        type = "wayland"; # KDE works better with X11
       };
 
       login = {
         enable = true;
         manager = "sddm";
-        autoLogin = false;
       };
     };
 
@@ -113,18 +118,11 @@
     services = {
       systemd = {
         enable = true;
-        optimizeServices = true;
+        optimizeServices = false;
       };
-
-      oom = {
-        enable = true;
-        earlyoom = {
-          enable = true;
-          enableNotifications = true;
-        };
-      };
-
       firmware.enable = true;
     };
   };
+
+  # Add KDE applications and utilities
 }

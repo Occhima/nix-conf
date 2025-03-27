@@ -182,5 +182,13 @@
       repo = "haumea";
     };
 
+    # Emacs overlay
+    emacs-overlay = {
+      type = "github";
+      owner = "nix-community";
+      repo = "emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 }

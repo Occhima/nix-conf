@@ -234,12 +234,8 @@ The documentation can be built with MkDocs. See the [[./docs/README.md][docs REA
 The following features are planned for implementation:
 
 - [ ] Use Namaka for improved testing
-- [ ] Improve disko-install for automatic partitioning
 - [ ] Enhance CI checks with ggscan and agenix-rekey
 - [ ] Use devenv to define multiple developer environments
-- [ ] MKDocs
-- [ ] isoImage
-- [ ] Move yanked isabelroses graphical/laptop profiles in to modules/nixos
 
 * References
 

@@ -1,9 +1,9 @@
 { inputs, ... }:
-with inputs;
 {
-  nur = nur.overlays.default;
-  deploy-rs = deploy-rs.overlay;
+  nur = inputs.nur.overlays.default;
+  deploy-rs = inputs.deploy-rs.overlay;
   # colmena = inputs.colmena.overlay;
-  agenix = agenix.overlays.default;
-  agenix-rekey = agenix-rekey.overlays.default;
+  agenix = inputs.agenix.overlays.default;
+  agenix-rekey = inputs.agenix-rekey.overlays.default;
+  emacs-overlay = inputs.emacs-overlay.overlays.default;
 }
