@@ -33,15 +33,14 @@
     };
 
     # TODO: snapshot testing
-    # namaka = {
-    #   type = "github";
-    #   owner = "nix-community";
-    #   repo = "namaka";
-    #   inputs = {
-    #     haumea.follows = "haumea";
-    #     nixpkgs.follows = "nixpkgs";
-    #   };
-    # };
+    namaka = {
+      type = "github";
+      owner = "nix-community";
+      repo = "namaka";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
 
     # Does not work anymore, I must have made something stupid
     just-flake = {

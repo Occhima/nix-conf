@@ -24,6 +24,7 @@
       '';
 
       nix-unit = inputs'.nix-unit.packages.default;
+      namaka = inputs'.namaka.packages.default;
       deploy-rs = inputs'.deploy-rs.packages.deploy-rs; # remote deployment
 
     in
@@ -72,7 +73,7 @@
               nh
 
               gitAndTools.hub
-              gh
+              namaka
 
               onefetch
               fastfetch
@@ -83,7 +84,6 @@
               agenix-rekey
 
               config.formatter
-              gum
 
               install-tools
             ]

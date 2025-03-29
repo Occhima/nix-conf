@@ -1,6 +1,6 @@
 { inputs, ... }:
 let
-  inherit (inputs) nixpkgs;
+  inherit (inputs) nixpkgs namaka;
   customLib = import ../lib nixpkgs;
 in
 {
@@ -16,5 +16,9 @@ in
       };
 
     };
+
+  flake.checks = namaka.lib.load {
+    src = ./tests/namaka;
+  };
 
 }

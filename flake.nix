@@ -1,5 +1,5 @@
 {
-  description = "My extra bloated NixOS config";
+  description = "My extra-bloated NixOS config";
 
   outputs =
     { flake-parts, ... }@inputs:
