@@ -62,14 +62,21 @@ in
 
     home-manager = mkIf cfg.enableHomeManager {
       verbose = true;
-      useGlobalPkgs = true;
+
+      # FIXME: pkgs should be global but home-manager is not picking up my overlays, I don't know but there's a probably a bug in my config
+      useGlobalPkgs = false;
+
       useUserPackages = true;
       backupFileExtension = "bak";
 
       sharedModules = collectNixModulePaths "${self}/modules/home-manager";
 
       extraSpecialArgs = {
-        inherit hostname inputs self;
+        inherit
+          hostname
+          inputs
+          self
+          ;
       };
 
       users = genAttrs (filter (username: username != "root" && elem username cfg.enabledUsers) (

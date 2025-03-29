@@ -11,7 +11,6 @@ selected_tasks=$(gum choose \
     "Partition Disk" \
     "Install NixOS" \
     "Install Doom" \
-    "Update Flake Inputs" \
   "Quit")
 
 [ -z "$selected_tasks" ] && { gum log --structured --level error "No tasks selected. Exiting."; exit 1; }
@@ -46,18 +45,28 @@ case "$selected_tasks" in
     hostname=$(gum input --placeholder "Enter hostname for NixOS installation")
     [ -z "$hostname" ] && { gum log --structured --level error "Hostname is required."; exit 1; }
     gum log --structured --level info "Starting NixOS installation using disko-install..."
+
+    gum spin --spinner dot --title "Cloning flake repository..." -- \
+      git clone https://github.com/Occhima/nix-conf.git /etc/nixos || {
+      gum log --structured --level error "Clone failed! Check network/repo URL."
+      exit 1
+    }
+
     gum spin --spinner dot --title "Installing NixOS..." -- \
-      gum confirm && disko-install --flake "/mnt/etc/nixos#${hostname}" --no-channel-copy |& nom || echo "User declined disko-install"
+      gum confirm && disko-install --flake "/etc/nixos#${hostname}" --no-channel-copy |& nom || echo "User declined disko-install"
     gum log --structured --level info "NixOS installation completed."
     ;;
 
   "Install Doom")
     gum log --structured --level info "Installing Doom Emacs..."
+    gum log --structured --level info "Removing old emacs config dir..."
     rm -rf ~/.config/emacs
+    gum spin --spinner dot --title "Cloning Doom config..." -- \
+      git clone https://github.com/Occhima/doom.git ~/.config/doom
     gum spin --spinner dot --title "Cloning Doom Emacs..." -- \
       git clone --depth 1 https://github.com/doomemacs/doomemacs.git ~/.config/emacs
     gum spin --spinner dot --title "Running Doom install..." -- \
-      ~/.config/emacs/bin/doom install
+      ~/.config/emacs/bin/doom install --force
     gum log --structured --level info "Doom Emacs installation completed."
     ;;
 

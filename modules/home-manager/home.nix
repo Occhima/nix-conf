@@ -28,8 +28,6 @@
         SYSTEMD_PAGERSECURE = "true";
         # PAGER = defaults.pager;
         # MANPAGER = defaults.manpager;
-        # FLAKE = osConfig.garden.environment.flakePath;
-        # NH_FLAKE = osConfig.garden.environment.flakePath;
         DO_NOT_TRACK = 1;
 
       };

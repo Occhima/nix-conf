@@ -93,4 +93,12 @@ rec {
 
   # stolen from :https://github.com/isabelroses/dotfiles/blob/main/modules/flake/lib/validators.nix
   ifTheyExist = config: groups: filter (group: hasAttr group config.users.groups) groups;
+
+  isPackageEnabled =
+    config: program: hasAttr program config.programs && config.programs.${program}.enable;
+
+  ifPackageNotEnabled =
+    config: osConfig: programs:
+    filter (program: !(isPackageEnabled config program || isPackageEnabled osConfig program)) programs;
+
 }

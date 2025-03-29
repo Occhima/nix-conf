@@ -1,4 +1,3 @@
-# { localFlake, lib, ... }:
 {
   inputs,
   options,
@@ -10,14 +9,9 @@
 
 let
   inherit (self) lib;
-  # inherit (localFlake)
-  #   inputs
-  #   config
-  #   pkgs
-  #   options
-  #   ;
   inherit (inputs) haumea;
 
+  #TODO: maybe just drop haumea and use collecNixPaths;
   nixosModules = haumea.lib.load {
     src = ./nixos;
 

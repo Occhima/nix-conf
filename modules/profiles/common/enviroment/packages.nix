@@ -1,3 +1,7 @@
+{ self', ... }:
+let
+  inherit (self'.packages) install-tools;
+in
 {
   programs = {
     git.enable = true;
@@ -5,7 +9,7 @@
     zsh.enable = true;
   };
 
-  # environment.systemPackages = with pkgs; [
-  #   uutils-coreutils-noprefix
-  # ];
+  environment.systemPackages = [
+    install-tools
+  ];
 }

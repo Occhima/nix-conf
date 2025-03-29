@@ -16,15 +16,15 @@
       persistence.enable = true;
     };
 
-    # desktop = {
-    #   editor = {
-    #     emacs = {
-    #       enable = true;
-    #       doom = true;
-    #     };
-    #   };
-
-    # };
+    desktop = {
+      editor = {
+        emacs = {
+          enable = true;
+          service = true;
+          default = true;
+        };
+      };
+    };
 
     # theme = {}
   };

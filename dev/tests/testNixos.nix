@@ -6,6 +6,8 @@ let
     collectNixModulePaths
     filterNixFiles
     filterIgnoreModules
+    isPackageEnabled
+    ifPackageNotEnabled
     ;
 in
 {
@@ -126,4 +128,88 @@ in
     ];
   };
 
+  #####################################################################
+  # Tests for isPackageEnabled
+  #####################################################################
+
+  "test isPackageEnabled with enabled package" = {
+    expr = isPackageEnabled {
+      programs.git = {
+        enable = true;
+      };
+    } "git";
+    expected = true;
+  };
+
+  "test isPackageEnabled with disabled package" = {
+    expr = isPackageEnabled {
+      programs.git = {
+        enable = false;
+      };
+    } "git";
+    expected = false;
+  };
+
+  "test isPackageEnabled with non-existent package" = {
+    expr = isPackageEnabled { programs = { }; } "nonexistent";
+    expected = false;
+  };
+
+  #####################################################################
+  # Tests for ifPackageNotEnabled
+  #####################################################################
+
+  "test ifPackageNotEnabled with all packages enabled in config" = {
+    expr =
+      ifPackageNotEnabled
+        {
+          programs.git = {
+            enable = true;
+          };
+          programs.vim = {
+            enable = true;
+          };
+        }
+        { programs = { }; }
+        [
+          "git"
+          "vim"
+          "nvim"
+        ];
+    expected = [ "nvim" ];
+  };
+
+  "test ifPackageNotEnabled with some packages enabled in osConfig" = {
+    expr =
+      ifPackageNotEnabled
+        {
+          programs.git = {
+            enable = true;
+          };
+        }
+        {
+          programs.vim = {
+            enable = true;
+          };
+        }
+        [
+          "git"
+          "vim"
+          "nvim"
+        ];
+    expected = [ "nvim" ];
+  };
+
+  "test ifPackageNotEnabled with no packages enabled" = {
+    expr = ifPackageNotEnabled { programs = { }; } { programs = { }; } [
+      "git"
+      "vim"
+      "nvim"
+    ];
+    expected = [
+      "git"
+      "vim"
+      "nvim"
+    ];
+  };
 }
