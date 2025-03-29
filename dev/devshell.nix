@@ -10,10 +10,12 @@
       lib,
       pkgs,
       inputs',
+      self',
       ...
     }:
 
     let
+      inherit (self'.packages) install-tools;
       nixConfig = builtins.toFile "nix.conf" ''
         warn-dirty = false
         http2 = true
@@ -23,6 +25,7 @@
 
       nix-unit = inputs'.nix-unit.packages.default;
       deploy-rs = inputs'.deploy-rs.packages.deploy-rs; # remote deployment
+
     in
 
     {
@@ -80,7 +83,9 @@
               agenix-rekey
 
               config.formatter
+              gum
 
+              install-tools
             ]
             ++ lib.lists.optionals pkgs.stdenv.hostPlatform.isLinux [ deploy-rs ];
 

@@ -3,23 +3,18 @@ let
   inherit (lib.modules) mkForce mkDefault;
 in
 {
-  # disable documentation
   documentation = {
     enable = mkDefault false;
     doc.enable = mkDefault false;
     info.enable = mkDefault false;
   };
-
-  # we don't need this, plus it adds extra programs to the iso
   services = {
     logrotate.enable = false;
     udisks2.enable = false;
   };
 
-  # disable fontConfig
   fonts.fontconfig.enable = mkForce false;
 
-  # disable containers as it also pulls in pearl
   boot.enableContainers = false;
 
   programs = {

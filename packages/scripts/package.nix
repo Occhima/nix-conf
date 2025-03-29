@@ -11,7 +11,7 @@ let
     runtimeInputs = [
       coreutils
     ];
-    text = readFile ./scripts/run-vm.sh;
+    text = readFile ./run-vm.sh;
   };
 in
 {

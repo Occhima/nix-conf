@@ -36,7 +36,6 @@ in
 
   # partitions
   partitionedAttrs = {
-    # documentation = "dev";
     checks = "dev";
     devShells = "dev";
     agenix-rekey = "dev";

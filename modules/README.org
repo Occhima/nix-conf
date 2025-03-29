@@ -15,11 +15,10 @@ Each module follows a declarative design pattern with options and implementation
 
 This configuration is inspired by and adapted from several talented Nix developers:
 
-- [[https://github.com/isabelroses][isabelroses]] - For the excellent modular structure and many of the core modules
+- [[https://github.com/isabelroses][isabelroes]] - For the excellent modular structure and many of the core modules
 - [[https://github.com/hlissner][hlissner]] - For pioneering work on declarative, reproducible Nix configurations
-- [[https://github.com/emiller][emiller]] - For contributions to the Nix ecosystem and inspiration
 
-I've adapted their work to suit my personal needs while maintaining the philosophy of clean, modular, and declarative configuration.
+I've adapted their work to suit my personal needs while maintaining the philosophy of clean, modular, and declarative configuration. But must off it comes from isabelroses dotfiles: the profiles logic, system, services, security and a lot more. The config is available at: [[https://github.com/isabelroses/dotfiles]]
 
 * Module Structure
 

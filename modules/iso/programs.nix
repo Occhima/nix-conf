@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, self', ... }:
 {
   # needed packages for the installer
   environment.systemPackages = builtins.attrValues {
@@ -7,7 +7,7 @@
       pciutils # going to need this for lspci
       gitMinimal # we only need a basic git install
       ;
-    # inherit (self'.packages) installer;
+    inherit (self'.packages) install-tools;
   };
 
   hardware.enableRedistributableFirmware = true;

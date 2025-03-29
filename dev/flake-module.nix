@@ -10,7 +10,6 @@
     ./devshell.nix
     ./just.nix
     ./agenix.nix
-    # ./docs.nix
   ];
 
 }
