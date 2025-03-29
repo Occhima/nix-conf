@@ -18,11 +18,9 @@ selected_tasks=$(gum choose \
 case "$selected_tasks" in
 
   "Clone the flake")
-    dest_path=$(gum input --placeholder "Enter destination path for flake clone (e.g., /tmp/nix-conf)")
-    [ -z "$dest_path" ] && { gum log --structured --level error "Destination path is required."; exit 1; }
-    gum log --structured --level info "Cloning flake repository into $dest_path..."
+    gum log --structured --level info "Cloning flake repository into $FLAKE ..."
     gum spin --spinner dot --title "Cloning flake repository..." -- \
-      git clone https://github.com/Occhima/nix-conf.git "$dest_path" || {
+      git clone https://github.com/Occhima/nix-conf.git "$FLAKE" || {
       gum log --structured --level error "Clone failed! Check network/repo URL."
       exit 1
     }
@@ -61,11 +59,11 @@ case "$selected_tasks" in
     gum log --structured --level info "Installing Doom Emacs..."
     gum log --structured --level info "Removing old emacs config dir..."
     rm -rf ~/.config/emacs
-    gum spin --spinner dot --title "Cloning Doom config..." -- \
+    gum log --structured --level info "Cloning doom config..."
       git clone https://github.com/Occhima/doom.git ~/.config/doom
-    gum spin --spinner dot --title "Cloning Doom Emacs..." -- \
+    gum log --structured --level info "Cloning doomemacs core config..."
       git clone --depth 1 https://github.com/doomemacs/doomemacs.git ~/.config/emacs
-    gum spin --spinner dot --title "Running Doom install..." -- \
+    gum log --structured --level info "Running doom install...."
       ~/.config/emacs/bin/doom install --force
     gum log --structured --level info "Doom Emacs installation completed."
     ;;
