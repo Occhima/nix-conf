@@ -1,4 +1,3 @@
-# { localFlake, lib, ... }:
 {
   self,
   config,
@@ -7,7 +6,6 @@
 }:
 
 let
-  # inherit (localFlake) inputs;
   inherit (self) lib;
   inherit (inputs) home-manager;
   inherit (lib.custom) collectNixModulePaths;
@@ -21,7 +19,6 @@ let
       extraModules ? [ ],
     }:
 
-    # maake it user generic
     home-manager.lib.homeManagerConfiguration {
       pkgs = pkgs;
       modules = concatLists [
@@ -49,7 +46,7 @@ let
     hostname:
     let
       host = lib.removePrefix "occhima@" hostname;
-      pkgs = config.flake.nixosConfigurations.${host}._module.args.pkgs;
+      pkgs = self.nixosConfigurations.${host}._module.args.pkgs;
     in
     mkHomeConfiguration {
       hostname = host;

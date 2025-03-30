@@ -11,9 +11,6 @@ let
   wsl = profilesPath + /wsl; # for wsl systems
   headless = profilesPath + /headless; # for wsl systems
   desktop = profilesPath + /desktop; # for wsl systems # for wsl systems
-
-  # TODO...
-  # TODO: Turn graphical / laptop in to modules and iso to a proper profile
   graphical = profilesPath + /graphical;
   # laptop = profilesPath + /laptop;
   # iso = profilesPath + /iso;

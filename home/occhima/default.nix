@@ -14,15 +14,14 @@
     data = {
       xdg.enable = true;
       persistence.enable = true;
+      dropbox.enable = true;
     };
 
-    desktop = {
-      editor = {
-        emacs = {
-          enable = true;
-          service = true;
-          default = true;
-        };
+    editor = {
+      emacs = {
+        enable = true;
+        service = true;
+        default = true;
       };
     };
 

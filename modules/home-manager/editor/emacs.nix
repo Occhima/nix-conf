@@ -9,18 +9,41 @@
 }:
 let
   inherit (self.lib.custom) ifPackageNotEnabled;
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkEnableOption mkIf concatLists;
   inherit (builtins) getAttr;
-  cfg = config.modules.desktop.editor.emacs;
+
+  cfg = config.modules.editor.emacs;
   mkEmacsHomePackages =
     packages:
     let
       filteredPackages = ifPackageNotEnabled config osConfig packages;
     in
     map (packageName: getAttr packageName pkgs) filteredPackages;
+
+  basePackages = mkEmacsHomePackages [
+    "mu"
+    "ripgrep"
+    "git"
+    "findutils"
+    "sqlite"
+    "graphviz"
+    "pandoc"
+    "gnutls"
+    "ffmpeg"
+    "beancount"
+    "fava"
+    "texliveBasic"
+    "imagemagick"
+    "binutils"
+    "editorconfig-core-c"
+    "languagetool"
+    "emacs-all-the-icons-fonts"
+    "emacs-lsp-booster"
+  ];
 in
+
 {
-  options.modules.desktop.editor.emacs = {
+  options.modules.editor.emacs = {
     enable = mkEnableOption "Emacs editor";
     default = mkEnableOption "Use emacs as the default editor";
     service = mkEnableOption "Emacs daemon service";
@@ -42,31 +65,25 @@ in
     };
 
     home = {
-      packages = mkEmacsHomePackages [
-        "mu"
-        "ripgrep"
-        "git"
-        "findutils"
-        "sqlite"
-        "graphviz"
-        "pandoc"
-        "gnutls"
-        "ffmpeg"
-        "beancount"
-        "fava"
-        "imagemagick"
-        "binutils"
-        "editorconfig-core-c"
-        "languagetool"
-        "emacs-all-the-icons-fonts"
-        "emacs-lsp-booster"
+      packages = concatLists [
+        basePackages
+
+        # fonts
+        [
+          pkgs.nerd-fonts._0xproto
+          pkgs.nerd-fonts.iosevka
+          pkgs.nerd-fonts.iosevka-term
+          pkgs.iosevka-comfy.comfy
+          pkgs.julia-mono
+        ]
+
       ];
 
       shellAliases = {
         remdaemon = "systemctl daemon-reload --user && systemctl restart emacs --user";
       };
       sessionVariables.EMACSDIR = "${config.xdg.configHome}/emacs";
-      sessionPath = [ "${config.xdg.configHome}/.config/emacs/bin" ];
+      sessionPath = [ "${config.xdg.configHome}/emacs/bin" ];
 
     };
     # TODO: maybe add keymaps as a module in the home manager config

@@ -13,6 +13,16 @@
   };
 
   config = {
+    fonts = {
+      fontconfig = {
+        enable = true;
+        defaultFonts = {
+          monospace = [ "0xProto Nerd Font" ];
+
+        };
+      };
+
+    };
     home = {
       stateVersion = "25.05";
       homeDirectory = "/home/occhima";
