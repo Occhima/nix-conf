@@ -12,7 +12,12 @@ let
   inherit (lib) mkEnableOption mkIf;
   inherit (builtins) getAttr;
   cfg = config.modules.desktop.editor.emacs;
-
+  mkEmacsHomePackages =
+    packages:
+    let
+      filteredPackages = ifPackageNotEnabled config osConfig packages;
+    in
+    map (packageName: getAttr packageName pkgs) filteredPackages;
 in
 {
   options.modules.desktop.editor.emacs = {
@@ -37,24 +42,31 @@ in
     };
 
     home = {
-      packages =
-        let
-          filteredPackages = ifPackageNotEnabled config osConfig [
-            "mu"
-            "ripgrep"
-            "git"
-            "findutils"
-            "emacs-all-the-icons-fonts"
-            "emacs-lsp-booster"
-          ];
-        in
-        map (packageName: getAttr packageName pkgs) filteredPackages;
+      packages = mkEmacsHomePackages [
+        "mu"
+        "ripgrep"
+        "git"
+        "findutils"
+        "sqlite"
+        "graphviz"
+        "pandoc"
+        "gnutls"
+        "ffmpeg"
+        "beancount"
+        "fava"
+        "imagemagick"
+        "binutils"
+        "editorconfig-core-c"
+        "languagetool"
+        "emacs-all-the-icons-fonts"
+        "emacs-lsp-booster"
+      ];
 
       shellAliases = {
         remdaemon = "systemctl daemon-reload --user && systemctl restart emacs --user";
       };
-      sessionVariables.EMACSDIR = "${config.home.homeDirectory}/.config/emacs";
-      sessionPath = [ "${config.home.homeDirectory}/.config/emacs/bin" ];
+      sessionVariables.EMACSDIR = "${config.xdg.configHome}/emacs";
+      sessionPath = [ "${config.xdg.configHome}/.config/emacs/bin" ];
 
     };
     # TODO: maybe add keymaps as a module in the home manager config

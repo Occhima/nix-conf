@@ -60,11 +60,11 @@ case "$selected_tasks" in
     gum log --structured --level info "Removing old emacs config dir..."
     rm -rf ~/.config/emacs
     gum log --structured --level info "Cloning doom config..."
-      git clone https://github.com/Occhima/doom.git ~/.config/doom
+    git clone https://github.com/Occhima/doom.git ~/.config/doom
     gum log --structured --level info "Cloning doomemacs core config..."
-      git clone --depth 1 https://github.com/doomemacs/doomemacs.git ~/.config/emacs
+    git clone --depth 1 https://github.com/doomemacs/doomemacs.git ~/.config/emacs
     gum log --structured --level info "Running doom install...."
-      ~/.config/emacs/bin/doom install --force
+    ~/.config/emacs/bin/doom install --force
     gum log --structured --level info "Doom Emacs installation completed."
     ;;
 
