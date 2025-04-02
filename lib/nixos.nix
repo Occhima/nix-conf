@@ -101,4 +101,8 @@ rec {
     config: osConfig: programs:
     filter (program: !(isPackageEnabled config program || isPackageEnabled osConfig program)) programs;
 
+  isProfileEnabled = config: profile: lib.mkIf (builtins.elem profile config.modules.profiles.active);
+
+  hasProfile = conf: list: any (profile: builtins.elem profile conf.modules.profiles.active) list;
+
 }

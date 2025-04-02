@@ -1,7 +1,7 @@
-{ inputs, ... }:
+{ inputs, self, ... }:
 let
-  inherit (inputs) nixpkgs namaka;
-  customLib = import ../lib nixpkgs;
+  inherit (inputs) namaka;
+  inherit (self) lib;
 in
 {
 
@@ -12,7 +12,8 @@ in
     {
       nix-unit = {
         allowNetwork = true;
-        tests = import ./tests { lib = customLib; };
+        # TODO: load tests with haumea
+        tests = import ./tests { inherit lib; };
       };
 
     };

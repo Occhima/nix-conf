@@ -3,6 +3,7 @@
 #+DESCRIPTION: A modular, reproducible NixOS configuration using flakes and home-manager
 #+OPTIONS: toc:3
 
+
 * Overview
 
 This repository contains a complete NixOS system configuration that follows modern best practices:
@@ -236,6 +237,7 @@ The following features are planned for implementation:
 - [ ] Use Namaka for improved testing
 - [ ] Enhance CI checks with ggscan and agenix-rekey
 - [ ] Use devenv to define multiple developer environments
+- [ ] Fix the pkgs mess I made
 
 * References
 

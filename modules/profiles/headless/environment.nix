@@ -1,3 +1,0 @@
-{
-  environment.variables.BROWSER = "echo";
-}

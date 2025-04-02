@@ -28,8 +28,8 @@ in
     inputs.flake-parts.flakeModules.partitions
 
     ./overlays/flake-module.nix
-    ./hosts/flake-module.nix
     ./modules/flake-module.nix
+    ./hosts/flake-module.nix
     ./home/flake-module.nix
     ./packages/flake-module.nix
   ];

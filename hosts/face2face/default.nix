@@ -14,6 +14,11 @@
   };
 
   modules = {
+    profiles = {
+      enable = true;
+      active = [ "headless" ];
+    };
+
     virtualisation = {
       vm = {
         enable = true;

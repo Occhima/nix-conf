@@ -7,7 +7,7 @@
   writeShellApplication,
 }:
 writeShellApplication {
-  name = "nixos-installer";
+  name = "install-tools";
 
   runtimeInputs = [
     gum

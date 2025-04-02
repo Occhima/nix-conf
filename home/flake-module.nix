@@ -8,8 +8,24 @@
 let
   inherit (self) lib;
   inherit (inputs) home-manager;
-  inherit (lib.custom) collectNixModulePaths;
   inherit (lib) concatLists;
+
+  # stolen from: https://github.com/MattSturgeon/nix-config/blob/main/hosts/flake-module.nix
+  # guessUsername =
+  #   name:
+  #   let
+  #     parts = lib.splitString "@" name;
+  #     len = builtins.length parts;
+  #   in
+  #   if len == 2 then builtins.head parts else name;
+
+  # guessHostname =
+  #   name:
+  #   let
+  #     parts = lib.splitString "@" name;
+  #     len = builtins.length parts;
+  #   in
+  #   lib.optionalString (len == 2) (builtins.elemAt parts 1);
 
   mkHomeConfiguration =
     {
@@ -24,8 +40,9 @@ let
       modules = concatLists [
         [
           ./${username}
+          self.homeManagerModules.default
         ]
-        (collectNixModulePaths "${self}/modules/home-manager")
+
         extraModules
       ];
       extraSpecialArgs = {

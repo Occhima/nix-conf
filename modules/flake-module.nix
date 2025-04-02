@@ -1,60 +1,38 @@
 {
-  inputs,
-  options,
-  pkgs,
-  config,
   self,
   ...
 }:
 
 let
   inherit (self) lib;
-  inherit (inputs) haumea;
+  inherit (lib.custom) collectNixModulePaths;
 
-  #TODO: maybe just drop haumea and use collecNixPaths;
-  nixosModules = haumea.lib.load {
-    src = ./nixos;
+  mkModule =
+    {
+      class ? "nixos",
+      name,
 
-    inputs = {
-      inherit
-        inputs
-        config
-        options
-        lib
-        pkgs
-        ;
+    }:
+    {
+      _class = class;
+      imports = collectNixModulePaths ./${name};
     };
-
-  };
-
-  homeManagerModules = haumea.lib.load {
-    src = ./home-manager;
-
-    inputs = {
-      inherit
-        inputs
-        config
-        options
-        lib
-        pkgs
-        ;
-    };
-
-  };
 
 in
 {
 
-  imports = [
-    inputs.flake-parts.flakeModules.modules
-  ];
-
   flake = {
-    modules = {
-      nixos = nixosModules;
-      home = homeManagerModules;
+    nixosModules = {
+      common = mkModule { name = "common"; };
+      nixos = mkModule { name = "nixos"; };
+      iso = mkModule { name = "iso"; };
     };
-    nixosModules = config.flake.modules.nixos;
-    homeModules = config.flake.modules.home;
+
+    homeManagerModules = {
+      default = mkModule {
+        class = "homeManager";
+        name = "home-manager";
+      };
+    };
   };
 }

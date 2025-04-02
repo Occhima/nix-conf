@@ -6,6 +6,14 @@
   ];
 
   modules = {
+    profiles = {
+      enable = true;
+      active = [
+        "desktop"
+        "graphical"
+      ];
+    };
+
     accounts = {
       enable = true;
       enabledUsers = [

@@ -2,5 +2,4 @@
   networking = {
     hostName = "voyager";
   };
-
 }

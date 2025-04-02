@@ -2,19 +2,17 @@
 { self, inputs, ... }:
 let
   inherit (self) lib;
-  inherit (lib.custom) collectNixModulePaths;
-  inherit (lib) concatLists optionals;
+  inherit (lib) concatLists;
+  inherit (lib.lists) optionals;
 
-  # Profiles
-  profilesPath = ../modules/profiles; # the base directory for the types module
-
-  wsl = profilesPath + /wsl; # for wsl systems
-  headless = profilesPath + /headless; # for wsl systems
-  desktop = profilesPath + /desktop; # for wsl systems # for wsl systems
-  graphical = profilesPath + /graphical;
-  # laptop = profilesPath + /laptop;
-  # iso = profilesPath + /iso;
-
+  mkModulesForClass =
+    class:
+    concatLists [
+      [
+        self.nixosModules.${class}
+      ]
+      (optionals (class != "iso") [ self.nixosModules.common ])
+    ];
 in
 {
   imports = [
@@ -25,10 +23,7 @@ in
   config.easy-hosts = {
 
     perClass = class: {
-      modules = concatLists [
-        (collectNixModulePaths "${self}/modules/${class}")
-        (optionals (class != "iso") (collectNixModulePaths "${self}/modules/profiles/common"))
-      ];
+      modules = mkModulesForClass class;
     };
 
     shared = {
@@ -39,28 +34,17 @@ in
       crescendoll = {
         deployable = false;
         path = ./crescendoll;
-        modules = [
-          wsl
-          headless
-        ];
       };
 
       steammachine = {
         deployable = false; # disabled bc of the time to build
         path = ./steammachine;
-        modules = [
-          desktop
-          graphical
-        ];
       };
 
       # Minmal VM
       face2face = {
         deployable = true;
         path = ./face2face;
-        modules = [
-          desktop
-        ];
       };
 
       # ISO
@@ -68,9 +52,6 @@ in
         deployable = false;
         path = ./voyager;
         class = "iso";
-        modules = [
-          headless
-        ];
       };
     };
   };

@@ -135,6 +135,24 @@
       };
     };
 
+    stylix = {
+      type = "github";
+      owner = "danth";
+      repo = "stylix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
+    nixvim = {
+      type = "github";
+      owner = "nix-community";
+      repo = "nixvim";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+
     # For secure boot support
     lanzaboote = {
       type = "github";
@@ -162,6 +180,16 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+
+    # TODO: Generate iso images and etc with nixos-generators
+    # nixos-generators = {
+    #   type = "github";
+    #   owner = "nix-community";
+    #   repo = "nixos-generators";
+    #   inputs = {
+    #     nixpkgs.follows = "nixpkgs";
+    #   };
+    # };
 
     # https://github.com/search?q=colmena&type=repositories
     # For now, Im using deploy-rs as reployment tool

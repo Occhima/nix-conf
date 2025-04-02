@@ -1,3 +1,0 @@
-{
-  modules.device.type = "desktop";
-}

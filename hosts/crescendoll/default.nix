@@ -1,12 +1,19 @@
 {
   config = {
-
     networking.hostName = "crescendoll";
     modules = {
+      profiles = {
+        enable = true;
+        active = [
+          "wsl"
+          "headless"
+        ];
+      };
 
       hardware = {
         yubikey.enable = true;
       };
+
       secrets = {
         agenix-rekey = {
           enable = true;
@@ -16,8 +23,6 @@
           storageDir = ./rekeyed;
         };
       };
-
     };
   };
-
 }

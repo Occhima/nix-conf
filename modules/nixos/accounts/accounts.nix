@@ -71,7 +71,7 @@ in
       useUserPackages = true;
       backupFileExtension = "bak";
 
-      sharedModules = collectNixModulePaths "${self}/modules/home-manager";
+      sharedModules = [ self.homeManagerModules.default ];
 
       extraSpecialArgs = {
         inherit
