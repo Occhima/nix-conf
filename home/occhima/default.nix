@@ -19,9 +19,12 @@
 
     editor = {
       emacs = {
-        enable = true;
+        enable = false;
         service = true;
         default = true;
+      };
+      neovim = {
+        enable = true;
       };
     };
 

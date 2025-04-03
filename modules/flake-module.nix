@@ -28,7 +28,7 @@ in
       iso = mkModule { name = "iso"; };
     };
 
-    homeManagerModules = {
+    homeModules = {
       default = mkModule {
         class = "homeManager";
         name = "home-manager";

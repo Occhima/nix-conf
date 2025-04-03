@@ -15,6 +15,8 @@ in
     programs.starship = {
       package = pkgs.starship;
       enable = true;
+
+      # is this file to big?
       settings = importTOML ./starship.toml;
 
     };

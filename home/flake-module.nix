@@ -40,7 +40,7 @@ let
       modules = concatLists [
         [
           ./${username}
-          self.homeManagerModules.default
+          self.homeModules.default
         ]
 
         extraModules

@@ -5,28 +5,18 @@
     { flake-parts, ... }@inputs:
     flake-parts.lib.mkFlake { inherit inputs; } (
       {
-        config,
-        options,
-        lib,
-        pkgs,
         ...
       }:
       let
-        localFlake = {
-          inherit
-            config
-            inputs
-            options
-            lib
-            pkgs
-            ;
-        };
-        flakeModule = import ./flake-module.nix {
-          inherit localFlake;
-        };
+        flakeModules = [
+          ./flake/flake-module.nix
+          ./home/flake-module.nix
+          ./modules/flake-module.nix
+          ./hosts/flake-module.nix
+        ];
       in
       {
-        imports = [ flakeModule ];
+        imports = flakeModules;
       }
     );
 
@@ -182,14 +172,14 @@
     };
 
     # TODO: Generate iso images and etc with nixos-generators
-    # nixos-generators = {
-    #   type = "github";
-    #   owner = "nix-community";
-    #   repo = "nixos-generators";
-    #   inputs = {
-    #     nixpkgs.follows = "nixpkgs";
-    #   };
-    # };
+    nixos-generators = {
+      type = "github";
+      owner = "nix-community";
+      repo = "nixos-generators";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
 
     # https://github.com/search?q=colmena&type=repositories
     # For now, Im using deploy-rs as reployment tool

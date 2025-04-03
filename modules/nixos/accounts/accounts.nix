@@ -71,7 +71,7 @@ in
       useUserPackages = true;
       backupFileExtension = "bak";
 
-      sharedModules = [ self.homeManagerModules.default ];
+      sharedModules = [ self.homeModules.default ];
 
       extraSpecialArgs = {
         inherit
