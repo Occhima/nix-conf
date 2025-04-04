@@ -2,7 +2,8 @@
 
   imports = [
     ./agenix.nix
-    ./nixvim.nix
+    ./nixvim
+    ./deploy.nix
   ];
 
 }

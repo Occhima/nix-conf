@@ -6,7 +6,12 @@
   ...
 }:
 let
-  inherit (builtins) elem mapAttrs attrNames;
+  inherit (builtins)
+    elem
+    mapAttrs
+    attrNames
+    hasAttr
+    ;
   inherit (lib.attrsets) filterAttrs;
 
   deployableSystems = attrNames (filterAttrs (_: attrs: attrs.deployable) config.easy-hosts.hosts);
@@ -16,6 +21,12 @@ let
     hostname: node:
     let
       system = self.nixosConfigurations.${hostname}._module.args.pkgs.system;
+      hostConfig = "occhima@${hostname}";
+      homeConfig =
+        if hasAttr hostConfig self.homeConfigurations then
+          builtins.getAttr hostConfig self.homeConfigurations
+        else
+          self.homeConfigurations.occhima;
     in
     {
       hostname = "localhost";
@@ -30,9 +41,7 @@ let
         };
         home = {
           user = "occhima";
-          path =
-            inputs.deploy-rs.lib.${system}.activate.home-manager
-              self.homeConfigurations."occhima@${hostname}";
+          path = inputs.deploy-rs.lib.${system}.activate.home-manager homeConfig;
         };
       };
     }

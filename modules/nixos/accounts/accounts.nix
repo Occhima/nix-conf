@@ -7,19 +7,42 @@
   ...
 }:
 
-with lib;
-with lib.types;
-with lib.attrsets;
-with lib.custom;
-
 let
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    all
+    filter
+    elem
+    toString
+    mkOption
+    ;
+  inherit (lib.types) types;
+  inherit (lib.attrsets)
+    filterAttrs
+    hasAttr
+    attrNames
+    genAttrs
+    ;
+  # Add any lib.custom functions you're using - uncomment if needed
+  # inherit (lib.custom) hasProfile collectModules;
+
+  hostname = config.networking.hostName;
   cfg = config.modules.accounts;
   allUsers = {
     occhima = import ./users/occhima.nix { inherit pkgs lib config; };
     root = ./users/root.nix;
   };
 
-  mkHomeManagerConfig = username: import "${self}/home/${username}";
+  mkHomeManagerConfig =
+    username:
+    let
+      hostName = config.networking.hostName;
+      hostSpecificPath = "/home/${username}@${hostName}";
+      basePath = "/home/${username}";
+      hostSpecificExists = builtins.pathExists (self + hostSpecificPath);
+    in
+    import (if hostSpecificExists then self + hostSpecificPath else self + basePath);
 in
 {
   imports = [
@@ -74,11 +97,7 @@ in
       sharedModules = [ self.homeModules.default ];
 
       extraSpecialArgs = {
-        inherit
-          hostname
-          inputs
-          self
-          ;
+        inherit inputs self hostname;
       };
 
       users = genAttrs (filter (username: username != "root" && elem username cfg.enabledUsers) (

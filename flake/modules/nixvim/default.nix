@@ -10,7 +10,7 @@
   };
 
   flake.nixvimModules = {
-    default = self + /modules/home-manager/editor/neovim/config;
+    default = ./config;
   };
 
   perSystem =

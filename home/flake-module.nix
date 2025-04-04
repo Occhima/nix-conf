@@ -29,17 +29,19 @@ let
 
   mkHomeConfiguration =
     {
-      hostname,
-      pkgs,
-      username ? "occhima",
+      username,
+      hostname ? null,
       extraModules ? [ ],
-    }:
 
+    }:
+    let
+      homeModule = if hostname == null then username else "${username}@${hostname}";
+    in
     home-manager.lib.homeManagerConfiguration {
-      pkgs = pkgs;
+      pkgs = self.nixosConfigurations.${hostname}._module.args.pkgs;
       modules = concatLists [
         [
-          ./${username}
+          ./${homeModule}
           self.homeModules.default
         ]
 
@@ -57,24 +59,19 @@ let
 
     };
 
-  hostnames = builtins.attrNames config.easy-hosts.hosts;
-
-  homeConfigs = lib.genAttrs (map (hostname: "occhima@${hostname}") hostnames) (
-    hostname:
-    let
-      host = lib.removePrefix "occhima@" hostname;
-      pkgs = self.nixosConfigurations.${host}._module.args.pkgs;
-    in
-    mkHomeConfiguration {
-      hostname = host;
-      pkgs = pkgs;
-    }
-  );
 in
 {
   imports = [
     inputs.home-manager.flakeModules.home-manager
   ];
 
-  flake.homeConfigurations = homeConfigs;
+  flake.homeConfigurations = {
+    "occhima@face2face" = mkHomeConfiguration {
+      username = "occhima";
+      hostname = "face2face";
+    };
+    "occhima" = mkHomeConfiguration {
+      username = "occhima";
+    };
+  };
 }

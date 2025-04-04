@@ -17,7 +17,6 @@ in
 {
   imports = [
     inputs.easy-hosts.flakeModule
-    ./deploy.nix
   ];
 
   config.easy-hosts = {
