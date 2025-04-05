@@ -13,28 +13,27 @@
   };
 
   config = {
+
+    # move font config to themes
     fonts = {
       fontconfig = {
         enable = true;
         defaultFonts = {
           monospace = [ "0xProto Nerd Font" ];
-
         };
       };
-
     };
+
     home = {
       stateVersion = "25.05";
-      homeDirectory = "/home/occhima";
+      homeDirectory = "/home/${config.home.username}";
       preferXdgDirectories = true;
       sessionVariables = {
-        # EDITOR = config.modules.editor;
         FLAKE = config.modules.home.flakePath;
         NH_FLAKE = config.modules.home.flakePath;
         # EDITOR = defaults.editor;
         # GIT_EDITOR = defaults.editor;
         # VISUAL = defaults.editor;
-        # TERMINAL = defaults.terminal;
         SYSTEMD_PAGERSECURE = "true";
         # PAGER = defaults.pager;
         # MANPAGER = defaults.manpager;

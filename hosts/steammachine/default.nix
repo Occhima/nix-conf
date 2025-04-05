@@ -104,7 +104,8 @@
       };
 
       display = {
-        type = "wayland"; # KDE works better with X11
+        type = "wayland";
+        enableHyprlandEssentials = true;
       };
 
       login = {
@@ -130,7 +131,7 @@
       };
       firmware.enable = true;
     };
-  };
 
+  };
   # Add KDE applications and utilities
 }

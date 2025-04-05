@@ -24,8 +24,6 @@ let
     attrNames
     genAttrs
     ;
-  # Add any lib.custom functions you're using - uncomment if needed
-  # inherit (lib.custom) hasProfile collectModules;
 
   hostname = config.networking.hostName;
   cfg = config.modules.accounts;
@@ -89,8 +87,7 @@ in
       # FIXME: pkgs should be global but home-manager is not picking up my overlays, I don't know but there's a probably a bug in my config
       # This started as a bug but now is a feature, i don't know how overlays work and how to set them up in flake-parts so now my pkgs instance of home-manager
       # has some overrides
-      useGlobalPkgs = false;
-
+      useGlobalPkgs = true;
       useUserPackages = true;
       backupFileExtension = "bak";
 

@@ -18,16 +18,18 @@
     };
 
     editor = {
-      emacs = {
-        enable = false;
-        service = true;
-        default = true;
-      };
-      neovim = {
-        enable = true;
-      };
+      neovim.enable = true;
     };
 
-    # theme = {}
+    desktop = {
+      terminal = {
+        kitty.enable = true;
+      };
+
+      ui = {
+        windowManager = "hyprland";
+      };
+
+    };
   };
 }

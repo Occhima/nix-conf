@@ -71,8 +71,8 @@
 
     hyprland = {
       type = "github";
-      owner = "cachix";
-      repo = "git-hooks.nix";
+      owner = "hyprwm";
+      repo = "Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

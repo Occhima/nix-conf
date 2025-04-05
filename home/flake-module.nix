@@ -1,13 +1,12 @@
 {
   self,
-  config,
   inputs,
   ...
 }:
 
 let
   inherit (self) lib;
-  inherit (inputs) home-manager;
+  inherit (inputs) home-manager nixpkgs;
   inherit (lib) concatLists;
 
   # stolen from: https://github.com/MattSturgeon/nix-config/blob/main/hosts/flake-module.nix
@@ -26,33 +25,38 @@ let
   #     len = builtins.length parts;
   #   in
   #   lib.optionalString (len == 2) (builtins.elemAt parts 1);
-
+  #
   mkHomeConfiguration =
     {
-      username,
-      hostname ? null,
+      path,
+      system,
       extraModules ? [ ],
 
     }:
-    let
-      homeModule = if hostname == null then username else "${username}@${hostname}";
-    in
     home-manager.lib.homeManagerConfiguration {
-      pkgs = self.nixosConfigurations.${hostname}._module.args.pkgs;
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = builtins.attrValues self.overlays;
+        config = {
+          allowUnfree = true;
+          allowUnfreePredicate = _: true;
+          allowBroken = false;
+          permittedInsecurePackages = [ ];
+          allowUnsupportedSystem = true;
+        };
+
+      };
       modules = concatLists [
         [
-          ./${homeModule}
+          ./${path}
           self.homeModules.default
         ]
 
         extraModules
       ];
       extraSpecialArgs = {
-        osConfig = self.nixosConfigurations.${hostname}.config;
         inherit
           inputs
-          hostname
-          username
           self
           ;
       };
@@ -66,12 +70,9 @@ in
   ];
 
   flake.homeConfigurations = {
-    "occhima@face2face" = mkHomeConfiguration {
-      username = "occhima";
-      hostname = "face2face";
-    };
-    "occhima" = mkHomeConfiguration {
-      username = "occhima";
+    occhima = mkHomeConfiguration {
+      path = "occhima";
+      system = "x86_64-linux";
     };
   };
 }

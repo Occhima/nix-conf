@@ -24,7 +24,6 @@
         "https://nix-community.cachix.org"
         "https://cosmic.cachix.org"
         "https://hyprland.cachix.org"
-
       ];
 
       trusted-public-keys = [

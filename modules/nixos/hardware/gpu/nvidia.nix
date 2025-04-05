@@ -12,8 +12,6 @@ let
 in
 {
   config = mkIf (cfg.type == "nvidia") {
-    # NVIDIA drivers are unfree software
-    nixpkgs.config.allowUnfree = true;
 
     services.xserver.videoDrivers = [ "nvidia" ];
 

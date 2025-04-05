@@ -80,8 +80,6 @@
 
               just
               nix-unit
-              age-plugin-yubikey
-              agenix-rekey
 
               config.formatter
 

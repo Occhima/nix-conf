@@ -42,7 +42,7 @@ fmt:
 [group('dev')]
 lock:
     nix flake lock
-    nix flake lock ./dev
+    nix flake lock ./flake/dev
 alias lo := lock
 
 # <- Inspects flake output
