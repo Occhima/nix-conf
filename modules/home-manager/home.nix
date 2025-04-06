@@ -14,7 +14,7 @@
 
   config = {
 
-    # move font config to themes
+    # TODO move font config to themes (stylix)
     fonts = {
       fontconfig = {
         enable = true;
@@ -31,18 +31,9 @@
       sessionVariables = {
         FLAKE = config.modules.home.flakePath;
         NH_FLAKE = config.modules.home.flakePath;
-        # EDITOR = defaults.editor;
-        # GIT_EDITOR = defaults.editor;
-        # VISUAL = defaults.editor;
         SYSTEMD_PAGERSECURE = "true";
-        # PAGER = defaults.pager;
-        # MANPAGER = defaults.manpager;
         DO_NOT_TRACK = 1;
-
       };
-      # packages = with pkgs; [
-      #   home-manager
-      # ];
 
       shellAliases = {
         mkdir = "mkdir -pv";

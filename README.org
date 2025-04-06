@@ -234,10 +234,13 @@ The documentation can be built with MkDocs. See the [[./docs/README.md][docs REA
 
 The following features are planned for implementation:
 
-- [ ] Use Namaka for improved testing
-- [ ] Enhance CI checks with ggscan and agenix-rekey
 - [ ] Use devenv to define multiple developer environments
-- [ ] Fix the pkgs mess I made
+- [ ] Stylix + themes
+- [ ] Devenv + dev profiles
+- [ ] Colmena ( more bloat! )
+- [ ] review secrets
+- [ ] Better virtualisation module
+- [ ] Home config system agnostic??
 
 * References
 

@@ -25,8 +25,12 @@ let
 in
 {
 
-  imports = [ inputs.hyprland.homeManagerModules.default ];
+  imports = [
+    inputs.hyprland.homeManagerModules.default
+    ./config
+  ];
   config = lib.mkIf (cfg.windowManager == "hyprland") {
+
     wayland.windowManager.hyprland = {
       enable = true;
       xwayland.enable = true;
@@ -36,13 +40,14 @@ in
       portalPackage = hyprPortalPackage;
 
       systemd = {
-        enable = false;
+        enable = true;
         variables = [ "--all" ];
         extraCommands = [
           "systemctl --user stop graphical-session.target"
           "systemctl --user start hyprland-session.target"
         ];
       };
+
     };
   };
 }

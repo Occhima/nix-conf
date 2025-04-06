@@ -9,7 +9,7 @@
 }:
 let
   inherit (self.lib.custom) ifPackageNotEnabled;
-  inherit (lib) mkEnableOption mkIf concatLists;
+  inherit (lib) mkEnableOption mkIf;
   inherit (builtins) getAttr;
 
   cfg = config.modules.editor.emacs;
@@ -65,18 +65,8 @@ in
     };
 
     home = {
-      packages = concatLists [
+      packages = [
         basePackages
-
-        # fonts
-        [
-          pkgs.nerd-fonts._0xproto
-          pkgs.nerd-fonts.iosevka
-          pkgs.nerd-fonts.iosevka-term
-          pkgs.iosevka-comfy.comfy
-          pkgs.julia-mono
-        ]
-
       ];
 
       shellAliases = {

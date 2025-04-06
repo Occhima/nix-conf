@@ -72,6 +72,8 @@ in
   flake.homeConfigurations = {
     occhima = mkHomeConfiguration {
       path = "occhima";
+
+      # TODO: how can I do this systemagnostic?.
       system = "x86_64-linux";
     };
   };

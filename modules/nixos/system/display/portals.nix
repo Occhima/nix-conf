@@ -13,6 +13,8 @@ let
 in
 {
   config = {
+    environment.systemPackages = with pkgs; [ slurp ];
+
     xdg.portal = {
       enable = true;
 
