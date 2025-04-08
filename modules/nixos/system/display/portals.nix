@@ -26,7 +26,7 @@ in
       extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
       wlr = {
-        enable = mkIf isWayland true;
+        enable = isWayland;
         settings = mkIf isWayland {
           screencast = {
             max_fps = 60;

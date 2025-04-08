@@ -14,16 +14,6 @@
 
   config = {
 
-    # TODO move font config to themes (stylix)
-    fonts = {
-      fontconfig = {
-        enable = true;
-        defaultFonts = {
-          monospace = [ "0xProto Nerd Font" ];
-        };
-      };
-    };
-
     home = {
       stateVersion = "25.05";
       homeDirectory = "/home/${config.home.username}";

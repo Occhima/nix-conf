@@ -20,7 +20,6 @@ in
       enable = true;
     };
 
-    # FIXME: also not working bc i don't know how pkgs work
     home.packages = [ pkgs.dropbox-cli ];
   };
 }

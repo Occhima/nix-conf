@@ -22,5 +22,22 @@
         enable = true;
       };
     };
+
+    desktop = {
+
+      terminal = {
+        kitty.enable = true;
+      };
+
+      ui = {
+        windowManager = "hyprland";
+        dock = "waybar";
+        launcher = "rofi";
+        themes = {
+          enable = false;
+        };
+      };
+
+    };
   };
 }

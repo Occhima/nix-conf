@@ -131,6 +131,7 @@
       repo = "stylix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "nixpkgs";
       };
     };
 

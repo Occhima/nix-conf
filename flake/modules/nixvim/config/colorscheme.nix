@@ -1,9 +1,10 @@
 {
-  colorschemes.catppuccin = {
+  colorschemes.monokai-pro = {
     enable = true;
     settings = {
-      background.light = "macchiato";
-      background.dark = "mocha";
+      devicons = true;
+      filter = "classic";
+      background_clear = [ "telescope" ];
     };
   };
 }

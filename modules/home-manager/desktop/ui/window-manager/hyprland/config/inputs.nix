@@ -1,11 +1,7 @@
 {
-  # osConfig ? { },
-  ...
-}:
-{
   wayland.windowManager.hyprland.settings = {
 
-    # TODO: Put the monitors here
+    # TODO: Put the monitors here, probably use osConfig
     # monitors = [ ];
     # workspaces = [
     # ];

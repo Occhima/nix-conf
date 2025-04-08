@@ -4,10 +4,11 @@
 }:
 let
   inherit (lib.options) mkOption;
-  inherit (lib.types) enum nullOr str;
-  inherit (lib) mkEnableOption;
+  inherit (lib.types) enum nullOr;
+
 in
 {
+
   options.modules.desktop.ui = {
     windowManager = mkOption {
       type = nullOr (enum [
@@ -41,14 +42,5 @@ in
       description = "The application launcher to use";
     };
 
-    themes = {
-      enable = mkEnableOption "Enable UI themes";
-
-      name = mkOption {
-        type = str;
-        default = "default";
-        description = "The UI theme to use";
-      };
-    };
   };
 }

@@ -6,7 +6,7 @@
   ...
 }:
 let
-  inherit (lib.modules) mkIf mkMerge mkForce;
+  inherit (lib.modules) mkIf mkMerge;
   inherit (lib.meta) getExe;
 
   cfg = config.modules.system.display;
@@ -39,6 +39,7 @@ in
         wayland
         wayland-utils
         wl-clipboard
+        swappy
       ];
 
       systemd.services.seatd = {
@@ -70,11 +71,12 @@ in
         portalPackage =
           inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
       };
+
       # Hyprland's aquamarine requires newer MESA drivers.
-      hardware.graphics = mkForce {
-        package = pkgs.mesa.drivers;
-        package32 = pkgs.pkgsi686Linux.mesa.drivers;
-      };
+      # hardware.graphics = mkForce {
+      #   package = pkgs.mesa;
+      #   package32 = pkgs.pkgsi686Linux.mesa;
+      # };
     })
   ];
 

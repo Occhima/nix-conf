@@ -17,7 +17,6 @@ let
     "display"
     "enableHyprlandEssential"
   ] false osConfig;
-
   hyprPackage = if enabledHyprlandThroughNixos then null else hyprInputs.hyprland;
   hyprPortalPackage =
     if enabledHyprlandThroughNixos then null else hyprInputs.xdg-desktop-portal-hyprland;

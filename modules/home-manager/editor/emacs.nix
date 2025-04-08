@@ -2,7 +2,6 @@
   config,
   osConfig,
   lib,
-  inputs,
   self,
   pkgs,
   ...
@@ -51,7 +50,6 @@ in
 
   config = mkIf cfg.enable {
 
-    nixpkgs.overlays = [ inputs.emacs-overlay.overlays.default ];
     programs.emacs = {
       enable = true;
       package =
