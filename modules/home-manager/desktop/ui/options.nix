@@ -41,6 +41,5 @@ in
       default = null;
       description = "The application launcher to use";
     };
-
   };
 }

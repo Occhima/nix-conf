@@ -1,14 +1,20 @@
 {
   pkgs,
+  config,
+  lib,
   ...
 }:
 
+let
+  cfg = config.modules.desktop.ui.themes;
+in
 {
-  home.packages = [ pkgs.nerd-fonts._0xproto ];
-  stylix.fonts = {
+  home.packages = lib.mkIf (cfg.enable && cfg.name == "guernica") [
+    pkgs.nerd-fonts._0xproto
+  ];
 
+  stylix.fonts = lib.mkIf (cfg.enable && cfg.name == "guernica") {
     # for programs
-
     serif = {
       package = pkgs.noto-fonts;
       name = "Noto Serif";

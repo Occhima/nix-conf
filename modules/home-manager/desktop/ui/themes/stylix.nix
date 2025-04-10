@@ -14,19 +14,18 @@ let
 
 in
 {
-
   options.modules.desktop.ui.themes = {
     enable = mkEnableOption "Enable UI themes";
     name = mkOption {
       type = nullOr (enum [ "guernica" ]);
       description = "The active theme to use";
-      default = "guernica ";
+      default = null;
     };
   };
 
   imports = [
     inputs.stylix.homeManagerModules.stylix
-    ./guernica
+    ./collection
   ];
 
   # Base configuration when themes are enabled
@@ -37,6 +36,7 @@ in
         message = "When themes are enabled, you must select a theme name.";
       }
     ];
+
     stylix = {
       enable = true;
       enableReleaseChecks = true;

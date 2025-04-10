@@ -1,14 +1,16 @@
 {
   pkgs,
+  config,
+  lib,
   ...
 }:
 
 let
+  cfg = config.modules.desktop.ui.themes;
   wallpaperPath = ./assets/wallpapers/guernica.jpg;
 in
 {
-  stylix = {
-
+  stylix = lib.mkIf (cfg.enable && cfg.name == "guernica") {
     image = wallpaperPath;
 
     opacity = {
@@ -29,7 +31,5 @@ in
       dark = "Papirus-Dark";
       light = "Papirus";
     };
-
   };
-
 }
