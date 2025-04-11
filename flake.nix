@@ -209,5 +209,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Flatpak management
+    flatpaks = {
+      type = "github";
+      owner = "gmodena";
+      repo = "nix-flatpak";
+    };
+
   };
 }

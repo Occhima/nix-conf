@@ -246,6 +246,7 @@ The following features are planned for implementation:
 - [ ] Home config system agnostic??
 - [ ] https://github.com/nixified-ai/flake
 - [ ] Use determinante.nix installer ( better warning/errors messages and more )
+- [X] https://github.com/nialov/actions.nix -> githubActions alternative
 
 * References
 

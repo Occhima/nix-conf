@@ -3,13 +3,11 @@ let
   lib = nixpkgs.lib;
   modules = import ./modules.nix { inherit lib; };
   attributes = import ./attrsets.nix { inherit lib; };
-  umport = import ./umport.nix { inherit (nixpkgs) lib; };
   nixos = import ./nixos.nix { inherit lib; };
 
   allModules = lib.foldl (acc: x: acc // x) { } [
     modules
     attributes
-    umport
     nixos
   ];
 

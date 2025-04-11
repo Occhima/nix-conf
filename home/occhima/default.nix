@@ -37,6 +37,10 @@
         };
       };
 
+      apps = {
+        flatpak.enable = true;
+      };
+
     };
   };
 }

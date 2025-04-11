@@ -3,7 +3,6 @@ let
   inherit (lib.custom)
     kebabCaseToCamelCase
     modulesFromDir
-    umport
     recursiveMergeAttrs
     ifTheyExist
     ;
@@ -38,11 +37,6 @@ in
       builtins.all (attr: builtins.hasAttr attr myAttrs) attrsToCheck;
     expected = true;
 
-  };
-
-  "test if umport parses empty set" = {
-    expr = umport { path = ./fixtures/empty-dir; };
-    expected = [ ];
   };
 
   "test if can recursively merge attributes (top-level)" = {

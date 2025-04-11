@@ -1,5 +1,7 @@
 {
   inputs,
+  partitionStack,
+  config,
   ...
 }:
 let
@@ -40,16 +42,15 @@ in
   # Otherwise the partition won't be lazy, making it pointless.
   # E.g. propagate `packages.${system}.foo` instead of `packages.${system}`
   # See: https://github.com/hercules-ci/flake-parts/issues/258
-  # perSystem =
-  #   { system, ... }:
-  #   {
-  #     packages = lib.optionalAttrs (partitionStack == [ ]) {
-  #       # Propagate `packages` from the `dev` partition:
-  #       inherit (config.partitions.dev.module.flake.packages.${system})
-  #         list-plugins
-  #         ;
-  #     };
-  #   };
+  perSystem =
+    { system, ... }:
+    {
+      packages = lib.optionalAttrs (partitionStack == [ ]) {
+        inherit (config.partitions.dev.module.flake.packages.${system})
+          render-workflows
+          ;
+      };
+    };
 
   flake = {
     inherit lib;

@@ -17,13 +17,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-github-actions = {
-      type = "github";
-      owner = "nix-community";
-      repo = "nix-github-actions";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # Nix Format.
     treefmt-nix = {
       type = "github";
@@ -76,6 +69,12 @@
     #   owner = "applicative-systems";
     #   repo = "mkdocs-flake";
     # };
+
+    actions-nix = {
+      type = "github";
+      owner = "nialov";
+      repo = "actions.nix";
+    };
 
   };
 

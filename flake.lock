@@ -538,6 +538,21 @@
         "type": "github"
       }
     },
+    "flatpaks": {
+      "locked": {
+        "lastModified": 1741903049,
+        "narHash": "sha256-8Y8brH04JjSLrCLvBEbhK9vOu7lhQhqUBW4kI3tifdI=",
+        "owner": "gmodena",
+        "repo": "nix-flatpak",
+        "rev": "42c7fb2702219b86a8f5969c3475ce594c28f5d0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gmodena",
+        "repo": "nix-flatpak",
+        "type": "github"
+      }
+    },
     "fromYaml": {
       "flake": false,
       "locked": {
@@ -1359,6 +1374,7 @@
         "easy-hosts": "easy-hosts",
         "emacs-overlay": "emacs-overlay",
         "flake-parts": "flake-parts_2",
+        "flatpaks": "flatpaks",
         "haumea": "haumea",
         "home-manager": "home-manager",
         "hyprland": "hyprland",

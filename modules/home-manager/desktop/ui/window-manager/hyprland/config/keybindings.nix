@@ -1,7 +1,7 @@
 { ... }:
 {
   wayland.windowManager.hyprland.settings = {
-    "$mainMod" = "SUPER";
+    "$mainMod" = "SHIFT";
 
     bind = [
       # Terminal
