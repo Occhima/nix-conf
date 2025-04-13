@@ -4,6 +4,7 @@
     "$mainMod" = "SHIFT";
 
     bind = [
+
       # Terminal
       "$mainMod, Q, exec, kitty"
       # Window management

@@ -19,6 +19,7 @@ in
           ;
         install-tools = pkgs.callPackage ./installer/package.nix { };
         docs = pkgs.callPackage ./docs/package.nix { };
+        nyxt-unstable = pkgs.callPackage ./nyxt/package.nix { };
 
         # V2 Gnome installer
         gnome-installer = nixosGenerate {

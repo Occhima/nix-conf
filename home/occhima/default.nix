@@ -23,6 +23,7 @@
 
     desktop = {
 
+      browser.nyxt.enable = true;
       terminal = {
         kitty.enable = true;
       };

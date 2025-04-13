@@ -234,8 +234,7 @@ The documentation can be built with MkDocs. See the [[./docs/README.md][docs REA
 
 The following features are planned for implementation:
 
-- [ ] Use devenv or any other to define multiple developer environments
-- [ ] Stylix + themes
+- [X] Stylix + themes
 - [ ] Devenv + dev profiles
 - [ ] Colmena ( more bloat! )
 - [ ] review secrets

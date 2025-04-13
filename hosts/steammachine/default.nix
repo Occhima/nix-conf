@@ -90,6 +90,7 @@
     };
 
     system = {
+      appimage.enable = true;
       boot = {
         loader = {
           type = "grub";
