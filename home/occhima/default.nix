@@ -21,6 +21,10 @@
       neovim.enable = true;
     };
 
+    dev = {
+      python.enable = true;
+    };
+
     desktop = {
 
       browser.nyxt.enable = true;
@@ -39,7 +43,7 @@
       };
 
       apps = {
-        flatpak.enable = true;
+        flatpak.enable = false;
       };
 
     };

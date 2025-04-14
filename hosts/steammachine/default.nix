@@ -131,7 +131,7 @@
         optimizeServices = false;
       };
       firmware.enable = true;
-      flatpak.enable = true;
+      flatpak.enable = false;
     };
 
   };

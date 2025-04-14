@@ -30,7 +30,7 @@ in
     enable = mkEnableOption "Enable Nyxt browser";
   };
 
-  config = mkIf cfg.enable {
+  config = mkIf (cfg.enable && pkgs.stdenv.isLinux) {
     warnings = mkIf (!appImageEnabledInNixOS) [
       "App image support not enabled in nixos config, falling back to vanilla package install"
     ];
