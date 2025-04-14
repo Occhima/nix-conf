@@ -32,7 +32,7 @@ in
     };
   };
 
-  config = mkIf (cfg.enable && flatpakEnabledInNixOS && pkgs.stdenv.isLinux) {
+  config = mkIf (cfg.enable && flatpakEnabledInNixOS && pkgs.stdenv.hostPlatform.isLinux) {
     warnings = lib.optional (
       !flatpakEnabledInNixOS
     ) "Flatpak is not enabled in  NixOS configuration. Enable services.flatpak in your NixOS config.";

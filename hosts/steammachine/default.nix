@@ -132,6 +132,7 @@
       };
       firmware.enable = true;
       flatpak.enable = false;
+      ssh.enable = true;
     };
 
   };

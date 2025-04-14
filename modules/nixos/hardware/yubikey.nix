@@ -5,9 +5,9 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.modules) mkDefault;
   cfg = config.modules.hardware.yubikey;
 in
 {
@@ -17,7 +17,7 @@ in
   };
 
   config = mkIf cfg.enable {
-
+    hardware.gpgSmartcards.enable = true;
     services = {
       pcscd.enable = true;
       yubikey-agent.enable = true;
@@ -25,6 +25,14 @@ in
       udev.packages = with pkgs; [
         yubikey-personalization
       ];
+    };
+    programs = mkDefault {
+      ssh.startAgent = false;
+
+      gnupg.agent = {
+        enable = true;
+        enableSSHSupport = true;
+      };
     };
 
     environment.systemPackages = with pkgs; [

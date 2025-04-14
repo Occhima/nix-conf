@@ -45,6 +45,7 @@ in
             "eza"
             "fzf"
             "gh"
+            "ssh"
             "zoxide"
             "ripgrep"
           ]
@@ -58,6 +59,7 @@ in
           "zoxide"
           "ripgrep"
           "gh"
+          "ssh"
         ];
         description = "List of CLI tools to enable";
         example = ''[ "bat" "eza" "fzf" "git" ]'';
