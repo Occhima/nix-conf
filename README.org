@@ -235,9 +235,11 @@ The documentation can be built with MkDocs. See the [[./docs/README.md][docs REA
 The following features are planned for implementation:
 
 - [X] Stylix + themes
-- [ ] Devenv + dev profiles
+- [X] Devenv + dev profiles  ()
 - [ ] Colmena ( more bloat! )
-- [ ] review secrets
+- [X] review secrets
+- [ ] Create some nixos-containers for applications ( use rednix! )
+- [ ] Specializations in home-manager and nixos
 - [ ] Better virtualisation module
 - [ ] unstable pkgs as an overlay (pkgs.unstable)
 - [ ] evaluation warning: profile: You have set either `nixpkgs.config` or `nixpkgs.overlays` while using `home-manager.useGlobalPkgs`.

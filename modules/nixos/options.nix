@@ -11,6 +11,7 @@ in
       "server"
       "wsl"
       "vm"
+
     ];
     default = "";
   };

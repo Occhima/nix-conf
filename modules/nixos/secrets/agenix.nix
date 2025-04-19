@@ -1,85 +1,78 @@
-# XXX: I believe that this is not the correct way to use the rekey mod,
-# the docs say that I  don't need a secrets.nix file, but it's exactly what im doing here ....
 {
   config,
   lib,
+  self,
   inputs,
   ...
 }:
 
-with builtins;
-with lib;
-with lib.types;
-with lib.filesystem;
 let
+  inherit (lib)
+    mkIf
+    mkOption
+    mkEnableOption
+    mkMerge
+    ;
+  inherit (lib.types) path listOf;
+  inherit (lib.strings) optionalString;
+  inherit (inputs.haumea.lib) load matchers;
 
-  cfg = config.modules.secrets.agenix-rekey;
-
-  mapSecrets =
-    secretsDir:
-    let
-      secretsStr = toString secretsDir;
-      removeSecretsDirPrefix = file: replaceStrings [ (secretsStr + "/") ] [ "" ] (toString file);
-      allFiles = listFilesRecursive secretsDir;
-      ageFiles = filter (file: hasSuffix ".age" file) allFiles;
-      attrsList = map (file: {
-        name = removeSuffix ".age" (removeSecretsDirPrefix file);
-        value = {
-          rekeyFile = file;
-        };
-      }) ageFiles;
-    in
-    listToAttrs attrsList;
+  cfg = config.modules.secrets.agenix;
+  persist = config.modules.system.file-system.impermanence.enable;
+  secretsDir = self + /secrets/vault;
+  ageSecrets = load {
+    src = secretsDir;
+    loader = [
+      (matchers.extension "age" (_ctx: path: { rekeyFile = path; }))
+    ];
+  };
 
 in
-
-# TODO:
-# mapSecrets =
 {
   imports = [
-    inputs.agenix.nixosModules.default
     inputs.agenix-rekey.nixosModules.default
+    inputs.agenix.nixosModules.default
   ];
 
-  options.modules.secrets.agenix-rekey = {
-    enable = mkEnableOption "Agenix rekey secret management";
+  options.modules.secrets.agenix = {
+    enable = mkEnableOption "Agenix secret management with auto-rekeying";
 
-    hostPublicKey = mkOption {
-      type = path;
-      default = /.;
-      example = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI.." ];
-      description = "SSH pub keys path for decryption";
-    };
-    publicKeys = mkOption {
+    masterKeys = mkOption {
       type = listOf path;
-      default = [ /. ];
-      example = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI.." ];
-      description = "SSH pub keys for decryption";
+      description = "Paths to master SSH public keys (e.g., YubiKey identities)";
+      example = [ "../secrets/identity/yubi-identity.pub" ];
+      default = [ (self.outPath + "/hosts/steammachine/assets/yubi-identity.pub") ];
     };
-    secretsDir = mkOption {
-      type = path;
-      default = /.;
-      example = [ "./secrets" ];
-      description = "A directory containing .age secrets";
-    };
-    storageDir = mkOption {
-      type = path;
-      example = [ "./secrets" ];
-      description = "A directory where all the keys will be rekeyed for the host";
+
+    extraPub = mkOption {
+      type = listOf path;
+      default = [ ];
+      description = "Directory containing .age encrypted secrets";
     };
   };
+  config = mkMerge [
+    {
+      # XXX: This mus
+      age.rekey.masterIdentities = cfg.masterKeys;
+    }
+    (mkIf cfg.enable {
+      age = {
+        secrets = ageSecrets;
 
-  config = mkIf cfg.enable {
-    age = {
-      secrets = mapSecrets cfg.secretsDir;
-      rekey = {
-        storageMode = mkDefault "local";
-        hostPubkey = cfg.hostPublicKey;
-        masterIdentities = cfg.publicKeys;
-        localStorageDir = cfg.storageDir; # by default, It's inside the module call, already with the host defined
+        rekey = {
+          storageMode = "local";
+          hostPubkey = builtins.readFile (
+            self.outPath + "/hosts/${config.networking.hostName}/assets/host.pub"
+          );
+          localStorageDir = self.outPath + "/secrets/rekeyed/${config.networking.hostName}";
+          extraEncryptionPubkeys = cfg.extraPub;
+        };
+
+        identityPaths = [
+          "${optionalString persist "/persist"}/etc/ssh/ssh_host_ed25519_key"
+        ];
       };
-      identityPaths = cfg.publicKeys;
-    };
+    })
+  ];
 
-  };
 }

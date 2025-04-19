@@ -57,7 +57,10 @@
               name = "NH_FLAKE";
               value = ".";
             }
-
+            {
+              name = "AGENIX_REKEY_ADD_TO_GIT";
+              value = "true";
+            }
           ];
           packagesFrom = [
             config.treefmt.build.devShell
@@ -70,6 +73,7 @@
               direnv
               nil
               nix-output-monitor
+              nix # always use same nix version of my flake
               nh
 
               gitAndTools.hub
@@ -106,28 +110,9 @@
               package = pkgs.onefetch;
             }
             {
-              category = "info";
-              name = "fastfetch";
-              help = "display host info";
-              package = pkgs.fastfetch;
-            }
-            {
-              name = "environment";
-              category = "info";
-              help = "display environment variables";
-              command = "printenv";
-            }
-            {
-              name = "flake-show";
-              category = "info";
-              help = "display your flake outputs";
-              command = "nix flake show";
-            }
-            {
-              name = "tests";
-              category = "dev";
-              help = "run unit tests";
-              command = "nix-unit --flake .#tests";
+              name = "agenix";
+              package = config.agenix-rekey.package;
+              help = "Edit, generate and rekey secrets";
             }
           ];
 

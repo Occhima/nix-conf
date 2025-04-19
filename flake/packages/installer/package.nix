@@ -2,6 +2,7 @@
   gum,
   vim,
   disko,
+  openssh,
   nix-output-monitor,
   nixos-install-tools,
   writeShellApplication,
@@ -12,6 +13,7 @@ writeShellApplication {
   runtimeInputs = [
     gum
     vim
+    openssh
     disko
     nixos-install-tools
     nix-output-monitor

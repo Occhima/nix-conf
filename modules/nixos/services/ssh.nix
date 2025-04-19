@@ -7,7 +7,8 @@
   config = lib.mkIf config.modules.services.ssh.enable {
     services.openssh = {
       enable = true;
-      startWhenNeeded = true;
+
+      startWhenNeeded = lib.mkForce false;
       allowSFTP = true;
 
       settings = {

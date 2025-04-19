@@ -30,7 +30,9 @@ in
               {
                 boot.kernelParams = [ "copytoram" ];
                 nix.settings.experimental-features = "nix-command flakes";
-                environment.systemPackages = [ self'.packages.install-tools ];
+                environment.systemPackages = [
+                  self'.packages.install-tools
+                ];
               }
             )
           ];
@@ -46,6 +48,7 @@ in
 
               formatAttr = "isoImage";
               fileExtension = ".iso";
+
             };
         };
       };

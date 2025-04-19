@@ -115,13 +115,11 @@
       };
     };
 
+    # TODO ...
     secrets = {
-      agenix-rekey = {
+      agenix = {
         enable = true;
-        secretsDir = ../secrets/vault;
-        hostPublicKey = ../secrets/identity/id_ed25519.pub;
-        publicKeys = [ ../secrets/identity/yubi-identity.pub ];
-        storageDir = ./rekeyed;
+        masterKeys = [ ./assets/yubi-identity.pub ];
       };
     };
 
@@ -136,5 +134,4 @@
     };
 
   };
-  # Add KDE applications and utilities
 }
