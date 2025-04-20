@@ -26,6 +26,7 @@
       nix-unit = inputs'.nix-unit.packages.default;
       namaka = inputs'.namaka.packages.default;
       deploy-rs = inputs'.deploy-rs.packages.deploy-rs; # remote deployment
+      nix-search-tv = inputs'.nix-search-tv.packages.default;
 
     in
 
@@ -61,6 +62,7 @@
               name = "AGENIX_REKEY_ADD_TO_GIT";
               value = "true";
             }
+
           ];
           packagesFrom = [
             config.treefmt.build.devShell
@@ -75,6 +77,7 @@
               nix-output-monitor
               nix # always use same nix version of my flake
               nh
+              fzf
 
               gitAndTools.hub
               namaka
@@ -84,6 +87,7 @@
 
               just
               nix-unit
+              nix-search-tv
 
               config.formatter
 
@@ -113,6 +117,11 @@
               name = "agenix";
               package = config.agenix-rekey.package;
               help = "Edit, generate and rekey secrets";
+            }
+            {
+              name = "tv";
+              help = "Search nixpkgs for packages with an interactive TUI";
+              command = "nix-search-tv print | fzf --preview 'nix-search-tv preview {}' --scheme history";
             }
           ];
 

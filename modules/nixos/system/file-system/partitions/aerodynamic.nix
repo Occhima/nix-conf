@@ -1,9 +1,5 @@
-{ inputs, ... }:
-
 {
-  imports = [ inputs.disko.nixosModules.disko ];
-
-  disko.devices = {
+  devices = {
     disk = {
       sdb = {
         device = "/dev/sdb";

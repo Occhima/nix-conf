@@ -10,9 +10,9 @@
       let
         flakeModules = [
           ./flake/flake-module.nix
-          ./home/flake-module.nix
           ./modules/flake-module.nix
           ./hosts/flake-module.nix
+          ./home/flake-module.nix
         ];
       in
       {

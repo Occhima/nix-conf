@@ -1,5 +1,5 @@
 {
-  disko.devices = {
+  devices = {
     disk.main = {
       type = "disk";
       device = "/dev/vda";

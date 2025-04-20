@@ -1,10 +1,5 @@
-{ inputs, ... }:
+{ ... }:
 {
-  imports = [
-    inputs.disko.nixosModules.disko
-    ./disko.nix
-  ];
-
   modules.network = {
     enable = true;
     hostName = "face2face";
@@ -45,7 +40,13 @@
     secrets = {
       agenix = {
         enable = true;
-        masterKeys = [ ./assets/yubi-identity.pub ];
+      };
+    };
+
+    system = {
+      file-system = {
+        impermanence.enable = true;
+        disko.enable = true;
       };
     };
   };

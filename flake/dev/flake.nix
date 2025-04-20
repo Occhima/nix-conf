@@ -10,6 +10,13 @@
       ref = "nixos-unstable";
     };
 
+    nix-search-tv = {
+      type = "github";
+      owner = "3timeslazy";
+      repo = "nix-search-tv";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     git-hooks = {
       type = "github";
       owner = "cachix";

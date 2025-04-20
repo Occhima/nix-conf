@@ -5,12 +5,13 @@
   ...
 }:
 let
-  inherit (lib.attrsets) filterAttrs hasAttrByPath attrByPath;
-  nixosConfigs = filterAttrs (
-    _: sys:
-    hasAttrByPath [ "config" "age" "rekey" "masterIdentities" ] sys
-    && attrByPath [ "config" "age" "rekey" "masterIdentities" ] [ ] sys != [ ]
-  ) self.nixosConfigurations;
+  inherit (lib.attrsets) filterAttrs;
+  configs = [
+    "steammachine"
+    "face2face"
+    "aerodynamic"
+  ];
+  nixosConfigs = filterAttrs (name: _: builtins.elem name configs) self.nixosConfigurations;
 in
 {
 

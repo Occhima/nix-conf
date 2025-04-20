@@ -1,10 +1,9 @@
-{ ... }:
 {
   modules = {
     profiles = {
       enable = true;
       active = [
-        "desktop"
+        "laptop"
         "graphical"
       ];
     };
@@ -20,7 +19,7 @@
 
     network = {
       enable = true;
-      hostName = "steammachine";
+      hostName = "aerodynamic";
       networkmanager.enable = true;
       firewall.enable = true;
       blocker.enable = true;
@@ -28,7 +27,7 @@
     };
 
     hardware = {
-      cpu.type = "amd";
+      cpu.type = "intel";
       gpu.type = "nvidia";
 
       media = {
@@ -86,6 +85,7 @@
 
     system = {
       appimage.enable = true;
+
       boot = {
         loader = {
           type = "grub";

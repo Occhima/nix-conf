@@ -20,10 +20,14 @@ in
 
   config = mkIf cfg.enable {
 
-    # don't know if this is actually necessary
-    fileSystems."/persist".neededForBoot = true;
     environment.persistence."/persist" = {
       hideMounts = true;
+      files = [
+        "/etc/ssh/ssh_host_ed25519_key"
+        "/etc/ssh/ssh_host_ed25519_key.pub"
+        "/etc/ssh/ssh_host_rsa_key"
+        "/etc/ssh/ssh_host_rsa_key.pub"
+      ];
       directories = [ "/var/lib" ];
     };
   };

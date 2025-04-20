@@ -12,8 +12,8 @@ let
     mkOption
     mkEnableOption
     mkMerge
+    mkDefault
     ;
-  inherit (lib.types) path listOf;
   inherit (lib.strings) optionalString;
   inherit (inputs.haumea.lib) load matchers;
 
@@ -38,21 +38,20 @@ in
     enable = mkEnableOption "Agenix secret management with auto-rekeying";
 
     masterKeys = mkOption {
-      type = listOf path;
       description = "Paths to master SSH public keys (e.g., YubiKey identities)";
       example = [ "../secrets/identity/yubi-identity.pub" ];
-      default = [ (self.outPath + "/hosts/steammachine/assets/yubi-identity.pub") ];
+      default = [
+        (self.outPath + "/secrets/identity/yubi-id.pub")
+      ];
     };
-
     extraPub = mkOption {
-      type = listOf path;
       default = [ ];
-      description = "Directory containing .age encrypted secrets";
+      description = "Additional public keys to use for encryption, mostly backup keys";
     };
   };
   config = mkMerge [
     {
-      # XXX: This must always be set
+      # XXX: This must always be set in agenix-rekey
       age.rekey.masterIdentities = cfg.masterKeys;
     }
     (mkIf cfg.enable {
@@ -60,7 +59,7 @@ in
         secrets = ageSecrets;
 
         rekey = {
-          storageMode = "local";
+          storageMode = mkDefault "local";
           hostPubkey = builtins.readFile (
             self.outPath + "/hosts/${config.networking.hostName}/assets/host.pub"
           );

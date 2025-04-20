@@ -35,18 +35,21 @@ in
         path = ./crescendoll;
       };
 
+      aerodynamic = {
+        deployable = false;
+        path = ./aerodynamic;
+      };
+
       steammachine = {
         deployable = false; # disabled bc of the time to build
         path = ./steammachine;
       };
 
-      # Minmal VM
       face2face = {
-        deployable = true;
+        deployable = false;
         path = ./face2face;
       };
 
-      # ISO
       voyager = {
         deployable = false;
         path = ./voyager;

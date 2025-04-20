@@ -12,7 +12,6 @@
         enable = true;
         passwordStore = {
           enable = true;
-          secretService = true;
         };
       };
     };

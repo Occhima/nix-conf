@@ -1,8 +1,14 @@
-{ lib, config, ... }:
+{
+  lib,
+  config,
+  self,
+  ...
+}:
 let
   inherit (lib.modules) mkIf;
   inherit (lib.lists) optionals concatLists;
   inherit (lib.options) mkEnableOption;
+  inherit (self.lib.custom) hasProfile;
 
   cfg = config.modules.security.kernel;
 in
@@ -31,7 +37,7 @@ in
 
     boot = {
       # sysctl settings for kernel hardening
-      kernel.sysctl = mkIf (config.modules.device.type != "wsl") {
+      kernel.sysctl = mkIf (!(hasProfile config [ "wsl" ])) {
         # The Magic SysRq key is a key combo that allows users connected to the
         # system console of a Linux kernel to perform some low-level commands.
         # Disable it, since we don't need it, and is a potential security concern.

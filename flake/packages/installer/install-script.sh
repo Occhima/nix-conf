@@ -11,6 +11,7 @@ selected_tasks=$(gum choose \
     "Partition Disk" \
     "Install NixOS" \
     "Install Doom" \
+    "Copy Host SSH Key" \
   "Quit")
 
 [ -z "$selected_tasks" ] && { gum log --structured --level error "No tasks selected. Exiting."; exit 1; }
@@ -66,6 +67,37 @@ case "$selected_tasks" in
     gum log --structured --level info "Running doom install...."
     ~/.config/emacs/bin/doom install --force
     gum log --structured --level info "Doom Emacs installation completed."
+    ;;
+
+  "Copy Host SSH Key")
+    # Get host/IP to scan
+    host_addr=$(gum input --placeholder "Enter host IP or hostname to scan")
+    [ -z "$host_addr" ] && { gum log --structured --level error "Host address is required. Exiting."; exit 1; }
+
+    # Get hostname for the assets directory
+    hostname=$(gum input --placeholder "Enter hostname for the target directory")
+    [ -z "$hostname" ] && { gum log --structured --level error "Hostname is required. Exiting."; exit 1; }
+
+    # Define target directory
+    if [ -z "$FLAKE" ]; then
+      FLAKE=$(gum input --placeholder "Enter path to your flake directory")
+      [ -z "$FLAKE" ] && { gum log --structured --level error "Flake path is required. Exiting."; exit 1; }
+    fi
+
+    target_dir="$FLAKE/hosts/$hostname/assets"
+    [ ! -d "$target_dir" ] && mkdir -p "$target_dir"
+
+    # Copy the host key
+    gum log --structured --level info "Copying SSH host key from $host_addr to $target_dir/host.pub..."
+    ssh-keyscan "$host_addr" | grep -o 'ssh-ed25519.*' > "$target_dir/host.pub"
+
+    # Verify key was copied
+    if [ -s "$target_dir/host.pub" ]; then
+      gum log --structured --level info "SSH host key successfully copied to $target_dir/host.pub"
+    else
+      gum log --structured --level error "Failed to copy SSH host key. Please check connectivity and try again."
+      exit 1
+    fi
     ;;
 
   "Quit")

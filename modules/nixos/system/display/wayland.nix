@@ -71,12 +71,7 @@ in
         portalPackage =
           inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
       };
-
-      # Hyprland's aquamarine requires newer MESA drivers.
-      # hardware.graphics = mkForce {
-      #   package = pkgs.mesa;
-      #   package32 = pkgs.pkgsi686Linux.mesa;
-      # };
+      environment.etc."greetd/environments".text = "Hyprland";
     })
   ];
 
