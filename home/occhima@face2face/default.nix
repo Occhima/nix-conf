@@ -8,7 +8,13 @@
       enable = true;
       type = "zsh";
       prompt.type = "starship";
-      cli.enable = true;
+      cli = {
+        enable = true;
+        passwordStore = {
+          enable = true;
+          secretService = true;
+        };
+      };
     };
 
     data = {

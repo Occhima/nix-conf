@@ -25,5 +25,7 @@ in
     "nix"
     "docker"
     "wheel"
+    "libvirtd"
+    "kvm"
   ];
 }

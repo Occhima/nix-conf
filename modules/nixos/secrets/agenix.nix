@@ -52,7 +52,7 @@ in
   };
   config = mkMerge [
     {
-      # XXX: This mus
+      # XXX: This must always be set
       age.rekey.masterIdentities = cfg.masterKeys;
     }
     (mkIf cfg.enable {

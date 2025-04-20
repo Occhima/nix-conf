@@ -238,6 +238,7 @@ The following features are planned for implementation:
 - [X] Devenv + dev profiles  ()
 - [ ] Colmena ( more bloat! )
 - [X] review secrets
+- [ ] Borgmatix backup
 - [ ] Create some nixos-containers for applications ( use rednix! )
 - [ ] Specializations in home-manager and nixos
 - [ ] Better virtualisation module

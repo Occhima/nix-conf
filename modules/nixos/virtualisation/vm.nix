@@ -27,20 +27,20 @@ in
   };
 
   config = mkIf cfg.enable {
-    boot.initrd.availableKernelModules = [
-      "virtio_net"
-      "virtio_pci"
-      "virtio_mmio"
-      "virtio_blk"
-      "virtio_scsi"
-      "9p"
-      "9pnet_virtio"
-    ];
-    boot.kernelModules = [
-      "virtio_balloon"
-      "virtio_console"
-      "virtio_rng"
-    ];
+    # boot.initrd.availableKernelModules = [
+    #   "virtio_net"
+    #   "virtio_pci"
+    #   "virtio_mmio"
+    #   "virtio_blk"
+    #   "virtio_scsi"
+    #   "9p"
+    #   "9pnet_virtio"
+    # ];
+    # boot.kernelModules = [
+    #   "virtio_balloon"
+    #   "virtio_console"
+    #   "virtio_rng"
+    # ];
 
     services.qemuGuest.enable = true;
     services.spice-vdagentd.enable = true;
@@ -51,10 +51,14 @@ in
     virtualisation = {
       ${vmVariantAttr} = {
         virtualisation = {
+          libvirtd.enable = true;
+          spiceUSBRedirection.enable = true;
           memorySize = cfg.memorySize;
           diskSize = cfg.diskSize;
         };
       };
     };
+    programs.virt-manager.enable = true;
   };
+
 }
