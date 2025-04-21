@@ -1,109 +1,160 @@
 #!/usr/bin/env bash
-export GUM_SPIN_SHOW_OUTPUT=1
+set -euo pipefail
+export GUM_SPIN_SHOW_OUTPUT=1   # show command output underneath spinners
 
-gum style \
-  --foreground 212 --border-foreground 212 --border double \
-  --align center --width 50 --margin "1 2" --padding "2 4" \
-  'NixOS Deployment Wizard' 'Partition, Clone, Install & Update with Ease!'
+###############################################################################
+# Helper wrappers (ASCII‑only to satisfy strict locales)                      #
+###############################################################################
+header() {
+  gum style --foreground 212 --border double --border-foreground 212 \
+            --align center --width 64 --margin "1 2" --padding "2 4" \
+            "$@"
+}
 
-selected_tasks=$(gum choose \
-    "Clone the flake" \
-    "Partition Disk" \
-    "Install NixOS" \
-    "Install Doom" \
-    "Copy Host SSH Key" \
-  "Quit")
+spinner() {
+  # Usage: spinner "Title" "cmd && ..." ; never aborts main script
+  local title="$1" cmd="$2"
+  # run the command in a subshell; capture exit but always return 0 so `set -e` doesn't kill the parent
+  gum spin --spinner dot --show-output --title "$title" -- bash -c "${cmd}; exit 0"
+}
 
-[ -z "$selected_tasks" ] && { gum log --structured --level error "No tasks selected. Exiting."; exit 1; }
+trap 'gum log --level error "Interrupted – cleaning up"; exit 130' INT
 
-case "$selected_tasks" in
+###############################################################################
+# Splash screen & defaults                                                    #
+###############################################################################
+header "NixOS Deployment Wizard" "Partition | Clone | Install | Update"
 
-  "Clone the flake")
-    gum log --structured --level info "Cloning flake repository into $FLAKE ..."
-    gum spin --spinner dot --title "Cloning flake repository..." -- \
-      git clone https://github.com/Occhima/nix-conf.git "$FLAKE" || {
-      gum log --structured --level error "Clone failed! Check network/repo URL."
-      exit 1
-    }
-    gum log --structured --level info "Flake repository cloned successfully."
-    ;;
+F_REPO="https://github.com/Occhima/nix-conf.git"
+FLAKE_DIR=${FLAKE_DIR:-"$HOME/Projects/nix-conf"}
+DEFAULT_DISKO_CFG="/tmp/disko-config.yaml"
 
-  "Partition Disk")
-    drive=$(lsblk -nlo PATH | gum choose --header "Select drive to partition")
-    [ -z "$drive" ] && { gum log --structured --level error "No drive selected. Exiting."; exit 1; }
-    disko_config=$(gum input --placeholder "Enter path to disko config file (e.g., /tmp/disko-config.yaml)")
-    [ -z "$disko_config" ] && { gum log --structured --level warn "No disko config provided. Using default: /tmp/disko-config.yaml"; disko_config="/tmp/disko-config.yaml"; }
-    [ ! -f "$disko_config" ] && { gum log --structured --level error "Disko config file not found at $disko_config"; exit 1; }
-    gum log --structured --level info "Partitioning disk using disko config $disko_config..."
-    gum spin --spinner dot --title "Partitioning disk..." -- \
-      gum confirm && disko --mode destroy,format,mount "$disko_config" || echo "User declined disk partitioning"
-    gum log --structured --level info "Disk partitioning completed."
-    ;;
+###############################################################################
+# Task picker (multi‑select)                                                  #
+###############################################################################
+TASKS=(
+  "Clone flake"
+  "Partition disk"
+  "Install NixOS"
+  "Install Doom Emacs"
+  "Copy host SSH key"
+  "Quit"
+)
 
-  "Install NixOS")
-    hostname=$(gum input --placeholder "Enter hostname for NixOS installation")
-    [ -z "$hostname" ] && { gum log --structured --level error "Hostname is required."; exit 1; }
-    gum log --structured --level info "Starting NixOS installation using disko-install..."
+# multi‑select tips: ↑/↓ to move, SPACE to toggle, ENTER to confirm
+chosen=$(printf "%s
+" "${TASKS[@]}" |
+         gum choose --no-limit \
+                     --header "Select task(s) to run (space to toggle, enter to confirm)" )
 
-    gum spin --spinner dot --title "Cloning flake repository..." -- \
-      git clone https://github.com/Occhima/nix-conf.git /etc/nixos || {
-      gum log --structured --level error "Clone failed! Check network/repo URL."
-      exit 1
-    }
+if [ -z "$chosen" ]; then
+  gum log --level error "Nothing selected – exiting"; exit 1;
+fi
 
-    gum spin --spinner dot --title "Installing NixOS..." -- \
-      gum confirm && disko-install --flake "/etc/nixos#${hostname}" --no-channel-copy |& nom || echo "User declined disko-install"
-    gum log --structured --level info "NixOS installation completed."
-    ;;
+###############################################################################
+# Main loop: iterate line‑by‑line so items containing spaces stay intact
+IFS=$'
+'  # treat each newline‑separated line as one item, even if it has spaces
+for task in $chosen; do
+  case "$task" in
 
-  "Install Doom")
-    gum log --structured --level info "Installing Doom Emacs..."
-    gum log --structured --level info "Removing old emacs config dir..."
-    rm -rf ~/.config/emacs
-    gum log --structured --level info "Cloning doom config..."
-    git clone https://github.com/Occhima/doom.git ~/.config/doom
-    gum log --structured --level info "Cloning doomemacs core config..."
-    git clone --depth 1 https://github.com/doomemacs/doomemacs.git ~/.config/emacs
-    gum log --structured --level info "Running doom install...."
-    ~/.config/emacs/bin/doom install --force
-    gum log --structured --level info "Doom Emacs installation completed."
-    ;;
+  ################################ Clone flake ################################
+  "Clone flake")
+    FLAKE_DIR=$(gum input --prompt "Clone directory > " --value "$FLAKE_DIR")
+    [ -z "$FLAKE_DIR" ] && { gum log --level error "Directory path required"; exit 1; }
 
-  "Copy Host SSH Key")
-    # Get host/IP to scan
-    host_addr=$(gum input --placeholder "Enter host IP or hostname to scan")
-    [ -z "$host_addr" ] && { gum log --structured --level error "Host address is required. Exiting."; exit 1; }
-
-    # Get hostname for the assets directory
-    hostname=$(gum input --placeholder "Enter hostname for the target directory")
-    [ -z "$hostname" ] && { gum log --structured --level error "Hostname is required. Exiting."; exit 1; }
-
-    # Define target directory
-    if [ -z "$FLAKE" ]; then
-      FLAKE=$(gum input --placeholder "Enter path to your flake directory")
-      [ -z "$FLAKE" ] && { gum log --structured --level error "Flake path is required. Exiting."; exit 1; }
-    fi
-
-    target_dir="$FLAKE/hosts/$hostname/assets"
-    [ ! -d "$target_dir" ] && mkdir -p "$target_dir"
-
-    # Copy the host key
-    gum log --structured --level info "Copying SSH host key from $host_addr to $target_dir/host.pub..."
-    ssh-keyscan "$host_addr" | grep -o 'ssh-ed25519.*' > "$target_dir/host.pub"
-
-    # Verify key was copied
-    if [ -s "$target_dir/host.pub" ]; then
-      gum log --structured --level info "SSH host key successfully copied to $target_dir/host.pub"
+    if [[ -d "$FLAKE_DIR/.git" ]]; then
+      if gum confirm "Directory exists. Run git pull instead?"; then
+        spinner "Updating flake" "git -C \"$FLAKE_DIR\" pull"
+      else
+        gum log --level warn "Skipped update"
+      fi
     else
-      gum log --structured --level error "Failed to copy SSH host key. Please check connectivity and try again."
-      exit 1
+      spinner "Cloning flake" "git clone \"$F_REPO\" \"$FLAKE_DIR\""
     fi
     ;;
 
-  "Quit")
-    gum log --structured --level info "Quitting installer."
-    exit 0
-    ;;
-esac
+  ############################### Partition disk ##############################
+  "Partition disk")
+    drv_info=$(lsblk -dno NAME,SIZE | gum choose --header "Choose drive (NAME SIZE)")
+    [ -z "$drv_info" ] && { gum log --level warn "No drive chosen. Skipping."; continue; }
+    drv="/dev/${drv_info%% *}"
 
-gum log --structured --level info "All selected tasks have been completed."
+    cfg=$(gum input --prompt "Path to disko config > " --value "$DEFAULT_DISKO_CFG")
+    [ ! -f "$cfg" ] && { gum log --level error "Config not found: $cfg"; exit 1; }
+
+    if gum confirm "Run disko on $drv with $cfg? This will DESTROY data."; then
+      spinner "Partitioning & mounting" \
+        "sudo DISK=$drv disko --yes-wipe-all-disks --mode destroy,format,mount \"$cfg\""
+    else
+      gum log --level warn "Partition step skipped"
+    fi
+    ;;
+
+  ############################### Install NixOS ###############################
+  "Install NixOS")
+    host=$(gum input --prompt "Hostname > " --value "$(hostname)")
+    [ -z "$host" ] && { gum log --level error "Hostname required"; exit 1; }
+
+    flake=$(gum input --prompt "Flake directory > " --value "$FLAKE_DIR")
+    [ -z "$flake" ] && { gum log --level error "Flake path required"; exit 1; }
+
+    # Pre‑flight flake check
+    if gum confirm "Run 'nix flake check' before installation?"; then
+      spinner "Running flake checks" "nix flake check \"$flake\" --no-build"
+    fi
+
+    # Partition via flake
+    if gum confirm "Partition disks for $host using the flake layout? This DESTROYS data."; then
+      spinner "Partitioning disks" \
+        "sudo disko --yes-wipe-all-disks --mode destroy,format,mount --flake \"$flake#$host\""
+    else
+      gum log --level warn "Disko partitioning skipped. Ensure disks are ready."
+    fi
+
+    # Install
+    if gum confirm "Run nixos-install for $host?"; then
+      spinner "Installing NixOS" \
+        "sudo nixos-install --no-channel-copy --no-root-password --flake \"$flake#$host\""
+    else
+      gum log --level warn "nixos-install skipped"
+    fi
+    ;;
+
+  ############################ Install Doom Emacs #############################
+  "Install Doom Emacs")
+    if gum confirm "Install/overwrite Doom Emacs in ~/.config?"; then
+      spinner "Installing Doom Emacs" \
+        "rm -rf ~/.config/emacs ~/.config/doom && \
+         git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs && \
+         git clone https://github.com/Occhima/doom ~/.config/doom && \
+         ~/.config/emacs/bin/doom install --force"
+    else
+      gum log --level warn "Skipped Doom installation"
+    fi
+    ;;
+
+  ############################ Copy host SSH key ##############################
+  "Copy host SSH key")
+    addr=$(gum input --prompt "Remote host/IP > ")
+    hname=$(gum input --prompt "Destination hostname entry > ")
+    [ -z "$addr$hname" ] && { gum log --level error "Both fields required"; exit 1; }
+
+    dest="$FLAKE_DIR/hosts/$hname/assets"; mkdir -p "$dest"
+    spinner "Fetching SSH key" \
+      "ssh-keyscan \"$addr\" | grep -o 'ssh-ed25519.*' > \"$dest/host.pub\""
+
+    if [[ -s "$dest/host.pub" ]]; then
+      gum log --level info "Key saved -> $dest/host.pub"
+    else
+      gum log --level error "Failed to grab key from $addr"; exit 1
+    fi
+    ;;
+
+  "Quit") exit 0 ;;
+  esac
+done
+
+unset IFS  # restore default word splitting
+
+header "All selected tasks completed. You can reboot now."

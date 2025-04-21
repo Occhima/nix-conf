@@ -7,6 +7,7 @@
       pciutils # going to need this for lspci
       gitMinimal # we only need a basic git install
       age-plugin-yubikey
+      disko
       ;
     inherit (self'.packages) install-tools;
   };
