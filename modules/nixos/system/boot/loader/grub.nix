@@ -1,4 +1,9 @@
-{ lib, config, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   inherit (lib.modules) mkIf mkDefault;
   inherit (lib.options) mkOption;
@@ -22,7 +27,7 @@ in
       efiSupport = true;
       enableCryptodisk = mkDefault false;
       device = cfg.grub.device;
-      theme = null;
+      theme = pkgs.nixos-grub2-theme;
       backgroundColor = null;
       splashImage = null;
     };

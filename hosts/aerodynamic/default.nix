@@ -74,6 +74,7 @@
       boot = {
         loader = {
           type = "grub";
+          grub.device = "/dev/nvme0n1";
         };
         kernel = {
           enableKernelTweaks = true;
