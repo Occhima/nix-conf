@@ -6,15 +6,30 @@ export GUM_SPIN_SHOW_OUTPUT=1   # show command output underneath spinners
 # Helper wrappers (ASCII‑only to satisfy strict locales)                      #
 ###############################################################################
 header() {
-  gum style --foreground 212 --border double --border-foreground 212 \
-            --align center --width 64 --margin "1 2" --padding "2 4" \
-            "$@"
+  # Modern ASCII art logo with rounded borders and a refined subtitle
+  gum style \
+    --bold \
+    --foreground 50 \
+    --background 236 \
+    --border rounded \
+    --border-foreground 39 \
+    --align center \
+    --width 80 \
+    --margin "1 3" \
+    --padding "1 4" \
+    "   __  __ _  _  ___  ____   " \
+    "  |  \/  | || ||_ _||  _ \  " \
+    "  | |\/| | || | | | | | | | " \
+    "  |_|  |_|_||_| |_| | |_| |_|" \
+    "" \
+    "★ GitHub Inspired NixOS Deployment Wizard ★" \
+    "Clone   |   Partition   |   Install   |   Update"
+
 }
 
 spinner() {
   # Usage: spinner "Title" "cmd && ..." ; never aborts main script
   local title="$1" cmd="$2"
-  # run the command in a subshell; capture exit but always return 0 so `set -e` doesn't kill the parent
   gum spin --spinner dot --show-output --title "$title" -- bash -c "${cmd}; exit 0"
 }
 
@@ -23,7 +38,7 @@ trap 'gum log --level error "Interrupted – cleaning up"; exit 130' INT
 ###############################################################################
 # Splash screen & defaults                                                    #
 ###############################################################################
-header "NixOS Deployment Wizard" "Partition | Clone | Install | Update"
+header "★  NixOS Deployment Wizard  ★" "Partition | Clone | Install | Update"
 
 F_REPO="https://github.com/Occhima/nix-conf.git"
 FLAKE_DIR=${FLAKE_DIR:-"$HOME/Projects/nix-conf"}
@@ -41,11 +56,10 @@ TASKS=(
   "Quit"
 )
 
-# multi‑select tips: ↑/↓ to move, SPACE to toggle, ENTER to confirm
-chosen=$(printf "%s
-" "${TASKS[@]}" |
+# multi‑select tips: ↑/↓ move | SPACE toggle | ENTER confirm
+chosen=$(printf "%s\n" "${TASKS[@]}" | \
          gum choose --no-limit \
-                     --header "Select task(s) to run (space to toggle, enter to confirm)" )
+                    --header "Select task(s) to run (SPACE to toggle, ENTER to confirm)" )
 
 if [ -z "$chosen" ]; then
   gum log --level error "Nothing selected – exiting"; exit 1;
@@ -53,8 +67,8 @@ fi
 
 ###############################################################################
 # Main loop: iterate line‑by‑line so items containing spaces stay intact
-IFS=$'
-'  # treat each newline‑separated line as one item, even if it has spaces
+###############################################################################
+IFS=$'\n'  # treat each newline‑separated line as one item, even if it has spaces
 for task in $chosen; do
   case "$task" in
 
