@@ -50,22 +50,6 @@
         };
       };
 
-      monitors = {
-        primaryMonitorName = "dp1";
-        displays = {
-          dp1 = {
-            name = "DP-1";
-            mode = "2560x1440@144";
-            position = "0,0";
-          };
-          hdmi = {
-            name = "HDMI-1";
-            mode = "2560x1440@144";
-            position = "0,0";
-          };
-        };
-      };
-
       bluetooth = {
         enable = true;
         gui = true;

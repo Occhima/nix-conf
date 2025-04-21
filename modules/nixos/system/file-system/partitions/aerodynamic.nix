@@ -6,36 +6,26 @@
     content = {
       type = "gpt";
       partitions = {
+        boot = {
+          size = "1M";
+          type = "EF02";
+        };
         ESP = {
-          size = "550M";
+          size = "512M";
           type = "EF00";
           content = {
             type = "filesystem";
-            format = "FAT32";
+            format = "vfat";
             mountpoint = "/boot";
+            mountOptions = [ "umask=0077" ];
           };
         };
         root = {
           size = "100%";
           content = {
-            type = "btrfs";
+            type = "filesystem";
+            format = "ext4";
             mountpoint = "/";
-            mountOptions = [
-              "compress=zstd"
-              "noatime"
-              "ssd"
-            ];
-            subvolumes = {
-              "@root" = {
-                mountpoint = "/";
-              };
-              "@home" = {
-                mountpoint = "/home";
-              };
-              "@nix" = {
-                mountpoint = "/nix";
-              };
-            };
           };
         };
       };
