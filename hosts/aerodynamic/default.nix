@@ -29,6 +29,7 @@
     hardware = {
       cpu.type = "intel";
       gpu.type = "nvidia";
+      ssd.enable = true;
 
       media = {
         sound = {

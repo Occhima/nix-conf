@@ -18,7 +18,6 @@ in
     services = {
       # Enable TRIM for SSDs, unless ZFS is used
       fstrim.enable = mkDefault false;
-
       #   # Enable ZFS TRIM if ZFS is used
       #   zfs.trim.enable = mkDefault hasZfs;
     };
