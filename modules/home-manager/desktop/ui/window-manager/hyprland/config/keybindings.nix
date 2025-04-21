@@ -10,6 +10,7 @@
       # Window management
       "$mainMod, F4, killactive,"
       "$mainMod, L, exec, hyprlock"
+      "$mainMod, M, exec, rofi -show dmenu"
       "$mainMod SHIFT, M, exit,"
       "$mainMod SHIFT, R, exec, hyprctl reload"
       "$mainMod, V, togglefloating,"

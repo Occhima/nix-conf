@@ -1,7 +1,7 @@
 {
   devices.disk.system = {
     type = "disk";
-    device = "/dev/disk/by-id/nvme-PC_SN520_NVMe_WDC_256GB_195089461833";
+    device = "/dev/nvme0n1";
 
     content = {
       type = "gpt";

@@ -22,21 +22,13 @@ in
       enable = true;
       cycle = true;
 
-      # Use the appropriate package based on display server
       package = if isWayland then pkgs.rofi-wayland else pkgs.rofi;
 
-      # Basic configuration
       extraConfig = {
         modi = "drun,run,filebrowser,window";
         show-icons = true;
-        display-drun = "  Apps";
-        display-run = "  Run";
-        display-filebrowser = "  Files";
-        display-window = "  Windows";
         drun-display-format = "{name}";
-        window-format = "{w} · {c} · {t}";
 
-        # Additional functionality
         location = 0;
         disable-history = false;
         hide-scrollbar = true;

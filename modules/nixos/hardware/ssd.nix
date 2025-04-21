@@ -22,6 +22,8 @@ in
       #   zfs.trim.enable = mkDefault hasZfs;
     };
 
+    zramSwap.enable = true;
+
     # Enable NVMe module support
     boot.initrd.availableKernelModules = [ "nvme" ];
   };
