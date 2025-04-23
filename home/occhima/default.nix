@@ -19,15 +19,20 @@
     data = {
       xdg.enable = true;
       persistence.enable = true;
-      dropbox.enable = true;
+      dropbox = {
+        enable = true;
+        service = false;
+      };
     };
 
     editor = {
       neovim.enable = true;
+      emacs.enable = true;
     };
 
     dev = {
       python.enable = true;
+      haskell.enable = true;
     };
 
     desktop = {

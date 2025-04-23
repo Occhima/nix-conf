@@ -14,16 +14,17 @@ header() {
     --border rounded \
     --border-foreground 39 \
     --align center \
-    --width 80 \
-    --margin "1 3" \
-    --padding "1 4" \
-    "   __  __ _  _  ___  ____   " \
-    "  |  \/  | || ||_ _||  _ \  " \
-    "  | |\/| | || | | | | | | | " \
-    "  |_|  |_|_||_| |_| | |_| |_|" \
+    --width 100 \
+    " _______  .__       ________                     .___                 __         .__  .__      __                .__          " \
+    " \      \ |__|__  __\_____  \   ______           |   | ____   _______/  |______  |  | |  |   _/  |_  ____   ____ |  |   ______ " \
+    " /   |   \|  \  \/  //   |   \ /  ___/   ______  |   |/    \ /  ___/\   __\__  \ |  | |  |   \   __\/  _ \ /  _ \|  |  /  ___/ " \
+    "/    |    \  |>    </    |    \\\___ \   /_____/  |   |   |  \\\___ \  |  |  / __ \|  |_|  |__  |  | (  <_> |  <_> )  |__\___ \  " \
+    "\____|__  /__/__/\_ \_______  /____  >           |___|___|  /____  > |__| (____  /____/____/  |__|  \____/ \____/|____/____  > " \
+    "        \/         \/       \/     \/                     \/     \/            \/                                          \/  " \
     "" \
-    "★ GitHub Inspired NixOS Deployment Wizard ★" \
+    "★ NixOS Deployment Wizard ★" \
     "Clone   |   Partition   |   Install   |   Update"
+
 
 }
 
@@ -52,6 +53,7 @@ TASKS=(
   "Partition disk"
   "Install NixOS"
   "Install Doom Emacs"
+  "Get password vault"
   "Copy host SSH key"
   "Quit"
 )
@@ -164,6 +166,9 @@ for task in $chosen; do
         gum log --level error "Failed to grab key from $addr"; exit 1
       fi
       ;;
+
+      # "Get password vault")
+      # TODO ...
 
     "Quit") exit 0 ;;
   esac

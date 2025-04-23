@@ -239,11 +239,12 @@ The following features are planned for implementation:
 - [ ] Colmena ( more bloat! )
 - [X] review secrets
 - [ ] Borgmatix backup
+- [ ] Devshell & check  taking tooo muuch RAM
 - [ ] Create some nixos-containers for applications ( use rednix! )
 - [ ] Specializations in home-manager and nixos
-- [ ] Better virtualisation module
+- [X] Better virtualisation module
 - [ ] unstable pkgs as an overlay (pkgs.unstable)
-- [ ] evaluation warning: profile: You have set either `nixpkgs.config` or `nixpkgs.overlays` while using `home-manager.useGlobalPkgs`.
+- [X] evaluation warning: profile: You have set either `nixpkgs.config` or `nixpkgs.overlays` while using `home-manager.useGlobalPkgs`.
                     This will soon not be possible. Please remove all `nixpkgs` options when using `home-manager.useGlobalPkgs`.
 - [ ] Home config system agnostic??
 - [ ] https://github.com/nixified-ai/flake

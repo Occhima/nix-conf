@@ -20,7 +20,7 @@ in
     services = {
       thermald.enable = true;
       # smartd.enable = true;
-      lvm.enable = false;
+      # lvm.enable = false;
     };
 
     systemd = {

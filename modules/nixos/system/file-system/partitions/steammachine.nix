@@ -1,60 +1,53 @@
 {
   devices = {
     disk = {
-      sdb = {
-        device = "/dev/sdb";
+      ssd = {
         type = "disk";
+        device = "/dev/disk/by-id/ata-KINGSTON_SA400S37480G_50026B7784F23C10";
         content = {
           type = "gpt";
           partitions = {
             ESP = {
-              size = "512M";
+              size = "512MiB";
               type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [
-                  "defaults"
-                  "umask=0077"
-                ];
+                mountOptions = [ "umask=0077" ];
               };
             };
             root = {
               size = "100%";
               content = {
-                type = "filesystem";
-                format = "ext4";
-                mountpoint = "/";
-                # ext4 optimization for modern hardware:
-                # extraFormatArgs = [ "-O 64bit,metadata_csum,has_journal" ];
-                mountOptions = [
-                  "noatime"
-                  "discard"
-                  "errors=remount-ro"
-                ];
+                type = "luks";
+                name = "cryptroot";
+                content = {
+                  type = "filesystem";
+                  format = "ext4";
+                  mountpoint = "/";
+                };
               };
             };
           };
         };
       };
-
-      sda = {
-        device = "/dev/sda";
+      hdd = {
         type = "disk";
+        device = "/dev/disk/by-id/ata-WDC_WD10EZEX-21WN4A0_WCC6Y7VYE70H";
         content = {
           type = "gpt";
           partitions = {
             home = {
               size = "100%";
               content = {
-                type = "filesystem";
-                format = "ext4";
-                mountpoint = "/home";
-                mountOptions = [
-                  "noatime"
-                  "discard"
-                ];
+                type = "luks";
+                name = "crypthome";
+                content = {
+                  type = "filesystem";
+                  format = "ext4";
+                  mountpoint = "/home";
+                };
               };
             };
           };

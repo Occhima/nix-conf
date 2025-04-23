@@ -88,13 +88,13 @@ in
               "support.*" = "support/libspa-support";
             };
 
-            "pulse.cmd" = mkBefore [
-              {
-                cmd = "load-module";
-                args = "module-always-sink";
-                flags = [ ];
-              }
-            ];
+            # "pulse.cmd" = mkBefore [
+            #   {
+            #     cmd = "load-module";
+            #     args = "module-always-sink";
+            #     flags = [ ];
+            #   }
+            # ];
 
             "pulse.rules" = mkBefore [
               {

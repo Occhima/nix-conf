@@ -38,6 +38,11 @@ in
       package = hyprPackage;
       portalPackage = hyprPortalPackage;
 
+      settings.ecosystem = {
+        no_update_news = true;
+        no_donation_nag = true;
+      };
+
       systemd = {
         enable = true;
         variables = [ "--all" ];

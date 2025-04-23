@@ -57,7 +57,7 @@
       };
 
       wifi = {
-        enable = false;
+        enable = true;
       };
 
       yubikey.enable = true;

@@ -63,9 +63,7 @@ in
     };
 
     home = {
-      packages = [
-        basePackages
-      ];
+      packages = basePackages;
 
       shellAliases = {
         remdaemon = "systemctl daemon-reload --user && systemctl restart emacs --user";
