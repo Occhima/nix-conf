@@ -12,7 +12,7 @@ in
 {
   config = mkIf (cfg.type == "amd") {
     hardware.cpu.amd.updateMicrocode = true;
-
+    hardware.enableRedistributableFirmware = true;
     boot = {
       kernelModules = [
         "kvm-amd"

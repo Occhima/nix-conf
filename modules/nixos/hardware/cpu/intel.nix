@@ -12,6 +12,8 @@ in
 {
   config = mkIf (cfg.type == "intel") {
     hardware.cpu.intel.updateMicrocode = true;
+    hardware.enableRedistributableFirmware = true;
+    # hardware.enableAllFirmware = true;
     boot = {
       kernelModules = [
         "kvm-intel"
