@@ -22,6 +22,9 @@
       "$mainMod, up, movefocus, u"
       "$mainMod, down, movefocus, d"
 
+      # Emacs
+      "$mainMod, E, exec, emacsclient -c"
+
       # Workspace switching
       "$mainMod, 1, workspace, 1"
       "$mainMod, 2, workspace, 2"

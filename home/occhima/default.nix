@@ -36,7 +36,6 @@
       };
     };
 
-
     dev = {
       python.enable = true;
       haskell.enable = true;
