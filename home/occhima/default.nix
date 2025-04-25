@@ -26,13 +26,16 @@
     };
 
     editor = {
-      neovim.enable = true;
+      neovim = {
+        enable = true;
+      };
       emacs = {
         enable = true;
         service = true;
         default = true;
       };
     };
+
 
     dev = {
       python.enable = true;
