@@ -42,7 +42,9 @@ trap 'gum log --level error "Interrupted – cleaning up"; exit 130' INT
 header "★  NixOS Deployment Wizard  ★" "Partition | Clone | Install | Update"
 
 F_REPO="https://github.com/Occhima/nix-conf.git"
-FLAKE_DIR=${FLAKE_DIR:-"$HOME/Projects/nix-conf"}
+P_REPO="https://github.com/Occhima/pass-conf.git"
+FLAKE_DIR=${FLAKE_DIR:-"$HOME/.config/flake"}
+PASSAGE_DIR=${PASSAGE_DIR:-"$HOME/.passage"}
 DEFAULT_DISKO_CFG="/tmp/disko-config.yaml"
 
 ###############################################################################
@@ -167,13 +169,24 @@ for task in $chosen; do
       fi
       ;;
 
-      # "Get password vault")
-      # TODO ...
+    "Get password vault")
+      PASS_DIR=$(gum input --prompt "Clone directory > " --value "$PASSAGE_DIR")
+      [ -z "$PASS_DIR" ] && { gum log --level error "Directory path required"; exit 1; }
 
+      if [[ -d "$PASS_DIR/.git" ]]; then
+        if gum confirm "Directory exists. Run git pull instead?"; then
+          spinner "Updating vault ..." "git -C \"$PASS_DIR\" pull"
+        else
+          gum log --level warn "Skipped update"
+        fi
+      else
+        spinner "Cloning vault ..." "git clone \"$P_REPO\" \"$PASS_DIR\""
+      fi
+      ;;
     "Quit") exit 0 ;;
   esac
 done
 
 unset IFS  # restore default word splitting
 
-header "All selected tasks completed. You can reboot now."
+gum log --level warn "All selected tasks completed. You can reboot now."

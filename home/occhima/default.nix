@@ -27,7 +27,11 @@
 
     editor = {
       neovim.enable = true;
-      emacs.enable = true;
+      emacs = {
+        enable = true;
+        service = true;
+        default = true;
+      };
     };
 
     dev = {

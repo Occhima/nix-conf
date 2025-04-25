@@ -25,9 +25,8 @@ in
   config = mkIf cfg.enable {
     home = {
       packages = [ self.packages.${pkgs.system}.nvim ];
-      sessionVariables = {
+      sessionVariables = mkIf cfg.default {
         EDITOR = "nvim";
-        VISUAL = "nvim";
       };
     };
   };

@@ -116,7 +116,7 @@
         optimizeServices = false;
       };
       firmware.enable = true;
-      flatpak.enable = false;
+      flatpak.enable = true;
       ssh.enable = true;
     };
 

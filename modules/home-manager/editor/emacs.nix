@@ -23,7 +23,7 @@ let
     "mu"
     "ripgrep"
     "git"
-    "findutils"
+    "fd"
     "sqlite"
     "graphviz"
     "pandoc"
@@ -76,12 +76,13 @@ in
     #  like the emacs
 
     services.emacs = mkIf cfg.service {
+      enable = true;
       client = {
         enable = true;
         arguments = [ "-c" ];
       };
       defaultEditor = cfg.default;
-      startWithUserSession = true;
+      startWithUserSession = "graphical";
 
     };
   };

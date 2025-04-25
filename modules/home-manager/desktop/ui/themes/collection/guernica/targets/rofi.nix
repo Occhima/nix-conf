@@ -15,14 +15,15 @@ in
     # /* MACOS SPOTLIGHT LIKE THEME FOR ROFI  */
     #/* Author: Newman Sanchez (https://github.com/newmanls) */   # MacOS Spotlight-like theme
     "*" = {
-      bg0 = mkLiteral "#F5F5F5BF";
+      bg0 = mkLiteral "#242424E6";
       bg1 = mkLiteral "#7E7E7E80";
-      bg2 = mkLiteral "#0860F2E6";
+      bg2 = mkLiteral "#0860f2E6";
 
-      fg0 = mkLiteral "#242424";
+      fg0 = mkLiteral "#DEDEDE";
       fg1 = mkLiteral "#FFFFFF";
-      fg2 = mkLiteral "#24242480";
+      fg2 = mkLiteral "#DEDEDE80";
 
+      background-color = mkLiteral "transparent";
       text-color = mkLiteral "@fg0";
 
       margin = mkLiteral "0";

@@ -9,7 +9,7 @@
       apps = {
         nyxt-unstable = {
           type = "app";
-          program = "${self'.packages.nyxt-unstable}/bin/nyxt-unstable";
+          program = "${self'.packages.nyxt-unstable}/bin/nyxt";
         };
       };
     };

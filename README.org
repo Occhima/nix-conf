@@ -240,6 +240,7 @@ The following features are planned for implementation:
 - [X] review secrets
 - [ ] Borgmatix backup
 - [ ] Devshell & check  taking tooo muuch RAM
+- [ ] Dependabot to update flake inputs
 - [ ] Create some nixos-containers for applications ( use rednix! )
 - [ ] Specializations in home-manager and nixos
 - [X] Better virtualisation module

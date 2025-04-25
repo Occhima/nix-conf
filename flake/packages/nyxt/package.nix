@@ -5,7 +5,7 @@
 
 let
   pname = "nyxt";
-  version = "4.0.0-pre-release-4";
+  version = "4.0.0-pre-release-5";
   nyxtSHA = "sha256-mZ+2OtZy26hErl0LQcA57EtYdcRv5yjJVDXFwXREzf0=";
 
   nyxtAppImageGz = pkgs.fetchurl {
