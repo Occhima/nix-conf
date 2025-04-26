@@ -48,6 +48,7 @@ in
             "ssh"
             "zoxide"
             "ripgrep"
+            "lazygit"
           ]
         );
         default = [
@@ -60,6 +61,7 @@ in
           "ripgrep"
           "gh"
           "ssh"
+          "lazygit"
         ];
         description = "List of CLI tools to enable";
         example = ''[ "bat" "eza" "fzf" "git" ]'';

@@ -26,6 +26,14 @@
       wireless.enable = true;
     };
 
+    virtualisation = {
+      docker = {
+        enable = true;
+        usePodman = true; # Use podman for docker compatibility
+      };
+      containers.pentesting.enable = true;
+    };
+
     hardware = {
       cpu.type = "intel";
       gpu.type = "nvidia";

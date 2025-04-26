@@ -18,11 +18,6 @@ in
       default = true;
       description = "Whether to enable Docker compatibility";
     };
-    enableNvidia = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Whether to enable Nvidia support";
-    };
   };
 
   config = mkIf cfg.enable {
@@ -44,8 +39,8 @@ in
       dockerCompat = cfg.dockerCompat;
       dockerSocket.enable = cfg.dockerCompat;
       defaultNetwork.settings.dns_enabled = true;
-      enableNvidia =
-        cfg.enableNvidia || builtins.any (driver: driver == "nvidia") config.services.xserver.videoDrivers;
+      # enableNvidia =
+      #   cfg.enableNvidia || builtins.any (driver: driver == "nvidia") config.services.xserver.videoDrivers;
       autoPrune = {
         enable = true;
         flags = [ "--all" ];

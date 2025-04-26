@@ -69,12 +69,6 @@
       repo = "impermanence";
     };
 
-    # rednix = {
-    #   type = "github";
-    #   owner = "redocde-labs";
-    #   repo = "RedNix";
-    # };
-
     hyprland = {
       type = "github";
       owner = "hyprwm";
