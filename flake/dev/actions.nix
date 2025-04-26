@@ -31,7 +31,7 @@
               }
               {
                 name = "GitGuardian scan";
-                uses = "GitGuardian/ggshield/actions/secret@v1.29.0";
+                uses = "GitGuardian/ggshield/actions/secret@v1.38.1";
                 env = {
                   GITHUB_PUSH_BEFORE_SHA = "\${{ github.event.before }}";
                   GITHUB_PUSH_BASE_SHA = "\${{ github.event.base }}";
