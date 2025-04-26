@@ -21,6 +21,6 @@ in
       enable = cfg.service;
     };
 
-    home.packages = [ pkgs.dropbox-cli ];
+    home.packages = [ pkgs.maestral ];
   };
 }
