@@ -26,7 +26,7 @@ let
     "fd"
     "sqlite"
     "cmake"
-    "make"
+    "gnumake"
     "graphviz"
     "pandoc"
     "gnutls"

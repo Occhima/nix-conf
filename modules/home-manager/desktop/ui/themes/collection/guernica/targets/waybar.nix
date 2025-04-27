@@ -72,42 +72,46 @@ in
       };
 
       clock = {
-        format = "{:%H:%M} ";
+        format = "{:%H:%M} {icon}";
         format-alt = "{:%Y-%m-%d}";
         tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
+        format-icons = [ "" ]; # Font Awesome clock icon
       };
 
       cpu = {
-        format = "CPU {usage}% 󰍛";
+        format = " {icon} {usage}% ";
         tooltip = false;
-
+        format-icons = [ "" ];
       };
 
       memory = {
-        format = "MEM {}% ";
+        format = "{icon} {}%";
+        format-icons = [ "" ]; # Font Awesome memory icon
       };
 
       pulseaudio = {
-        format = "VOL {volume}% {icon}";
-        format-bluetooth = "{volume}% {icon}";
+        format = "{icon} {volume}%";
+        format-bluetooth = "{icon}  {volume}%";
         format-bluetooth-muted = "󰝟 {icon}";
         format-muted = "󰝟";
-        format-source = "{volume}% ";
+        format-source = "{volume}%";
         format-source-muted = "";
         format-icons = {
-          headphone = "";
-          hands-free = "";
-          headset = "";
-          phone = "";
-          portable = "";
-          car = "";
+          headphone = ""; # Headphone icon
+          hands-free = ""; # Hands-free icon
+          headset = ""; # Headset icon
+          phone = ""; # Phone icon
+          portable = ""; # Portable device icon
+          car = ""; # Car icon
           default = [
-            ""
-            ""
-            ""
-          ];
+            ""
+            ""
+            ""
+          ]; # Volume level icons: muted, low, high
         };
-        on-click = "pavucontrol";
+        on-click = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
+        on-scroll-up = "pactl set-sink-volume @DEFAULT_SINK@ +5%";
+        on-scroll-down = "pactl set-sink-volume @DEFAULT_SINK@ -5%";
       };
 
       network = {

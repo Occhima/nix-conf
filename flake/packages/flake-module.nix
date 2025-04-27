@@ -1,14 +1,14 @@
-{ self, inputs, ... }:
-let
-  inherit (inputs.nixos-generators) nixosGenerate;
-  specialArgs = { inherit self inputs; };
-in
+# { self, inputs, ... }:
+# let
+# in
+# inherit (inputs.nixos-generators) nixosGenerate;
+# specialArgs = { inherit self inputs; };
 {
   perSystem =
     {
       pkgs,
-      system,
-      self',
+      # system,
+      # self',
       ...
     }:
     {
@@ -22,35 +22,36 @@ in
         nyxt-unstable = pkgs.callPackage ./nyxt/package.nix { };
 
         # V2 Gnome installer
-        gnome-installer = nixosGenerate {
-          inherit system specialArgs;
-          modules = [
-            (
-              { ... }:
-              {
-                boot.kernelParams = [ "copytoram" ];
-                nix.settings.experimental-features = "nix-command flakes";
-                environment.systemPackages = [
-                  self'.packages.install-tools
-                ];
-              }
-            )
-          ];
-          format = "gnome-installer-iso";
-          customFormats.gnome-installer-iso =
-            { modulesPath, ... }:
-            {
-              imports = [
-                (modulesPath + "/installer/cd-dvd/installation-cd-graphical-gnome.nix")
-              ];
+        # XXX: Uninstalling bc it's too heavy
+        # gnome-installer = nixosGenerate {
+        #   inherit system specialArgs;
+        #   modules = [
+        #     (
+        #       { ... }:
+        #       {
+        #         boot.kernelParams = [ "copytoram" ];
+        #         nix.settings.experimental-features = "nix-command flakes";
+        #         environment.systemPackages = [
+        #           self'.packages.install-tools
+        #         ];
+        #       }
+        #     )
+        #   ];
+        #   format = "gnome-installer-iso";
+        #   customFormats.gnome-installer-iso =
+        #     { modulesPath, ... }:
+        #     {
+        #       imports = [
+        #         (modulesPath + "/installer/cd-dvd/installation-cd-graphical-gnome.nix")
+        #       ];
 
-              isoImage.squashfsCompression = "gzip -Xcompression-level 1";
+        #       isoImage.squashfsCompression = "gzip -Xcompression-level 1";
 
-              formatAttr = "isoImage";
-              fileExtension = ".iso";
+        #       formatAttr = "isoImage";
+        #       fileExtension = ".iso";
 
-            };
-        };
+        #     };
+        # };
       };
     };
 }

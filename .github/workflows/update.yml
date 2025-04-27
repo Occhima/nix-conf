@@ -25,6 +25,12 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Cache setup
+        uses: DeterminateSystems/magic-nix-cache-action@main
+
       - name: Update Lockfile
         run: nix flake update
 

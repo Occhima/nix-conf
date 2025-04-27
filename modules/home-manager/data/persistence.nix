@@ -9,6 +9,7 @@ with lib;
 
 let
   cfg = config.modules.data.persistence;
+  cfgXdg = config.xdg;
 in
 {
   imports = [
@@ -30,11 +31,7 @@ in
     directories = mkOption {
       type = types.listOf types.str;
       default = [
-        # "documents"
-        # "Dropbox"
-        # "downloads"
-        # "media/pictures"
-        # "media/videos"
+        cfgXdg.userDirs.download
       ];
       description = "Directories to persist";
     };
@@ -50,7 +47,6 @@ in
 
     home.persistence = {
       "${config.home.homeDirectory}/${cfg.location}" = {
-        defaultDirectoryMethod = "symlink";
         directories = cfg.directories;
         allowOther = true;
       };
