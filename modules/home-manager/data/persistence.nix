@@ -9,7 +9,6 @@ with lib;
 
 let
   cfg = config.modules.data.persistence;
-  cfgXdg = config.xdg;
 in
 {
   imports = [
@@ -31,7 +30,7 @@ in
     directories = mkOption {
       type = types.listOf types.str;
       default = [
-        cfgXdg.userDirs.download
+        # cfgXdg.userDirs.download
       ];
       description = "Directories to persist";
     };
