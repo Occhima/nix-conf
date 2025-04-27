@@ -38,6 +38,7 @@ in
         "pulseaudio"
         "cpu"
         "memory"
+        "disk"
         "battery"
       ];
 
@@ -72,21 +73,29 @@ in
       };
 
       clock = {
-        format = "{:%H:%M} {icon}";
+        format = "{:%H:%M}";
         format-alt = "{:%Y-%m-%d}";
         tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
-        format-icons = [ "" ]; # Font Awesome clock icon
+        # format-icons = [ "" ]; # Font Awesome clock icon
       };
 
       cpu = {
         format = " {icon} {usage}% ";
         tooltip = false;
-        format-icons = [ "" ];
+        format-icons = [ "󰻠 " ];
+      };
+
+      disk = {
+        path = "/";
+        # format = "{percentage_used}% {icon}";
+        # tooltip-format = "{used} used out of {total} on {path}";
+        # format-icons = [ " " ]; # Font Awesome memory icon
+        unit = "GB";
       };
 
       memory = {
         format = "{icon} {}%";
-        format-icons = [ "" ]; # Font Awesome memory icon
+        format-icons = [ " " ]; # Font Awesome memory icon
       };
 
       pulseaudio = {
