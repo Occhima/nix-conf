@@ -25,6 +25,8 @@ let
     "git"
     "fd"
     "sqlite"
+    "cmake"
+    "make"
     "graphviz"
     "pandoc"
     "gnutls"
