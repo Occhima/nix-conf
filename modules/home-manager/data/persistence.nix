@@ -30,9 +30,9 @@ in
     directories = mkOption {
       type = types.listOf types.str;
       default = [
-        "documents"
-        "Dropbox"
-        "downloads"
+        # "documents"
+        # "Dropbox"
+        # "downloads"
         # "media/pictures"
         # "media/videos"
       ];

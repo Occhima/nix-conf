@@ -72,18 +72,19 @@ in
       };
 
       clock = {
-        format = "{:%H:%M}";
+        format = "{:%H:%M} ";
         format-alt = "{:%Y-%m-%d}";
         tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
       };
 
       cpu = {
-        format = "CPU {usage}% ";
+        format = "CPU {usage}% 󰍛";
         tooltip = false;
+
       };
 
       memory = {
-        format = "MEM {}% ";
+        format = "MEM {}% ";
       };
 
       pulseaudio = {

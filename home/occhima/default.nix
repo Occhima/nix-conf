@@ -21,7 +21,7 @@
       persistence.enable = true;
       dropbox = {
         enable = true;
-        service = true;
+        service = false;
       };
     };
 
