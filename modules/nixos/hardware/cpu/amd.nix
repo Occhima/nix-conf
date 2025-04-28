@@ -16,10 +16,11 @@ in
     boot = {
       kernelModules = [
         "kvm-amd"
-        # "amd-pstate"
+
       ];
 
       kernelParams = [
+        "amd-pstate=active"
       ];
     };
   };
