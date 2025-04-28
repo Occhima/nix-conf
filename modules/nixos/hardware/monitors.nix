@@ -34,6 +34,12 @@ let
         description = "The scale factor for the monitor";
       };
 
+      transform = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Whether to rotate the monitor";
+      };
+
       disable = mkOption {
         type = types.bool;
         default = false;

@@ -24,17 +24,6 @@ in
 
       package = if isWayland then pkgs.rofi-wayland else pkgs.rofi;
 
-      extraConfig = {
-        modi = "drun,run,filebrowser,window";
-        show-icons = true;
-        drun-display-format = "{name}";
-
-        location = 0;
-        disable-history = false;
-        hide-scrollbar = true;
-        sidebar-mode = true;
-      };
-
       plugins = [
         rofiFBPkg
         rofiCalcPkg

@@ -1,4 +1,3 @@
-{ ... }:
 {
   modules = {
     profiles = {
@@ -55,13 +54,14 @@
         displays = {
           dp1 = {
             name = "DP-1";
-            mode = "2560x1440@144";
-            position = "0,0";
+            mode = "1920x1080@180";
+            position = "0x0";
           };
           hdmi = {
-            name = "HDMI-1";
-            mode = "2560x1440@144";
-            position = "0,0";
+            name = "HDMI-A-1";
+            mode = "1920x1080@180";
+            position = "1900x0";
+            transform = true;
           };
         };
       };
@@ -82,6 +82,14 @@
     security = {
       kernel.enable = false;
       # auditd.enable = true;
+    };
+
+    virtualisation = {
+      docker = {
+        enable = true;
+        usePodman = true; # Use podman for docker compatibility
+      };
+      containers.pentesting.enable = true;
     };
 
     system = {
@@ -130,7 +138,7 @@
         optimizeServices = false;
       };
       firmware.enable = true;
-      flatpak.enable = false;
+      flatpak.enable = true;
       ssh.enable = true;
     };
 

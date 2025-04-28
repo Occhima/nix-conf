@@ -10,5 +10,6 @@
     ./layout.nix
     ./plugins.nix
     ./hyprlock.nix
+    ./monitors.nix
   ];
 }
