@@ -6,7 +6,7 @@
 }:
 
 let
-  inherit (lib) mkIf mkDefault
+  inherit (lib) mkIf mkDefault;
   cfg = config.modules.hardware.gpu;
 in
 {
