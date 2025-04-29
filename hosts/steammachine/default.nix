@@ -53,7 +53,7 @@
         primaryMonitorName = "dp1";
         displays = {
           dp1 = {
-            name = "DP-1";
+            name = "DP-2";
             mode = "1920x1080@180";
             position = "0x0";
           };
