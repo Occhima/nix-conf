@@ -98,7 +98,6 @@
       boot = {
         loader = {
           type = "grub";
-          grub.device = "/dev/sda";
         };
         kernel = {
           enableKernelTweaks = true;

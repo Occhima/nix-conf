@@ -1,7 +1,8 @@
 {
+  # TODO: home partition in HDD + LUKS
   devices.disk.system = {
     type = "disk";
-    device = "/dev/sdb";
+    device = "/dev/disk/by-id/ata-KINGSTON_SA400S37480G_50026B7784F23C10";
 
     content = {
       type = "gpt";

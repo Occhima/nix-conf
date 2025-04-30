@@ -42,7 +42,7 @@
     };
 
     desktop = {
-      browser.nyxt.enable = false;
+      browser.nyxt.enable = true;
       terminal = {
         kitty.enable = true;
       };
