@@ -30,7 +30,7 @@ in
 
       nvidia = {
         # Use the beta driver package by default
-        package = mkDefault config.boot.kernelPackages.nvidiaPackages.beta;
+        package = mkDefault config.boot.kernelPackages.nvidiaPackages.stable;
 
         # Use the NVidia open source kernel module (for Turing+ GPUs)
         # Currently alpha-quality/buggy, so false is currently the recommended setting

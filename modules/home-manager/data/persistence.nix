@@ -30,7 +30,8 @@ in
     directories = mkOption {
       type = types.listOf types.str;
       default = [
-        "${config.home.homeDirectory}/.ssh"
+        #".ssh"
+        #"Dropbox"
       ];
       description = "Directories to persist";
     };
