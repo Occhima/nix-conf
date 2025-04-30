@@ -20,7 +20,6 @@
     data = {
       xdg.enable = true;
       persistence.enable = true;
-      dropbox.enable = true;
     };
 
     editor = {

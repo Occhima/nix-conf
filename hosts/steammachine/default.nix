@@ -29,6 +29,7 @@
     hardware = {
       cpu.type = "amd";
       gpu.type = "nvidia";
+      ssd.enable = true;
 
       media = {
         sound = {
@@ -97,6 +98,7 @@
       boot = {
         loader = {
           type = "grub";
+          grub.device = "/dev/sda";
         };
         kernel = {
           enableKernelTweaks = true;

@@ -19,7 +19,7 @@
     data = {
       xdg.enable = true;
       persistence.enable = true;
-      dropbox = {
+      maestral = {
         enable = true;
         service = false;
       };

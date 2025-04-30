@@ -30,7 +30,7 @@ in
     directories = mkOption {
       type = types.listOf types.str;
       default = [
-        # cfgXdg.userDirs.download
+        "${config.home.homeDirectory}/.ssh"
       ];
       description = "Directories to persist";
     };
