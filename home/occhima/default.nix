@@ -21,7 +21,7 @@
       persistence.enable = true;
       maestral = {
         enable = true;
-        service = false;
+        service = true;
       };
     };
 
