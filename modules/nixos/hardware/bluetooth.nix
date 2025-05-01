@@ -18,10 +18,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    # Load btusb kernel module for bluetooth
     boot.kernelModules = [ "btusb" ];
-
-    # Enable bluetooth
     hardware.bluetooth = {
       enable = true;
       package = pkgs.bluez;
@@ -35,10 +32,8 @@ in
       };
     };
 
-    # Enable blueman GUI if requested
+    environment.systemPackages = [ pkgs.bluetui ];
     services.blueman.enable = cfg.gui;
-
-    # Add auto-reset on resume to fix bluetooth reconnection issues
     powerManagement.resumeCommands = mkIf cfg.autoReset ''
       ${pkgs.util-linux}/bin/rfkill block bluetooth
       ${pkgs.util-linux}/bin/rfkill unblock bluetooth

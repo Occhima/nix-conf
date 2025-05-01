@@ -52,7 +52,9 @@ in
       enable = true;
       enableSshSupport = true;
       enableScDaemon = true;
-      pinentryPackage = pkgs.pinentry-curses;
+      pinentry = {
+        package = pkgs.pinentry-curses;
+      };
       extraConfig = "allow-preset-passphrase";
     };
 

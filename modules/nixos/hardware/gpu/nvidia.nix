@@ -30,7 +30,7 @@ in
 
       nvidia = {
         # Use the beta driver package by default
-        package = mkDefault config.boot.kernelPackages.nvidiaPackages.stable;
+        package = mkDefault config.boot.kernelPackages.nvidiaPackages.beta;
 
         # Use the NVidia open source kernel module (for Turing+ GPUs)
         # Currently alpha-quality/buggy, so false is currently the recommended setting
@@ -51,7 +51,7 @@ in
 
     boot = {
       # Blacklist nouveau module as it conflicts with NVIDIA driver
-      blacklistedKernelModules = [ "nouveau" ];
+      blacklistedKernelModules = [ "i2c_nvidia_gpu" ];
 
       # Enable NVIDIA's experimental framebuffer device
       kernelParams = [ "nvidia-drm.fbdev=1" ];
