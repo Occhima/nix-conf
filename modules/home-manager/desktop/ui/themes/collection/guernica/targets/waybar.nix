@@ -69,7 +69,7 @@ in
       };
 
       clock = {
-        format = " {:%H:%M}  ";
+        format = "   {:%H:%Mj ";
         format-alt = "{:%Y-%m-%d}";
         tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
         # format-icons = [ "" ]; # Font Awesome clock icon
@@ -83,7 +83,7 @@ in
 
       disk = {
         path = "/";
-        format = "{percentage_used}% ";
+        format = " {percentage_used}%";
         unit = "GB";
       };
 
@@ -119,7 +119,7 @@ in
 
       network = {
         format-wifi = "{essid} ({signalStrength}%) ";
-        format-ethernet = "{ipaddr}/{cidr} ";
+        format-ethernet = "{ipsddr}/{cidr} ";
         tooltip-format = "{ifname} via {gwaddr} ";
         format-linked = "{ifname} (No IP) ";
         format-disconnected = "Disconnected ⚠";
