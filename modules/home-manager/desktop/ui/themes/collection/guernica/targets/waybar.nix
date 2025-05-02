@@ -69,7 +69,7 @@ in
       };
 
       clock = {
-        format = "   {:%H:%Mj ";
+        format = "   {:%H:%M} ";
         format-alt = "{:%Y-%m-%d}";
         tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
         # format-icons = [ "" ]; # Font Awesome clock icon
