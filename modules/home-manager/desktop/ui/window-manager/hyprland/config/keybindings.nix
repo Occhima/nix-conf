@@ -7,6 +7,7 @@
 
       # Terminal
       "$mainMod, Q, exec, kitty"
+
       # Window management
       "$mainMod, F4, killactive,"
       "$mainMod, L, exec, hyprlock"
@@ -24,6 +25,12 @@
 
       # Emacs
       "$mainMod, E, exec, emacsclient -c"
+
+      # Utils
+      "$mainMod, B, exec, rofi-bluetooth"
+
+      # Power
+      "$mainMod, P, exec, rofi -show power-menu -modi power-menu:rofi-power-menu"
 
       # Workspace switching
       "$mainMod, 1, workspace, 1"

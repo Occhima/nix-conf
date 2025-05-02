@@ -17,12 +17,11 @@ in
     extraConfig = {
       modi = "drun";
       show-icons = true;
-      drun-display-format = "{name}";
 
       location = 0;
       disable-history = false;
       hide-scrollbar = true;
-      sidebar-mode = true;
+      sidebar-mode = false;
     };
 
     # /* MACOS SPOTLIGHT LIKE THEME FOR ROFI  */

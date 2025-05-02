@@ -14,10 +14,17 @@ let
   isWayland = displayType == "wayland";
   rofiPkg = if isWayland then pkgs.rofi-wayland-unwrapped else pkgs.rofi-unwrapped;
   rofiFBPkg = pkgs.rofi-file-browser.override { rofi = rofiPkg; };
+  rofiBluetoothPkg = pkgs.rofi-bluetooth;
+  rofiPowerMenuPkg = pkgs.rofi-power-menu;
   rofiCalcPkg = pkgs.rofi-calc.override { rofi-unwrapped = rofiPkg; };
 in
 {
   config = mkIf (cfg.launcher == "rofi") {
+
+    home.packages = [
+      rofiBluetoothPkg
+      rofiPowerMenuPkg
+    ];
     programs.rofi = {
       enable = true;
       cycle = true;
@@ -27,8 +34,7 @@ in
       plugins = [
         rofiFBPkg
         rofiCalcPkg
-        pkgs.rofi-power-menu
-        pkgs.rofi-bluetooth
+
       ];
     };
   };
