@@ -58,7 +58,13 @@
       };
 
       apps = {
-        flatpak.enable = false;
+        flatpak = {
+          packages = [
+            "app.zen_browser.zen"
+          ];
+          enable = true;
+        };
+        spotify.enable = true;
       };
 
     };

@@ -26,7 +26,6 @@ in
     packages = mkOption {
       type = types.listOf (types.either types.str (types.attrsOf types.anything));
       default = [
-        "app.zen_browser.zen"
       ];
       description = "List of Flatpak packages to install";
     };

@@ -216,5 +216,12 @@
       repo = "nix-flatpak";
     };
 
+    spicetify-nix = {
+      type = "github";
+      owner = "Gerg-L";
+      repo = "spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 }
