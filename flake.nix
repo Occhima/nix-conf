@@ -29,12 +29,12 @@
       ref = "nixos-unstable";
     };
 
-    # nixpkgs-unstable = {
-    #   type = "github";
-    #   owner = "NixOS";
-    #   repo = "nixpkgs";
-    #   ref = "nixos-unstable";
-    # };
+    nixpkgs-unstable = {
+      type = "github";
+      owner = "NixOS";
+      repo = "nixpkgs";
+      ref = "nixos-unstable";
+    };
 
     # ========= Utilities =========
     disko = {
