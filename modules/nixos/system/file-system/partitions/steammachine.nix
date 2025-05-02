@@ -19,10 +19,6 @@
               format = "vfat";
               mountpoint = "/boot";
               mountOptions = [ "umask=0077" ];
-              extraArgs = [
-                "-n"
-                "BOOT"
-              ]; # label = BOOT
             };
           };
 
@@ -34,10 +30,6 @@
               format = "ext4";
               mountpoint = "/";
               mountOptions = [ "noatime" ];
-              extraArgs = [
-                "-L"
-                "ROOT"
-              ]; # label = ROOT
             };
           };
         };
@@ -57,10 +49,6 @@
             format = "ext4";
             mountpoint = "/home";
             mountOptions = [ "noatime" ];
-            extraArgs = [
-              "-L"
-              "HOME"
-            ]; # label = HOME
           };
         };
       };

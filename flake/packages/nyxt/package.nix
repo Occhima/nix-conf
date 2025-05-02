@@ -6,7 +6,7 @@
 let
   pname = "nyxt";
   version = "4.0.0-pre-release-6";
-  nyxtSHA = "sha256-WDVNl0WGY8dt9YMOSt9z4NZgzN3bGg/WC0oRrwaXeks=";
+  nyxtSHA = "sha256-gdA2Nit3Gcc5oPlheFsMHjCm0d1UX//zoLCAQnT5vUE=";
 
   nyxtAppImageGz = pkgs.fetchurl {
     url = "https://github.com/atlas-engineer/nyxt/releases/download/${version}/Linux-Nyxt-x86_64.tar.gz";
