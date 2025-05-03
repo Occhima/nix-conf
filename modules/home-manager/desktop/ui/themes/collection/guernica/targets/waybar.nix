@@ -118,11 +118,11 @@ in
       };
 
       network = {
-        format-wifi = "{essid} ({signalStrength}%) ";
-        format-ethernet = "{ipsddr}/{cidr} ";
-        tooltip-format = "{ifname} via {gwaddr} ";
+        format-wifi = " {essid} ({signalStrength}%)";
+        format-ethernet = "󰈀 {ipsddr}/{cidr}";
+        tooltip-format = "{ifname} via {gwaddr}";
         format-linked = "{ifname} (No IP) ";
-        format-disconnected = "Disconnected ⚠";
+        format-disconnected = "⚠ Disconnected";
         format-alt = "{ifname}: {ipaddr}/{cidr}";
       };
 
@@ -133,9 +133,8 @@ in
           critical = 15;
         };
         format = "{icon} {capacity}%";
-        format-charging = " {capacity}%";
-        format-plugged = " {capacity}%";
-        format-alt = "{time} {icon}";
+        format-charging = "{capacity}%";
+        format-plugged = "{capacity}%";
         format-icons = [
           "󰁺"
           "󰁻"

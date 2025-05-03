@@ -16,7 +16,6 @@ let
 in
 {
 
-  # TODO: Create a target for this in the guernica
   imports = [ spicetify-nix.homeManagerModules.default ];
 
   options.modules.desktop.apps.spotify = {

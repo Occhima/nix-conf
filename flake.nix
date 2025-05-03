@@ -223,5 +223,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    schizofox = {
+      type = "github";
+      owner = "schizofox";
+      repo = "schizofox";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 }

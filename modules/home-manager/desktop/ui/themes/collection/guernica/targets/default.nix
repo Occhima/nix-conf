@@ -8,5 +8,6 @@
     ./rofi.nix
     ./waybar.nix
     ./spicetify.nix
+    ./schizofox.nix
   ];
 }

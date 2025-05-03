@@ -42,7 +42,9 @@
     };
 
     desktop = {
-      browser.nyxt.enable = true;
+      browser = {
+        firefox.enable = true;
+      };
       terminal = {
         kitty.enable = true;
       };
@@ -60,7 +62,7 @@
       apps = {
         flatpak = {
           packages = [
-            "app.zen_browser.zen"
+            "com.github.tchx84.Flatseal"
           ];
           enable = true;
         };
