@@ -19,7 +19,7 @@ in
     programs.schizofox = {
       enable = true;
       search = {
-        defaultSearchEngine = "Brave";
+        defaultSearchEngine = "Searx";
         removeEngines = [
           "Google"
           "Bing"
@@ -38,6 +38,12 @@ in
             Method = "GET";
             URLTemplate = "https://etherscan.io/search?f=0&q={searchTerms}";
           }
+          {
+            Name = "Startpage";
+            Description = "Uses Google's indexer without its logging";
+            Method = "GET";
+            URLTemplate = "https://startpage.com/sp/search?query={searchTerms}";
+          }
         ];
       };
 
@@ -48,15 +54,29 @@ in
       };
 
       misc = {
-        drmFix = true;
+        drm.enable = true;
+
+        # XXX: This is probably giving that annoying mesa.drivers warning
         disableWebgl = false;
         contextMenu.enable = true;
       };
 
+      # stolen from: https://github.com/diniamo/niqs/blob/refs%2Fheads%2Fmain/home%2Fschizofox.nix
       extensions = {
         darkreader.enable = true;
-        # extraExtensions = {
-        # };
+        extraExtensions =
+          let
+            mkUrl = name: "https://addons.mozilla.org/firefox/downloads/latest/${name}/latest.xpi";
+          in
+          {
+            "firefox@tampermonkey.net".install_url = mkUrl "tampermonkey";
+            "sponsorBlocker@ajay.app".install_url = mkUrl "sponsorblock";
+            "adguardadblocker@adguard.com".install_url = mkUrl "adguardadblocker";
+            "{a4c4eda4-fb84-4a84-b4a1-f7c1cbf2a1ad}".install_url =
+              "https://addons.mozilla.org/firefox/downloads/latest/refined-github-/latest.xpi";
+            "{d7742d87-e61d-4b78-b8a1-b469842139fa}".install_url =
+              "https://addons.mozilla.org/firefox/downloads/latest/vimium-ff/latest.xpi";
+          };
       };
 
       # bookmarks = [
