@@ -50,6 +50,7 @@ in
             "ripgrep"
             "lazygit"
             "jujutsu"
+            "fastfetch"
           ]
         );
         default = [
@@ -64,6 +65,7 @@ in
           "ssh"
           "lazygit"
           "jujutsu"
+          "fastfetch"
         ];
         description = "List of CLI tools to enable";
         example = ''[ "bat" "eza" "fzf" "git" ]'';

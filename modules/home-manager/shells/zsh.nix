@@ -5,9 +5,9 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib) mkIf;
+  inherit (lib.strings) removePrefix optionalString;
   cfg = config.modules.shell;
   cfgCli = config.modules.shell.cli;
 in
@@ -18,7 +18,8 @@ in
       enable = true;
       syntaxHighlighting.enable = true;
       autosuggestion.enable = false;
-      dotDir = (strings.removePrefix (config.home.homeDirectory + "/") config.xdg.configHome) + "/zsh";
+      initContent = (optionalString (builtins.elem "fastfetch" cfgCli.tools) "fastfetch");
+      dotDir = (removePrefix (config.home.homeDirectory + "/") config.xdg.configHome) + "/zsh";
       plugins = [
         {
           name = "you-should-use";
