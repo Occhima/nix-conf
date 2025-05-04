@@ -22,12 +22,38 @@ in
 
     # TODO ...
     # encrypt with .age?
-    # home.file = mkIf agenixRekeyEnabled {
-    #   "${config.xdg.configHome}/maestral/maestral.ini" = {
-    #     enable = true;
-    #     source = osConfig.age.secrets.maestral.path;
-    #   };
-    # };
+    home.file = {
+      "${config.xdg.configHome}/maestral/maestral.ini" = {
+        enable = true;
+        source =
+          let
+            format = pkgs.formats.ini { };
+            configFile = format.generate "maestral.ini" {
+              auth = {
+                keyring = "automatic";
+              };
+              app = {
+                notification_level = 15;
+                log_level = 20;
+                update_notification_interval = 604800;
+                bandwidth_limit_up = 0.0;
+                bandwidth_limit_down = 0.0;
+                max_parallel_uploads = 6;
+                max_parallel_downloads = 6;
+              };
+              sync = {
+                path = "${config.home.homeDirectory}/Dropbox";
+                reindex_interval = 604800;
+                maximum_cpu_percent = 10.0;
+                keep_history = 604800;
+                upload = "True";
+                download = "True";
+              };
+            };
+          in
+          configFile;
+      };
+    };
 
     systemd.user.services.maestral = mkIf cfg.service {
       Unit = rec {
