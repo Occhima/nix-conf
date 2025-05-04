@@ -61,7 +61,9 @@ in
           treesit-grammars.with-all-grammars
           vterm
           mu4e
+          pdf-tools
         ];
+
     };
 
     home = {

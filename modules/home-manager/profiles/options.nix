@@ -13,6 +13,8 @@ in
       type = types.listOf (
         types.enum [
           "pentesting"
+          "web"
+          "ai"
         ]
       );
       default = [ ];

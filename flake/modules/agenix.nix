@@ -8,7 +8,6 @@ let
   inherit (lib.attrsets) filterAttrs;
   configs = [
     "steammachine"
-    "face2face"
     "aerodynamic"
   ];
   nixosConfigs = filterAttrs (name: _: builtins.elem name configs) self.nixosConfigurations;

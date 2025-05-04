@@ -45,11 +45,6 @@ in
         path = ./steammachine;
       };
 
-      face2face = {
-        deployable = false;
-        path = ./face2face;
-      };
-
       voyager = {
         deployable = false;
         path = ./voyager;

@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  osConfig,
   ...
 }:
 let
@@ -9,6 +10,7 @@ let
   cfg = config.modules.shell.cli.passwordStore;
   cfgShell = config.modules.shell.cli;
   storeSettings = config.programs.password-store;
+  hasYubikeySupport = osConfig.modules.hardware.yubikey.enable or false;
 
   agePackage = pkgs.rage;
   passageRoot = "${config.xdg.configHome}/secrets";
@@ -68,7 +70,7 @@ in
         pass = "passage";
       };
 
-      packages = [
+      packages = mkIf hasYubikeySupport [
         passage-yubikey-update
       ];
     };

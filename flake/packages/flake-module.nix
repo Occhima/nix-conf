@@ -1,7 +1,10 @@
-{ inputs, ... }:
-let
-  inherit (inputs.nixos-generators) nixosGenerate;
-in
+{
+  # inputs,
+  ...
+}:
+# let
+#   inherit (inputs.nixos-generators) nixosGenerate;
+# in
 
 # specialArgs = { inherit self inputs; };
 {
@@ -22,10 +25,10 @@ in
         docs = pkgs.callPackage ./docs/package.nix { };
         nyxt-unstable = pkgs.callPackage ./nyxt/package.nix { };
 
-        vbox = nixosGenerate {
-          system = "x86_64-linux";
-          format = "virtualbox";
-        };
+        # vbox = nixosGenerate {
+        #   system = "x86_64-linux";
+        #   format = "virtualbox";
+        # };
         # V2 Gnome installer
         # XXX: Uninstalling bc it's too heavy
         # gnome-installer = nixosGenerate {

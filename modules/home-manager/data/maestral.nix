@@ -18,14 +18,14 @@ in
 
     home.packages = [
       pkgs.maestral
-      pkgs.maestral-gui
     ];
 
     # TODO ...
     # encrypt with .age?
-    # home.file = {
-    #   "${config.xdg.configHome}/maestral/maestral.init" = {
-
+    # home.file = mkIf agenixRekeyEnabled {
+    #   "${config.xdg.configHome}/maestral/maestral.ini" = {
+    #     enable = true;
+    #     source = osConfig.age.secrets.maestral.path;
     #   };
     # };
 

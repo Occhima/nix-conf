@@ -4,6 +4,13 @@
   };
 
   modules = {
+    profiles = {
+      enable = true;
+      active = [
+        "web"
+        "ai"
+      ];
+    };
     shell = {
       enable = true;
       type = "zsh";

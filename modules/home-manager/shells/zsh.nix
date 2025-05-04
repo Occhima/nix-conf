@@ -10,6 +10,7 @@ let
   inherit (lib.strings) removePrefix optionalString;
   cfg = config.modules.shell;
   cfgCli = config.modules.shell.cli;
+  hasFzfSupport = builtins.elem "fzf" cfgCli.tools;
 in
 {
   config = mkIf (cfg.type == "zsh") {
@@ -34,7 +35,7 @@ in
           name = "nix-shell";
           src = "${pkgs.zsh-nix-shell}/share/zsh-nix-shell";
         }
-        (mkIf (builtins.elem "fzf" cfgCli.tools) {
+        (mkIf hasFzfSupport {
           name = "fzf-tab";
           src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
         })

@@ -13,7 +13,7 @@ in
 
   # Override font and theme settings conditionally
   programs.kitty = lib.mkIf (cfg.enable && cfg.name == "guernica") {
-    font.name = "0xProto Nerd Font";
+    font.name = config.stylix.fonts.monospace.name;
     themeFile = "Monokai_Soda";
   };
 }

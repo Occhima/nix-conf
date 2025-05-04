@@ -23,7 +23,12 @@ let
   ageSecrets = load {
     src = secretsDir;
     loader = [
-      (matchers.extension "age" (_ctx: path: { rekeyFile = path; }))
+      (matchers.extension "age" (
+        _ctx: path: {
+          rekeyFile = path;
+          owner = "occhima";
+        }
+      ))
     ];
   };
 
