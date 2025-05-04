@@ -1,4 +1,9 @@
-{ ... }:
+{ lib, config, ... }:
+let
+
+  inherit (lib.strings) optionalString;
+  flameshotCfg = config.modules.desktop.apps.flameshot;
+in
 {
   wayland.windowManager.hyprland.settings = {
     "$mainMod" = "SUPER";
@@ -16,6 +21,7 @@
       "$mainMod SHIFT, R, exec, hyprctl reload"
       "$mainMod, V, togglefloating,"
       "$mainMod, J, togglesplit,"
+      (optionalString flameshotCfg.enable "$mainMod, S, exec, flameshot gui")
 
       # Focus movement
       "$mainMod, left, movefocus, l"

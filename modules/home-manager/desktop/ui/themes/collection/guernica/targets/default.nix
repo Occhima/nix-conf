@@ -9,5 +9,6 @@
     ./waybar.nix
     ./spicetify.nix
     ./schizofox.nix
+    ./mako.nix
   ];
 }

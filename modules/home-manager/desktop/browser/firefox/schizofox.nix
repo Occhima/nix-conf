@@ -19,7 +19,7 @@ in
     programs.schizofox = {
       enable = true;
       search = {
-        defaultSearchEngine = "Searx";
+        defaultSearchEngine = "Brave";
         removeEngines = [
           "Google"
           "Bing"
@@ -63,6 +63,7 @@ in
 
       # stolen from: https://github.com/diniamo/niqs/blob/refs%2Fheads%2Fmain/home%2Fschizofox.nix
       extensions = {
+        enableExtraExtensions = true;
         darkreader.enable = true;
         extraExtensions =
           let

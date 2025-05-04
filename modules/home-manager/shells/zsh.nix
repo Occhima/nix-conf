@@ -1,5 +1,6 @@
 {
   config,
+  pkgs,
   lib,
   ...
 }:
@@ -8,6 +9,7 @@ with lib;
 
 let
   cfg = config.modules.shell;
+  cfgCli = config.modules.shell.cli;
 in
 {
   config = mkIf (cfg.type == "zsh") {
@@ -15,14 +17,36 @@ in
     programs.zsh = {
       enable = true;
       syntaxHighlighting.enable = true;
-      autosuggestion.enable = true;
+      autosuggestion.enable = false;
       dotDir = (strings.removePrefix (config.home.homeDirectory + "/") config.xdg.configHome) + "/zsh";
+      plugins = [
+        {
+          name = "you-should-use";
+          src = pkgs.zsh-you-should-use;
+          file = "share/zsh/plugins/you-should-use/you-should-use.plugin.zsh";
+        }
+        {
+          name = "nix-zsh-completions";
+          src = "${pkgs.nix-zsh-completions}/share/zsh/plugins/nix";
+        }
+        {
+          name = "nix-shell";
+          src = "${pkgs.zsh-nix-shell}/share/zsh-nix-shell";
+        }
+        (mkIf (builtins.elem "fzf" cfgCli.tools) {
+          name = "fzf-tab";
+          src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
+        })
+      ];
       oh-my-zsh = {
         enable = true;
         plugins = [
-          "git"
+          "colored-man-pages"
+          "dirhistory"
+          "httpie"
+          "urltools"
+          "vi-mode"
         ];
-        # theme = "robyrussell";
       };
     };
   };

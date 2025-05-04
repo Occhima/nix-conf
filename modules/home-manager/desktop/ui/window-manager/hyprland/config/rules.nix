@@ -4,6 +4,8 @@
       "opacity 0.85 0.85,class:^(emacs)$"
       "opacity 0.90 0.90,class:^(nyxt)$"
       "opacity 0.8 0.8,class:^(rofi)$"
+      "opacity 0.8 0.8,class:^(firefox)$"
+      "opacity 0.8 0.8,class:^(mako)$"
     ];
   };
 }

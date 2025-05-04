@@ -53,6 +53,7 @@
         windowManager = "hyprland";
         dock = "waybar";
         launcher = "rofi";
+        notifier = "mako";
         themes = {
           enable = true;
           name = "guernica";
@@ -67,6 +68,7 @@
           enable = true;
         };
         spotify.enable = true;
+        flameshot.enable = true;
       };
 
     };
