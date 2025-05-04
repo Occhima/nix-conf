@@ -18,7 +18,7 @@ in
         background = colors.base00;
         foreground = colors.base05;
       };
-      font = config.stylix.fonts.sansSerif.name;
+      font = config.stylix.fonts.monospace.name;
     };
 
   };

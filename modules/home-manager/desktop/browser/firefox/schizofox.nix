@@ -48,23 +48,19 @@ in
       };
 
       security = {
-        sanitizeOnShutdown.enable = true;
         sandbox.enable = true;
         userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:106.0) Gecko/20100101 Firefox/106.0";
       };
 
       misc = {
         drm.enable = true;
-
-        # XXX: This is probably giving that annoying mesa.drivers warning
-        disableWebgl = false;
         contextMenu.enable = true;
       };
 
       # stolen from: https://github.com/diniamo/niqs/blob/refs%2Fheads%2Fmain/home%2Fschizofox.nix
       extensions = {
         enableExtraExtensions = true;
-        darkreader.enable = true;
+        darkreader.enable = false;
         extraExtensions =
           let
             mkUrl = name: "https://addons.mozilla.org/firefox/downloads/latest/${name}/latest.xpi";
