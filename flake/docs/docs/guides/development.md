@@ -126,6 +126,7 @@ just test
 ```
 
 This will:
+
 1. Run nix-unit tests
 2. Check formatting
 3. Run linting tools
@@ -253,10 +254,12 @@ This configuration uses agenix for secrets management:
 ### Common Issues
 
 1. **Flake evaluation errors**:
+
    - Run `nix flake check --show-trace` for detailed error messages
    - Check for syntax errors in recently modified files
 
 2. **Build failures**:
+
    - Look for specific error messages in the build output
    - Check that all dependencies are correctly specified
 
@@ -267,16 +270,19 @@ This configuration uses agenix for secrets management:
 ### Debugging Tools
 
 1. **Tracing flake evaluation**:
+
    ```bash
    nix flake check --show-trace
    ```
 
 2. **Inspecting flake outputs**:
+
    ```bash
    just inspect
    ```
 
 3. **Viewing derivation information**:
+
    ```bash
    nix derivation show .#nixosConfigurations.hostname.config.system.build.toplevel
    ```

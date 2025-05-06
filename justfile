@@ -21,6 +21,22 @@ check:
     nix flake check --show-trace |& nom
 alias ch := check
 
+# <- Reload direnv, runs flake-checker ( That's not nix flake check! )
+[group('dev')]
+flake-check:
+    @just reload
+    nix run github:DeterminateSystems/flake-checker
+alias fc := flake-check
+
+# <- Reloads all the checks:  direnv, nix flake check and flake-checker ( That's not nix flake check! )
+[group('dev')]
+full-check:
+    @just reload
+    @just flake-check
+    @just check
+    @just fmt
+alias fu := full-check
+
 # <- Reload direnv and show current flake
 [group('dev')]
 show:

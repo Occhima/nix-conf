@@ -32,6 +32,7 @@ Discord messaging application.
 ```
 
 When enabled:
+
 - Installs Discord client
 - Configures proper integration with desktop environment
 - Sets up XDG paths for Discord data
@@ -50,6 +51,7 @@ Flatpak application management.
 ```
 
 When enabled:
+
 - Installs Flatpak
 - Configures system integration
 - Sets up XDG portal support
@@ -68,6 +70,7 @@ LibreOffice office suite.
 ```
 
 When enabled:
+
 - Installs LibreOffice
 - Configures default themes and settings
 - Sets up proper file associations
@@ -86,6 +89,7 @@ Thunar file manager.
 ```
 
 When enabled:
+
 - Installs Thunar file manager
 - Configures plugins and extensions
 - Sets up file associations and default actions
@@ -108,6 +112,7 @@ Nyxt programmable web browser.
 ```
 
 When enabled:
+
 - Installs Nyxt browser
 - Configures with sensible defaults
 - Sets up keybindings and behavior
@@ -134,6 +139,7 @@ Kitty terminal emulator.
 ```
 
 When enabled:
+
 - Installs Kitty terminal
 - Configures fonts, colors, and behavior
 - Sets up keybindings and terminal features
@@ -157,6 +163,7 @@ Guernica theme for window managers.
 ```
 
 When enabled:
+
 - Applies the Guernica theme to your window manager
 - Configures matching Waybar theme
 - Sets up coordinated color scheme across applications

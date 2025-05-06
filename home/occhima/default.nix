@@ -9,6 +9,7 @@
       active = [
         "web"
         "ai"
+        "dev"
       ];
     };
     shell = {

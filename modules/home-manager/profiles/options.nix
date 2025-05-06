@@ -14,6 +14,7 @@ in
         types.enum [
           "pentesting"
           "web"
+          "dev"
           "ai"
         ]
       );

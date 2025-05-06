@@ -19,9 +19,9 @@ The main shell module that configures your preferred shell.
 
 #### Options
 
-| Option            | Description                                | Default     |
-|-------------------|--------------------------------------------|-------------|
-| type              | The shell to use ("zsh", "bash", etc.)     | "zsh"       |
+| Option | Description                            | Default |
+| ------ | -------------------------------------- | ------- |
+| type   | The shell to use ("zsh", "bash", etc.) | "zsh"   |
 
 #### Usage
 
@@ -61,6 +61,7 @@ Directory-specific environment manager.
 ```
 
 When enabled:
+
 - Configures direnv to load .envrc files in directories
 - Sets up shell hooks for proper integration
 - Adds logging and helper functionality
@@ -79,6 +80,7 @@ Command line password manager.
 ```
 
 When enabled:
+
 - Installs pass and configures it
 - Sets up proper integration with GPG
 - Provides password management utilities
@@ -101,6 +103,7 @@ Configures the Starship cross-shell prompt.
 ```
 
 When enabled:
+
 - Installs and configures the Starship prompt
 - Sets up modules and appearance
 - Integrates with version control systems
@@ -122,6 +125,7 @@ Core utilities that should be available in most environments.
 ```
 
 When enabled, installs common utilities like:
+
 - `ripgrep` - Modern grep replacement
 - `fd` - Modern find replacement
 - `bat` - Cat replacement with syntax highlighting
@@ -140,6 +144,7 @@ Tools for functional programming languages.
 ```
 
 When enabled, installs tools like:
+
 - Haskell development tools
 - Nix-related utilities
 - Other functional programming languages support
@@ -156,6 +161,7 @@ Security-focused tools.
 ```
 
 When enabled, installs tools like:
+
 - GnuPG
 - Password managers
 - Encryption utilities
@@ -173,6 +179,7 @@ System monitoring and statistics tools.
 ```
 
 When enabled, installs tools like:
+
 - `htop` - Interactive process viewer
 - `neofetch` - System information tool
 - Performance monitoring tools

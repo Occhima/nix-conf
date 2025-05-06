@@ -43,8 +43,8 @@
           # biome = { enable = true; };
 
           # YAML
-          yamlfmt = {
-            enable = false;
+          prettier = {
+            enable = true;
           };
         };
 

@@ -18,9 +18,9 @@ The XDG module configures the XDG Base Directory Specification, which defines st
 
 #### Options
 
-| Option            | Description                                   | Default                    |
-|-------------------|-----------------------------------------------|----------------------------|
-| enable            | Whether to enable XDG directory configuration | false                      |
+| Option | Description                                   | Default |
+| ------ | --------------------------------------------- | ------- |
+| enable | Whether to enable XDG directory configuration | false   |
 
 #### Usage
 
@@ -47,11 +47,11 @@ The persistence module manages state persistence across system rebuilds, particu
 
 #### Options
 
-| Option       | Description                                 | Default                                                                      |
-|--------------|---------------------------------------------|------------------------------------------------------------------------------|
-| enable       | Whether to enable persistence configuration | false                                                                        |
-| location     | Subdirectory under $HOME for persisted data | "persist"                                                                    |
-| directories  | Directories to persist                      | [ "Documents" "Downloads" "Pictures" "Videos" ".local/bin" ".ssh" ".local/share/nix" ] |
+| Option      | Description                                 | Default                                                                                |
+| ----------- | ------------------------------------------- | -------------------------------------------------------------------------------------- |
+| enable      | Whether to enable persistence configuration | false                                                                                  |
+| location    | Subdirectory under $HOME for persisted data | "persist"                                                                              |
+| directories | Directories to persist                      | [ "Documents" "Downloads" "Pictures" "Videos" ".local/bin" ".ssh" ".local/share/nix" ] |
 
 #### Usage
 

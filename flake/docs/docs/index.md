@@ -24,17 +24,17 @@ This repository contains a complete NixOS system configuration that follows mode
 
 ## Directory Structure
 
-| Directory         | Description                                     |
-|-------------------|-------------------------------------------------|
-| `flake.nix`       | Main flake entry point                          |
-| `flake-module.nix` | Root flake module imported by flake.nix         |
-| `hosts/`          | Host-specific configurations                    |
-| `home/`           | User home configurations via home-manager       |
-| `modules/`        | Shared NixOS and home-manager modules           |
-| `packages/`       | Custom packages                                 |
-| `overlays/`       | Nixpkgs overlays                                |
-| `lib/`            | Custom library functions                        |
-| `dev/`            | Development tools and tests                     |
+| Directory          | Description                               |
+| ------------------ | ----------------------------------------- |
+| `flake.nix`        | Main flake entry point                    |
+| `flake-module.nix` | Root flake module imported by flake.nix   |
+| `hosts/`           | Host-specific configurations              |
+| `home/`            | User home configurations via home-manager |
+| `modules/`         | Shared NixOS and home-manager modules     |
+| `packages/`        | Custom packages                           |
+| `overlays/`        | Nixpkgs overlays                          |
+| `lib/`             | Custom library functions                  |
+| `dev/`             | Development tools and tests               |
 
 ## Quick Links
 
