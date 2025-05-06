@@ -23,6 +23,9 @@ in
     ];
 
     # programs.ruff.enable = true;
-    programs.pyenv.enable = true;
+    programs.pyenv = {
+      enable = true;
+      rootDirectory = "${config.xdg.configHome}/pyenv";
+    };
   };
 }

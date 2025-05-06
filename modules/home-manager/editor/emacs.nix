@@ -31,9 +31,10 @@ let
     "pandoc"
     "gnutls"
     "ffmpeg"
+    "texliveBasic"
     "beancount"
     "fava"
-    "texliveBasic"
+    "beancount-language-server"
     "imagemagick"
     "binutils"
     "editorconfig-core-c"
@@ -62,6 +63,7 @@ in
           vterm
           mu4e
           pdf-tools
+          all-the-icons-nerd-fonts
         ];
 
     };

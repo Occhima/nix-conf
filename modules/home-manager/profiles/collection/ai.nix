@@ -39,11 +39,15 @@ in
 {
   config = mkIf (hasProfile config [ "ai" ]) {
     home = {
-      packages = [ aiderPackage ];
+      packages = [
+        aiderPackage
+        pkgs.claude-code
+      ];
       file.".aider.conf.yml".source = yamlFormat.generate "aider-conf" settings;
 
       sessionVariables = mkIf hasAgeKeys {
         OPENAI_API_KEY = "$( cat ${osConfig.age.secrets.openai-api-key.path} )";
+        ANTHROPIC_API_KEY = "$( cat ${osConfig.age.secrets.aider-anthropic.path} )";
       };
     };
     programs.git.ignores = [ ".aider*" ];

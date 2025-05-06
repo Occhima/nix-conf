@@ -46,6 +46,8 @@
     dev = {
       python.enable = true;
       haskell.enable = true;
+      c.enable = true;
+      beancount.enable = true;
     };
 
     desktop = {

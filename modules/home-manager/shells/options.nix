@@ -51,6 +51,7 @@ in
             "lazygit"
             "jujutsu"
             "fastfetch"
+            "pandoc"
           ]
         );
         default = [
@@ -65,7 +66,7 @@ in
           "ssh"
           "lazygit"
           "jujutsu"
-          "fastfetch"
+          "pandoc"
         ];
         description = "List of CLI tools to enable";
         example = ''[ "bat" "eza" "fzf" "git" ]'';

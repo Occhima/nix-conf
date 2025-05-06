@@ -8,7 +8,7 @@
   ];
 
   flake.actions-nix = {
-    pre-commit.enable = true;
+    pre-commit.enable = false;
     defaults = {
       jobs = {
         timeout-minutes = 120;
@@ -31,7 +31,7 @@
               }
               {
                 name = "GitGuardian scan";
-                uses = "GitGuardian/ggshield/actions/secret@v1.38.1";
+                uses = "GitGuardian/ggshield/actions/secret@v1.39.0";
                 env = {
                   GITHUB_PUSH_BEFORE_SHA = "\${{ github.event.before }}";
                   GITHUB_PUSH_BASE_SHA = "\${{ github.event.base }}";

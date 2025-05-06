@@ -17,8 +17,6 @@ in
 
       dbus = {
         enable = true;
-        # implementation = "broker";
-        # packages = builtins.attrValues { inherit (pkgs) dconf gcr udisks2; };
       };
 
       timesyncd.enable = mkDefault true;
