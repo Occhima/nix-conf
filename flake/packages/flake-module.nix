@@ -1,17 +1,12 @@
 {
-  # inputs,
   ...
 }:
-# let
-#   inherit (inputs.nixos-generators) nixosGenerate;
-# in
 
 # specialArgs = { inherit self inputs; };
 {
   perSystem =
     {
       pkgs,
-      # system,
       # self',
       ...
     }:

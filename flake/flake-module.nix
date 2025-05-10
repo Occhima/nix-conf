@@ -2,6 +2,7 @@
   inputs,
   partitionStack,
   config,
+  self,
   ...
 }:
 let
@@ -40,12 +41,23 @@ in
 
   # Stolen from the nixvim github repo
   perSystem =
-    { system, ... }:
+    {
+      system,
+      ...
+    }:
     {
       packages = lib.optionalAttrs (partitionStack == [ ]) {
         inherit (config.partitions.dev.module.flake.packages.${system})
           render-workflows
           ;
+      };
+      _module.args.pkgs = import nixpkgs {
+        inherit system;
+        config = {
+          allowUnfree = true;
+          allowUnsupportedSystem = true;
+        };
+        overlays = builtins.attrValues self.overlays;
       };
     };
 

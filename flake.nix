@@ -44,6 +44,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixgl = {
+      type = "github";
+      owner = "nix-community";
+      repo = "nixGL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixos-hardware = {
       type = "github";
       owner = "NixOS";

@@ -1,11 +1,5 @@
 {
   wayland.windowManager.hyprland.settings = {
-
-    # TODO: Put the monitors here, probably use osConfig
-    # monitors = [ ];
-    # workspaces = [
-    # ];
-
     input = {
       kb_layout = "us,br";
       kb_variant = "intl,abnt2";
