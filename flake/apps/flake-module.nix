@@ -7,9 +7,9 @@
     }:
     {
       apps = {
-        nyxt-unstable = {
+        nyxt-source = {
           type = "app";
-          program = "${self'.packages.nyxt-unstable}/bin/nyxt";
+          program = "${self'.packages.nyxt-source}/bin/nyxt";
         };
       };
     };

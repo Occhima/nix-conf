@@ -78,7 +78,6 @@ in
           verbose = false;
           systemd = {
             enable = true;
-            strip = true;
           };
 
           kernelModules = mkIf cfg.loadRecommendedModules [

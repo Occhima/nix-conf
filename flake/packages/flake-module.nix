@@ -18,7 +18,7 @@
           ;
         install-tools = pkgs.callPackage ./installer/package.nix { };
         docs = pkgs.callPackage ./docs/package.nix { };
-        nyxt-unstable = pkgs.callPackage ./nyxt/package.nix { };
+        nyxt-source = pkgs.callPackage ./nyxt/package.nix { };
 
         # vbox = nixosGenerate {
         #   system = "x86_64-linux";

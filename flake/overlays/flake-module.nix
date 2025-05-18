@@ -9,13 +9,13 @@ let
     nixgl = nixgl.overlay;
     unstable-packages = final: _prev: {
       unstable = import nixpkgs-unstable {
-        inherit (final) system;
-        config.allowUnfree = true;
+        inherit (final) system config;
         overlays = [
           (_final: prev: { gopls = prev.gopls.override { buildGoModule = prev.buildGo123Module; }; })
         ];
       };
     };
+    nyxt-overlay = import ./pkgs/nyxt-electron.nix;
   };
 
 in

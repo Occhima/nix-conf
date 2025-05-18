@@ -16,7 +16,6 @@ in
     hardware = {
       graphics = {
         extraPackages = [ pkgs.nvidia-vaapi-driver ];
-        extraPackages32 = [ pkgs.pkgsi686Linux.nvidia-vaapi-driver ];
       };
 
       nvidia = {
@@ -36,7 +35,7 @@ in
     boot = {
       blacklistedKernelModules = [
         "i2c_nvidia_gpu"
-        "nouveau"
+        # "nouveau"
       ];
       kernelParams = [ "nvidia-drm.fbdev=1" ];
     };

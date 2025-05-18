@@ -57,6 +57,7 @@ TASKS=(
   "Install Doom Emacs"
   "Get password vault"
   "Copy host SSH key"
+  "Get nixGL"
   "Quit"
 )
 
@@ -166,6 +167,16 @@ for task in $chosen; do
         gum log --level info "Key saved -> $dest/host.pub"
       else
         gum log --level error "Failed to grab key from $addr"; exit 1
+      fi
+      ;;
+
+    "Get nixGL")
+      if gum confirm "Install nixGL ( it's not in our flake bc adds impurity )"; then
+        spinner "Installing nixGL" \
+          "nix-channel --add https://github.com/nix-community/nixGL/archive/main.tar.gz nixgl && nix-channel --update && \
+          nix-env -iA nixgl.auto.nixGLDefault"
+      else
+        gum log --level warn "Not installing nixGL"
       fi
       ;;
 
