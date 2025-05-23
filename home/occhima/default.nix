@@ -54,7 +54,7 @@
     desktop = {
       browser = {
         firefox.enable = true;
-        nyxt.enable = true;
+        nyxt.enable = false;
       };
       terminal = {
         kitty.enable = true;

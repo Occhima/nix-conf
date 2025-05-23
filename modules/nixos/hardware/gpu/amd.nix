@@ -24,7 +24,7 @@ in
     # Enable graphics packages
     hardware.graphics = {
       enable = true;
-      enable32Bit = true;
+      # enable32Bit = true;
 
       # Enable AMDVLK & OpenCL support
       extraPackages = [

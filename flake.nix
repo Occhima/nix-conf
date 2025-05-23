@@ -26,7 +26,7 @@
       type = "github";
       owner = "nixos";
       repo = "nixpkgs";
-      ref = "nixos-unstable";
+      ref = "nixos-unstable"; # switch to stable when 25.05 is released
     };
 
     nixpkgs-unstable = {
@@ -41,13 +41,6 @@
       type = "github";
       owner = "nix-community";
       repo = "disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nixgl = {
-      type = "github";
-      owner = "nix-community";
-      repo = "nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

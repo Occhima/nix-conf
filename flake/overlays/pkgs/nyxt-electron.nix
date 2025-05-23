@@ -32,13 +32,13 @@ in
       pkgs.webkitgtk # Electron/WebKit variant Nyxt needs
       pkgs.electron
     ];
-    # makeFlags = [
-    #   "all"
-    #   # build cl-electron in nix instead of npm.
-    #   # "NODE_SETUP=false"
-    #   # "NYXT_SUBMODULES=true"
-    #   "NYXT_RENDERER=electron"
-    # ];
+    makeFlags = [
+      "all"
+      # build cl-electron in nix instead of npm.
+      "NODE_SETUP=false"
+      "NYXT_SUBMODULES=false"
+      "NYXT_RENDERER=electron"
+    ];
     # cosmetic: identify the main binary for `nix run`
     meta.mainProgram = "nyxt";
   });

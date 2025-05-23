@@ -23,17 +23,17 @@
   "Reroute the bookmarks to the config directory."
   #p"~/.config/nyxt/bookmarks.lisp")
 
-(define-nyxt-user-system-and-load nyxt-user/style-config
-  :components ("style"
-               "status"))
+;; (define-nyxt-user-system-and-load nyxt-user/style-config
+;;   :components ("style"
+;;                "status"))
 
-;; extensions
-(define-nyxt-user-system-and-load nyxt-user/extra-config
-  :components (
-               "commands"
-               "repl"
-               "search-engines"
-               ))
+;; ;; extensions
+;; (define-nyxt-user-system-and-load nyxt-user/extra-config
+;;   :components (
+;;                "commands"
+;;                "repl"
+;;                "search-engines"
+;;                ))
 
 ;; simple web-buffer customization
 (define-configuration buffer
@@ -46,3 +46,6 @@
     ((default-modes `(vi-insert-mode
                       ,@%slot-value%))
      (hide-single-source-header-p t)))
+
+;; Env
+(setf (uiop/os:getenv "WEBKIT_DISABLE_COMPOSITING_MODE") "1")

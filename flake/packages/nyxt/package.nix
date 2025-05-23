@@ -70,10 +70,14 @@ stdenvNoCC.mkDerivation {
     openssl
     libglvnd
     wayland
+    electron
   ];
 
   runtimeDependencies = [
     electron
+    openssl
+    libglvnd
+    wayland
   ];
 
   # sourceRoot = lib.optionalString hostPlatform.isDarwin ".";
@@ -93,11 +97,10 @@ stdenvNoCC.mkDerivation {
       --prefix PATH : "${
         lib.makeBinPath [
           xdg-utils
-          # xclip
-          # wl-clipboard
-          # electron
-          # wayland
-          # libdrm
+          openssl
+          electron
+          libglvnd
+          wayland
         ]
       }"
   '';
@@ -108,6 +111,6 @@ stdenvNoCC.mkDerivation {
     mainProgram = "nyxt";
     homepage = "https://nyxt.atlas.engineer";
     license = licenses.bsd3;
-    platforms = platforms.linyux;
+    platforms = platforms.linux;
   };
 }

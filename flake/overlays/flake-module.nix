@@ -6,7 +6,6 @@ let
     agenix = agenix.overlays.default;
     agenix-rekey = agenix-rekey.overlays.default;
     emacs-overlay = emacs-overlay.overlays.default;
-    nixgl = nixgl.overlay;
     unstable-packages = final: _prev: {
       unstable = import nixpkgs-unstable {
         inherit (final) system config;
