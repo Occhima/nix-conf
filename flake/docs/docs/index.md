@@ -21,6 +21,9 @@ This repository contains a complete NixOS system configuration that follows mode
 - **Secret Management**: Secure secrets handling with Agenix
 - **Deployment Tools**: Remote deployment with deploy-rs
 - **Development Environment**: Comprehensive dev tools and testing framework
+- **Theme Management**: Integrated Stylix theming across all applications
+- **Modern Browser**: Nyxt browser configuration for power users
+- **Virtualization**: Docker, Podman, and QEMU support with optimized configurations
 
 ## Directory Structure
 
@@ -35,6 +38,25 @@ This repository contains a complete NixOS system configuration that follows mode
 | `overlays/`        | Nixpkgs overlays                          |
 | `lib/`             | Custom library functions                  |
 | `dev/`             | Development tools and tests               |
+
+## Quick Start
+
+### Build Commands
+
+- `just switch` - Apply system configuration
+- `just boot` - Rebuild boot configuration
+- `just test-switch` - Test configuration without applying
+- `just home-switch` - Apply home-manager configuration
+
+### Development Commands
+
+- `just test` - Run tests (nix-unit)
+- `just fmt` - Format code with treefmt
+- `just lint` - Run linting (deadnix)
+- `just check` - Run flake check
+- `just pre-commit` - Run pre-commit hooks
+- `just clean` - Clean nix store
+- `just update [input]` - Update flake inputs
 
 ## Quick Links
 

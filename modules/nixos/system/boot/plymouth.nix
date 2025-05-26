@@ -11,6 +11,7 @@ let
   inherit (lib.types) bool;
 
   cfg = config.modules.system.boot.plymouth;
+
 in
 {
   options.modules.system.boot.plymouth = {
@@ -24,12 +25,12 @@ in
   config = mkIf cfg.enable {
     boot.plymouth = {
       enable = true;
-      theme = "rings";
+      theme = "deus_ex";
 
       themePackages = with pkgs; [
         # By default we would install all themes
         (adi1090x-plymouth-themes.override {
-          selected_themes = [ "rings" ];
+          selected_themes = [ "deus_ex" ];
         })
       ];
     };

@@ -39,12 +39,27 @@ just
 Here are the most common development-related commands:
 
 ```bash
+# Development Commands
 just reload     # Reload direnv
 just check      # Run flake check
 just fmt        # Format code with treefmt
 just lint       # Run linting tools (deadnix)
 just test       # Run tests
 just pre-commit # Run pre-commit hooks
+just clean      # Clean nix store and optimize
+just update     # Update flake inputs
+
+# Build Commands
+just switch       # Apply system configuration
+just boot         # Rebuild boot configuration
+just test-switch  # Test configuration without applying
+just home-switch  # Apply home-manager configuration
+
+# Advanced Commands
+just full-check   # Run all checks (direnv, flake-check, check, fmt)
+just flake-check  # Run flake-checker (not nix flake check)
+just rekey        # Rekey all agenix secrets
+just repair       # Repair nix store from breakages
 ```
 
 ## Making Changes
@@ -209,6 +224,12 @@ To update specific inputs:
 just update nixpkgs
 ```
 
+To lock flake files:
+
+```bash
+just lock
+```
+
 ## Building Different Outputs
 
 ### Testing Configuration
@@ -238,7 +259,15 @@ just vm image-name
 To run a VM for testing:
 
 ```bash
-just run-vm hostname
+just run-vm hostname  # defaults to face2face if no hostname provided
+```
+
+### Building Packages
+
+To build a specific package:
+
+```bash
+just build package-name
 ```
 
 ## Managing Secrets

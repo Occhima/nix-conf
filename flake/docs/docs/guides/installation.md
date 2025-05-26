@@ -99,6 +99,15 @@ If your system already has `just` and `nix` with flakes enabled:
 just classic-install hostname
 ```
 
+#### Using disko-install (with automatic partitioning)
+
+For complete automation including partitioning:
+
+```bash
+# Replace parameters with your values
+just partition-install hostname disk-name /dev/sdX
+```
+
 #### Using nixos-install directly
 
 ```bash
