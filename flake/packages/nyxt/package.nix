@@ -6,8 +6,6 @@
   # build
   appimageTools,
   openssl,
-  libfixposix,
-
   electron,
   xdg-utils,
   autoPatchelfHook,
@@ -23,7 +21,7 @@
 let
   pname = "nyxt";
   version = "4.0.0-pre-release-7";
-  sha256 = "sha256-gdA2Nit3Gcc5oPlheFsMHjCm0d1UX//zoLCAQnT5vUE=";
+  sha256 = "sha256-BEg6yeo7cBxQL6qQIiSUHtx1x2wo2uYd/mikmzXUOpk=";
 
   source = fetchurl {
     inherit sha256;
@@ -61,23 +59,12 @@ stdenvNoCC.mkDerivation {
     glibcLocales
   ];
 
-  buildInputs = [
-    libfixposix
-    egl-wayland
-  ];
-
   LD_LIBRARY_PATH = lib.makeLibraryPath [
     openssl
     libglvnd
     wayland
+    egl-wayland
     electron
-  ];
-
-  runtimeDependencies = [
-    electron
-    openssl
-    libglvnd
-    wayland
   ];
 
   # sourceRoot = lib.optionalString hostPlatform.isDarwin ".";
@@ -90,9 +77,9 @@ stdenvNoCC.mkDerivation {
     runHook postInstall
   '';
 
+  # --set to set env variables
   postFixup = ''
     wrapProgram "$out/bin/nyxt" \
-      --add-flags "--device=dri --socket=ffdssf --talk=asfd" \
       --prefix LD_LIBRARY_PATH : "$LD_LIBRARY_PATH" \
       --prefix PATH : "${
         lib.makeBinPath [

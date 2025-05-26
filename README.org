@@ -238,8 +238,9 @@ The following features are planned for implementation:
 - [X] Devenv + dev profiles  ()
 - [ ] Colmena ( more bloat! )
 - [X] review secrets
-- [ ] Borgmatix backup
-- [ ] Devshell & check  taking tooo muuch RAM
+- [ ]  Vanilla emacs
+- [ ]  Nyxt appimage
+- [ ]  Podman and quadlets on home manager
 - [X] Dependabot to update flake inputs
 - [X] Create some nixos-containers for applications ( use rednix! )
 - [X] Specializations in home-manager and nixos
@@ -247,9 +248,8 @@ The following features are planned for implementation:
 - [X] unstable pkgs as an overlay (pkgs.unstable)
 - [X] evaluation warning: profile: You have set either `nixpkgs.config` or `nixpkgs.overlays` while using `home-manager.useGlobalPkgs`.
                     # This will soon not be possible. Please remove all `nixpkgs` options when using `home-manager.useGlobalPkgs`.
-- [ ] Home config system agnostic??
-- [ ] Maybe finance app
-- [ ] Use determinante.nix installer ( better warning/errors messages and more )
+
+- [X] Use determinante.nix installer ( better warning/errors messages and more )
 - [X] https://github.com/nialov/actions.nix -> githubActions alternative
 
 * References

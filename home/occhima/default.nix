@@ -54,7 +54,7 @@
     desktop = {
       browser = {
         firefox.enable = true;
-        nyxt.enable = false;
+        nyxt.enable = true;
       };
       terminal = {
         kitty.enable = true;
@@ -75,7 +75,6 @@
         flatpak = {
           packages = [
             "com.github.tchx84.Flatseal"
-            "it.mijorus.gearlever"
           ];
           enable = true;
         };

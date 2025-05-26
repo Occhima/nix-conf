@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  self,
   ...
 }:
 
@@ -18,7 +19,7 @@ in
 
   config = mkIf (cfg.enable && pkgs.stdenv.isLinux) {
     home = {
-      packages = [ pkgs.nyxt-electron ];
+      packages = [ self.packages.${pkgs.system}.nyxt-source ];
       sessionVariables = {
         WEBKIT_DISABLE_COMPOSITING_MODE = 1;
       };

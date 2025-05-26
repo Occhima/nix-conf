@@ -10,5 +10,6 @@
     ./spicetify.nix
     ./schizofox.nix
     ./mako.nix
+    ./nyxt.nix
   ];
 }

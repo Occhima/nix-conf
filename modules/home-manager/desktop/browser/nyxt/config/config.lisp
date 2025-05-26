@@ -1,17 +1,34 @@
+;; NOTE: This config was stolen from https://github.com/shaunsingh/nix-darwin-dotfiles
 (in-package #:nyxt-user)
-
-;;; this file was created and edited in NYXT with ace-mode
 
 (defvar *buffer-modes*
   '(vi-normal-mode)
   "Modes to enable in buffer by default")
 
-;; don't hint images
+
+(defvar *my-search-engines*
+  (list
+   (make-instance 'search-engine :name "Google" :shortcut "g"
+                                 :control-url "https://google.com/search?q=~a")
+   (make-instance 'search-engine :name "Google Scholar" :shortcut "gs"
+                                 :control-url "https://scholar.google.com/scholar?q=~a")
+   (make-instance 'search-engine :name "GitHub" :shortcut "git"
+                                 :control-url "https://github.com/search?q=~a")
+   (make-instance 'search-engine :name "Reddit" :shortcut "r"
+                                 :control-url "https://old.reddit.com/search?q=~a")
+   (make-instance 'search-engine :name "YouTube" :shortcut "yt"
+                                 :control-url "https://yewtu.be/search?q=~a")
+   (make-instance 'search-engine :name "Arxiv" :shortcut "ax"
+                                 :control-url "https://arxiv.org/search?query=~a&searchtype=all&source=header")
+   (make-instance 'search-engine :name "Arch Linux AUR" :shortcut "arch"
+                                 :control-url "https://aur.archlinux.org/packages?O=0&K=~a")
+   (make-instance 'search-engine :name "Flathub" :shortcut "fl"
+                                 :control-url "https://flathub.org/apps/search?q=~a")))
+
 (define-configuration nyxt/mode/hint:hint-mode
     ((nyxt/mode/hint:hints-alphabet "DSJKHLFAGNMXCWEIO")
      (nyxt/mode/hint:hints-selector "a, button, input, textarea, details, select")))
 
-;; add custom user agent and block utm
 (define-configuration nyxt/mode/reduce-tracking:reduce-tracking-mode
     ((nyxt/mode/reduce-tracking:query-tracking-parameters
       (append '("utm_source" "utm_medium" "utm_campaign" "utm_term" "utm_content")
@@ -20,32 +37,44 @@
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36")))
 
 (defmethod files:resolve ((profile nyxt:nyxt-profile) (file nyxt/mode/bookmark:bookmarks-file))
-  "Reroute the bookmarks to the config directory."
   #p"~/.config/nyxt/bookmarks.lisp")
 
-;; (define-nyxt-user-system-and-load nyxt-user/style-config
-;;   :components ("style"
-;;                "status"))
+(define-configuration (browser)
+    (
+     ;; (restore-session-on-startup-p nil)
+     (external-editor-program (if (member :flatpak *features*)
+                                  "flatpak-spawn --host emacsclient -c"
+                                  "emacsclient -r"))
+     (search-engines (append  %slot-default% *my-search-engines*))
+     )
+  )
 
-;; ;; extensions
-;; (define-nyxt-user-system-and-load nyxt-user/extra-config
-;;   :components (
-;;                "commands"
-;;                "repl"
-;;                "search-engines"
-;;                ))
+(define-configuration nyxt/mode/password:password-mode
+    (
+     (nyxt/mode/password:password-interface
+      (make-instance 'password:password-store-interface :executable (if (member :flatpak *features*)
+                                                                        "flatpak-spawn --host pass"
+                                                                        "pass")))
+     )
+  )
 
-;; simple web-buffer customization
+
 (define-configuration buffer
     (;; basic mode setup for web-buffer
      (default-modes `(,@*buffer-modes*
                       ,@%slot-value%))))
 
-;; we wan't to be in insert mode in the prompt buffer, don't show source if theres only one
 (define-configuration (prompt-buffer)
-    ((default-modes `(vi-insert-mode
+    (
+     (default-modes `(vi-insert-mode
                       ,@%slot-value%))
-     (hide-single-source-header-p t)))
+     ;; (hide-single-source-header-p t)
+     )
+  )
 
-;; Env
-(setf (uiop/os:getenv "WEBKIT_DISABLE_COMPOSITING_MODE") "1")
+
+;; Load theme configuration
+(when (probe-file #p"~/.config/flake-themes/nyxt/theme.lisp")
+  (load #p"~/.config/flake-themes/nyxt/theme.lisp"))
+
+;; For nix

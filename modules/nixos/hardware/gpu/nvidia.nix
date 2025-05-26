@@ -20,7 +20,7 @@ in
 
       nvidia = {
         package = mkDefault config.boot.kernelPackages.nvidiaPackages.beta;
-        open = false;
+        open = true;
         powerManagement = {
           enable = true;
           finegrained = false;
@@ -42,6 +42,7 @@ in
 
     environment.sessionVariables = {
       LIBVA_DRIVER_NAME = "nvidia";
+      __EGL_VENDOR_LIBRARY_FILENAMES = mkDefault "/run/opengl-driver/share/glvnd/egl_vendor.d/10_nvidia.json";
     };
 
     environment.systemPackages = with pkgs; [
