@@ -234,8 +234,7 @@ The documentation can be built with MkDocs. See the [[./docs/README.md][docs REA
 
 The following features are planned for implementation:
 
-- [ ] Colmena ( more bloat! )
-- [ ]  Podman and quadlets on home manager
+- [ ]  nixos-test
 
 * References
 

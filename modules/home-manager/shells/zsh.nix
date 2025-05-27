@@ -11,10 +11,10 @@ let
   cfg = config.modules.shell;
   cfgCli = config.modules.shell.cli;
   hasFzfSupport = builtins.elem "fzf" cfgCli.tools;
+  hasJqSupport = builtins.elem "jq" cfgCli.tools;
 in
 {
   config = mkIf (cfg.type == "zsh") {
-
     programs.zsh = {
       enable = true;
       syntaxHighlighting.enable = true;
@@ -38,6 +38,10 @@ in
         (mkIf hasFzfSupport {
           name = "fzf-tab";
           src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
+        })
+        (mkIf hasJqSupport {
+          name = "jq";
+          src = "${pkgs.zsh-fzf-tab}/share/jq-zsh-plugin";
         })
       ];
       oh-my-zsh = {
