@@ -32,6 +32,13 @@ in
       };
     };
 
+    services.hyprsunset = {
+      enable = true;
+    };
+
+    services.hyprpolkitagent = {
+      enable = true;
+    };
   };
 
 }

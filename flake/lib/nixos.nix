@@ -4,6 +4,9 @@ with lib;
 with lib.filesystem;
 rec {
 
+  # Check if the system is using Wayland based on the configuration
+  isWayland = config: (config.modules.system.display.type or "") == "wayland";
+
   attrsToList = attrs: mapAttrsToList (name: value: { inherit name value; }) attrs;
 
   mapFilterAttrs =

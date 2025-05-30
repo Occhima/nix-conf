@@ -25,6 +25,14 @@
         DO_NOT_TRACK = 1;
       };
 
+      keyboard = {
+        layout = "us,br";
+        variant = "intl,abnt2";
+        options = [
+          "grp:alt_shift_toggle"
+        ];
+      };
+
       shellAliases = {
         mkdir = "mkdir -pv";
         df = "df -h";
@@ -37,6 +45,7 @@
       shell = {
         enableShellIntegration = true;
       };
+
     };
 
     # FIXME: Don't know why, home-manager not available in path

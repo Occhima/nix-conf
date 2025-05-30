@@ -235,6 +235,9 @@ The documentation can be built with MkDocs. See the [[./docs/README.md][docs REA
 The following features are planned for implementation:
 
 - [ ]  nixos-test
+- [ ]  Test collection with haumea
+- [ ]  Agenix secrets in home-manager?
+- [ ]  Remove with lib and use isWayland from lib
 
 * References
 

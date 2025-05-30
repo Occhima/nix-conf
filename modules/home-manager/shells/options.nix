@@ -53,6 +53,7 @@ in
             "fastfetch"
             "pandoc"
             "jq"
+            "yazi"
           ]
         );
         default = [
@@ -69,6 +70,7 @@ in
           "jujutsu"
           "pandoc"
           "jq"
+          "yazi"
         ];
         description = "List of CLI tools to enable";
         example = ''[ "bat" "eza" "fzf" "git" ]'';

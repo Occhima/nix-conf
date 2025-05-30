@@ -51,6 +51,11 @@ in
       };
     };
     programs.git.ignores = [ ".aider*" ];
+    services = {
+      ollama = {
+        enable = true;
+      };
+    };
   };
 
 }

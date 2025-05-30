@@ -8,6 +8,7 @@ let
     filterIgnoreModules
     isPackageEnabled
     ifPackageNotEnabled
+    isWayland
     ;
 in
 {
@@ -211,5 +212,42 @@ in
       "vim"
       "nvim"
     ];
+  };
+
+  #####################################################################
+  # Tests for isWayland
+  #####################################################################
+
+  "test isWayland with wayland display type" = {
+    expr = isWayland {
+      modules.system.display.type = "wayland";
+    };
+    expected = true;
+  };
+
+  "test isWayland with x11 display type" = {
+    expr = isWayland {
+      modules.system.display.type = "x11";
+    };
+    expected = false;
+  };
+
+  "test isWayland with empty display type" = {
+    expr = isWayland {
+      modules.system.display.type = "";
+    };
+    expected = false;
+  };
+
+  "test isWayland with missing display type" = {
+    expr = isWayland {
+      modules.system = { };
+    };
+    expected = false;
+  };
+
+  "test isWayland with completely empty config" = {
+    expr = isWayland { };
+    expected = false;
   };
 }
