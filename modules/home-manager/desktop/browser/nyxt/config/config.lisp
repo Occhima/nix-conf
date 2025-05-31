@@ -10,6 +10,8 @@
   (list
    (make-instance 'search-engine :name "Google" :shortcut "g"
                                  :control-url "https://google.com/search?q=~a")
+   (make-instance 'search-engine :name "MyNixos" :shortcut "mn"
+                                 :control-url "https://mynixos.com/search?q=~a")
    (make-instance 'search-engine :name "Google Scholar" :shortcut "gs"
                                  :control-url "https://scholar.google.com/scholar?q=~a")
    (make-instance 'search-engine :name "GitHub" :shortcut "git"
@@ -77,4 +79,23 @@
 (when (probe-file #p"~/.config/flake-themes/nyxt/theme.lisp")
   (load #p"~/.config/flake-themes/nyxt/theme.lisp"))
 
-;; For nix
+
+;; Custom functions
+;; Stolen, not mine
+;; (defun my-open-files (filename)
+;;   "Open music and videos with mpv, open directories with emacsclient."
+;;   (let ((args)
+;;         (extension (pathname-type filename)))
+;;     (cond
+;;       ((uiop:directory-pathname-p filename)
+;;        (log:info "Opening ~a with emacsclient." filename)
+;;        (setf args (list "emacsclient" filename)))
+
+;;       ((member extension '("flv" "mkv" "mp4") :test #'string-equal)
+;;        (setf args (list "mpv" filename))))
+
+;;     (handler-case (if args
+;;                       (uiop:launch-program args)
+;;                       (next/file-manager-mode:open-file-function filename))
+;;       (error (c) (log:error "Error opening ~a: ~a" filename c)))))
+;; (setf nyxt/mode/file-manager:*open-file-function* #'my-open-files)

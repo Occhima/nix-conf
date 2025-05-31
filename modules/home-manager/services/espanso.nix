@@ -20,15 +20,25 @@ in
     services.espanso = {
       enable = true;
       waylandSupport = isWayland osConfig;
-      configs.default = {
-        search_shortcut = "ALT+Space"; # TODO: https://espanso.org/docs/configuration/options/#customizing-the-search-bar
+      configs = {
+        default = {
+          auto_restart = true;
+          toggle_key = "ALT";
+          keyboard_layout.layout = "${config.home.keyboard.layout}";
+        };
       };
-      matches.base.matches = [
-        {
-          trigger = ";test";
-          replace = "Hello, Worl?";
-        }
-      ];
+      matches = {
+        emails.matches = [
+          {
+            trigger = ";pmail";
+            replace = config.accounts.email.accounts.personal.address;
+          }
+          {
+            trigger = ";umail";
+            replace = config.accounts.email.accounts.usp.address;
+          }
+        ];
+      };
     };
   };
 }
