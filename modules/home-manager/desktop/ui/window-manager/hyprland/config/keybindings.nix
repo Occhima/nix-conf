@@ -21,6 +21,7 @@ in
       "$mainMod SHIFT, R, exec, hyprctl reload"
       "$mainMod, V, togglefloating,"
       "$mainMod, J, togglesplit,"
+      "$mainMod, K, exec, clipcat-menu"
       (optionalString flameshotCfg.enable "$mainMod, S, exec, flameshot gui")
 
       # Focus movement
