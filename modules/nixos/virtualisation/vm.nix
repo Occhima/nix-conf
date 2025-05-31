@@ -4,9 +4,13 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib)
+    mkOption
+    mkEnableOption
+    mkIf
+    types
+    ;
   cfg = config.modules.virtualisation.vm;
   hasDiskoConfig = config ? disko;
   vmVariantAttr = if hasDiskoConfig then "vmVariantWithDisko" else "vmVariant";

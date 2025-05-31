@@ -3,9 +3,8 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib) mkOption types literalExpression;
   monitorOptions = {
     options = {
       name = mkOption {

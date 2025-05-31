@@ -5,9 +5,8 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib) mkIf concatStringsSep;
   cfg = config.modules.system.login;
   sessionData = config.services.displayManager.sessionData.desktops;
   sessionPath = concatStringsSep ":" [

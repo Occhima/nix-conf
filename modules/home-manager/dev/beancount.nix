@@ -5,9 +5,8 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.modules.dev.beancount;
 in
 {

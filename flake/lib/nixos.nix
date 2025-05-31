@@ -1,8 +1,26 @@
 { lib, ... }:
-with builtins;
-with lib;
-with lib.filesystem;
 rec {
+  inherit (builtins)
+    filter
+    hasAttr
+    any
+    elem
+    dirOf
+    match
+    readDir
+    toString
+    ;
+  inherit (lib)
+    filterAttrs
+    mapAttrs'
+    nameValuePair
+    pipe
+    removeSuffix
+    mapAttrsToList
+    all
+    ;
+  inherit (lib.strings) hasPrefix hasSuffix;
+  inherit (lib.filesystem) listFilesRecursive;
 
   # Check if the system is using Wayland based on the configuration
   isWayland = config: (config.modules.system.display.type or "") == "wayland";

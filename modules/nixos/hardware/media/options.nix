@@ -3,8 +3,9 @@
   ...
 }:
 
-with lib;
-
+let
+  inherit (lib) mkEnableOption mkOption types;
+in
 {
   options.modules.hardware.media = {
     sound = {

@@ -93,11 +93,11 @@ stdenvNoCC.mkDerivation {
   '';
 
   dontStrip = true;
-  meta = with lib; {
+  meta = {
     description = "Infinitely extensible web-browser (with Lisp development files using Electron platform port)";
     mainProgram = "nyxt";
     homepage = "https://nyxt.atlas.engineer";
-    license = licenses.bsd3;
-    platforms = platforms.linux;
+    license = lib.licenses.bsd3;
+    platforms = lib.platforms.linux;
   };
 }

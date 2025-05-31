@@ -45,7 +45,7 @@
     };
 
     services = {
-      espanso.enable = true;
+      espanso.enable = false;
       clipboard.enable = true;
     };
 

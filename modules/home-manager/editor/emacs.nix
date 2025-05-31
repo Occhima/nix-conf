@@ -7,7 +7,7 @@
   ...
 }:
 let
-  inherit (self.lib.custom) ifPackageNotEnabled;
+  inherit (self.lib.custom) ifPackageNotEnabled isWayland;
   inherit (lib) mkEnableOption mkIf;
   inherit (builtins) getAttr;
 
@@ -55,8 +55,7 @@ in
 
     programs.emacs = {
       enable = true;
-      package =
-        if osConfig.modules.system.display.type == "wayland" then pkgs.emacs-git-pgtk else pkgs.emacs-git;
+      package = if isWayland osConfig then pkgs.emacs-git-pgtk else pkgs.emacs-git;
       extraPackages =
         epkgs: with epkgs; [
           treesit-grammars.with-all-grammars

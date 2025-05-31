@@ -5,9 +5,16 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    mkIf
+    types
+    listToAttrs
+    map
+    nameValuePair
+    ;
   cfg = config.modules.hardware.wifi;
 in
 {

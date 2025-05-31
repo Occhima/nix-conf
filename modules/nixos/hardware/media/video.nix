@@ -5,9 +5,8 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib) mkIf mkMerge;
   cfg = config.modules.hardware.media.video;
 in
 {

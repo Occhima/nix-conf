@@ -5,9 +5,15 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib)
+    mkIf
+    mkMerge
+    mapAttrs
+    mkOptionDefault
+    mkBefore
+    singleton
+    ;
   cfg = config.modules.hardware.media.sound;
   mapOptionDefault = mapAttrs (_: mkOptionDefault);
 in

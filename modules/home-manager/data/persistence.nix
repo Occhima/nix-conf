@@ -5,9 +5,8 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib) mkOption mkIf types;
   cfg = config.modules.data.persistence;
 in
 {

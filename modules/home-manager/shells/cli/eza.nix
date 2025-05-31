@@ -4,9 +4,8 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib) mkIf;
   cfg = config.modules.shell.cli;
 in
 {

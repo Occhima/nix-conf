@@ -5,9 +5,8 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib) mkIf importTOML;
   cfg = config.modules.shell;
 in
 {

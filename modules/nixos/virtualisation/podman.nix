@@ -5,9 +5,13 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    mkIf
+    types
+    ;
   cfg = config.modules.virtualisation.podman;
 in
 {

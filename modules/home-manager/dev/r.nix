@@ -4,8 +4,8 @@
   pkgs,
   ...
 }:
-with lib;
 let
+  inherit (lib) mkEnableOption mkIf;
   cfg = config.modules.dev.r;
   R-with-my-packages = pkgs.rWrapper.override {
     packages = with pkgs.rPackages; [

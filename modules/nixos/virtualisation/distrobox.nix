@@ -5,9 +5,8 @@
   ...
 }:
 
-with lib;
-
 let
+  inherit (lib) mkEnableOption mkIf meta;
   cfg = config.modules.virtualisation.distrobox;
 in
 {
