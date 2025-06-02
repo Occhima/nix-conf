@@ -46,7 +46,7 @@ show:
 [group('dev')]
 test:
     @just reload
-    tests
+    nix-unit --flake .#tests
 alias t := test
 
 #  <- Runs tree format

@@ -235,7 +235,8 @@ The documentation can be built with MkDocs. See the [[./docs/README.md][docs REA
 The following features are planned for implementation:
 
 - [ ]  nixos-test
-- [ ]  Test collection with haumea
+- [X]  Test collection with haumea ( Don't know if this is necessary )
+- [ ]  POdman pentesting quadlets
 - [ ]  Agenix secrets in home-manager?
 - [X]  Remove with lib and use isWayland from lib
 

@@ -14,8 +14,11 @@ in
         allowNetwork = true;
         # TODO: load tests with haumea
         tests = import ./tests { inherit lib; };
+        # tests = haumea.lib.load {
+        #   src = ./tests/unit;
+        #   inputs = { inherit lib; };
+        # };
       };
-
     };
 
   flake.checks = namaka.lib.load {
