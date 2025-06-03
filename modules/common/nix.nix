@@ -2,10 +2,15 @@
 {
   pkgs,
   lib,
+  config,
+  inputs,
   ...
 }:
-
+let
+  users = builtins.attrNames config.home-manager.users;
+in
 {
+  imports = [ inputs.determinate.nixosModules.default ];
 
   nix = {
     gc = {
@@ -23,19 +28,18 @@
       substituters = [
         "https://nix-community.cachix.org"
         "https://hyprland.cachix.org"
+        "https://install.determinate.systems"
       ];
 
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+        "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
       ];
       auto-optimise-store = pkgs.stdenv.hostPlatform.isLinux;
 
       # users or groups which are allowed to do anything with the Nix daemon
-      allowed-users = [
-        "root"
-        "occhima"
-      ];
+      allowed-users = users;
       # users or groups which are allowed to manage the nix store
       trusted-users = [
         "root"
@@ -121,7 +125,7 @@
 
       use-xdg-base-directories = true;
       use-cgroups = true;
-
+      lazy-trees = true;
     };
 
   };

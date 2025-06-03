@@ -24,10 +24,13 @@
     # Sources
     nixpkgs = {
       type = "github";
+
       owner = "nixos";
       repo = "nixpkgs";
       ref = "nixos-25.05"; # switch to stable when 25.05 is released
     };
+
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
 
     nixpkgs-unstable = {
       type = "github";
