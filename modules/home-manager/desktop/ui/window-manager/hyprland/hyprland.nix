@@ -15,7 +15,7 @@ let
     "modules"
     "system"
     "display"
-    "enableHyprlandEssential"
+    "enableHyprlandEssentials"
   ] false osConfig;
   hyprPackage = if enabledHyprlandThroughNixos then null else hyprInputs.hyprland;
   hyprPortalPackage =

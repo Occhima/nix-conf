@@ -38,8 +38,6 @@ in
       environment.systemPackages = with pkgs; [
         wayland
         wayland-utils
-        wl-clipboard
-        swappy
       ];
 
       systemd.services.seatd = {

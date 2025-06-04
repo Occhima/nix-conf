@@ -19,7 +19,7 @@ in
       };
 
       nvidia = {
-        package = mkDefault config.boot.kernelPackages.nvidiaPackages.production;
+        package = mkDefault config.boot.kernelPackages.nvidiaPackages.beta;
         open = true;
         powerManagement = {
           enable = true;

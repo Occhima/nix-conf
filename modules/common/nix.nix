@@ -125,7 +125,6 @@ in
 
       use-xdg-base-directories = true;
       use-cgroups = true;
-      lazy-trees = true;
     };
 
   };
