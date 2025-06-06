@@ -2,7 +2,6 @@
   lib,
   pkgs,
   config,
-  inputs,
   ...
 }:
 let
@@ -13,10 +12,6 @@ let
 
 in
 {
-
-  imports = [
-    inputs.hyprland.nixosModules.default
-  ];
 
   config = mkMerge [
     (mkIf (cfg.type == "wayland") {
@@ -65,10 +60,8 @@ in
     (mkIf cfg.enableHyprlandEssentials {
       programs.hyprland = {
         enable = true;
-        package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-        portalPackage =
-          inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
       };
+      services.displayManager.sessionPackages = [ pkgs.hyprland ];
       environment.etc."greetd/environments".text = "Hyprland";
     })
   ];

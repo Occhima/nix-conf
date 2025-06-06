@@ -24,10 +24,9 @@
     # Sources
     nixpkgs = {
       type = "github";
-
       owner = "nixos";
       repo = "nixpkgs";
-      ref = "nixos-25.05"; # switch to stable when 25.05 is released
+      # ref = "nixos-25.05"; # going back to unstable
     };
 
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
@@ -63,7 +62,7 @@
       type = "github";
       owner = "nix-community";
       repo = "home-manager";
-      ref = "release-25.05";
+      # ref = "release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -71,13 +70,6 @@
       type = "github";
       owner = "nix-community";
       repo = "impermanence";
-    };
-
-    hyprland = {
-      type = "github";
-      owner = "hyprwm";
-      repo = "Hyprland";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     systems = {
@@ -133,7 +125,7 @@
       type = "github";
       owner = "danth";
       repo = "stylix";
-      ref = "release-25.05";
+      # ref = "release-25.05";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         home-manager.follows = "nixpkgs";

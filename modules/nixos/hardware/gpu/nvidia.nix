@@ -54,7 +54,6 @@ in
       libva
       libva-utils
       mesa
-
       (nvtopPackages.nvidia)
     ];
 

@@ -10,6 +10,7 @@ let
   users = builtins.attrNames config.home-manager.users;
 in
 {
+
   imports = [ inputs.determinate.nixosModules.default ];
 
   nix = {
