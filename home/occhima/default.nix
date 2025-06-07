@@ -46,6 +46,7 @@
 
     services = {
       espanso.enable = false;
+      podman.enable = true;
       clipboard.enable = true;
     };
 

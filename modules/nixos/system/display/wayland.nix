@@ -33,6 +33,7 @@ in
       environment.systemPackages = with pkgs; [
         wayland
         wayland-utils
+        wl-clipboard
       ];
 
       systemd.services.seatd = {

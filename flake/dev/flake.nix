@@ -56,6 +56,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    devenv = {
+      type = "github";
+      owner = "cachix";
+      repo = "devenv";
+    };
+
     devshell = {
       type = "github";
       owner = "numtide";

@@ -20,6 +20,7 @@ in
     services.espanso = {
       enable = true;
       waylandSupport = isWayland osConfig;
+      x11Support = !isWayland osConfig;
       configs = {
         default = {
           auto_restart = true;
