@@ -52,6 +52,7 @@ in
             "jujutsu"
             "fastfetch"
             "pandoc"
+            "zellij"
             "jq"
             "yazi"
           ]
