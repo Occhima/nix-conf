@@ -14,6 +14,7 @@ in
   config = mkIf (hasProfile config [ "web" ]) {
     home.packages = with pkgs; [
       pastel
+      postman
     ];
   };
 }

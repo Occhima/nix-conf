@@ -19,31 +19,31 @@ in
   config = mkIf cfg.enable {
     services.espanso =
       let
-        usingWayland =  isWayland osConfig;
+        usingWayland = isWayland osConfig;
       in
       {
-      enable = true;
-      waylandSupport = usingWayland;
-      x11Support = !usingWayland;
-      configs = {
-        default = {
-          auto_restart = true;
-          toggle_key = "ALT";
-          keyboard_layout.layout = "${config.home.keyboard.layout}";
+        enable = true;
+        waylandSupport = usingWayland;
+        x11Support = !usingWayland;
+        configs = {
+          default = {
+            auto_restart = true;
+            toggle_key = "ALT";
+            keyboard_layout.layout = "${config.home.keyboard.layout}";
+          };
+        };
+        matches = {
+          emails.matches = [
+            {
+              trigger = ";pmail";
+              replace = config.accounts.email.accounts.personal.address;
+            }
+            {
+              trigger = ";umail";
+              replace = config.accounts.email.accounts.usp.address;
+            }
+          ];
         };
       };
-      matches = {
-        emails.matches = [
-          {
-            trigger = ";pmail";
-            replace = config.accounts.email.accounts.personal.address;
-          }
-          {
-            trigger = ";umail";
-            replace = config.accounts.email.accounts.usp.address;
-          }
-        ];
-      };
-    };
   };
 }

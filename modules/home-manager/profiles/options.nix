@@ -16,6 +16,9 @@ in
           "web"
           "dev"
           "ai"
+          "data"
+          "science"
+          "finance"
         ]
       );
       default = [ ];

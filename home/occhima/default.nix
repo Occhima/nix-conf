@@ -10,6 +10,8 @@
         "web"
         "ai"
         "dev"
+        "science"
+        "finance"
       ];
     };
     shell = {
@@ -45,7 +47,9 @@
     };
 
     services = {
+      # FIXME: broken, can't make it work on my wayland + nvidia machine
       espanso.enable = false;
+
       podman.enable = true;
       clipboard.enable = true;
     };
@@ -54,7 +58,6 @@
       python.enable = true;
       haskell.enable = true;
       c.enable = true;
-      beancount.enable = true;
     };
 
     desktop = {
@@ -85,6 +88,7 @@
           enable = true;
         };
         spotify.enable = true;
+        discord.enable = true;
         flameshot.enable = true;
       };
 

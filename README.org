@@ -240,6 +240,7 @@ The following features are planned for implementation:
 - [ ]  Agenix secrets in home-manager?
 - [ ] https://github.com/NixOS/nixpkgs/issues/346221 -> use when ready
 - [X]  Remove with lib and use isWayland from lib
+- [ ] arning: Using 'builtins.derivation' to create a derivation named 'devshell-env.bash' that references the store path '/nix/store/l9nb64iii15y0nr37qrs1cfm6rlpg6gh-source' without a proper context. The resulting derivation will not have a correct store reference, so this is unreliable and may stop working in the future.
 
 * References
 
