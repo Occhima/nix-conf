@@ -1,13 +1,13 @@
 {
   config,
   lib,
-  osConfig,
   self,
+  osConfig,
   ...
 }:
 let
   inherit (lib) mkEnableOption mkIf;
-  inherit (self.lib.custom) isWayland;
+  inherit (self.lib) isWayland;
 
   cfg = config.modules.services.espanso;
 in
@@ -17,10 +17,14 @@ in
   };
 
   config = mkIf cfg.enable {
-    services.espanso = {
+    services.espanso =
+      let
+        usingWayland =  isWayland osConfig;
+      in
+      {
       enable = true;
-      waylandSupport = isWayland osConfig;
-      x11Support = !isWayland osConfig;
+      waylandSupport = usingWayland;
+      x11Support = !usingWayland;
       configs = {
         default = {
           auto_restart = true;

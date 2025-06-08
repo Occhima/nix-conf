@@ -236,8 +236,9 @@ The following features are planned for implementation:
 
 - [ ]  nixos-test
 - [X]  Test collection with haumea ( Don't know if this is necessary )
-- [ ]  POdman pentesting quadlets
+- [X]  POdman pentesting quadlets
 - [ ]  Agenix secrets in home-manager?
+- [ ] https://github.com/NixOS/nixpkgs/issues/346221 -> use when ready
 - [X]  Remove with lib and use isWayland from lib
 
 * References

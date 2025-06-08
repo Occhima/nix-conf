@@ -42,7 +42,9 @@ in
       packages = [
         aiderPackage
         pkgs.claude-code
+        # pkgs.datasette
       ];
+
       file.".aider.conf.yml".source = yamlFormat.generate "aider-conf" settings;
 
       sessionVariables = mkIf hasAgeKeys {

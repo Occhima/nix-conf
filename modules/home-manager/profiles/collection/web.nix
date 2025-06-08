@@ -13,8 +13,7 @@ in
 {
   config = mkIf (hasProfile config [ "web" ]) {
     home.packages = with pkgs; [
-      httpie
-      jq
+      pastel
     ];
   };
 }
