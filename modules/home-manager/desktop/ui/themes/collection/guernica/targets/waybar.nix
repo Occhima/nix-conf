@@ -153,7 +153,7 @@ in
     style = ''
       * {
           /* `otf-font-awesome` is required to be installed for icons */
-          font-family: Iosevka;
+          font-family: Iosevka Nerd Font;
           font-size: 13px;
           min-height: 0;
       }

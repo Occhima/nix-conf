@@ -66,7 +66,6 @@
           ];
           packagesFrom = [
             config.treefmt.build.devShell
-
           ];
 
           packages =

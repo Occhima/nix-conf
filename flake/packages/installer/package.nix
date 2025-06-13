@@ -4,18 +4,18 @@
   disko,
   openssh,
   nix-output-monitor,
-  nixos-install-tools,
+  nixos-install,
   writeShellApplication,
 }:
 writeShellApplication {
-  name = "install-tools";
+  name = "custom-installtools";
 
   runtimeInputs = [
     gum
     vim
     openssh
     disko
-    nixos-install-tools
+    nixos-install
     nix-output-monitor
   ];
 
