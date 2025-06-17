@@ -13,7 +13,7 @@ in
       nix-unit = {
         allowNetwork = true;
         # TODO: load tests with haumea
-        tests = import ./tests { inherit lib; };
+        tests = import ./tests/unit { inherit lib; };
         # tests = haumea.lib.load {
         #   src = ./tests/unit;
         #   inputs = { inherit lib; };

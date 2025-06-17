@@ -1,13 +1,12 @@
 {
   config,
   lib,
-  self,
   osConfig,
   ...
 }:
 let
   inherit (lib) mkEnableOption mkIf;
-  inherit (self.lib) isWayland;
+  inherit (lib.custom) isWayland;
 
   cfg = config.modules.services.espanso;
 in

@@ -16,7 +16,7 @@
 
     let
       inherit (self'.packages) install-tools;
-      nixConfig = builtins.toFile "nix.conf" ''
+      nixConfig = pkgs.writeText "nix.conf" ''
         warn-dirty = false
         http2 = true
         experimental-features = nix-command flakes pipe-operators
