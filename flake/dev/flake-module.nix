@@ -4,8 +4,9 @@
     ./pre-commit.nix
     ./actions.nix
     ./nix-unit.nix
-    ./devshell.nix
+    ./vanilla-devshell.nix
     ./just.nix
+    ./actions.nix
   ];
 
 }

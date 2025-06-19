@@ -10,11 +10,15 @@ let
     host: pkgs:
     pkgs.testers.runNixosTest {
       name = "Test if ${host} is booting";
-      nodes.machine =
-        { ... }:
-        {
-          imports = [ self.nixosConfigurations.${host}.nixosModule ];
-        };
+      nodes = {
+        pkgsReadOnly = false;
+        machine =
+          { ... }:
+          {
+            imports = [ self.nixosModules ];
+
+          };
+      };
       testScript = ''
         machine.start()
         machine.wait_for_unit("multi-user.target")

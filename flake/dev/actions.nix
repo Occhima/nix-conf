@@ -8,7 +8,7 @@
   ];
 
   flake.actions-nix = {
-    pre-commit.enable = false;
+    pre-commit.enable = true;
     defaults = {
       jobs = {
         timeout-minutes = 120;
@@ -19,7 +19,10 @@
       ".github/workflows/ci.yml" = {
         name = "Flake Check";
         on = {
-          push = { };
+          push = {
+            branches = "[main]";
+          };
+          pull_request = { };
         };
         jobs = {
           scanning = {
@@ -31,7 +34,7 @@
               }
               {
                 name = "GitGuardian scan";
-                uses = "GitGuardian/ggshield/actions/secret@v1.39.0";
+                uses = "GitGuardian/ggshield/actions/secret@main";
                 env = {
                   GITHUB_PUSH_BEFORE_SHA = "\${{ github.event.before }}";
                   GITHUB_PUSH_BASE_SHA = "\${{ github.event.base }}";
@@ -42,26 +45,26 @@
               }
             ];
           };
-          # flake-check = {
-          #   name = "Flake Check";
-          #   steps = [
-          #     {
-          #       uses = "actions/checkout@v4";
-          #     }
-          #     {
-          #       uses = "DeterminateSystems/nix-installer-action@main";
-          #     }
-          #     {
-          #       uses = "DeterminateSystems/flakehub-cache-action@main";
-          #     }
-          #     {
-          #       uses = "DeterminateSystems/flake-checker-action@main";
-          #     }
-          #     {
-          #       run = "nix flake check";
-          #     }
-          #   ];
-          # };
+          flake-check = {
+            name = "Flake Check";
+            steps = [
+              {
+                uses = "actions/checkout@v4";
+              }
+              {
+                uses = "DeterminateSystems/nix-installer-action@main";
+              }
+              {
+                uses = "DeterminateSystems/flakehub-cache-action@main";
+              }
+              {
+                uses = "DeterminateSystems/flake-checker-action@main";
+              }
+              {
+                run = "nix flake check";
+              }
+            ];
+          };
         };
       };
     };
