@@ -1,35 +1,42 @@
-{ self, lib, ... }:
+{
+  self,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 let
-  hosts = [
-    "aerodynamic"
-    "steammachine"
-  ];
-
-  # TODO: this is not working ( yet...)
+  inherit (lib) mapAttrs;
+  hosts = {
+    minimal = ./hosts/minimal.nix;
+  };
   mkTest =
-    host: pkgs:
-    pkgs.testers.runNixosTest {
-      name = "Test if ${host} is booting";
+    name: hostPath:
+    pkgs.testers.runNixOSTest {
+      name = "integration-${name}";
       nodes = {
-        pkgsReadOnly = false;
         machine =
           { ... }:
           {
-            imports = [ self.nixosModules ];
-
+            imports = [
+              self.nixosModules.common
+              self.nixosModules.nixos
+              hostPath
+            ];
+            virtualisation.memorySize = 512;
           };
       };
       testScript = ''
         machine.start()
         machine.wait_for_unit("multi-user.target")
         machine.succeed("uname -a")
+        machine.succeed("test $(cat /etc/hostname) = integration-test")
       '';
+      specialArgs = {
+        inherit self inputs;
+      };
     };
+
+  outDerivation = mapAttrs mkTest hosts;
 in
-{
-  perSystem =
-    { pkgs, ... }:
-    {
-      checks = lib.genAttrs hosts (host: mkTest host pkgs);
-    };
-}
+outDerivation.minimal

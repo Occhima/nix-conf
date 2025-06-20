@@ -28,6 +28,14 @@ flake-check:
     nix run github:DeterminateSystems/flake-checker
 alias fc := flake-check
 
+# <- Run integration tests
+[group('dev')]
+integration-tests:
+    @just reload
+    nix build .#checks.$(nix eval --impure --expr builtins.currentSystem --raw).integration
+alias it := integration-tests
+
+
 # <- Reloads all the checks:  direnv, nix flake check and flake-checker ( That's not nix flake check! )
 [group('dev')]
 full-check:
@@ -44,10 +52,10 @@ show:
 
 # <- Reload direnv and runs nix-unit tests ( one day with namaka )
 [group('dev')]
-test:
+unit-tests:
     @just reload
     nix-unit --flake .#tests
-alias t := test
+alias ut := unit-tests
 
 #  <- Runs tree format
 [group('dev')]
