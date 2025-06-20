@@ -1,14 +1,10 @@
+name: Flake Check
+"on":
+  pull_request:
+  push:
+    branches: [main]
+
 jobs:
-  flake-check:
-    name: Flake Check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@main
-      - uses: DeterminateSystems/flakehub-cache-action@main
-      - uses: DeterminateSystems/flake-checker-action@main
-      - run: nix flake check
-    timeout-minutes: 120
   scanning:
     name: GitGuardian scan
     runs-on: ubuntu-latest
@@ -23,9 +19,15 @@ jobs:
           GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
         name: GitGuardian scan
         uses: GitGuardian/ggshield/actions/secret@main
+
     timeout-minutes: 120
-name: Flake Check
-"on":
-  pull_request: {}
-  push:
-    branches: "[main]"
+
+  check:
+    name: Flake Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/flakehub-cache-action@main
+      - uses: DeterminateSystems/flake-checker-action@main
+      - run: nix flake check
