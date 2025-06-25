@@ -219,7 +219,7 @@ Full documentation is available in the [docs directory](./flake/docs). The docum
 
 ## Roadmap
 
-- [ ] nixos-test on CI or releases
+- [x] nixos-test on CI or releases ( This does not make any sense for my use case )
 - [ ] Use eval-modules on modules/flake-modules
 - [ ] replace path references with builtins.path
 
