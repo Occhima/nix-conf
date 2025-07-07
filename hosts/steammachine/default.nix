@@ -54,15 +54,15 @@
         primaryMonitorName = "dp1";
         displays = {
           dp1 = {
-            name = "DP-2";
-            mode = "1920x1080@180";
+            name = "DP-1";
+            mode = "1920x1080";
             position = "0x0";
           };
           hdmi = {
             name = "HDMI-A-1";
             mode = "1920x1080@180";
             position = "1900x0";
-            transform = true;
+            transform = false;
           };
         };
       };
@@ -87,7 +87,7 @@
 
     virtualisation = {
       docker = {
-        enable = true;
+        enable = false;
         usePodman = true; # Use podman for docker compatibility
       };
       containers.pentesting.enable = true;

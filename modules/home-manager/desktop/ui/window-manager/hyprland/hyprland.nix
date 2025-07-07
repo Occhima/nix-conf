@@ -17,7 +17,8 @@ in
     wayland.windowManager.hyprland = {
       enable = true;
       xwayland.enable = true;
-
+      package = null;
+      portalPackage = null;
       settings.ecosystem = {
         no_update_news = true;
         no_donation_nag = true;

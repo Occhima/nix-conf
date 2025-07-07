@@ -128,7 +128,7 @@
       # ref = "release-25.05";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        home-manager.follows = "nixpkgs";
+        # home-manager.follows = "nixpkgs";
       };
     };
 

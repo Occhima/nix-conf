@@ -35,7 +35,6 @@ in
     boot = {
       blacklistedKernelModules = [
         "i2c_nvidia_gpu"
-        # "nouveau"
       ];
       kernelParams = [ "nvidia-drm.fbdev=1" ];
     };
@@ -43,6 +42,7 @@ in
     environment.sessionVariables = {
       LIBVA_DRIVER_NAME = "nvidia";
       __EGL_VENDOR_LIBRARY_FILENAMES = mkDefault "/run/opengl-driver/share/glvnd/egl_vendor.d/10_nvidia.json";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     };
 
     environment.systemPackages = with pkgs; [
