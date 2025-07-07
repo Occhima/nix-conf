@@ -55,7 +55,7 @@
         displays = {
           dp1 = {
             name = "DP-1";
-            mode = "1920x1080";
+            mode = "2560x1080@180";
             position = "0x0";
           };
           hdmi = {
