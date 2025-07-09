@@ -52,7 +52,7 @@
       espanso.enable = false;
       podman.enable = false;
       clipboard.enable = true;
-      cachix.enable = true;
+      cachix.enable = false;
     };
 
     dev = {

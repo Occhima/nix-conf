@@ -24,6 +24,10 @@
       firewall.enable = true;
       blocker.enable = true;
       wireless.enable = true;
+
+      vpn = {
+        openvpn.enable = true;
+      };
     };
 
     hardware = {

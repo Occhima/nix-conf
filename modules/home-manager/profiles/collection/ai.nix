@@ -33,8 +33,10 @@ let
     cache-keepalive-pings = 12;
     chat-language = "English";
     dark-mode = true;
+
+    # maybe, it's better to use openrouter...
     model = "gemini";
-    weak-model = "openrouter/meta-llama/llama-4-scout";
+    # weak-model = "gemini-2.5-flash";
   };
 in
 
