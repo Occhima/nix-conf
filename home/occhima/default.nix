@@ -12,6 +12,7 @@
         "dev"
         "science"
         "finance"
+        "pentesting"
       ];
     };
     shell = {
@@ -51,6 +52,7 @@
       espanso.enable = false;
       podman.enable = false;
       clipboard.enable = true;
+      cachix.enable = true;
     };
 
     dev = {
@@ -61,10 +63,12 @@
 
     desktop = {
       browser = {
+        active = "firefox";
         firefox.enable = true;
         nyxt.enable = true;
       };
       terminal = {
+        active = "kitty";
         kitty.enable = true;
       };
 

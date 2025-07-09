@@ -13,16 +13,17 @@ let
   inherit (self.lib.custom) hasProfile;
   hasAgeKeys = osConfig.modules.secrets.agenix.enable or false;
   #
-  aiderWithKeys =
-    let
-      aider-chat = pkgs.aider-chat-with-playwright;
-    in
-    pkgs.runCommand "${aider-chat.name}-wrapped" { nativeBuildInputs = [ pkgs.makeWrapper ]; } ''
-      mkdir -p $out/bin
-      makeWrapper ${lib.getExe aider-chat} $out/bin/${aider-chat.meta.mainProgram} \
-        --add-flags '--anthropic-api-key $(cat ${osConfig.age.secrets.aider-anthropic.path})'
-    '';
-  aiderPackage = if hasAgeKeys then aiderWithKeys else pkgs.aider-chat-with-playwright;
+  # aiderWithKeys =
+  #   let
+  #     aider-chat = pkgs.aider-chat-with-playwright;
+  #   in
+  #   pkgs.runCommand "${aider-chat.name}-wrapped" { nativeBuildInputs = [ pkgs.makeWrapper ]; } ''
+  #     mkdir -p $out/bin
+  #     makeWrapper ${lib.getExe aider-chat} $out/bin/${aider-chat.meta.mainProgram} \
+  #       --add-flags '--gemini-api-key $(cat ${osConfig.age.secrets.gemini-api-key.path})'
+  #   '';
+  # aiderPackage = if hasAgeKeys then aiderWithKeys else pkgs.aider-chat-with-playwright;
+  aiderPackage = pkgs.aider-chat-with-playwright;
   yamlFormat = pkgs.formats.yaml { };
   settings = {
     attribute-author = false;
@@ -32,7 +33,8 @@ let
     cache-keepalive-pings = 12;
     chat-language = "English";
     dark-mode = true;
-    stream = false;
+    model = "gemini";
+    weak-model = "openrouter/meta-llama/llama-4-scout";
   };
 in
 
@@ -42,6 +44,7 @@ in
       packages = [
         aiderPackage
         pkgs.claude-code
+        pkgs.python313Packages.google-generativeai
         # pkgs.datasette
       ];
 
@@ -50,6 +53,7 @@ in
       sessionVariables = mkIf hasAgeKeys {
         OPENAI_API_KEY = "$( cat ${osConfig.age.secrets.openai-api-key.path} )";
         ANTHROPIC_API_KEY = "$( cat ${osConfig.age.secrets.aider-anthropic.path} )";
+        GEMINI_API_KEY = "$( cat ${osConfig.age.secrets.gemini-api-key.path} )";
       };
     };
     programs.git.ignores = [ ".aider*" ];

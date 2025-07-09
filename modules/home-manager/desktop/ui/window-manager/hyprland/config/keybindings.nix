@@ -2,7 +2,10 @@
 let
 
   inherit (lib.strings) optionalString;
-  flameshotCfg = config.modules.desktop.apps.flameshot;
+  desktopCfg = config.modules.desktop;
+  editorCfg = config.modules.editor;
+  flameshotCfg = desktopCfg.apps.flameshot;
+
 in
 {
   wayland.windowManager.hyprland.settings = {
@@ -11,7 +14,7 @@ in
     bind = [
 
       # Terminal
-      "$mainMod, Q, exec, kitty"
+      "$mainMod, Q, exec, ${desktopCfg.terminal.active}"
 
       # Window management
       "$mainMod, F4, killactive,"
@@ -31,8 +34,7 @@ in
       "$mainMod, down, movefocus, d"
 
       # Emacs
-      "$mainMod, E, exec, emacsclient -c"
-
+      (optionalString editorCfg.emacs.service "$mainMod, E, exec, emacsclient -c")
       # Utils
       "$mainMod, B, exec, rofi-bluetooth"
 

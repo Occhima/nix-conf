@@ -21,6 +21,9 @@ in
       ##uv
     ];
 
+    programs.uv = {
+      enable = true;
+    };
     # programs.ruff.enable = true;
     programs.pyenv = {
       enable = true;

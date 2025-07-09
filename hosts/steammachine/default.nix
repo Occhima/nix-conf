@@ -61,7 +61,7 @@
           hdmi = {
             name = "HDMI-A-1";
             mode = "1920x1080@180";
-            position = "1900x0";
+            position = "2560x0";
             transform = false;
           };
         };
