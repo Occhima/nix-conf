@@ -12,7 +12,7 @@
         "dev"
         "science"
         "finance"
-        "pentesting"
+        # "pentesting"
       ];
     };
     shell = {
