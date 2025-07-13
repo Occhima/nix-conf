@@ -227,5 +227,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    microvm = {
+      type = "github";
+      owner = "astro";
+      repo = "microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 }

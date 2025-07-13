@@ -17,6 +17,7 @@ in
     home = {
       packages = [
         pkgs.devenv
+        pkgs.comma
       ];
     };
   };

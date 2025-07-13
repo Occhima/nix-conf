@@ -11,5 +11,6 @@
     ./schizofox.nix
     ./mako.nix
     ./nyxt.nix
+    ./hyprlock.nix
   ];
 }
