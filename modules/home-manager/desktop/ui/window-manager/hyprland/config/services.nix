@@ -33,11 +33,11 @@ in
     };
 
     services.hyprsunset = {
-      enable = true;
+      enable = false;
     };
 
     services.hyprpolkitagent = {
-      enable = true;
+      enable = false;
     };
   };
 

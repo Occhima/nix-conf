@@ -52,4 +52,20 @@ in
       };
     };
   };
+
+  # config.nixOnDroidConfigurations = {
+
+  #   draftendirekt = nix-on-droid.lib.nixOnDroidConfiguration {
+  #     pkgs = import nixpkgs {
+  #       system = "aarch64-linux";
+  #       overlays = [
+  #         nix-on-droid.overlays.default
+  #       ];
+  #     };
+
+  #     # modules = mkModulesForClass "android";
+  #   };
+
+  # };
+
 }

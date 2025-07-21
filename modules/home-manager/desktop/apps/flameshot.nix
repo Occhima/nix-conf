@@ -7,10 +7,10 @@
 }:
 let
   inherit (lib) mkEnableOption mkIf;
-  inherit (lib.attrsets) attrByPath;
-  displayType = attrByPath [ "modules" "system" "display" "type" ] false osConfig;
+  displayType = osConfig.modules.system.display.type or false;
   isWayland = displayType == "wayland";
   cfg = config.modules.desktop.apps.flameshot;
+
   flameShotPkg =
     if isWayland then (pkgs.flameshot.override { enableWlrSupport = true; }) else pkgs.flameshot;
 in

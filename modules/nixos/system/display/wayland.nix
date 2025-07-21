@@ -56,7 +56,6 @@ in
           value = 1;
         }
       ];
-
     })
     (mkIf cfg.enableHyprlandEssentials {
       programs.hyprland = {

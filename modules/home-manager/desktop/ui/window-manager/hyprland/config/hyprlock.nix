@@ -11,9 +11,7 @@
           disable_loading_bar = true;
         };
       };
-
     };
-
   };
 
 }

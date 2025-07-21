@@ -83,7 +83,6 @@ in
       };
       defaultEditor = cfg.default;
       startWithUserSession = "graphical";
-
     };
   };
 }

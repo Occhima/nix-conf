@@ -59,6 +59,7 @@
       python.enable = true;
       haskell.enable = true;
       c.enable = true;
+      julia.enable = true;
     };
 
     desktop = {

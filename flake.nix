@@ -232,6 +232,14 @@
       owner = "astro";
       repo = "microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
+
+    };
+
+    nix-on-droid = {
+      type = "github";
+      owner = "nix-community";
+      repo = "nix-on-droid";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
   };

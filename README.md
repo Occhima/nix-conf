@@ -222,6 +222,8 @@ Full documentation is available in the [docs directory](./flake/docs). The docum
 - [x] nixos-test on CI or releases ( This does not make any sense for my use case )
 - [ ] Use eval-modules on modules/flake-modules
 - [ ] replace path references with builtins.path
+- [ ] Create nix on droid configs
+- [ ] MicroVM pentesting config
 
 ## References
 

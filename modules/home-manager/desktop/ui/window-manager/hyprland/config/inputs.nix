@@ -10,7 +10,7 @@
         natural_scroll = false;
       };
       sensitivity = -0.5;
-      repeat_delay = 200;
+      repeat_delay = 250;
       repeat_rate = 50;
     };
 
