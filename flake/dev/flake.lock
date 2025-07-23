@@ -112,6 +112,21 @@
         "type": "github"
       }
     },
+    "files": {
+      "locked": {
+        "lastModified": 1750263550,
+        "narHash": "sha256-EW/QJ8i/13GgiynBb6zOMxhLU1uEkRqmzbIDEP23yVA=",
+        "owner": "mightyiam",
+        "repo": "files",
+        "rev": "5f4ef1fd1f9012354a9748be093e277675d10f07",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mightyiam",
+        "repo": "files",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -372,28 +387,6 @@
         "type": "github"
       }
     },
-    "haumea": {
-      "inputs": {
-        "nixpkgs": [
-          "namaka",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1685133229,
-        "narHash": "sha256-FePm/Gi9PBSNwiDFq3N+DWdfxFq0UKsVVTJS3cQPn94=",
-        "owner": "nix-community",
-        "repo": "haumea",
-        "rev": "34dd58385092a23018748b50f9b23de6266dffc2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "ref": "v0.2.2",
-        "repo": "haumea",
-        "type": "github"
-      }
-    },
     "just-flake": {
       "locked": {
         "lastModified": 1713316411,
@@ -422,27 +415,6 @@
       "original": {
         "owner": "libgit2",
         "repo": "libgit2",
-        "type": "github"
-      }
-    },
-    "namaka": {
-      "inputs": {
-        "haumea": "haumea",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1731804449,
-        "narHash": "sha256-1ka+5B90UAt7D5kkT9dOExGLJjtLM8dqLeBdFRoeuWg=",
-        "owner": "nix-community",
-        "repo": "namaka",
-        "rev": "6a8f92b7963e772adee605f7e1a683ad92df0190",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "namaka",
         "type": "github"
       }
     },
@@ -686,9 +658,9 @@
         "agenix-shell": "agenix-shell",
         "devenv": "devenv",
         "devshell": "devshell",
+        "files": "files",
         "git-hooks": "git-hooks_2",
         "just-flake": "just-flake",
-        "namaka": "namaka",
         "nix-search-tv": "nix-search-tv",
         "nix-unit": "nix-unit",
         "nixpkgs": "nixpkgs_5",

@@ -1,0 +1,8 @@
+# noisy diffs
+flake.lock -diff linguist-generated=true
+
+# treat age files as binarys
+*.age -text -diff
+
+# secrets/** filter=git-crypt diff=git-crypt
+templates/* linguist-vendored

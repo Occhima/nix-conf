@@ -89,6 +89,12 @@
       repo = "actions.nix";
     };
 
+    files = {
+      type = "github";
+      owner = "mightyiam";
+      repo = "files";
+    };
+
   };
 
   outputs = _: { };

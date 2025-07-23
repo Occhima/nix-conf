@@ -3,7 +3,7 @@
   pkgs,
   lib,
   config,
-  # inputs,
+  inputs,
   ...
 }:
 let
@@ -11,7 +11,7 @@ let
 in
 {
 
-  #imports = [ inputs.determinate.nixosModules.default ];
+  imports = [ inputs.determinate.nixosModules.default ];
 
   nix = {
     gc = {
