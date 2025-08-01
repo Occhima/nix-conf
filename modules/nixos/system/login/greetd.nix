@@ -18,7 +18,7 @@ in
   config = mkIf (cfg.enable && cfg.manager == "greetd") {
     services.greetd = {
       enable = true;
-      vt = 2;
+      # VT1 = 2;
       restart = !cfg.autoLogin;
 
       settings = {

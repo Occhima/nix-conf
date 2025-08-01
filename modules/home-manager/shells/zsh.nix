@@ -7,7 +7,7 @@
 
 let
   inherit (lib) mkIf;
-  inherit (lib.strings) removePrefix optionalString;
+  inherit (lib.strings) optionalString;
   cfg = config.modules.shell;
   cfgCli = config.modules.shell.cli;
   hasFzfSupport = builtins.elem "fzf" cfgCli.tools;
@@ -20,7 +20,7 @@ in
       syntaxHighlighting.enable = true;
       autosuggestion.enable = false;
       initContent = (optionalString (builtins.elem "fastfetch" cfgCli.tools) "fastfetch");
-      dotDir = (removePrefix (config.home.homeDirectory + "/") config.xdg.configHome) + "/zsh";
+      dotDir = "${config.xdg.configHome}/zsh";
       plugins = [
         {
           name = "you-should-use";

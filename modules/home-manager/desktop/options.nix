@@ -20,7 +20,11 @@ in
     };
     browser = {
       active = mkOption {
-        type = types.str;
+        type = types.enum [
+          "zen"
+          "firefox"
+          "nyxt"
+        ];
         default = "firefox";
         description = "The active browser";
         example = ''kitty '';
@@ -39,5 +43,7 @@ in
         message = "Active browser not enabled!";
       }
     ];
+
+    # TODO: set XDG default browser if xdg is enabled and default browser is no null
   };
 }

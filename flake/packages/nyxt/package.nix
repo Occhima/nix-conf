@@ -21,7 +21,7 @@
 let
   pname = "nyxt";
   version = "4.0.0-pre-release-12";
-  sha256 = "sha256-BEg6yeo7cBxQL6qQIiSUHtx1x2wo2uYd/mikmzXUOpk=";
+  sha256 = "sha256-ELwMgGZ5tYXTM5cY8n0/vs1dJbB9EHUqV/KVXEEEIps=";
 
   source = fetchurl {
     inherit sha256;

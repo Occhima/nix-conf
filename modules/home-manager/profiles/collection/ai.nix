@@ -30,7 +30,7 @@ in
     };
     services = {
       ollama = {
-        enable = true;
+        enable = false;
       };
     };
   };

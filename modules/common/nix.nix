@@ -2,22 +2,22 @@
 {
   pkgs,
   lib,
-  config,
-  inputs,
+  _class,
+  # inputs,
   ...
 }:
 let
-  users = builtins.attrNames config.home-manager.users;
+  sudoers = if (_class == "nixos") then "@wheel" else "@admin";
 in
 {
 
-  imports = [ inputs.determinate.nixosModules.default ];
-
+  # imports = [ inputs.determinate.nixosModules.default ];
   nix = {
     gc = {
       automatic = true;
       options = "--delete-older-than 3d";
     };
+    channel.enable = false;
     package = lib.mkDefault pkgs.nix;
     optimise = {
       automatic = true;
@@ -44,13 +44,13 @@ in
       auto-optimise-store = pkgs.stdenv.hostPlatform.isLinux;
 
       # users or groups which are allowed to do anything with the Nix daemon
-      allowed-users = users;
+      allowed-users = [ sudoers ];
       # users or groups which are allowed to manage the nix store
       trusted-users = [
-        "root"
-        "occhima"
+        sudoers
       ];
       max-jobs = "auto";
+      sandbox = pkgs.stdenv.hostPlatform.isLinux;
       # supported system features
       system-features = [
         "nixos-test"
@@ -88,7 +88,7 @@ in
 
         # allows Nix to execute builds inside cgroups
         # remember you must also enable use-cgroups in the nix.conf or settings
-        "cgroups"
+        # "cgroups"
 
         # allow passing installables to nix repl, making its interface consistent with the other experimental commands
         # "repl-flake"
@@ -129,7 +129,6 @@ in
       keep-outputs = true;
 
       use-xdg-base-directories = true;
-      use-cgroups = true;
     };
 
   };

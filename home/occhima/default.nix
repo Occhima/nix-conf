@@ -64,9 +64,10 @@
 
     desktop = {
       browser = {
-        active = "firefox";
-        firefox.enable = true;
+        active = "zen";
+        firefox.enable = false;
         nyxt.enable = true;
+        zen.enable = true;
       };
       terminal = {
         active = "kitty";

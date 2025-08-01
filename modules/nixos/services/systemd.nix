@@ -34,11 +34,12 @@ in
         "serial-getty@".environment.TERM = "xterm-256color";
       };
 
-      extraConfig = ''
-        DefaultTimeoutStopSec=15s
-        DefaultTimeoutStartSec=30s
-        JoinMountNamespace=yes
-      '';
+      settings.Manager = {
+        DefaultTimeoutStartSec = "15s";
+        DefaultTimeoutStopSec = "15s";
+        DefaultTimeoutAbortSec = "15s";
+        DefaultDeviceTimeoutSec = "15s";
+      };
 
       user = {
         services = mkIf hasDisplay {
@@ -50,6 +51,13 @@ in
             bindsTo = [ "graphical-session.target" ];
           };
         };
+
+        extraConfig = ''
+          DefaultTimeoutStartSec = 15s;
+          DefaultTimeoutStopSec = 15s;
+          DefaultTimeoutAbortSec = 15s;
+          DefaultDeviceTimeoutSec = 15s;
+        '';
       };
 
       coredump.enable = true;

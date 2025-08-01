@@ -12,5 +12,6 @@
     ./mako.nix
     ./nyxt.nix
     ./hyprlock.nix
+    ./zen.nix
   ];
 }

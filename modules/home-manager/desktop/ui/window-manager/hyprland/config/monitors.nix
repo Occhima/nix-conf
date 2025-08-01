@@ -30,6 +30,13 @@ let
     in
     flatten rawLists;
 
+  # TODO...
+  # mkHyprMonitorsV2 =
+  #   monitorConfig:
+  #   map (montorCfg: {
+  #     inherit output;
+  #   });
+
   mkHyprWorkspaces =
     displays: primaryMonitor:
     let
