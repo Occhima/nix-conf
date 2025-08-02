@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  # inputs,
   ...
 }:
 let
   inherit (lib) mkEnableOption mkIf;
-  # inherit (inputs) haumea;
   cfg = config.modules.services.podman;
 in
 {
@@ -19,6 +17,7 @@ in
       podman = {
         enable = true;
         enableTypeChecks = true;
+        # think about another alternative for this, it seemd to cluttered
         # containers = haumea.lib.load {
         #   src = ./containers;
         #   inputs = {

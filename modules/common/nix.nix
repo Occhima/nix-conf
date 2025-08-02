@@ -17,7 +17,6 @@ in
       automatic = true;
       options = "--delete-older-than 3d";
     };
-    channel.enable = false;
     package = lib.mkDefault pkgs.nix;
     optimise = {
       automatic = true;

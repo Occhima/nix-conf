@@ -48,9 +48,11 @@
     };
 
     services = {
+
       # FIXME: broken, can't make it work on my wayland + nvidia machine
       espanso.enable = false;
-      podman.enable = false;
+
+      podman.enable = true;
       clipboard.enable = true;
       cachix.enable = false;
     };
@@ -90,7 +92,7 @@
           packages = [
             "com.github.tchx84.Flatseal"
           ];
-          enable = true;
+          enable = false;
         };
         spotify.enable = true;
         discord.enable = true;

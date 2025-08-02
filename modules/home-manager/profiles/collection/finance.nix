@@ -9,8 +9,8 @@
 let
   inherit (lib) mkIf;
   inherit (self.lib.custom) hasProfile;
-  podmanEnabled = config.modules.services.podman.enable;
 in
+# podmanEnabled = config.modules.services.podman.enable;
 # add maybe finance if podman enabled
 # arion/maybe/default.nix <- from doot/nixos-config
 {
@@ -25,14 +25,20 @@ in
     ];
     programs.ledger.enable = true;
 
-    services.podman.containers = mkIf podmanEnabled {
-      maybeFinanceDb = {
-        autoStart = true;
-        image = "postgres:latest";
-      };
-      maybeFinanceApp = { };
+    # services.podman = mkIf podmanEnabled {
 
-    };
+    #   containers = {
+
+    #     maybeFinanceRedis = { };
+    #     maybeFinanceDb = { };
+    #     autoStart = true;
+    #     image = "postgres:latest";
+    #   };
+    #   maybeFinanceWorker = { };
+    #   maybeFinanceWeb = { };
+
+    # };
 
   };
+
 }

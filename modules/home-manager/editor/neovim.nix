@@ -14,7 +14,7 @@ let
 in
 {
   imports = [
-    nixvim.homeManagerModules.nixvim
+    nixvim.homeModules.nixvim
   ];
 
   options.modules.editor.neovim = {

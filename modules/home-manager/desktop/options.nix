@@ -44,6 +44,10 @@ in
       }
     ];
 
+    home.sessionVariables = {
+      BROWSER = cfg.browser.active;
+    };
+
     # TODO: set XDG default browser if xdg is enabled and default browser is no null
   };
 }
