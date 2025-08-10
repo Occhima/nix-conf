@@ -60,6 +60,7 @@ in
     (mkIf cfg.enableHyprlandEssentials {
       programs.hyprland = {
         enable = true;
+        withUWSM = true;
       };
       services.displayManager.sessionPackages = [ pkgs.hyprland ];
       environment.etc."greetd/environments".text = "Hyprland";

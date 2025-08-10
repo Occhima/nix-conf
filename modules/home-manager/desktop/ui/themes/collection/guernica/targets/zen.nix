@@ -65,6 +65,7 @@ in
       enhanced-github
       foxyproxy-standard
       sponsorblock
+      vimium
       to-deepl
       bonjourr-startpage
       search-by-image

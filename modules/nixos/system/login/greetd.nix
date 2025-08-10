@@ -25,7 +25,7 @@ in
         default_session = {
           user = "greeter";
           command = concatStringsSep " " [
-            "${pkgs.greetd.tuigreet}/bin/tuigreet"
+            "${pkgs.tuigreet}/bin/tuigreet"
             "--time"
             "--remember"
             "--remember-user-session"

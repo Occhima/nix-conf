@@ -7,7 +7,7 @@ let
   inherit (lib) mkOption types literalExpression;
   monitorOptions = {
     options = {
-      name = mkOption {
+      output = mkOption {
         type = types.str;
         example = "DP-1";
         description = "The name/connector of the monitor";

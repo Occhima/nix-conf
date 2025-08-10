@@ -1,0 +1,17 @@
+- dired + dirvish
+- eat + eshell
+- emacs-dashboard
+- evil
+- magit
+- evil mode
+- aider
+- org + batteries - roam,
+- elpaca
+- corfu
+- jinx
+- cape
+- vertico + posframe
+- embark
+- modeline
+- ibuffer
+- flymake + flyover and etc
