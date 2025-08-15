@@ -1,13 +1,11 @@
 {
   config,
-  osConfig,
   lib,
   ...
 }:
 
 let
   cfg = config.modules.desktop.ui;
-  usingUWSM = !osConfig.programs.hyprland.withUWSM or true;
 in
 {
 
@@ -27,7 +25,7 @@ in
       };
 
       systemd = {
-        enable = usingUWSM;
+        enable = true;
         variables = [ "--all" ];
         extraCommands = [
           "systemctl --user stop graphical-session.target"

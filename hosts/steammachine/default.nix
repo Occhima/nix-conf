@@ -125,7 +125,7 @@
 
       login = {
         enable = true;
-        manager = "greetd";
+        manager = "sddm";
       };
     };
 

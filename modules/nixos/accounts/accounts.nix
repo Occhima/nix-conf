@@ -49,7 +49,6 @@ in
 
   options.modules.accounts = {
     enable = mkEnableOption "User account management with home-manager integration";
-
     enabledUsers = mkOption {
       type = types.listOf types.str;
       default = [ "root" ];
@@ -59,6 +58,12 @@ in
         "root"
       ];
       description = "List of usernames to enable from the accounts/users directory";
+    };
+
+    mainUser = mkOption {
+      type = types.str;
+      default = "root";
+      description = "Main user in nixos";
     };
 
     enableHomeManager = mkOption {
@@ -75,6 +80,10 @@ in
         message = "Some users in enabledUsers are not defined in allUsers: ${
           toString (filter (user: !(hasAttr user allUsers)) cfg.enabledUsers)
         }";
+      }
+      {
+        assertion = elem cfg.mainUser cfg.enabledUsers;
+        message = "Main user ${cfg.mainUser} not in list of enabled users: ${cfg.enabledUsers}";
       }
     ];
 

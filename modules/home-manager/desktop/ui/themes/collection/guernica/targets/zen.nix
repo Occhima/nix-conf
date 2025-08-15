@@ -58,6 +58,9 @@ in
       # for zen userChrome and userCss extras
       "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
 
+      # search engine
+      "browser.newtabpage.activity-stream.trendingSearch.defaultSearchEngine" = "DuckDuckGo";
+
     };
     extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
       ublock-origin
