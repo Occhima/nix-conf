@@ -5,7 +5,10 @@
 }:
 
 let
+
   inherit (lib) mkEnableOption mkIf;
+
+  terminalCfg = config.modules.desktop.terminal;
   cfg = config.modules.desktop.terminal.kitty;
 in
 {
@@ -25,8 +28,9 @@ in
         confirm_os_window_close = 0;
       };
     };
-    home.sessionVariables = {
+    home.sessionVariables = mkIf (terminalCfg.active == "kitty") {
       TERMINAL = "kitty";
     };
+
   };
 }

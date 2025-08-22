@@ -1,6 +1,7 @@
 {
   config,
   self,
+  pkgs,
   lib,
   ...
 
@@ -44,5 +45,9 @@ in
           ;
       };
     };
+
+    home.packages = [
+      pkgs.marimo
+    ];
   };
 }

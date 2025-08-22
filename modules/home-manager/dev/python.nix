@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }:
 
@@ -15,16 +14,11 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      ruff
-      pyright
-      ##uv
-    ];
 
     programs.uv = {
       enable = true;
     };
-    # programs.ruff.enable = true;
+
     programs.pyenv = {
       enable = true;
       rootDirectory = "${config.xdg.configHome}/pyenv";
