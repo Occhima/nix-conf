@@ -1,4 +1,9 @@
-{ lib, config, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
 
   inherit (lib.strings) optionalString;
@@ -8,6 +13,10 @@ let
 
 in
 {
+
+  # TODO: add pkgs string interpolation here, like:
+  # {pkgs.hyprpicker}/bin/hyprpicker
+
   wayland.windowManager.hyprland.settings = {
     "$mainMod" = "SUPER";
 
@@ -25,6 +34,7 @@ in
       "$mainMod, V, togglefloating,"
       "$mainMod, J, togglesplit,"
       "$mainMod, K, exec, clipcat-menu --rofi-menu-length 10"
+      "$mainMod, C, exec, ${lib.getExe pkgs.hyprpicker}"
 
       # XXX: This is broken
       (optionalString flameshotCfg.enable "$mainMod, S, exec, flameshot gui")

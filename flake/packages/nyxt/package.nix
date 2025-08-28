@@ -65,6 +65,7 @@ stdenvNoCC.mkDerivation {
     wayland
     egl-wayland
     electron
+
   ];
 
   # sourceRoot = lib.optionalString hostPlatform.isDarwin ".";

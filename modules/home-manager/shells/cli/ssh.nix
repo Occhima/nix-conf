@@ -12,8 +12,14 @@ in
   config = mkIf (cfg.enable && builtins.elem "ssh" cfg.tools) {
     programs.ssh = {
       enable = true;
-      hashKnownHosts = true;
-      compression = true;
+      enableDefaultConfig = false;
+      matchBlocks = {
+        "*" = {
+          hashKnownHosts = true;
+          compression = true;
+        };
+      };
+
       # TODO...
       # matchBlocks = {
       #   "github.com" = mkIf hasAgeKeys {

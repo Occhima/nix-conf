@@ -220,14 +220,14 @@ Full documentation is available in the [docs directory](./flake/docs). The docum
 ## Roadmap
 
 - [x] nixos-test on CI or releases ( This does not make any sense for my use case )
-- [ ] Use eval-modules on modules/flake-modules
 - [ ] replace path references with builtins.path
 - [ ] Create nix on droid configs
 - [ ] MicroVM pentesting config
 - [ ] Create custom templates
 - [ ] use gitignore.nix from hercule-ci
 - [ ] git-crypt
-- [ ] hyprlang monitors v2
+- [x] Better use of nix ( singletons and etc...: https://nix.dev/guides/best-practices )
+- [x] hyprlang monitors v2
 
 ## References
 

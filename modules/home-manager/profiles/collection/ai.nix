@@ -15,6 +15,7 @@ let
 in
 
 {
+  # TODO: I should turn this in to an enum, sometime
   config = mkIf (hasProfile config [ "ai" ]) {
     home = {
       packages = [

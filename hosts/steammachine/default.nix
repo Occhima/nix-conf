@@ -26,7 +26,10 @@
       wireless.enable = true;
 
       vpn = {
-        openvpn.enable = true;
+
+        # removing, broken builx fld
+        openvpn.enable = false;
+
       };
     };
 

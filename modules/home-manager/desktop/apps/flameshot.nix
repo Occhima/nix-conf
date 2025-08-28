@@ -25,6 +25,12 @@ in
     services.flameshot = {
       enable = true;
       package = flameShotPkg;
+      settings = {
+        General = {
+          useGrimAdapter = isWayland;
+          disabledGrimWarning = true;
+        };
+      };
     };
   };
 }

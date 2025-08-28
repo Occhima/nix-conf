@@ -56,6 +56,7 @@ in
             "zellij"
             "jq"
             "yazi"
+            "pay-respects"
           ]
         );
         default = [
@@ -70,10 +71,8 @@ in
           "gh"
           "ssh"
           "lazygit"
-          "jujutsu"
           "pandoc"
           "jq"
-          "yazi"
         ];
         description = "List of CLI tools to enable";
         example = ''[ "bat" "eza" "fzf" "git" ]'';

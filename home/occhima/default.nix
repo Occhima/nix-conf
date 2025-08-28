@@ -12,7 +12,7 @@
         "dev"
         "science"
         "finance"
-        # "pentesting"
+        "pentesting"
       ];
     };
     shell = {
@@ -51,9 +51,8 @@
 
       # FIXME: broken, can't make it work on my wayland + nvidia machine
       espanso.enable = false;
-
       podman.enable = true;
-      clipboard.enable = true;
+      clipboard.enable = false;
       cachix.enable = false;
     };
 
