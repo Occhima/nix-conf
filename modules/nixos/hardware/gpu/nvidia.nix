@@ -11,7 +11,10 @@ let
 in
 {
   config = mkIf (cfg.type == "nvidia") {
+
     nixpkgs.config.allowUnfree = true;
+    nixpkgs.config.cudaSupport = true;
+
     services.xserver.videoDrivers = [ "nvidia" ];
     hardware = {
       graphics = {
@@ -27,7 +30,12 @@ in
         };
 
         nvidiaSettings = true;
-        nvidiaPersistenced = true;
+
+        # disabling due to  error in config
+        # https://github.com/NixOS/nixpkgs/issues/437066
+        # come back when this issue is solved
+        nvidiaPersistenced = false;
+
         modesetting.enable = true;
       };
     };

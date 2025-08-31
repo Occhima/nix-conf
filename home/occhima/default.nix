@@ -52,13 +52,15 @@
       # FIXME: broken, can't make it work on my wayland + nvidia machine
       espanso.enable = false;
       podman.enable = true;
+
       clipboard.enable = false;
       cachix.enable = false;
     };
 
     dev = {
       python.enable = true;
-      haskell.enable = true;
+      r.enable = true;
+      haskell.enable = false;
       c.enable = true;
       julia.enable = true;
     };

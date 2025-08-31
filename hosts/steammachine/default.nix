@@ -144,6 +144,10 @@
         enable = true;
         optimizeServices = false;
       };
+      oom = {
+        enable = true;
+        earlyoom.enable = true;
+      };
       firmware.enable = true;
       flatpak.enable = true;
       ssh.enable = true;

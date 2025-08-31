@@ -47,7 +47,8 @@ in
     };
 
     home.packages = [
-      pkgs.marimo
+      # pkgs.marimo
+      pkgs.quarto
     ];
   };
 }
