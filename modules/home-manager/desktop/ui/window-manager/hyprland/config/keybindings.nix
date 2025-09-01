@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }:
 let
@@ -34,7 +33,6 @@ in
       "$mainMod, V, togglefloating,"
       "$mainMod, J, togglesplit,"
       "$mainMod, K, exec, clipcat-menu --rofi-menu-length 10"
-      "$mainMod, C, exec, ${lib.getExe pkgs.hyprpicker}"
 
       # XXX: This is broken
       (optionalString flameshotCfg.enable "$mainMod, S, exec, flameshot gui")

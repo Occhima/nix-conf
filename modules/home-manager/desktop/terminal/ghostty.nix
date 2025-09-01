@@ -6,7 +6,7 @@
 
 let
   inherit (lib) mkEnableOption mkIf;
-  cfg = config.modules.desktop.terminal.kitty;
+  cfg = config.modules.desktop.terminal.ghostty;
   terminalCfg = config.modules.desktop.terminal;
 in
 {
