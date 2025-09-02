@@ -12,7 +12,7 @@ let
   inherit (builtins) getAttr;
 
   cfg = config.modules.editor.emacs;
-  usingHyprland = config.modules.desktop.ui == "hyprland";
+  usingHyprland = config.modules.desktop.ui.windowManager == "hyprland";
 
   mkEmacsHomePackages =
     packages:

@@ -9,7 +9,7 @@ let
   inherit (lib) mkEnableOption mkIf;
 
   displayType = osConfig.modules.system.display.type or false;
-  usingHyprland = config.modules.desktop.ui == "hyprland";
+  usingHyprland = config.modules.desktop.ui.windowManager == "hyprland";
 
   isWayland = displayType == "wayland";
   cfg = config.modules.desktop.apps.flameshot;

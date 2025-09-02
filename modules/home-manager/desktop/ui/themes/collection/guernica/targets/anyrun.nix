@@ -11,83 +11,43 @@ in
 {
   programs.anyrun = mkIf (cfg.enable && cfg.name == "guernica") {
     extraCss = ''
-      {
-         all: unset;
-         font-size: 1.2rem;
-       }
+      * {
+            all: unset;
+            border-radius: 0;
+        }
 
-       #window,
-       #match,
-       #entry,
-       #plugin,
-       #main { background: transparent; }
+        #window {
+            background: rgba(0, 0, 0, 0);
+            padding: 48px;
+        }
 
-       #match.activatable {
-         border-radius: 10px;
-         padding: .3rem .9rem;
-         margin-top: .01rem;
-       }
-       #match.activatable:first-child { margin-top: 9px; }
-       #match.activatable:last-child { margin-bottom: 1px; }
+        box#main {
+            margin: 48px;
+            padding: 24px;
+            background-color: rgba(31, 31, 31, .6);
+            box-shadow: 0 0 2px 1px rgba(26, 26, 26, 238);
+            border: 2px solid #fff;
+        }
 
-       #plugin:hover #match.activatable {
-         border-radius: 10px;
-         padding: .3rem;
-         margin-top: .01rem;
-         margin-bottom: 0;
-       }
+        #entry { /* I would center align the text, but GTK doesn't support it */
+            border-bottom: 2px solid #fff;
+            margin-bottom: 12px;
+            padding: 6px;
+            font-family: monospace;
+        }
 
+        #match {
+            padding: 4px;
+        }
 
-       #match:selected {
-         color: @theme_selected_fg_color;
-         background: @theme_selected_bg_color;
-         border-radius: 8px;
-       }
+        #match:selected,
+        #match:hover {
+            background-color: rgba(255, 255, 255, .2);
+        }
 
-       #entry {
-         border-radius: 8px;
-         margin: .3rem;
-         padding: .6rem 1.0rem;
-         caret-color: white;
-         font-size: 26px;
-         font-weight: 500;
-       }
-
-       list > #plugin {
-         border-top: 1px solid rgba(255,255,255,.11);
-         margin: 0.3rem;
-         padding-top: 4px;
-         padding-left: 3px;
-         font-weight: 400;
-       }
-
-       list > #plugin:first-child {
-         margin-top: .3rem;
-       }
-
-       list > #plugin:last-child {
-         margin-bottom: .3rem;
-       }
-
-       list > #plugin:hover {
-         padding: .7rem;
-       }
-
-       box#main {
-         border-color: rgba(255,255,255,0.2);
-         color: white;
-         border-width: 1px;
-         border-style: solid;
-         margin-top: 15px;
-         background-color: rgba(0,0,0,0.6);
-         border-radius: 22px;
-         padding: .7rem;
-       }
-
-       zlabel#plugin {
-         font-size:14px;
-       }
-
+        label#match-title {
+            font-weight: bold;
+        }
     '';
 
   };
