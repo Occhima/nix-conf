@@ -9,7 +9,9 @@
 let
   inherit (lib) mkIf;
   inherit (lib.attrsets) attrByPath;
+
   cfg = config.modules.desktop.ui;
+  usingHyprland = cfg.windowManager == "hyprland";
   displayType = attrByPath [ "modules" "system" "display" "type" ] "" osConfig;
   isWayland = displayType == "wayland";
   rofiPkg = if isWayland then pkgs.rofi-wayland-unwrapped else pkgs.rofi-unwrapped;
@@ -34,8 +36,17 @@ in
       plugins = [
         rofiFBPkg
         rofiCalcPkg
-
       ];
     };
+
+    wayland.windowManager.hyprland = mkIf usingHyprland {
+
+      settings.bind = [
+        "$mainMod, SPACE, exec, rofi -show drun"
+        "$mainMod, B, exec, rofi-bluetooth"
+        "$mainMod, P, exec, rofi -show power-menu -modi power-menu:rofi-power-menu"
+      ];
+    };
+
   };
 }

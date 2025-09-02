@@ -1,14 +1,10 @@
 {
-  lib,
   config,
   ...
 }:
 let
 
-  inherit (lib.strings) optionalString;
   desktopCfg = config.modules.desktop;
-  editorCfg = config.modules.editor;
-  flameshotCfg = desktopCfg.apps.flameshot;
 
 in
 {
@@ -27,29 +23,17 @@ in
       # Window management
       "$mainMod, F4, killactive,"
       "$mainMod, L, exec, hyprlock"
-      "$mainMod, SPACE, exec, rofi -show drun"
+
       "$mainMod SHIFT, M, exit,"
       "$mainMod SHIFT, R, exec, hyprctl reload"
       "$mainMod, V, togglefloating,"
       "$mainMod, J, togglesplit,"
-      "$mainMod, K, exec, clipcat-menu --rofi-menu-length 10"
-
-      # XXX: This is broken
-      (optionalString flameshotCfg.enable "$mainMod, S, exec, flameshot gui")
 
       # Focus movement
       "$mainMod, left, movefocus, l"
       "$mainMod, right, movefocus, r"
       "$mainMod, up, movefocus, u"
       "$mainMod, down, movefocus, d"
-
-      # Emacs
-      (optionalString editorCfg.emacs.service "$mainMod, E, exec, emacsclient -c")
-      # Utils
-      "$mainMod, B, exec, rofi-bluetooth"
-
-      # Power
-      "$mainMod, P, exec, rofi -show power-menu -modi power-menu:rofi-power-menu"
 
       # Workspace switching
       "$mainMod, 1, workspace, 1"

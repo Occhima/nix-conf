@@ -19,6 +19,7 @@
       plugins = with pkgs.hyprlandPlugins; [
         hyprfocus
         hyprexpo
+        # hyprsplit
       ];
 
       settings = {

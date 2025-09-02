@@ -7,7 +7,10 @@
 }:
 let
   inherit (lib) mkEnableOption mkIf;
+
   displayType = osConfig.modules.system.display.type or false;
+  usingHyprland = config.modules.desktop.ui == "hyprland";
+
   isWayland = displayType == "wayland";
   cfg = config.modules.desktop.apps.flameshot;
 
@@ -31,6 +34,12 @@ in
           disabledGrimWarning = true;
         };
       };
+    };
+
+    wayland.windowManager.hyprland = mkIf usingHyprland {
+      settings.bind = [
+        "$mainMod, S, exec, flameshot gui"
+      ];
     };
   };
 }

@@ -45,6 +45,7 @@ in
         "wofi"
         "rofi"
         "dmenu"
+        "anyrun"
       ]);
       default = null;
       description = "The application launcher to use";
