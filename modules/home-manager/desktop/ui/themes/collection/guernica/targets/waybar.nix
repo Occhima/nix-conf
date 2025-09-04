@@ -7,6 +7,8 @@
 let
   inherit (lib) mkIf;
   cfg = config.modules.desktop.ui.themes;
+  uiCfg = config.modules.desktop.ui;
+  usingHyprland = uiCfg.windowManager == "hyprland";
 in
 {
   stylix.targets.waybar = mkIf (cfg.enable && cfg.name == "guernica") {
@@ -43,30 +45,47 @@ in
 
       ];
 
-      "hyprland/workspaces" = {
+      "hyprland/workspaces" = mkIf usingHyprland {
         disable-scroll = true;
-        all-outputs = true;
+        all-outputs = false;
         active-only = false;
         on-click = "activate";
         format = "{icon}";
         format-icons = {
-          "urgent" = "  ";
-          "active" = "  ";
-          "default" = " 󰧞 ";
+          "11" = "1";
+          "12" = "2";
+          "13" = "3";
+          "14" = "4";
+          "15" = "5";
+          "16" = "6";
+          "17" = "7";
+          "18" = "8";
+          "19" = "9";
+          "20" = "10";
+          "21" = "1";
+          "22" = "2";
+          "23" = "3";
+          "24" = "4";
+          "25" = "5";
+          "26" = "6";
+          "27" = "7";
+          "28" = "8";
+          "29" = "9";
+          "30" = "10";
         };
+
         # NOTE: No persistent workspaces in hyrpsplit
-        # persistent-workspaces = {
-        #   "1" = [ ];
-        #   "2" = [ ];
-        #   "3" = [ ];
-        #   "4" = [ ];
-        #   "5" = [ ];
-        #   "6" = [ ];
-        #   "7" = [ ];
-        #   "8" = [ ];
-        #   "9" = [ ];
-        #   "10" = [ ];
-        # };
+        # persistent-workspaces =
+        #   let
+        #     numWorkspaces = config.wayland.windowManager.hyprland.settings.plugins.hyprsplit.n_workspaces;
+        #     workspaces = listToAttrs (
+        #       map (x: {
+        #         name = toString x;
+        #         value = [ ];
+        #       }) (range 1 numWorkspaces)
+        #     );
+        #   in
+        #   workspaces;
       };
 
       clock = {

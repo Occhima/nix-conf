@@ -17,24 +17,21 @@
 
       # TODO: add hyprsplit
       plugins = with pkgs.hyprlandPlugins; [
-        hyprfocus
         hyprexpo
         hyprsplit
       ];
 
       settings = {
         plugins = {
-          hyprfocus = {
-            enabled = true;
-            keyboard_focus_animation = "shrink";
-            mouse_focus_animation = "flash";
-          };
           hyprexpo = {
-            rows = 3;
-            columns = 2;
+            rows = 4;
+            columns = 4;
             gap_size = config.wayland.windowManager.hyprland.settings.general.gaps_in;
           };
-          hyprsplit = { };
+          hyprsplit = {
+            n_workspaces = 9;
+            # persistent_workspaces = true;
+          };
         };
         bind = [
           # plugins
@@ -50,6 +47,9 @@
           "$mainMod, 4, split:workspace, 4"
           "$mainMod, 5, split:workspace, 5"
           "$mainMod, 6, split:workspace, 6"
+          "$mainMod, 7, split:workspace, 7"
+          "$mainMod, 8, split:workspace, 8"
+          "$mainMod, 9, split:workspace, 9"
 
           "$mainMod SHIFT, 1, split:movetoworkspacesilent, 1"
           "$mainMod SHIFT, 2, split:movetoworkspacesilent, 2"
@@ -57,6 +57,9 @@
           "$mainMod SHIFT, 4, split:movetoworkspacesilent, 4"
           "$mainMod SHIFT, 5, split:movetoworkspacesilent, 5"
           "$mainMod SHIFT, 6, split:movetoworkspacesilent, 6"
+          "$mainMod SHIFT, 7, split:movetoworkspacesilent, 7"
+          "$mainMod SHIFT, 8, split:movetoworkspacesilent, 8"
+          "$mainMod SHIFT, 9, split:movetoworkspacesilent, 9"
 
           "$mainMod, D, split:swapactiveworkspaces, current +1"
           "$mainMod, G, split:grabroguewindows"
