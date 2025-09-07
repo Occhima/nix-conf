@@ -315,11 +315,19 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1757211048,
         "narHash": "sha256-YZc7C9HUVsUmrvlw+EU1boMqxQnobOJxQiEAChJwLOU=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
         "rev": "e86c84e6027624768ea2bef9e704d8c050d16f1b",
+=======
+        "lastModified": 1757178312,
+        "narHash": "sha256-Z1HEVI+sphdRndNu8/iqGuupjtj1i3vBZXRXj9UA2RQ=",
+        "owner": "nix-community",
+        "repo": "emacs-overlay",
+        "rev": "132734acf812c4cbe44fd6aed54920ae731da986",
+>>>>>>> 0e755b5 (feat: update nyxt)
         "type": "github"
       },
       "original": {
@@ -1293,11 +1301,19 @@
     },
     "nixpkgs_4": {
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1757211315,
         "narHash": "sha256-9GhbhYS2aF/Z4eKYNXaF3wIYhyi+Gr+JXTEbIFo5P6Y=",
         "owner": "nixos",
         "repo": "nixpkgs",
         "rev": "31dd02fc7410cc97d71165d596f08d21bab7497f",
+=======
+        "lastModified": 1757180177,
+        "narHash": "sha256-LYuE9M8KISy+7PszKh8qg/Tutm5O3tNQHw8SA0NOfrs=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "50ef33d57b38df1d7575be3696b0c382e3af49fa",
+>>>>>>> 0e755b5 (feat: update nyxt)
         "type": "github"
       },
       "original": {
@@ -1375,11 +1391,19 @@
         ]
       },
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1757209845,
         "narHash": "sha256-UOqIKs+ObXTydrmkIAI5V/xbqhYJ3iwtWDmOAQq1y9Q=",
         "owner": "nix-community",
         "repo": "NUR",
         "rev": "0cf8e952f2336d09ef7695dccc7fe9e89445ea9c",
+=======
+        "lastModified": 1757175473,
+        "narHash": "sha256-zi5d9XZMqZwsnEOFn2mgNQTAVp7oifTNtdqAzSsNZbc=",
+        "owner": "nix-community",
+        "repo": "NUR",
+        "rev": "56a58305f2668b2d5519f64eaac93e8d1cef1827",
+>>>>>>> 0e755b5 (feat: update nyxt)
         "type": "github"
       },
       "original": {
@@ -1938,11 +1962,19 @@
         ]
       },
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1757188300,
         "narHash": "sha256-LBdC9dbb6/fWMwGKSyNmuzkyOFFFLyOyveBj5HwEs8s=",
         "owner": "0xc000022070",
         "repo": "zen-browser-flake",
         "rev": "4ca47f098b4710e827180798bdc8b5f53d6d2e5a",
+=======
+        "lastModified": 1757174751,
+        "narHash": "sha256-HB01usaR5wg5LK3lV6S7Za2x4AfKrNceOnun/mlpChk=",
+        "owner": "0xc000022070",
+        "repo": "zen-browser-flake",
+        "rev": "6a0d727b623f46108c9bcaa87901e7f6e69e78c2",
+>>>>>>> 0e755b5 (feat: update nyxt)
         "type": "github"
       },
       "original": {

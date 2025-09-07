@@ -226,6 +226,7 @@ Full documentation is available in the [docs directory](./flake/docs). The docum
 - [ ] Create custom templates
 - [ ] use gitignore.nix from hercule-ci
 - [ ] git-crypt
+- [ ] Refac themes logic + theme based no oxocarbon
 - [x] Better use of nix ( singletons and etc...: https://nix.dev/guides/best-practices )
 - [x] hyprlang monitors v2
 

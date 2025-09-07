@@ -31,12 +31,12 @@
     ((nyxt/mode/hint:hints-alphabet "DSJKHLFAGNMXCWEIO")
      (nyxt/mode/hint:hints-selector "a, button, input, textarea, details, select")))
 
-(define-configuration nyxt/mode/reduce-tracking:reduce-tracking-mode
-    ((nyxt/mode/reduce-tracking:query-tracking-parameters
-      (append '("utm_source" "utm_medium" "utm_campaign" "utm_term" "utm_content")
-              %slot-value%))
-     (preferred-user-agent
-      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36")))
+;; (define-configuration nyxt/mode/reduce-tracking:reduce-tracking-mode
+;;     ((nyxt/mode/reduce-tracking:query-tracking-parameters
+;;       (append '("utm_source" "utm_medium" "utm_campaign" "utm_term" "utm_content")
+;;               %slot-value%))
+;;      (preferred-user-agent
+;;       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36")))
 
 (defmethod files:resolve ((profile nyxt:nyxt-profile) (file nyxt/mode/bookmark:bookmarks-file))
   #p"~/.config/nyxt/bookmarks.lisp")
@@ -76,6 +76,7 @@
 
 
 ;; Load theme configuration
+;; This is so dumb I hate this
 (when (probe-file #p"~/.config/flake-themes/nyxt/theme.lisp")
   (load #p"~/.config/flake-themes/nyxt/theme.lisp"))
 

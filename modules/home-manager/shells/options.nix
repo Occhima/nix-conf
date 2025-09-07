@@ -56,7 +56,9 @@ in
             "zellij"
             "jq"
             "yazi"
+            "navi"
             "pay-respects"
+            "nix-your-shell"
           ]
         );
         default = [
@@ -73,6 +75,8 @@ in
           "lazygit"
           "pandoc"
           "jq"
+          "navi"
+          "nix-your-shell"
         ];
         description = "List of CLI tools to enable";
         example = ''[ "bat" "eza" "fzf" "git" ]'';

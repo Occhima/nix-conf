@@ -34,7 +34,7 @@ in
         # disabling due to  error in config
         # https://github.com/NixOS/nixpkgs/issues/437066
         # come back when this issue is solved
-        nvidiaPersistenced = false;
+        nvidiaPersistenced = true;
 
         modesetting.enable = true;
       };

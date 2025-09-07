@@ -6,6 +6,7 @@
   # build
   appimageTools,
   openssl,
+  enchant,
   electron,
   xdg-utils,
   autoPatchelfHook,
@@ -65,6 +66,7 @@ stdenvNoCC.mkDerivation {
     wayland
     egl-wayland
     electron
+    enchant
 
   ];
 
@@ -86,6 +88,7 @@ stdenvNoCC.mkDerivation {
         lib.makeBinPath [
           xdg-utils
           openssl
+          enchant
           electron
           libglvnd
           wayland
