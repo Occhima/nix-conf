@@ -65,17 +65,19 @@ in
     };
 
     home = {
-      packages = basePackages;
+      packages = basePackages ++ [
+        # HACK: This way is more shell agnostic agnostic
+        (pkgs.writeShellScriptBin "remdaemon" ''
+          set -euo pipefail
+          systemctl --user daemon-reload
+          systemctl --user restart emacs
+        '')
+      ];
 
-      shellAliases = {
-        remdaemon = "systemctl daemon-reload --user && systemctl restart emacs --user";
-      };
       sessionVariables.EMACSDIR = "${config.xdg.configHome}/emacs";
       sessionPath = [ "${config.xdg.configHome}/emacs/bin" ];
 
     };
-    # TODO: maybe add keymaps as a module in the home manager config
-    #  like the emacs
 
     services.emacs = mkIf cfg.service {
       enable = true;
