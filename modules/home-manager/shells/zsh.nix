@@ -2,19 +2,25 @@
   config,
   pkgs,
   lib,
+  osConfig,
   ...
 }:
 
 let
   inherit (lib) mkIf;
   inherit (lib.strings) optionalString;
+  inherit (lib.custom) getShellFromConfig;
   cfg = config.modules.shell;
   cfgCli = config.modules.shell.cli;
   hasFzfSupport = builtins.elem "fzf" cfgCli.tools;
   hasJqSupport = builtins.elem "jq" cfgCli.tools;
+
+  nixosModuleSetShell = getShellFromConfig osConfig config.home.username;
+  usingZsh = (nixosModuleSetShell == "zsh") || cfg.type == "zsh";
+
 in
 {
-  config = mkIf (cfg.type == "zsh") {
+  config = mkIf usingZsh {
     programs.zsh = {
       enable = true;
       syntaxHighlighting.enable = true;

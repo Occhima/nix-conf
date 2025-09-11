@@ -7,9 +7,9 @@
 let
   inherit (lib.meta) getExe;
   inherit (lib.modules) mkIf;
+  inherit (lib.custom) isWayland;
 
-  cfg = config.modules.system.display;
-  isWayland = cfg.type == "wayland";
+  usingWayland = isWayland config;
 in
 {
   config = {
@@ -26,8 +26,8 @@ in
       extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
       wlr = {
-        enable = isWayland;
-        settings = mkIf isWayland {
+        enable = usingWayland;
+        settings = mkIf usingWayland {
           screencast = {
             max_fps = 60;
             chooser_type = "simple";

@@ -9,6 +9,7 @@ let
     isPackageEnabled
     ifPackageNotEnabled
     isWayland
+    getShellFromConfig
     ;
 in
 {
@@ -249,5 +250,92 @@ in
   "test isWayland with completely empty config" = {
     expr = isWayland { };
     expected = false;
+  };
+
+  #####################################################################
+  # Tests for getShellFromConfig
+  #####################################################################
+
+  "test getShellFromConfig with valid user and shell" = {
+    expr = getShellFromConfig {
+      users.users.alice = {
+        shell = {
+          name = "bash";
+        };
+      };
+    } "alice";
+    expected = "bash";
+  };
+
+  "test getShellFromConfig with valid user and zsh shell" = {
+    expr = getShellFromConfig {
+      users.users.bob = {
+        shell = {
+          name = "zsh";
+        };
+      };
+    } "bob";
+    expected = "zsh";
+  };
+
+  "test getShellFromConfig with valid user and fish shell" = {
+    expr = getShellFromConfig {
+      users.users.charlie = {
+        shell = {
+          name = "fish";
+        };
+      };
+    } "charlie";
+    expected = "fish";
+  };
+
+  "test getShellFromConfig with non-existent user" = {
+    expr = getShellFromConfig {
+      users.users.alice = {
+        shell = {
+          name = "bash";
+        };
+      };
+    } "nonexistent";
+    expected = "";
+  };
+
+  "test getShellFromConfig with user but no shell" = {
+    expr = getShellFromConfig {
+      users.users.alice = {
+        home = "/home/alice";
+      };
+    } "alice";
+    expected = "";
+  };
+
+  "test getShellFromConfig with empty config" = {
+    expr = getShellFromConfig { } "alice";
+    expected = "";
+  };
+
+  "test getShellFromConfig with empty users section" = {
+    expr = getShellFromConfig {
+      users = { };
+    } "alice";
+    expected = "";
+  };
+
+  "test getShellFromConfig with multiple users" = {
+    expr = getShellFromConfig {
+      users.users = {
+        alice = {
+          shell = {
+            name = "bash";
+          };
+        };
+        bob = {
+          shell = {
+            name = "zsh";
+          };
+        };
+      };
+    } "bob";
+    expected = "zsh";
   };
 }

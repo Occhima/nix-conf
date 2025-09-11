@@ -93,7 +93,7 @@ in
     home-manager = mkIf cfg.enableHomeManager {
       verbose = true;
 
-      useGlobalPkgs = false;
+      useGlobalPkgs = true;
       useUserPackages = true;
       backupFileExtension = "bak";
 

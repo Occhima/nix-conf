@@ -17,7 +17,9 @@
     };
     shell = {
       enable = true;
-      type = "zsh";
+
+      # infer type from nixos shell, no need to set it here
+      # type = "zsh";
       prompt.type = "starship";
       cli = {
         enable = true;

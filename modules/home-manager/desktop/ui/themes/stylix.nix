@@ -41,6 +41,12 @@ in
       enable = true;
       enableReleaseChecks = true;
       autoEnable = true;
+
+      # FIXME: This should not be necesary https://github.com/nix-community/stylix/issues/1832
+      # manually set when setting use global pkgs in home-manager
+      overlays = {
+        enable = false;
+      };
     };
   };
 }

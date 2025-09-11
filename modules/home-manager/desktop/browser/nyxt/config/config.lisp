@@ -8,6 +8,7 @@
 
 (defvar *my-search-engines*
   (list
+   ;; Put noogle in here
    (make-instance 'search-engine :name "Google" :shortcut "g"
                                  :control-url "https://google.com/search?q=~a")
    (make-instance 'search-engine :name "MyNixos" :shortcut "mn"

@@ -17,6 +17,7 @@ in
       terminal = 0.9;
       desktop = 0.95;
       applications = 1.0;
+      popups = 0.90;
     };
 
     cursor = {

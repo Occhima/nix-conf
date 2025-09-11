@@ -2,19 +2,20 @@
   config,
   lib,
   pkgs,
-  osConfig ? { },
+  osConfig,
   ...
 }:
 
 let
   inherit (lib) mkIf;
-  inherit (lib.attrsets) attrByPath;
+  inherit (lib.custom) isWayland;
 
   cfg = config.modules.desktop.ui;
+
   usingHyprland = cfg.windowManager == "hyprland";
-  displayType = attrByPath [ "modules" "system" "display" "type" ] "" osConfig;
-  isWayland = displayType == "wayland";
-  rofiPkg = if isWayland then pkgs.rofi-wayland-unwrapped else pkgs.rofi-unwrapped;
+  usingWayland = isWayland osConfig;
+
+  rofiPkg = if usingWayland then pkgs.rofi-wayland-unwrapped else pkgs.rofi-unwrapped;
   rofiFBPkg = pkgs.rofi-file-browser.override { rofi = rofiPkg; };
   rofiBluetoothPkg = pkgs.rofi-bluetooth;
   rofiPowerMenuPkg = pkgs.rofi-power-menu;
@@ -31,7 +32,7 @@ in
       enable = true;
       cycle = true;
 
-      package = if isWayland then pkgs.rofi-wayland else pkgs.rofi;
+      package = if usingWayland then pkgs.rofi-wayland else pkgs.rofi;
 
       plugins = [
         rofiFBPkg

@@ -9,6 +9,7 @@ rec {
     match
     readDir
     toString
+    getAttr
     ;
   inherit (lib)
     filterAttrs
@@ -16,6 +17,7 @@ rec {
     nameValuePair
     pipe
     removeSuffix
+    getName
     mapAttrsToList
     all
     ;
@@ -24,6 +26,8 @@ rec {
 
   # Check if the system is using Wayland based on the configuration
   isWayland = config: (config.modules.system.display.type or "") == "wayland";
+
+  getShellFromConfig = config: username: getName config.users.users.${username}.shell or "";
 
   attrsToList = attrs: mapAttrsToList (name: value: { inherit name value; }) attrs;
 

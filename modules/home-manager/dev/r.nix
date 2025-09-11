@@ -14,7 +14,7 @@ let
     lintr
     styler
     tidyverse
-
+    dagitty
   ];
   rWithMyPackages = pkgs.rWrapper.override {
     packages = myRPackages;

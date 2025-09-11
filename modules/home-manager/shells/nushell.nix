@@ -1,16 +1,20 @@
 {
   config,
   pkgs,
+  osConfig,
   lib,
   ...
 }:
 let
   inherit (lib) mkIf;
+  inherit (lib.custom) getShellFromConfig;
   cfg = config.modules.shell;
 
+  nixosModuleSetShell = getShellFromConfig osConfig config.home.username;
+  usingNushell = (nixosModuleSetShell == "nushell") || cfg.type == "nushell";
 in
 {
-  config = mkIf (cfg.type == "nushell") {
+  config = mkIf usingNushell {
     programs.nushell = {
       enable = true;
       settings = {
@@ -25,10 +29,10 @@ in
       plugins = with pkgs.nushellPlugins; [
         formats
         gstat
-        units
         query
-        net
+        # net
         highlight
+        polars
       ];
     };
   };

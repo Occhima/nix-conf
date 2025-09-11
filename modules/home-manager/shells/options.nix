@@ -10,13 +10,15 @@ in
     enable = mkEnableOption "Enable shell configurations";
 
     type = mkOption {
-      type = types.enum [
-        "zsh"
-        "bash"
-        "fish"
-        "nushell"
-      ];
-      default = "zsh";
+      type = types.nullOr (
+        types.enum [
+          "zsh"
+          "bash"
+          "fish"
+          "nushell"
+        ]
+      );
+      default = null;
       description = "The shell to use as default";
     };
 

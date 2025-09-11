@@ -1,21 +1,21 @@
 {
   lib,
   config,
-  osConfig ? { },
+  osConfig,
   pkgs,
   ...
 }:
 let
   inherit (lib) mkEnableOption mkIf;
+  inherit (lib.custom) isWayland;
 
-  displayType = osConfig.modules.system.display.type or false;
   usingHyprland = config.modules.desktop.ui.windowManager == "hyprland";
+  usingWayland = isWayland osConfig;
 
-  isWayland = displayType == "wayland";
   cfg = config.modules.desktop.apps.flameshot;
 
   flameShotPkg =
-    if isWayland then (pkgs.flameshot.override { enableWlrSupport = true; }) else pkgs.flameshot;
+    if usingWayland then (pkgs.flameshot.override { enableWlrSupport = true; }) else pkgs.flameshot;
 in
 
 {
@@ -30,7 +30,7 @@ in
       package = flameShotPkg;
       settings = {
         General = {
-          useGrimAdapter = isWayland;
+          useGrimAdapter = usingWayland;
           disabledGrimWarning = true;
         };
       };
