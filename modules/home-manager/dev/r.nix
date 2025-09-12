@@ -9,12 +9,14 @@ let
   cfg = config.modules.dev.r;
   myRPackages = with pkgs.rPackages; [
     ggplot2
-    languageR
     languageserver
+    devtools
     lintr
     styler
     tidyverse
     dagitty
+    knitr
+    rmarkdown
   ];
   rWithMyPackages = pkgs.rWrapper.override {
     packages = myRPackages;
@@ -35,6 +37,6 @@ in
       rWithMyPackages
       rStudioWithMyPackages
     ];
-    home.sessionVariables.R_PROFILE = "$XDG_CONFIG_HOME/R/Rprofile";
+    home.sessionVariables.R_PROFILE = "${config.xdg.configHome}/R/Rprofile";
   };
 }
