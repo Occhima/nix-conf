@@ -223,7 +223,6 @@ Full documentation is available in the [docs directory](./flake/docs). The docum
 - [ ] replace path references with builtins.path
 - [ ] Create nix on droid configs
 - [ ] MicroVM pentesting config
-- [ ] Create custom templates
 - [ ] use gitignore.nix from hercule-ci
 - [ ] git-crypt
 - [ ] Refac themes logic + theme based no oxocarbon

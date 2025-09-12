@@ -5,6 +5,7 @@
 
   # build
   appimageTools,
+  cacert,
   openssl,
   enchant,
   electron,
@@ -84,6 +85,8 @@ stdenvNoCC.mkDerivation {
   postFixup = ''
     wrapProgram "$out/bin/nyxt" \
       --prefix LD_LIBRARY_PATH : "$LD_LIBRARY_PATH" \
+      --set-default SSL_CERT_FILE  ${cacert}/etc/ssl/certs/ca-bundle.crt \
+      --set-default CURL_CA_BUNDLE ${cacert}/etc/ssl/certs/ca-bundle.crt \
       --prefix PATH : "${
         lib.makeBinPath [
           xdg-utils

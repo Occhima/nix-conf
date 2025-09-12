@@ -18,6 +18,7 @@ in
         (make-instance 'theme:theme
                        :font-family "${config.stylix.fonts.monospace.name}"
 
+           ;; Background
            :background-color-   "${base00}"
            :background-color    "${base00}"
            :background-color+   "${base01}"
