@@ -8,6 +8,22 @@
 let
   inherit (lib) mkEnableOption mkIf;
   cfg = config.modules.dev.julia;
+  juliaPackages = [
+    "LanguageServer"
+    "SymbolServer"
+    "StaticLint"
+    "DataFrames"
+    "CSV"
+    "Plots"
+    "StatsBase"
+    "Distributions"
+    "GLM"
+    "Query"
+    "Gadfly"
+
+  ];
+
+  juliaEnv = pkgs.julia.withPackages juliaPackages;
 in
 {
   options.modules.dev.julia = {
@@ -16,7 +32,7 @@ in
 
   config = mkIf cfg.enable {
     home.packages = [
-      pkgs.julia
+      juliaEnv
     ];
   };
 }

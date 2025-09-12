@@ -101,6 +101,7 @@
 
     system = {
       appimage.enable = true;
+      nix-ld.enable = true;
       boot = {
         loader = {
           type = "grub";
@@ -132,7 +133,6 @@
       };
     };
 
-    # TODO ...
     secrets = {
       agenix = {
         enable = true;
@@ -142,7 +142,6 @@
     services = {
       systemd = {
         enable = true;
-        optimizeServices = false;
       };
       oom = {
         enable = true;

@@ -121,7 +121,6 @@
     services = {
       systemd = {
         enable = true;
-        optimizeServices = false;
       };
       firmware.enable = true;
       flatpak.enable = true;
