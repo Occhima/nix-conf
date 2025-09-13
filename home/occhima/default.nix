@@ -82,7 +82,7 @@
       ui = {
         windowManager = "hyprland";
         dock = "waybar";
-        launcher = "rofi";
+        launcher = "anyrun";
         notifier = "mako";
         themes = {
           enable = true;

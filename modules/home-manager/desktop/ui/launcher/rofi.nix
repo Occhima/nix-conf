@@ -20,6 +20,7 @@ in
       pkgs.rofi-bluetooth
       pkgs.rofi-power-menu
     ];
+
     programs.rofi = {
       enable = true;
       cycle = true;

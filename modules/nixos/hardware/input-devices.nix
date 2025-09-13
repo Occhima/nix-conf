@@ -38,16 +38,13 @@ in
   };
 
   config = {
-    # Apply keyboard layout to console
     console.keyMap = mkIf (cfg.keyboard.variant == "") cfg.keyboard.layout;
 
-    # Apply settings to X server
     services.xserver.xkb = {
       layout = cfg.keyboard.layout;
       variant = cfg.keyboard.variant;
     };
 
-    # Apply natural scrolling to libinput devices
     services.libinput = {
       enable = true;
       mouse.naturalScrolling = cfg.naturalScrolling;

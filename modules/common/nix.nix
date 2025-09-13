@@ -57,6 +57,7 @@ in
         "nixos-test"
         "kvm"
         "recursive-nix"
+
         # "big-parallel"
       ];
 

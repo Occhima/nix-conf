@@ -8,46 +8,57 @@ let
   inherit (lib) mkIf;
   cfg = config.modules.desktop.ui.themes;
 in
+# stylixColors = config.lib.stylix.colors;
 {
   programs.anyrun = mkIf (cfg.enable && cfg.name == "guernica") {
     extraCss = ''
-      * {
-            all: unset;
-            border-radius: 0;
-        }
 
-        #window {
-            background: rgba(0, 0, 0, 0);
-            padding: 48px;
-        }
+      #window {
+      	background-color: rgba(0, 0, 0, 0);
+      	font-family: ${config.stylix.fonts.monospace.name};
+      }
 
-        box#main {
-            margin: 48px;
-            padding: 24px;
-            background-color: rgba(31, 31, 31, .6);
-            box-shadow: 0 0 2px 1px rgba(26, 26, 26, 238);
-            border: 2px solid #fff;
-        }
+      #entry {
+      	/* background-color: #11111b; */
+      	background-color: rgba(17, 17, 27, 0.9);
+      	min-height: 50px;
+      	font-size: 35px;
+      	border: 0px;
+      	border-radius: 10px;
+      	padding: 10px;
+      	margin: 5px 0px;
+      	letter-spacing: 2px;
+      }
 
-        #entry { /* I would center align the text, but GTK doesn't support it */
-            border-bottom: 2px solid #fff;
-            margin-bottom: 12px;
-            padding: 6px;
-            font-family: monospace;
-        }
+      box#main {
+      	border-radius: 10px;
+      	background-color: rgba(0, 0, 0, 0);
+      }
 
-        #match {
-            padding: 4px;
-        }
+      box#plugin {
+      	background-color: rgba(17, 17, 27, 0.85);
+      	border: 0px;
+      	border-radius: 10px;
+      	padding: 5px;
+      }
 
-        #match:selected,
-        #match:hover {
-            background-color: rgba(255, 255, 255, .2);
-        }
+      list#main {
+      	background-color: rgba(0, 0, 0, 0);
+      	border-radius: 10px;
+      	font-size: 15px;
+      }
 
-        label#match-title {
-            font-weight: bold;
-        }
+      list#plugin {
+      	background-color: rgba(0, 0, 0, 0);
+      }
+
+      label#match-desc {
+      	font-size: 10px;
+      }
+
+      label#plugin {
+      	font-size: 14px;
+      }
     '';
 
   };

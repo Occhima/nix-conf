@@ -9,9 +9,6 @@ let
 in
 {
 
-  # TODO: add pkgs string interpolation here, like:
-  # {pkgs.hyprpicker}/bin/hyprpicker
-
   wayland.windowManager.hyprland.settings = {
     "$mainMod" = "SUPER";
 

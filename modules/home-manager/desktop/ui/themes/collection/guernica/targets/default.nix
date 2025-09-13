@@ -13,5 +13,6 @@
     ./nyxt.nix
     ./hyprlock.nix
     ./zen.nix
+    ./anyrun.nix
   ];
 }

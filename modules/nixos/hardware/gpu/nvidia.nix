@@ -51,6 +51,9 @@ in
       LIBVA_DRIVER_NAME = "nvidia";
       __EGL_VENDOR_LIBRARY_FILENAMES = mkDefault "/run/opengl-driver/share/glvnd/egl_vendor.d/10_nvidia.json";
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+
+      # FIXME: ttps://forums.developer.nvidia.com/t/580-65-06-gtk-4-apps-hang-when-attempting-to-exit-close/341308/6
+      GSK_RENDERER = "ngl";
     };
 
     environment.systemPackages = with pkgs; [

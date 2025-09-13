@@ -40,6 +40,14 @@ in
       description = "The dock/bar to use";
     };
 
+    osd = mkOption {
+      type = nullOr (enum [
+        "avizo"
+      ]);
+      default = null;
+      description = "The OSD to use";
+    };
+
     launcher = mkOption {
       type = nullOr (enum [
         "wofi"

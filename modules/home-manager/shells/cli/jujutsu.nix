@@ -138,5 +138,8 @@ in
         };
       };
     };
+
+    # Uncomment when update flake.lock
+    # programs.jjui.enable = true;
   };
 }

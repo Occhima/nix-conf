@@ -36,6 +36,8 @@ let
     home-manager.lib.homeManagerConfiguration {
       pkgs = import nixpkgs {
         inherit system;
+
+        # TODO: Use the same value from common/nixpkgs?
         overlays = builtins.attrValues self.overlays;
         config = {
           allowUnfree = true;
