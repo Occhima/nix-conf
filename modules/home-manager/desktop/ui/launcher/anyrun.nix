@@ -18,15 +18,6 @@ in
       enable = true;
 
       config = {
-        # x = {
-        #   fraction = 0.5;
-        # };
-        # y = {
-        #   fraction = 0.3;
-        # };
-        # width = {
-        #   fraction = 0.3;
-        # };
         hideIcons = false;
         ignoreExclusiveZones = false;
         layer = "overlay";
@@ -38,6 +29,8 @@ in
         plugins = [
           "${pkgs.anyrun}/lib/libapplications.so"
           "${pkgs.anyrun}/lib/libshell.so"
+          "${pkgs.anyrun}/lib/librink.so"
+          "${pkgs.anyrun}/lib/libwebsearch.so"
           "${pkgs.anyrun}/lib/librandr.so"
           "${pkgs.anyrun}/lib/libnix_run.so"
         ];
@@ -78,6 +71,13 @@ in
         )
       '';
 
+      extraConfigFiles."shell.ron".text = ''
+        Config(
+          prefix: ":sh",
+          shell: None,
+        )
+
+      '';
     };
 
     wayland.windowManager.hyprland = mkIf usingHyprland {

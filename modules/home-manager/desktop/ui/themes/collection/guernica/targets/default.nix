@@ -14,5 +14,6 @@
     ./hyprlock.nix
     ./zen.nix
     ./anyrun.nix
+    ./wlogout.nix
   ];
 }

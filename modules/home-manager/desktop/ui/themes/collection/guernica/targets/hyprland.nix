@@ -52,6 +52,9 @@ in
           "borderangle, 1, 8, default"
           "fade, 1, 7, default"
           "workspaces, 0, 2, myBezier2"
+
+          "hyprfocusIn, 1, 0.25, focusIn"
+          "hyprfocusOut, 1, 0.25, focusOut"
         ];
       };
     }

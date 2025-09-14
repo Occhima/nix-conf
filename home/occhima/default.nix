@@ -100,6 +100,7 @@
         spotify.enable = true;
         discord.enable = true;
         flameshot.enable = true;
+        wlogout.enable = true;
       };
 
     };

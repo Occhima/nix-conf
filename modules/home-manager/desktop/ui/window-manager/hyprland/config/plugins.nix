@@ -19,6 +19,7 @@
       plugins = with pkgs.hyprlandPlugins; [
         hyprexpo
         hyprsplit
+        hyprfocus
       ];
 
       settings = {
@@ -65,6 +66,17 @@
           "$mainMod, G, split:grabroguewindows"
 
         ];
+        animations = {
+          bezier = [
+            "focusIn, 1, -0.07, -0.1, 0.95"
+            "focusOut, 1, -0.07, -0.1, 0.95"
+          ];
+          animation = [
+            "hyprfocusIn, 1, 0.25, focusIn"
+            "hyprfocusOut, 1, 0.25, focusOut"
+          ];
+
+        };
       };
     };
   };

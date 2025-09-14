@@ -19,8 +19,8 @@
       homeDirectory = "/home/${config.home.username}";
       preferXdgDirectories = true;
       sessionVariables = {
-        # FLAKE = config.modules.home.flakePath;
-        # NH_FLAKE = config.modules.home.flakePath;
+        FLAKE = config.modules.home.flakePath;
+        NH_FLAKE = config.modules.home.flakePath;
         SYSTEMD_PAGERSECURE = "true";
         DO_NOT_TRACK = 1;
       };

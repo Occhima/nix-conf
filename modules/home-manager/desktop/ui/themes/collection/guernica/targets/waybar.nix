@@ -42,8 +42,15 @@ in
         "memory"
         "disk"
         "battery"
-
+        "custom/power"
       ];
+
+      "custom/power" = {
+        format = " 󰐥 ";
+        tooltip = true;
+        tooltip-format = "Open power menu";
+        on-click = "wlogout"; # full-screen power menu with buttons
+      };
 
       "hyprland/workspaces" = mkIf usingHyprland {
         disable-scroll = true;
@@ -173,7 +180,7 @@ in
     style = ''
       * {
           /* `otf-font-awesome` is required to be installed for icons */
-          font-family: Iosevka Nerd Font;
+          font-family: ${config.stylix.fonts.monospace.name};
           font-size: 13px;
           min-height: 0;
       }
@@ -230,6 +237,7 @@ in
       #clock,
       #battery,
       #cpu,
+      #custom-power,
       #memory,
       #disk,
       #temperature,

@@ -6,6 +6,7 @@
       "opacity 0.8 0.8,class:^(rofi)$"
       "opacity 0.8 0.8,class:^(firefox)$"
       "opacity 0.8 0.8,class:^(mako)$"
+      "opacity 0.8 0.8,class:^(anyrun)$"
     ];
   };
 }
