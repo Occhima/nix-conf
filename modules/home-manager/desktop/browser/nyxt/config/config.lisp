@@ -26,11 +26,12 @@
    (make-instance 'search-engine :name "Arch Linux AUR" :shortcut "arch"
                                  :control-url "https://aur.archlinux.org/packages?O=0&K=~a")
    (make-instance 'search-engine :name "Flathub" :shortcut "fl"
-                                 :control-url "https://flathub.org/apps/search?q=~a"))
-  (make-instance 'search-engine :name "Noogle" :shortcut "no"
-                                :control-url "https://noogle.dev/?q.txt=~a")))
+                                 :control-url "https://flathub.org/apps/search?q=~a")
+   (make-instance 'search-engine :name "Noogle" :shortcut "no"
+                                 :control-url "https://noogle.dev/?q.txt=~a")
+   )
 
-)
+  )
 
 (define-configuration nyxt/mode/hint:hint-mode
     ((nyxt/mode/hint:hints-alphabet "DSJKHLFAGNMXCWEIO")

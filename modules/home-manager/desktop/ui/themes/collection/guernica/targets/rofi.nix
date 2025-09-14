@@ -13,7 +13,7 @@ in
   stylix.targets.rofi.enable = mkIf (cfg.enable && cfg.name == "guernica") false;
   programs.rofi = mkIf (cfg.enable && cfg.name == "guernica") {
 
-    font = "Iosevka Nerd Font 12";
+    font = "Iosevka Nerd Font";
     extraConfig = {
       modi = "drun";
       show-icons = true;

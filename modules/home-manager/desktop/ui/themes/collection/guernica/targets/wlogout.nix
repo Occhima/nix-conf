@@ -55,11 +55,18 @@ in
       }
     ];
     style = with stylixColors; ''
+      *
+      {
+          all: unset;
+          background-image: none;
+          transition: 400ms cubic-bezier(0.05, 0.7, 0.1, 1);
+
+      }
+
       window {
           font-family: ${config.stylix.fonts.monospace.name}, monospace;
-          font-size: 12pt;
-          color: #f4dfcd;
-          background-color: #${base00};
+          font-size: ${toString config.stylix.fonts.sizes.applications}pt;
+          background: #${base00};
       }
 
       button {
