@@ -77,6 +77,7 @@
       terminal = {
         active = "kitty";
         kitty.enable = true;
+        ghostty.enable = true;
       };
 
       ui = {
@@ -101,8 +102,8 @@
         discord.enable = true;
         flameshot.enable = true;
         wlogout.enable = true;
+        calibre.enable = true;
       };
-
     };
   };
 }

@@ -17,6 +17,11 @@
   wayland,
   egl-wayland,
   runCommand,
+
+  # Creating desktop entries
+  makeDesktopItem,
+  copyDesktopItems,
+
   ...
 
 }:
@@ -24,6 +29,7 @@ let
   pname = "nyxt";
   version = "4.0.0-pre-release-13";
   sha256 = "sha256-9kwgLVvnqXJnL/8jdY2jly/bS2XtgF9WBsDeoXNHX8M=";
+  binaryName = "nyxt";
 
   source = fetchurl {
     inherit sha256;
@@ -59,6 +65,7 @@ stdenvNoCC.mkDerivation {
     makeWrapper
     autoPatchelfHook
     glibcLocales
+    copyDesktopItems
   ];
 
   LD_LIBRARY_PATH = lib.makeLibraryPath [
@@ -75,9 +82,15 @@ stdenvNoCC.mkDerivation {
 
   installPhase = ''
     runHook preInstall
-    mkdir -p $out/
-    cp -r bin $out/bin
-    cp -r ${appimageContents}/nyxt.desktop $out
+    mkdir -p $out/bin
+    cp -r bin/${binaryName} $out/bin/nyxt
+
+    install -D ${appimageContents}/nyxt.png  $out/share/icons/hicolor/16x16/apps/nyxt.png
+    install -D ${appimageContents}/nyxt.png  $out/share/icons/hicolor/32x32/apps/nyxt.png
+    install -D ${appimageContents}/nyxt.png  $out/share/icons/hicolor/48x48/apps/nyxt.png
+    install -D ${appimageContents}/nyxt.png  $out/share/icons/hicolor/64x64/apps/nyxt.png
+    install -D ${appimageContents}/nyxt.png  $out/share/icons/hicolor/128x128/apps/nyxt.png
+
     runHook postInstall
   '';
 
@@ -98,6 +111,47 @@ stdenvNoCC.mkDerivation {
         ]
       }"
   '';
+  desktopItems = [
+    (makeDesktopItem {
+      name = "nyxt";
+      desktopName = "Nyxt";
+      comment = "A browser for Hackers";
+      exec = "${binaryName} %u"; # relies on profile PATH; simple & clean
+      icon = "${binaryName}"; # resolved by the hicolor icon we installed
+      type = "Application";
+      mimeTypes = [
+        "text/html"
+        "text/xml"
+        "application/xhtml+xml"
+        "x-scheme-handler/http"
+        "x-scheme-handler/https"
+        "application/x-xpinstall"
+        "application/pdf"
+        "application/json"
+      ];
+      startupWMClass = binaryName;
+      categories = [
+        "Network"
+        "WebBrowser"
+      ];
+      startupNotify = true;
+      terminal = false;
+      keywords = [
+        "Internet"
+        "WWW"
+        "Browser"
+        "Web"
+        "Explorer"
+      ];
+
+      actions = {
+        new-windows = {
+          name = "Open a New Window";
+          exec = "${binaryName} %u";
+        };
+      };
+    })
+  ];
 
   dontStrip = true;
   meta = {
