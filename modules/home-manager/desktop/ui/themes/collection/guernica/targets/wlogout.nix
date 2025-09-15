@@ -19,7 +19,7 @@ in
     layout = [
       {
         label = "lock";
-        action = "swaylock";
+        action = "hyprlock";
         text = "Lock";
         keybind = "l";
       }
@@ -31,7 +31,7 @@ in
       }
       {
         label = "suspend";
-        action = "swaylock -f && systemctl suspend";
+        action = "hyprlock -f && systemctl suspend";
         text = "Suspend";
         keybind = "u";
       }

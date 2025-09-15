@@ -34,7 +34,7 @@
       };
 
       shellAliases = {
-        mkdir = "mkdir -pv";
+        # mkdir = "mkdir -pv";
         df = "df -h";
         reboot = "systemctl reboot";
         sysctl = "sudo systemctl";
