@@ -12,7 +12,6 @@ let
   inherit (builtins) getAttr;
 
   cfg = config.modules.editor.emacs;
-  usingHyprland = config.modules.desktop.ui.windowManager == "hyprland";
 
   mkEmacsHomePackages =
     packages:
@@ -87,12 +86,6 @@ in
       };
       defaultEditor = cfg.default;
       startWithUserSession = "graphical";
-    };
-
-    wayland.windowManager.hyprland = mkIf usingHyprland {
-      settings.bind = [
-        "$mainMod, E, exec, emacsclient -c"
-      ];
     };
   };
 }

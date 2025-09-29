@@ -10,8 +10,6 @@ let
 
   cfg = config.modules.desktop.ui;
 
-  usingHyprland = cfg.windowManager == "hyprland";
-
 in
 {
   config = mkIf (cfg.launcher == "rofi") {
@@ -24,15 +22,6 @@ in
     programs.rofi = {
       enable = true;
       cycle = true;
-    };
-
-    wayland.windowManager.hyprland = mkIf usingHyprland {
-
-      settings.bind = [
-        "$mainMod, SPACE, exec, rofi -show drun"
-        "$mainMod, B, exec, rofi-bluetooth"
-        "$mainMod, P, exec, rofi -show power-menu -modi power-menu:rofi-power-menu"
-      ];
     };
 
   };

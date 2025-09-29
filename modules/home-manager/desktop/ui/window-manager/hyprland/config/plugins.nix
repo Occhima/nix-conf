@@ -15,10 +15,20 @@
 
     wayland.windowManager.hyprland = {
 
-      # TODO: add hyprsplit
       plugins = with pkgs.hyprlandPlugins; [
         hyprexpo
-        hyprsplit
+
+        (hyprsplit.overrideAttrs (_p: rec {
+          # TODO: remove when in nixpkgs
+          version = "0.51.0";
+          src = pkgs.fetchFromGitHub {
+            owner = "shezdy";
+            repo = "hyprsplit";
+            tag = "v${version}";
+            hash = "sha256-h6vDtBKTfyuA/6frSFcTrdjoAKhwlGBT+nzjoWf9sQE=";
+          };
+        }))
+
         hyprfocus
       ];
 

@@ -26,6 +26,8 @@ in
           SDL_VIDEODRIVER = "wayland";
           CLUTTER_BACKEND = "wayland";
           ELECTRON_OZONE_PLATFORM_HINT = "auto";
+          QT_QPA_PLATFORM = "wayland;xcb";
+          QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
         };
       };
 

@@ -242,6 +242,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    niri = {
+      type = "github";
+      owner = "sodiboo";
+      repo = "niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     zen-browser = {
       type = "github";
       owner = "0xc000022070";

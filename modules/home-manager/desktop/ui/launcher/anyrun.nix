@@ -10,7 +10,6 @@ let
   cfg = config.modules.desktop.ui;
 
   desktopCfg = config.modules.desktop;
-  usingHyprland = cfg.windowManager == "hyprland";
 in
 {
   config = mkIf (cfg.launcher == "anyrun") {
@@ -80,10 +79,5 @@ in
       '';
     };
 
-    wayland.windowManager.hyprland = mkIf usingHyprland {
-      settings.bind = [
-        "$mainMod, SPACE, exec, anyrun"
-      ];
-    };
   };
 }

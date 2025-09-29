@@ -75,8 +75,8 @@
         zen.enable = true;
       };
       terminal = {
-        active = "kitty";
-        kitty.enable = true;
+        active = "ghostty";
+        kitty.enable = false;
         ghostty.enable = true;
       };
 
@@ -102,7 +102,9 @@
         discord.enable = true;
         flameshot.enable = true;
         wlogout.enable = true;
-        calibre.enable = true;
+
+        # taking too much to build
+        calibre.enable = false;
       };
     };
   };

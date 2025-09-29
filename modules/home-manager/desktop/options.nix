@@ -12,7 +12,10 @@ in
   options.modules.desktop = {
     terminal = {
       active = mkOption {
-        type = types.str;
+        type = types.enum [
+          "kitty"
+          "ghostty"
+        ];
         default = "kitty";
         description = "The active terminal";
         example = ''kitty '';

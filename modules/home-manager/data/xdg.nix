@@ -24,7 +24,7 @@ in
       configHome = "${config.home.homeDirectory}/.config";
       dataHome = "${config.home.homeDirectory}/.local/share";
       cacheHome = "${config.home.homeDirectory}/.cache";
-      userDirs = mkIf pkgs.stdenv.isLinux {
+      userDirs = mkIf pkgs.stdenv.isLinux rec {
         enable = true;
         createDirectories = true;
         documents = "${config.home.homeDirectory}/documents";
@@ -35,9 +35,8 @@ in
         pictures = "${config.home.homeDirectory}/media/pictures";
         publicShare = "${config.home.homeDirectory}/public/share";
         templates = "${config.home.homeDirectory}/public/templates";
-
         extraConfig = {
-          XDG_SCREENSHOTS_DIR = "${config.xdg.userDirs.pictures}/screenshots";
+          XDG_SCREENSHOTS_DIR = "${config.home.homeDirectory}/media/pictures/screenshots";
           XDG_DEV_DIR = "${config.home.homeDirectory}/dev";
         };
       };

@@ -1,6 +1,17 @@
 {
+  config,
+  lib,
+  ...
+}:
+
+let
+  inherit (lib) mkIf;
+  cfg = config.modules.desktop.ui;
+
+in
+{
   config = {
-    programs.hyprlock = {
+    programs.hyprlock = mkIf (cfg.locker == "hyprlock") {
       enable = true;
       settings = {
         general = {

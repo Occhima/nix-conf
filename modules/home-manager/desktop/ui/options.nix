@@ -13,6 +13,7 @@ in
     windowManager = mkOption {
       type = nullOr (enum [
         "hyprland"
+        "niri"
         "sway"
         "i3"
         "xmonad"
@@ -35,6 +36,14 @@ in
         "waybar"
         "polybar"
         "eww"
+      ]);
+      default = null;
+      description = "The dock/bar to use";
+    };
+
+    locker = mkOption {
+      type = nullOr (enum [
+        "hyprlock"
       ]);
       default = null;
       description = "The dock/bar to use";

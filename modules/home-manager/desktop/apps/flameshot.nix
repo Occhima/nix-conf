@@ -9,7 +9,6 @@ let
   inherit (lib) mkEnableOption mkIf;
   inherit (lib.custom) isWayland;
 
-  usingHyprland = config.modules.desktop.ui.windowManager == "hyprland";
   usingWayland = isWayland osConfig;
 
   cfg = config.modules.desktop.apps.flameshot;
@@ -36,10 +35,5 @@ in
       };
     };
 
-    wayland.windowManager.hyprland = mkIf usingHyprland {
-      settings.bind = [
-        "$mainMod, S, exec, flameshot gui"
-      ];
-    };
   };
 }

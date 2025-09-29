@@ -12,12 +12,12 @@ let
 in
 {
 
-  options.modules.desktop.apps.wlogout = {
-    enable = mkEnableOption "wlogout";
+  options.modules.desktop.apps.lutris = {
+    enable = mkEnableOption "lutris";
   };
 
-  config = mkIf (desktopCfg.apps.wlogout.enable) {
-    programs.wlogout = {
+  config = mkIf (desktopCfg.apps.lutris.enable) {
+    programs.lutris = {
       enable = true;
     };
   };
