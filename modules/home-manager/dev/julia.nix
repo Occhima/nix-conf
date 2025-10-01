@@ -16,11 +16,14 @@ let
     "CSV"
     "Plots"
     "StatsBase"
+    "StatsPlots"
+    "LinearAlgebra"
+    "MLJ"
+    "StatsBase"
     "Distributions"
     "GLM"
     "Query"
     "Gadfly"
-
   ];
 
   juliaEnv = pkgs.julia.withPackages juliaPackages;

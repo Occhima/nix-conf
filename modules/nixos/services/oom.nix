@@ -69,9 +69,9 @@ in
       enableDebugInfo = true;
 
       reportInterval = 0;
-      freeSwapThreshold = 5;
+      freeSwapThreshold = 15;
       freeSwapKillThreshold = 2;
-      freeMemThreshold = 5;
+      freeMemThreshold = 15;
       freeMemKillThreshold = 2;
       extraArgs = [
         "-g"

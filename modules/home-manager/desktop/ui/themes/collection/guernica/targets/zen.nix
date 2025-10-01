@@ -18,8 +18,8 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "JustAdumbPrsn";
       repo = "Zen-Nebula";
-      rev = "a9bf56f9d3b8e07c691cc3731fdd6ec53c18b8d3";
-      hash = "sha256-ov5Ix10K0YWtwEpK6hRhsISheJKDunGTO4e8jqE5Ry8=";
+      rev = "5c7897357f8d252bb99418043665def8b0ab228f";
+      hash = "sha256-XidK1Q1dQL/gBvPDPoA0YoIYANxln4+2+0d+ST5uF/Y=";
     };
     installPhase = ''
       mkdir -p $out

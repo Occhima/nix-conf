@@ -85,6 +85,7 @@
         dock = "waybar";
         launcher = "anyrun";
         notifier = "mako";
+        locker = "hyprlock";
         themes = {
           enable = true;
           name = "guernica";
@@ -93,18 +94,18 @@
 
       apps = {
         flatpak = {
+          enable = false;
           packages = [
             "com.github.tchx84.Flatseal"
           ];
-          enable = false;
+
         };
         spotify.enable = true;
         discord.enable = true;
         flameshot.enable = true;
         wlogout.enable = true;
 
-        # taking too much to build
-        calibre.enable = false;
+        calibre.enable = true;
       };
     };
   };
