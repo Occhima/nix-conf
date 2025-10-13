@@ -28,7 +28,7 @@ in
       substituters = [
         "https://nix-community.cachix.org"
         "https://hyprland.cachix.org"
-        "https://install.determinate.systems"
+        # "https://install.determinate.systems"
         "https://devenv.cachix.org"
         "https://occhima.cachix.org"
         "https://anyrun.cachix.org"

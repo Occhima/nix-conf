@@ -64,7 +64,7 @@
       r.enable = true;
       haskell.enable = false;
       c.enable = true;
-      julia.enable = true;
+      julia.enable = false;
     };
 
     desktop = {
@@ -75,9 +75,9 @@
         zen.enable = true;
       };
       terminal = {
-        active = "ghostty";
-        kitty.enable = false;
-        ghostty.enable = true;
+        active = "kitty";
+        kitty.enable = true;
+        ghostty.enable = false;
       };
 
       ui = {
@@ -104,7 +104,6 @@
         discord.enable = true;
         flameshot.enable = true;
         wlogout.enable = true;
-
         calibre.enable = true;
       };
     };
