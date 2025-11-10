@@ -70,9 +70,9 @@ in
 
       reportInterval = 0;
       freeSwapThreshold = 15;
-      freeSwapKillThreshold = 2;
+      freeSwapKillThreshold = 10;
       freeMemThreshold = 15;
-      freeMemKillThreshold = 2;
+      freeMemKillThreshold = 10;
       extraArgs = [
         "-g"
         "--avoid"

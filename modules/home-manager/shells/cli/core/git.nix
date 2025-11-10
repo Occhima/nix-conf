@@ -12,24 +12,26 @@ in
 {
   # Git is always enabled as a core tool
   config = {
+
+    programs.delta = mkIf cfg.enable {
+      enable = true;
+      options = {
+        navigate = true;
+        light = false;
+        side-by-side = true;
+      };
+    };
+
     programs.git = {
       enable = true;
-      package = pkgs.gitAndTools.gitFull;
+      package = pkgs.gitFull;
 
-      userName = config.home.username;
-      userEmail = config.accounts.email.accounts.usp.address;
-
-      delta = mkIf cfg.enable {
-        enable = true;
-        options = {
-          navigate = true;
-          light = false;
-          side-by-side = true;
-        };
-      };
-
-      extraConfig = {
+      settings = {
         color.ui = "auto";
+        user = {
+          name = config.home.username;
+          email = config.accounts.email.accounts.usp.address;
+        };
 
         diff = {
           algorithm = "histogram"; # better diff algorithm

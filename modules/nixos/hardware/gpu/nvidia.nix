@@ -13,7 +13,7 @@ in
   config = mkIf (cfg.type == "nvidia") {
 
     nixpkgs.config.allowUnfree = true;
-    nixpkgs.config.cudaSupport = true;
+    nixpkgs.config.cudaSupport = false;
 
     services.xserver.videoDrivers = [ "nvidia" ];
     hardware = {

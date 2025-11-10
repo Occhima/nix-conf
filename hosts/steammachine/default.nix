@@ -96,7 +96,7 @@
         enable = false;
         usePodman = true; # Use podman for docker compatibility
       };
-      containers.pentesting.enable = false;
+      containers.pentesting.enable = true;
     };
 
     system = {
