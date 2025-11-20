@@ -20,7 +20,7 @@ let
   nodes = mapAttrs (
     hostname: node:
     let
-      system = self.nixosConfigurations.${hostname}._module.args.pkgs.system;
+      system = self.nixosConfigurations.${hostname}._module.args.pkgs.stdenv.hostPlatform.system;
       hostConfig = "occhima@${hostname}";
       homeConfig =
         if hasAttr hostConfig self.homeConfigurations then

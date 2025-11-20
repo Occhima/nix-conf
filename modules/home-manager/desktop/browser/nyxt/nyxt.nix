@@ -19,7 +19,7 @@ in
 
   config = mkIf (cfg.enable && pkgs.stdenv.isLinux) {
     home = {
-      packages = [ self.packages.${pkgs.system}.nyxt-source ];
+      packages = [ self.packages.${pkgs.stdenv.hostPlatform.system}.nyxt-source ];
       sessionVariables = {
         WEBKIT_DISABLE_COMPOSITING_MODE = 1;
       };

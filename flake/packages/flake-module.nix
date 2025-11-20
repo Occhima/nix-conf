@@ -19,6 +19,7 @@
         install-tools = pkgs.callPackage ./installer/package.nix { };
         docs = pkgs.callPackage ./docs/package.nix { };
         nyxt-source = pkgs.callPackage ./nyxt/package.nix { };
+        antigravity = pkgs.callPackage ./antigravity/package.nix { };
 
         # vbox = nixosGenerate {
         #   system = "x86_64-linux";

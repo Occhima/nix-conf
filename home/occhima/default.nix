@@ -53,15 +53,17 @@
 
       # FIXME: broken, can't make it work on my wayland + nvidia machine
       espanso.enable = false;
-      podman.enable = true;
 
+      podman.enable = true;
       clipboard.enable = false;
       cachix.enable = false;
     };
 
     dev = {
       python.enable = true;
-      r.enable = true;
+
+      # FIXME: disabled bc rstudio is taking too much ram
+      r.enable = false;
       haskell.enable = false;
       c.enable = true;
       julia.enable = false;

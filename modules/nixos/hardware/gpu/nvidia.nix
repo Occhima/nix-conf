@@ -49,6 +49,8 @@ in
 
     environment.sessionVariables = {
       LIBVA_DRIVER_NAME = "nvidia";
+
+      # NOTE: I had to add this to run nyxt appimages
       __EGL_VENDOR_LIBRARY_FILENAMES = mkDefault "/run/opengl-driver/share/glvnd/egl_vendor.d/10_nvidia.json";
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
 

@@ -49,10 +49,7 @@ let
       };
     })
     (mkIf usingNiri {
-      # Waybar has niri-specific modules (workspaces/window). :contentReference[oaicite:2]{index=2}
       ${workspacesModule} = {
-        # niri’s workspaces are dynamic; common options are enabled/disable scroll, format, etc.
-        # Keep this minimal unless you need special behavior.
         format = "{name}";
         all-outputs = false;
         active-only = false;
@@ -121,8 +118,8 @@ in
         };
 
         memory = {
-          format = "{icon} {}%";
-          format-icons = [ "" ];
+          format = "{icon} {percentage}%";
+          format-icons = [ "󰍛" ];
         };
 
         pulseaudio = {
@@ -133,16 +130,16 @@ in
           format-source = "{volume}%";
           format-source-muted = "";
           format-icons = {
-            headphone = "";
-            hands-free = "";
-            headset = "";
-            phone = "";
-            portable = "";
-            car = "";
+            headphone = " ";
+            hands-free = " ";
+            headset = " ";
+            phone = " ";
+            portable = " ";
+            car = " ";
             default = [
-              ""
-              ""
-              ""
+              " "
+              " "
+              " "
             ];
           };
           on-click = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
