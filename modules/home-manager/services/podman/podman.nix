@@ -22,6 +22,27 @@ let
     # RUN pdtm -install-all
 
     CMD ["/bin/bash"]
+    # SHELL ["/usr/bin/nu", "-c"]
+    # CMD ["/usr/bin/nu"]
+  '';
+
+  netrunnerScript = pkgs.writeShellScriptBin "netrunner" ''
+    SERVICE="podman-netrunner.service"
+    CONTAINER="netrunner"
+    if ! systemctl --user is-active --quiet "$SERVICE"; then
+      echo "⚡ Starting Netrunner container..."
+      systemctl --user start "$SERVICE"
+
+      echo "⏳ Waiting for container initialization..."
+      until podman container exists "$CONTAINER" && podman container inspect "$CONTAINER" --format '{{.State.Running}}' | grep -q "true"; do
+        sleep 0.5
+      done
+    else
+      echo "✅ Netrunner is already running."
+    fi
+
+    echo "🚀 Spawning shell..."
+    exec podman exec -it "$CONTAINER" bash
   '';
 in
 {
@@ -30,6 +51,11 @@ in
   };
 
   config = mkIf cfg.enable {
+
+    home.packages = [
+      netrunnerScript
+    ];
+
     services.podman = {
       enable = true;
       enableTypeChecks = true;
@@ -37,6 +63,12 @@ in
       builds = {
         "netrunner-image" = {
           file = "${kaliDockerfile}";
+          extraConfig = {
+            Service = {
+              TimeoutStartSec = "0";
+              Type = "simple";
+            };
+          };
         };
       };
 
@@ -44,7 +76,7 @@ in
         netrunner = {
           image = "localhost/netrunner-image";
 
-          autoStart = true;
+          autoStart = false;
           network = [ "host" ];
           volumes = [ "${config.home.homeDirectory}/pentest-lab:/home/htb" ];
           environment = {

@@ -86,6 +86,8 @@ $container\
 $shell\
 $character"""
 
+command_timeout = 2000
+scan_timeout = 2000
 ################################################################################
 ## Custom Commands
 ################################################################################
@@ -226,6 +228,7 @@ renamed = "📛${count} "
 deleted = "🗑️ ${count} "
 style = "bright-white"
 format = '\[ $all_status$ahead_behind\]'
+
 
 [git_commit]
 commit_hash_length = 8
