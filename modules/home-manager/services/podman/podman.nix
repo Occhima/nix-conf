@@ -10,41 +10,54 @@ let
   cfg = config.modules.services.podman;
 
   kaliDockerfile = pkgs.writeText "Containerfile" ''
+    # Stage 1: Get Nushell
+    FROM ghcr.io/nushell/nushell:latest AS nu-source
+
+    # Stage 2: Kali Layer
     FROM kalilinux/kali-bleeding-edge
     ENV DEBIAN_FRONTEND noninteractive
 
+    # Install tools (No 'nushell' here, we copy it)
     RUN apt-get update && apt-get -y install \
         kali-linux-headless seclists dirsearch gobuster golang exploitdb pipx git \
         && rm -rf /var/lib/apt/lists/*
 
-    CMD ["/bin/bash"]
+    # Copy Nushell binary from Stage 1
+    COPY --from=nu-source /usr/bin/nu /usr/bin/nu
+
+    # Set Default Shell
+    SHELL ["/usr/bin/nu", "-c"]
+    CMD ["/usr/bin/nu"]
   '';
 
   netrunnerScript = pkgs.writeShellScriptBin "netrunner" ''
+    g="${pkgs.gum}/bin/gum"
     IMAGE_NAME="localhost/netrunner-image"
     SERVICE="podman-netrunner.service"
     CONTAINER="netrunner"
 
-    # A. Build if missing
     if ! podman image exists "$IMAGE_NAME"; then
-      echo "[-] Image not found. Building $IMAGE_NAME..."
-      podman build -t "$IMAGE_NAME" -f "${kaliDockerfile}" .
+      $g log "Image missing. Initializing build..."
+
+      $g spin --spinner --dot --title "Building Kali Image (Please Wait)..." -- \
+        podman build -t "$IMAGE_NAME" -f "${kaliDockerfile}" .
+
+      $g "Build Complete."
     fi
 
-    # B. Start Service if stopped
     if ! systemctl --user is-active --quiet "$SERVICE"; then
-      echo "[-] Starting Netrunner service..."
-      systemctl --user start "$SERVICE"
+      $g spin --spinner dot --title "Starting Service..." -- \
+        systemctl --user start "$SERVICE"
 
-      echo "[-] Waiting for container initialization..."
-      until podman container exists "$CONTAINER" && podman container inspect "$CONTAINER" --format '{{.State.Running}}' | grep -q "true"; do
-        sleep 1
-      done
+      $g spin --spinner points --title "Waiting for container..." -- \
+        bash -c "until podman container exists $CONTAINER && podman container inspect $CONTAINER --format '{{.State.Running}}' | grep -q 'true'; do sleep 0.5; done"
     fi
 
-    # C. Connect (Switched to bash)
-    echo "[+] Connecting to shell..."
-    exec podman exec -it "$CONTAINER" bash
+    echo ""
+    $g style "Container started."
+    sleep 0.5
+    clear
+    exec podman exec -it "$CONTAINER" nu
   '';
 
 in
@@ -54,7 +67,9 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ netrunnerScript ];
+    home.packages = [
+      netrunnerScript
+    ];
 
     services.podman = {
       enable = true;
