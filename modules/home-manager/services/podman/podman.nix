@@ -6,26 +6,32 @@
 }:
 
 let
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    mkIf
+    types
+    ;
   cfg = config.modules.services.podman;
 
-  kaliDockerfile = pkgs.writeText "Containerfile" ''
-    # Stage 1: Get Nushell
-    FROM ghcr.io/nushell/nushell:latest AS nu-source
+  isEnabled = name: lib.elem name cfg.quadlets;
 
-    # Stage 2: Kali Layer
+  # nixPentestinContainer = { };
+
+  kaliDockerfile = pkgs.writeText "Containerfile" ''
+    FROM ghcr.io/nushell/nushell:latest AS nu-source
     FROM kalilinux/kali-bleeding-edge
     ENV DEBIAN_FRONTEND noninteractive
 
-    # Install tools (No 'nushell' here, we copy it)
     RUN apt-get update && apt-get -y install \
         kali-linux-headless seclists dirsearch gobuster golang exploitdb pipx git \
         && rm -rf /var/lib/apt/lists/*
 
-    # Copy Nushell binary from Stage 1
     COPY --from=nu-source /usr/bin/nu /usr/bin/nu
 
-    # Set Default Shell
+    RUN curl -L "https://github.com/zellij-org/zellij/releases/latest/download/zellij-$(uname -m)-unknown-linux-musl.tar.gz" \
+        | tar -xz -C /usr/bin
+
     SHELL ["/usr/bin/nu", "-c"]
     CMD ["/usr/bin/nu"]
   '';
@@ -38,18 +44,15 @@ let
 
     if ! podman image exists "$IMAGE_NAME"; then
       $g log "Image missing. Initializing build..."
-
-      $g spin --spinner --dot --title "Building Kali Image (Please Wait)..." -- \
+      $g spin --spinner dot --title "Building Kali Image (Please Wait)..."  -- \
         podman build -t "$IMAGE_NAME" -f "${kaliDockerfile}" .
-
-      $g "Build Complete."
+      $g style "Build Complete."
     fi
 
     if ! systemctl --user is-active --quiet "$SERVICE"; then
       $g spin --spinner dot --title "Starting Service..." -- \
         systemctl --user start "$SERVICE"
-
-      $g spin --spinner points --title "Waiting for container..." -- \
+      $g spin --spinner points --title "Waiting for container..."  -- \
         bash -c "until podman container exists $CONTAINER && podman container inspect $CONTAINER --format '{{.State.Running}}' | grep -q 'true'; do sleep 0.5; done"
     fi
 
@@ -64,39 +67,58 @@ in
 {
   options.modules.services.podman = {
     enable = mkEnableOption "User-level podman container management";
+
+    quadlets = mkOption {
+      type = types.nullOr (
+        types.listOf (
+          types.enum [
+            "netrunner"
+          ]
+        )
+      );
+      default = null;
+      example = [ "netrunner" ];
+      description = "List of quadlet containers to activate.";
+    };
   };
 
   config = mkIf cfg.enable {
-    home.packages = [
-      netrunnerScript
-    ];
 
     services.podman = {
       enable = true;
       enableTypeChecks = true;
 
-      containers = {
-        netrunner = {
-          image = "localhost/netrunner-image";
-          autoStart = false;
-          network = [ "host" ];
-          volumes = [ "${config.home.homeDirectory}/pentest-lab:/home/htb" ];
-          environment = {
-            DEBIAN_FRONTEND = "noninteractive";
-          };
-          exec = "sleep infinity";
+      containers = lib.mkMerge [
 
-          extraConfig = {
-            Service = {
-              RestartSec = "10";
+        (mkIf (isEnabled "netrunner") {
+          netrunner = {
+            image = "localhost/netrunner-image";
+            autoStart = false;
+            network = [ "host" ];
+            volumes = [ "${config.home.homeDirectory}/pentest-lab:/home/htb" ];
+            environment = {
+              DEBIAN_FRONTEND = "noninteractive";
+            };
+            exec = "sleep infinity";
+            extraConfig = {
+              Service = {
+                RestartSec = "10";
+              };
             };
           };
-        };
-      };
+        })
+
+      ];
     };
 
-    home.activation.createPentestDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      run mkdir -p $HOME/pentest-lab
-    '';
+    home.packages = mkIf (isEnabled "netrunner") [
+      netrunnerScript
+    ];
+
+    home.activation.createPentestDir = mkIf (isEnabled "netrunner") (
+      lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        run mkdir -p $HOME/pentest-lab
+      ''
+    );
   };
 }

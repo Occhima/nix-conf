@@ -54,7 +54,10 @@
       # FIXME: broken, can't make it work on my wayland + nvidia machine
       espanso.enable = false;
 
-      podman.enable = true;
+      podman = {
+        enable = true;
+        quadlets = [ "netrunner" ];
+      };
       clipboard.enable = false;
       cachix.enable = false;
     };

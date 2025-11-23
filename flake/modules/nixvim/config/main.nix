@@ -7,7 +7,8 @@
   editorconfig.enable = true;
 
   plugins = {
-    lualine.enable = true;
+    #FIXME: giving hash mismatch
+    lualine.enable = false;
     comment.enable = true;
     todo-comments.enable = true;
     web-devicons.enable = true;
