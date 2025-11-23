@@ -16,11 +16,11 @@ in
     programs.tex-fmt.enable = true;
     programs.texlive = {
       enable = true;
-      # packageSet = pkgs.texliveMedium;
       extraPackages = tpkgs: {
         inherit (tpkgs)
           biblatex
           latexmk
+          scheme-medium
           latexindent
           chktex
           collection-basic
@@ -31,6 +31,7 @@ in
           collection-fontsextra
           scheme-basic
           enumitem
+          capt-of
           datetime
           fancyhdr
           lipsum
@@ -42,12 +43,17 @@ in
           xkeyval
           xurl
           xifthen
+          wrapfig
+          minted
+          upquote
+          mdframed
+          zref
           ;
       };
     };
 
     home.packages = [
-      # pkgs.marimo
+      pkgs.marimo
       pkgs.quarto
     ];
   };

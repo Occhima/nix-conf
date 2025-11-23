@@ -11,6 +11,8 @@ in
 {
   home.packages = lib.mkIf (cfg.enable && cfg.name == "guernica") [
     pkgs.nerd-fonts._0xproto
+    pkgs.aporetic
+    pkgs.iosevka-comfy.comfy
   ];
 
   stylix.fonts = lib.mkIf (cfg.enable && cfg.name == "guernica") {
