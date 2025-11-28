@@ -219,13 +219,10 @@ Full documentation is available in the [docs directory](./flake/docs). The docum
 
 ## Roadmap
 
-- [x] nixos-test on CI or releases ( This does not make any sense for my use case )
 - [ ] Create nix on droid configs
 - [ ] MicroVM pentesting config <- useless
 - [ ] use gitignore.nix from hercule-ci
-- [ ] Niri window manager
-- [x] Better use of nix ( singletons and etc...: https://nix.dev/guides/best-practices )
-- [x] hyprlang monitors v2
+- [ ] Niri window manager + new theme
 - [ ] Dendritic patterna dn import-tree (https://github.com/vic/import-tree)
 
 ## References

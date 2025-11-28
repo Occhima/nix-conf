@@ -99,9 +99,10 @@
 
       apps = {
         flatpak = {
-          enable = false;
+          enable = true;
           packages = [
             "com.github.tchx84.Flatseal"
+            "com.github.flxzt.rnote"
           ];
 
         };

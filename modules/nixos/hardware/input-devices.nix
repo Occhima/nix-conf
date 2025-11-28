@@ -40,10 +40,20 @@ in
   config = {
     console.keyMap = mkIf (cfg.keyboard.variant == "") cfg.keyboard.layout;
 
-    services.xserver.xkb = {
-      layout = cfg.keyboard.layout;
-      variant = cfg.keyboard.variant;
+    # hardware.opentabletdriver.enable = true;
+    # boot.kernelModules = [ "wacom" ];
+    services.xserver = {
+      wacom = {
+        enable = true;
+      };
+      xkb = {
+        layout = cfg.keyboard.layout;
+        variant = cfg.keyboard.variant;
+      };
     };
+    # environment.systemPackages = [
+    #   pkgs.libwacom
+    # ];
 
     services.libinput = {
       enable = true;
