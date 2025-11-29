@@ -6,6 +6,9 @@ let
   cfg = config.modules.desktop.ui.themes;
   uiCfg = config.modules.desktop.ui;
 
+  isGuernica = cfg.enable && cfg.name == "guernica";
+  isCompact = isGuernica && cfg.variant == "compact";
+
   usingHyprland = uiCfg.windowManager == "hyprland";
   usingNiri = uiCfg.windowManager == "niri";
 
@@ -16,6 +19,7 @@ let
       "niri/workspaces"
     else
       "";
+  compactWorkspacesModule = "hyprland/workspaces#compact";
   perWMWorkspaceSettings = mkMerge [
     (mkIf usingHyprland {
       ${workspacesModule} = {
@@ -56,17 +60,8 @@ let
       };
     })
   ];
-in
-{
-  stylix.targets.waybar = mkIf (cfg.enable && cfg.name == "guernica") {
-    enable = false;
-    addCss = false;
-    enableCenterBackColors = false;
-    enableLeftBackColors = false;
-    enableRightBackColors = false;
-  };
 
-  programs.waybar = mkIf (cfg.enable && cfg.name == "guernica") {
+  defaultVariant = {
     settings.mainBar = mkMerge [
       {
         layer = "top";
@@ -78,7 +73,6 @@ in
         margin-left = 2;
         margin-right = 2;
 
-        # 3) Use the chosen module name on the left.
         modules-left = [ workspacesModule ];
         modules-center = [ "clock" ];
         modules-right = [
@@ -180,7 +174,6 @@ in
         };
       }
 
-      # 4) Per-WM workspace block lands under the right key here.
       perWMWorkspaceSettings
     ];
 
@@ -233,8 +226,9 @@ in
             background-color: rgba(150,150,150, 0.15);
         }
 
-        #workspaces button.active {
+        #workspaces button.{
             background-color: rgba(150,150,150,0.2);
+            border-radius: 3px;
         }
 
         #workspaces button.urgent {
@@ -351,4 +345,332 @@ in
         }
     '';
   };
+
+  compactVariant = {
+    settings.mainBar = {
+      layer = "top";
+      position = "top";
+      height = 38;
+      spacing = 8;
+      margin-top = 6;
+      margin-bottom = 0;
+      margin-left = 8;
+      margin-right = 8;
+      fixed-center = true;
+
+      modules-left = [
+        "custom/menu"
+        "hyprland/window"
+        compactWorkspacesModule
+        "group/info"
+      ];
+      modules-center = [ "group/hub" ];
+      modules-right = [
+        "group/demo"
+        "idle_inhibitor"
+        "custom/power"
+      ];
+
+      ${compactWorkspacesModule} = {
+        format = "{icon}";
+        on-scroll-up = "hyprctl dispatch workspace e+1";
+        on-scroll-down = "hyprctl dispatch workspace e-1";
+        on-click = "activate";
+        disable-scroll = false;
+        active-only = false;
+        all-outputs = true;
+        sort-by-number = true;
+        persistent-workspaces = {
+          "1" = [ ];
+          "2" = [ ];
+          "3" = [ ];
+          "4" = [ ];
+        };
+        format-icons = {
+          "1" = " ";
+          "2" = " ";
+          "3" = " ";
+          "4" = " ";
+          "5" = "";
+          "6" = " ";
+          "7" = "";
+          "8" = " ";
+          "9" = " ";
+          focused = "";
+          default = "";
+        };
+      };
+
+      "custom/separator#blank" = {
+        format = "";
+        interval = "once";
+        tooltip = false;
+      };
+
+      "custom/menu" = {
+        format = "{}";
+        tooltip = true;
+        exec = "echo ; echo 󱓟 app launcher";
+        interval = 86400;
+
+        # FIXME: use config values
+        on-click = "anyrun";
+        on-click-right = "wlogout";
+      };
+
+      "hyprland/window" = {
+        format = "󰣆 {title}";
+        max-length = 40;
+        separate-outputs = false;
+      };
+
+      "group/info" = {
+        orientation = "inherit";
+        modules = [
+          "custom/arrow-right"
+          "cpu"
+          "memory"
+          "temperature"
+        ];
+      };
+
+      "custom/arrow-right" = {
+        format = "󰁙";
+        tooltip = false;
+      };
+
+      cpu = {
+        format = "󰘚 {usage}%";
+        tooltip = false;
+      };
+
+      memory = {
+        interval = 10;
+        format = "{percentage}% 󰾆";
+        tooltip-format = "{used:0.1f}GB/{total:0.1f}G";
+      };
+
+      temperature = {
+        interval = 10;
+        tooltip = true;
+        format = "{temperatureC}°C {icon}";
+        format-icons = [ "󰈸" ];
+      };
+
+      "group/demo" = {
+        orientation = "inherit";
+        modules = [
+          "group/custom_right"
+          "battery"
+        ];
+      };
+
+      "group/custom_right" = {
+        orientation = "horizontal";
+        modules = [
+          "tray"
+          "pulseaudio"
+          "mpris"
+        ];
+      };
+
+      tray = {
+        icon-size = 16;
+        spacing = 4;
+      };
+
+      pulseaudio = {
+        format = "{icon} {volume}%";
+        format-bluetooth = "{icon}  {volume}%";
+        format-muted = "󰝟";
+        format-icons = {
+          headphone = "";
+          default = [
+            ""
+            ""
+            ""
+          ];
+        };
+        on-click = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
+        on-scroll-up = "pactl set-sink-volume @DEFAULT_SINK@ +5%";
+        on-scroll-down = "pactl set-sink-volume @DEFAULT_SINK@ -5%";
+      };
+
+      mpris = {
+        interval = 10;
+        format = "{status_icon} {artist} - {title}";
+        format-paused = "󰏦";
+        status-icons = {
+          playing = "";
+          paused = "";
+        };
+        max-length = 30;
+        on-click-middle = "playerctl play-pause";
+        on-scroll-up = "playerctl next";
+        on-scroll-down = "playerctl previous";
+      };
+
+      battery = {
+        states = {
+          good = 95;
+          warning = 30;
+          critical = 15;
+        };
+        format = "{icon} {capacity}%";
+        format-charging = " {capacity}%";
+        format-plugged = "󱘖 {capacity}%";
+        format-icons = [
+          "󰂎"
+          "󰁺"
+          "󰁻"
+          "󰁼"
+          "󰁽"
+          "󰁾"
+          "󰁿"
+          "󰂀"
+          "󰂁"
+          "󰂂"
+          "󰁹"
+        ];
+      };
+
+      idle_inhibitor = {
+        format = "{icon}";
+        format-icons = {
+          activated = " ";
+          deactivated = " ";
+        };
+      };
+
+      "group/hub" = {
+        orientation = "inherit";
+        modules = [
+          "group/utils"
+          "clock"
+        ];
+      };
+
+      "group/utils" = {
+        orientation = "inherit";
+        modules = [
+          "custom/arrow-left"
+          "custom/notifications"
+        ];
+      };
+
+      "custom/arrow-left" = {
+        format = "󰁒";
+        tooltip = false;
+      };
+
+      "custom/notifications" = {
+        format = "";
+        tooltip = false;
+      };
+
+      clock = {
+        interval = 1;
+        format = "{:%I:%M %p}";
+        format-alt = " {:%Y-%m-%d}";
+        tooltip-format = "<tt><small>{calendar}</small></tt>";
+      };
+
+      "custom/power" = {
+        format = "⏻";
+        exec = "echo ; echo 󰟡 power";
+        interval = 86400;
+        tooltip = true;
+        on-click = "wlogout";
+        on-click-right = "hyprlock";
+      };
+    };
+
+    style = ''
+      * {
+        all: unset;
+        font-family: ${config.stylix.fonts.monospace.name};
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      window#waybar {
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 5px;
+        padding: 4px 12px;
+      }
+
+      tooltip {
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 10px;
+        border: 2px solid rgba(255, 255, 255, 0.08);
+      }
+
+      #workspaces {
+        margin: 4px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 6px;
+      }
+
+      #workspaces button {
+        padding: 0 6px;
+        color: #d8dee9;
+      }
+
+      #workspaces button.active {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      #workspaces button:hover {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      #hyprland-window,
+      #clock,
+      #battery,
+      #pulseaudio,
+      #tray,
+      #idle_inhibitor,
+      #mpris,
+      #cpu,
+      #memory,
+      #temperature,
+      #custom-power,
+      #custom-menu,
+      #custom-arrow-right,
+      #custom-arrow-left,
+      #custom-notifications {
+        padding: 4px 8px;
+        margin: 4px 2px;
+        background: rgba(0, 0, 0, 0.35);
+        border-radius: 8px;
+      }
+
+      #tray {
+        background: rgba(0, 0, 0, 0.45);
+      }
+
+      #custom-power,
+      #custom-menu {
+        background: rgba(0, 0, 0, 0.55);
+      }
+
+      #mpris {
+        min-width: 200px;
+      }
+    '';
+  };
+
+  activeVariant = if isCompact && usingHyprland then compactVariant else defaultVariant;
+in
+{
+  stylix.targets.waybar = mkIf isGuernica {
+    enable = false;
+    addCss = false;
+    enableCenterBackColors = false;
+    enableLeftBackColors = false;
+    enableRightBackColors = false;
+  };
+
+  programs.waybar = mkIf isGuernica activeVariant;
 }

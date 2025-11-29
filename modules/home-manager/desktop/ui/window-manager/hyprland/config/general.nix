@@ -1,6 +1,5 @@
 {
   wayland.windowManager.hyprland.settings.general = {
-    layout = "dwindle";
 
     # gaps_in = 10;
     # gaps_out = 30;

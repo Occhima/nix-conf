@@ -94,6 +94,7 @@
         themes = {
           enable = true;
           name = "guernica";
+          # variant = "compact";
         };
       };
 
