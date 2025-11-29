@@ -17,6 +17,7 @@ in
         "gdm"
         "lightdm"
         "slim"
+        "ly"
         "none"
       ];
       default = "none";

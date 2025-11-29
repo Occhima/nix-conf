@@ -21,6 +21,15 @@ in
       description = "The active theme to use";
       default = null;
     };
+    variant = mkOption {
+      type = enum [
+        "default"
+        "compact"
+      ];
+      default = "default";
+      description = "Optional specialization for the selected theme (e.g. a compact layout)";
+    };
+
   };
 
   imports = [
