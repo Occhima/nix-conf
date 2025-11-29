@@ -226,7 +226,7 @@ let
             background-color: rgba(150,150,150, 0.15);
         }
 
-        #workspaces button.{
+        #workspaces button.focused {
             background-color: rgba(150,150,150,0.2);
             border-radius: 3px;
         }
@@ -616,7 +616,7 @@ let
         color: #d8dee9;
       }
 
-      #workspaces button.active {
+      #workspaces button.focused {
         color: #ffffff;
         background: rgba(255, 255, 255, 0.05);
       }
