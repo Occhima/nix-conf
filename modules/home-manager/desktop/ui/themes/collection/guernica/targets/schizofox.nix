@@ -6,11 +6,11 @@
 
 let
   inherit (config.lib.stylix) colors;
-  cfg = config.modules.desktop.ui.themes;
+  inherit (lib.custom) themeLib;
 
 in
 {
-  programs.schizofox = lib.mkIf (cfg.enable && cfg.name == "guernica") {
+  programs.schizofox = themeLib.whenTheme config "guernica" {
     extensions.simplefox.enable = true;
     theme = {
       colors = {

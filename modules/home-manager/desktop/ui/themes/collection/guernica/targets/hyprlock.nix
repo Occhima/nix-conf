@@ -6,11 +6,10 @@
 }:
 
 let
-  cfg = config.modules.desktop.ui.themes;
-  inherit (lib) mkIf;
+  inherit (lib.custom) themeLib;
 in
 {
-  programs.hyprlock = mkIf (cfg.enable && cfg.name == "guernica") {
+  programs.hyprlock = themeLib.whenTheme config "guernica" {
     settings = {
       background = {
         monitor = "";

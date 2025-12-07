@@ -6,21 +6,36 @@
 }:
 
 let
-  inherit (lib.types) enum nullOr;
-  inherit (lib) mkEnableOption mkIf;
-  inherit (lib.options) mkOption;
+  inherit (lib.types)
+    enum
+    nullOr
+    attrsOf
+    attrs
+    ;
+  inherit (lib) mkEnableOption mkIf mkOption;
 
   cfg = config.modules.desktop.ui.themes;
+
+  availableThemes = builtins.attrNames cfg.registry;
 
 in
 {
   options.modules.desktop.ui.themes = {
     enable = mkEnableOption "Enable UI themes";
+
+    registry = mkOption {
+      type = attrsOf attrs;
+      default = { };
+      internal = true;
+      description = "Registry of available themes with their metadata";
+    };
+
     name = mkOption {
-      type = nullOr (enum [ "guernica" ]);
-      description = "The active theme to use";
+      type = nullOr (enum availableThemes);
+      description = "The active theme to use. Available: ${builtins.concatStringsSep ", " availableThemes}";
       default = null;
     };
+
     variant = mkOption {
       type = enum [
         "default"
@@ -29,7 +44,6 @@ in
       default = "default";
       description = "Optional specialization for the selected theme (e.g. a compact layout)";
     };
-
   };
 
   imports = [
@@ -43,6 +57,24 @@ in
       {
         assertion = cfg.name != null;
         message = "When themes are enabled, you must select a theme name.";
+      }
+      {
+        assertion = cfg.name != null -> builtins.hasAttr cfg.name cfg.registry;
+        message = "Theme '${cfg.name}' is not registered. Available themes: ${builtins.concatStringsSep ", " availableThemes}";
+      }
+      {
+        assertion =
+          let
+            themeMeta = cfg.registry.${cfg.name}.meta or { };
+            supportedVariants = themeMeta.variants or [ "default" ];
+          in
+          cfg.name != null -> builtins.elem cfg.variant supportedVariants;
+        message =
+          let
+            themeMeta = cfg.registry.${cfg.name}.meta or { };
+            supportedVariants = themeMeta.variants or [ "default" ];
+          in
+          "Variant '${cfg.variant}' is not supported by theme '${cfg.name}'. Supported variants: ${builtins.concatStringsSep ", " supportedVariants}";
       }
     ];
 

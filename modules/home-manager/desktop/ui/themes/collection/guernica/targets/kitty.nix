@@ -5,15 +5,14 @@
 }:
 
 let
-  inherit (lib) mkIf;
-  cfg = config.modules.desktop.ui.themes;
+  inherit (lib.custom) themeLib;
 in
 {
   # Disable stylix integration for kitty conditionally
-  stylix.targets.kitty.enable = mkIf (cfg.enable && cfg.name == "guernica") false;
+  stylix.targets.kitty.enable = themeLib.whenTheme config "guernica" false;
 
   # Override font and theme settings conditionally
-  programs.kitty = mkIf (cfg.enable && cfg.name == "guernica") {
+  programs.kitty = themeLib.whenTheme config "guernica" {
     font.name = config.stylix.fonts.monospace.name;
     themeFile = "Monokai_Soda";
   };

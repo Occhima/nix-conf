@@ -223,6 +223,7 @@ Full documentation is available in the [docs directory](./flake/docs). The docum
 - [ ] MicroVM pentesting config <- useless
 - [ ] use gitignore.nix from hercule-ci
 - [ ] Niri window manager + new theme
+- [ ] Themes pattern
 - [ ] Dendritic patterna dn import-tree (https://github.com/vic/import-tree)
 
 ## References

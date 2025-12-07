@@ -5,8 +5,8 @@
 }:
 
 let
-  cfg = config.modules.desktop.ui.themes;
+  inherit (lib.custom) themeLib;
 in
 {
-  stylix.targets.vscode.enable = lib.mkIf (cfg.enable && cfg.name == "guernica") true;
+  stylix.targets.vscode.enable = themeLib.whenTheme config "guernica" true;
 }

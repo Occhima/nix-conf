@@ -5,12 +5,11 @@
 }:
 
 let
-  inherit (lib) mkAfter mkIf optionalAttrs;
+  inherit (lib) mkAfter mkDefault optionalAttrs;
   inherit (lib.attrsets) recursiveUpdate;
+  inherit (lib.custom) themeLib;
 
-  cfg = config.modules.desktop.ui.themes;
-  isGuernica = cfg.enable && cfg.name == "guernica";
-  isCompact = isGuernica && cfg.variant == "compact";
+  isCompact = themeLib.isVariant config "compact";
 
   baseSettings = {
     general = {
@@ -75,11 +74,28 @@ let
   };
 
   compactOverrides = {
+    dwindle = {
+      pseudotile = true;
+      preserve_split = true;
+      special_scale_factor = 0.8;
+    };
+
+    master = {
+      new_status = "master";
+      new_on_top = true;
+      mfact = 0.5;
+    };
+
     general = {
       gaps_in = 4;
       gaps_out = 6;
       border_size = 2;
+      resize_on_border = false;
       layout = "master";
+    };
+    group = {
+      col.border_active = mkDefault "rgb(4F7F96)";
+      groupbar.col.active = mkDefault "rgb(000009)";
     };
 
     decoration = {
@@ -94,6 +110,8 @@ let
         enabled = false;
         range = 6;
         render_power = 1;
+        color = mkDefault "rgb(BA4F80)";
+        color_inactive = mkDefault "rgb(BE869D)";
       };
 
       blur = {
@@ -148,5 +166,5 @@ let
 
 in
 {
-  wayland.windowManager.hyprland.settings = mkIf isGuernica (mkAfter settings);
+  wayland.windowManager.hyprland.settings = themeLib.whenTheme config "guernica" (mkAfter settings);
 }

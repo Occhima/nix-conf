@@ -5,12 +5,12 @@
 }:
 
 let
-  cfg = config.modules.desktop.ui.themes;
+  inherit (lib.custom) themeLib;
 in
 {
-  stylix.targets.kitty.enable = lib.mkIf (cfg.enable && cfg.name == "guernica") false;
+  stylix.targets.kitty.enable = themeLib.whenTheme config "guernica" false;
 
-  programs.ghostty = lib.mkIf (cfg.enable && cfg.name == "guernica") {
+  programs.ghostty = themeLib.whenTheme config "guernica" {
     settings = {
       font-family = config.stylix.fonts.monospace.name;
       cursor-style-blink = true;

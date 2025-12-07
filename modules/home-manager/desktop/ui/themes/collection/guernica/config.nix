@@ -6,11 +6,11 @@
 }:
 
 let
-  cfg = config.modules.desktop.ui.themes;
+  inherit (lib.custom) themeLib;
   wallpaperPath = ./assets/wallpapers/guernica.jpg;
 in
 {
-  stylix = lib.mkIf (cfg.enable && cfg.name == "guernica") {
+  stylix = themeLib.whenTheme config "guernica" {
     image = wallpaperPath;
 
     opacity = {

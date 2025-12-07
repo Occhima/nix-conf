@@ -5,13 +5,12 @@
 }:
 
 let
-  inherit (lib) mkIf;
-  cfg = config.modules.desktop.ui.themes;
+  inherit (lib.custom) themeLib;
   inherit (config.lib.formats.rasi) mkLiteral;
 in
 {
-  stylix.targets.rofi.enable = mkIf (cfg.enable && cfg.name == "guernica") false;
-  programs.rofi = mkIf (cfg.enable && cfg.name == "guernica") {
+  stylix.targets.rofi.enable = themeLib.whenTheme config "guernica" false;
+  programs.rofi = themeLib.whenTheme config "guernica" {
 
     font = "Iosevka Nerd Font";
     extraConfig = {

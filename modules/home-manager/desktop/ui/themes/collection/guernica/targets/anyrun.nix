@@ -5,14 +5,13 @@
 }:
 
 let
-  inherit (lib) mkIf;
-  cfg = config.modules.desktop.ui.themes;
+  inherit (lib.custom) themeLib;
   stylixColors = config.lib.stylix.colors;
 in
 
 {
 
-  programs.anyrun = mkIf (cfg.enable && cfg.name == "guernica") {
+  programs.anyrun = themeLib.whenTheme config "guernica" {
 
     config = {
       x.fraction = 0.5; # at the middle of the screen

@@ -6,16 +6,16 @@
 }:
 
 let
-  cfg = config.modules.desktop.ui.themes;
+  inherit (lib.custom) themeLib;
 in
 {
-  home.packages = lib.mkIf (cfg.enable && cfg.name == "guernica") [
+  home.packages = themeLib.whenTheme config "guernica" [
     pkgs.nerd-fonts._0xproto
     pkgs.aporetic
     pkgs.iosevka-comfy.comfy
   ];
 
-  stylix.fonts = lib.mkIf (cfg.enable && cfg.name == "guernica") {
+  stylix.fonts = themeLib.whenTheme config "guernica" {
     # for programs
     serif = {
       package = pkgs.noto-fonts;

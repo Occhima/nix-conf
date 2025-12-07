@@ -7,9 +7,8 @@
 }:
 let
 
-  inherit (lib) mkIf;
-  cfg = config.modules.desktop.ui.themes;
-  cond = (cfg.enable && cfg.name == "guernica");
+  inherit (lib.custom) themeLib;
+  cond = themeLib.isThemeActive config "guernica";
   profileName = "guernica";
 
   zenNebulaTheme = pkgs.stdenv.mkDerivation {
@@ -39,7 +38,7 @@ in
     # ];
   };
 
-  programs.zen-browser.profiles.guernica = mkIf cond {
+  programs.zen-browser.profiles.guernica = themeLib.whenTheme config "guernica" {
     id = 0;
     isDefault = true;
     settings = {
@@ -75,7 +74,7 @@ in
     ];
   };
 
-  home.file."zen-nebula" = mkIf cond {
+  home.file."zen-nebula" = themeLib.whenTheme config "guernica" {
     enable = cond;
     source = zenNebulaTheme;
     target = ".zen/${profileName}/chrome";

@@ -1,14 +1,10 @@
-{
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 
 let
-  cfg = config.modules.desktop.ui.themes;
+  inherit (lib.custom) themeLib;
 in
 {
-  stylix.targets.gtk = lib.mkIf (cfg.enable && cfg.name == "guernica") {
+  stylix.targets.gtk = themeLib.whenTheme config "guernica" {
     enable = true;
     flatpakSupport.enable = true;
   };

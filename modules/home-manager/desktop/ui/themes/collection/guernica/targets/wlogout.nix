@@ -6,15 +6,14 @@
 }:
 
 let
-  inherit (lib) mkIf;
-  cfg = config.modules.desktop.ui.themes;
+  inherit (lib.custom) themeLib;
 
   stylixColors = config.lib.stylix.colors;
 in
 
 {
 
-  programs.wlogout = mkIf (cfg.enable && cfg.name == "guernica") {
+  programs.wlogout = themeLib.whenTheme config "guernica" {
 
     layout = [
       {

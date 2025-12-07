@@ -8,10 +8,9 @@
 
 let
   inherit (inputs) spicetify-nix;
-  inherit (lib) mkIf;
-  cfg = config.modules.desktop.ui.themes;
+  inherit (lib.custom) themeLib;
   spicePkgs = spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-  cond = (cfg.enable && cfg.name == "guernica");
+  cond = themeLib.isThemeActive config "guernica";
 in
 {
   # Disable stylix integration for kitty conditionally
@@ -19,7 +18,7 @@ in
   stylix.targets.spicetify.enable = !cond;
 
   # Override font and theme settings conditionally
-  programs.spicetify = mkIf cond {
+  programs.spicetify = themeLib.whenTheme config "guernica" {
     theme = spicePkgs.themes.text;
   };
 }

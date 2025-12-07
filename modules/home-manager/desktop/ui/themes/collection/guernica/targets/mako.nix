@@ -1,18 +1,12 @@
-{
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 
 let
-  inherit (lib) mkIf;
-  cfg = config.modules.desktop.ui.themes;
-
+  inherit (lib.custom) themeLib;
 in
 {
-  stylix.targets.mako.enable = mkIf (cfg.enable && cfg.name == "guernica") false;
+  stylix.targets.mako.enable = themeLib.whenTheme config "guernica" false;
 
-  services.mako = mkIf (cfg.enable && cfg.name == "guernica") {
+  services.mako = themeLib.whenTheme config "guernica" {
     settings = {
       font = config.stylix.fonts.monospace.name;
       anchor = "top-right";

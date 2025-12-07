@@ -6,7 +6,7 @@
     ./kitty.nix
     ./nixvim.nix
     ./rofi.nix
-    ./waybar.nix
+    ./waybar
     ./spicetify.nix
     ./schizofox.nix
     ./mako.nix

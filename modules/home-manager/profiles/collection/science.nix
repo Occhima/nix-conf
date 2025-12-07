@@ -19,6 +19,7 @@ in
       extraPackages = tpkgs: {
         inherit (tpkgs)
           biblatex
+          biber
           latexmk
           scheme-medium
           latexindent

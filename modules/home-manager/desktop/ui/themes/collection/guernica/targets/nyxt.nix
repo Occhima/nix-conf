@@ -5,13 +5,12 @@
 }:
 
 let
-  inherit (lib) mkIf;
-  cfg = config.modules.desktop.ui.themes;
+  inherit (lib.custom) themeLib;
   colors = config.lib.stylix.colors;
 in
 {
 
-  xdg.configFile."flake-themes/nyxt/theme.lisp" = mkIf (cfg.enable && cfg.name == "guernica") {
+  xdg.configFile."flake-themes/nyxt/theme.lisp" = themeLib.whenTheme config "guernica" {
     enable = true;
     text = with colors; ''
       (defvar guernica-theme

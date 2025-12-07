@@ -1,12 +1,8 @@
-{
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 
 let
-  cfg = config.modules.desktop.ui.themes;
+  inherit (lib.custom) themeLib;
 in
 {
-  stylix.targets.emacs.enable = lib.mkIf (cfg.enable && cfg.name == "guernica") false;
+  stylix.targets.emacs.enable = themeLib.whenTheme config "guernica" false;
 }

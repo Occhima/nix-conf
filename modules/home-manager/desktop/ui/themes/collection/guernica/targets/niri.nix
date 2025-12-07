@@ -7,9 +7,9 @@
 }:
 
 let
-  inherit (lib) mkIf mkAfter;
-  cfg = config.modules.desktop.ui.themes;
-  themeEnabled = cfg.enable && cfg.name == "guernica";
+  inherit (lib) mkAfter;
+  inherit (lib.custom) themeLib;
+  themeEnabled = themeLib.isThemeActive config "guernica";
 in
 
 {
@@ -18,7 +18,7 @@ in
   ];
   stylix.targets.niri.enable = themeEnabled;
 
-  programs.niri = mkIf themeEnabled (mkAfter {
+  programs.niri = themeLib.whenTheme config "guernica" (mkAfter {
     settings = {
       overview = {
         workspace-shadow.enable = false;

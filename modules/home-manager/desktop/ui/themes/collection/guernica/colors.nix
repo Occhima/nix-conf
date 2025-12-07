@@ -5,33 +5,30 @@
 }:
 
 let
-  cfg = config.modules.desktop.ui.themes;
+  inherit (lib.custom) themeLib;
 in
-
 {
-  stylix = lib.mkIf (cfg.enable && cfg.name == "guernica") {
-    base16Scheme = {
-      # scheme stolen from: raw.githubusercontent.com/adamgraham/polykai/refs/heads/master/Base16/polykai.yaml
-      name = "polykai";
-      author = "Adam Graham (https://githubcom.com/adamgraham)";
-      palette = {
-        base00 = "141818"; # background
-        base01 = "1e2424";
-        base02 = "3c4848";
-        base03 = "909090";
-        base04 = "909090";
-        base05 = "f8f8f8"; # foreground
-        base06 = "f8f8f8";
-        base07 = "f8f8f8";
-        base08 = "ffb000";
-        base09 = "6080ff";
-        base0A = "a0ff20";
-        base0B = "ffe080";
-        base0C = "c080ff";
-        base0D = "40c4ff";
-        base0E = "ff0060";
-        base0F = "ff0060";
-      };
+  stylix.base16Scheme = themeLib.whenTheme config "guernica" {
+    # scheme stolen from: raw.githubusercontent.com/adamgraham/polykai/refs/heads/master/Base16/polykai.yaml
+    name = "polykai";
+    author = "Adam Graham (https://githubcom.com/adamgraham)";
+    palette = {
+      base00 = "141818"; # background
+      base01 = "1e2424";
+      base02 = "3c4848";
+      base03 = "909090";
+      base04 = "909090";
+      base05 = "f8f8f8"; # foreground
+      base06 = "f8f8f8";
+      base07 = "f8f8f8";
+      base08 = "ffb000";
+      base09 = "6080ff";
+      base0A = "a0ff20";
+      base0B = "ffe080";
+      base0C = "c080ff";
+      base0D = "40c4ff";
+      base0E = "ff0060";
+      base0F = "ff0060";
     };
   };
 }
