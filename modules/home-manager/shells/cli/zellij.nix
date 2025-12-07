@@ -14,9 +14,6 @@ in
       enable = true;
       settings = {
         default_mode = "vim";
-        default_layout = "default_zjstatus";
-        simplified_ui = true;
-        pane_frames = false;
         scrollback_editor = "hx";
         session_serialization = false;
       };

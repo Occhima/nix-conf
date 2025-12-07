@@ -92,8 +92,12 @@ in
       let
         mockConfig = mkMockConfig { variant = "default"; };
         result = themeLib.withVariant mockConfig "guernica" {
-          default = { style = "minimal"; };
-          compact = { style = "dense"; };
+          default = {
+            style = "minimal";
+          };
+          compact = {
+            style = "dense";
+          };
         };
       in
       isActiveCondition result;
@@ -105,8 +109,12 @@ in
       let
         mockConfig = mkMockConfig { variant = "default"; };
         result = themeLib.withVariant mockConfig "guernica" {
-          default = { style = "minimal"; };
-          compact = { style = "dense"; };
+          default = {
+            style = "minimal";
+          };
+          compact = {
+            style = "dense";
+          };
         };
       in
       (getContent result).style;
@@ -118,8 +126,12 @@ in
       let
         mockConfig = mkMockConfig { variant = "compact"; };
         result = themeLib.withVariant mockConfig "guernica" {
-          default = { style = "minimal"; };
-          compact = { style = "dense"; };
+          default = {
+            style = "minimal";
+          };
+          compact = {
+            style = "dense";
+          };
         };
       in
       (getContent result).style;
@@ -131,8 +143,12 @@ in
       let
         mockConfig = mkMockConfig { variant = "nonexistent"; };
         result = themeLib.withVariant mockConfig "guernica" {
-          default = { style = "minimal"; };
-          compact = { style = "dense"; };
+          default = {
+            style = "minimal";
+          };
+          compact = {
+            style = "dense";
+          };
         };
       in
       (getContent result).style;
@@ -147,8 +163,12 @@ in
           variant = "compact";
         };
         result = themeLib.withVariant mockConfig "guernica" {
-          default = { style = "minimal"; };
-          compact = { style = "dense"; };
+          default = {
+            style = "minimal";
+          };
+          compact = {
+            style = "dense";
+          };
         };
       in
       isInactiveCondition result;
@@ -163,8 +183,12 @@ in
           variant = "compact";
         };
         result = themeLib.withVariant mockConfig "guernica" {
-          default = { style = "minimal"; };
-          compact = { style = "dense"; };
+          default = {
+            style = "minimal";
+          };
+          compact = {
+            style = "dense";
+          };
         };
       in
       isInactiveCondition result;
@@ -311,8 +335,12 @@ in
         mockConfig = mkMockConfig { variant = "compact"; };
         # First apply withVariant
         innerResult = themeLib.withVariant mockConfig "guernica" {
-          default = { mode = "default"; };
-          compact = { mode = "compact"; };
+          default = {
+            mode = "default";
+          };
+          compact = {
+            mode = "compact";
+          };
         };
         # Then apply whenTheme with the inner result
         outerResult = themeLib.whenTheme mockConfig "guernica" {
@@ -351,7 +379,9 @@ in
       let
         mockConfig = mkMockConfig { variant = "nonexistent"; };
         result = themeLib.withVariant mockConfig "guernica" {
-          default = { value = 42; };
+          default = {
+            value = 42;
+          };
         };
       in
       (getContent result).value;

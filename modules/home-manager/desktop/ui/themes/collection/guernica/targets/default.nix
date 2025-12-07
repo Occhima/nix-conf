@@ -1,19 +1,23 @@
 {
   imports = [
+    ./anyrun.nix
     ./emacs.nix
+    ./ghostty.nix
     ./gtk.nix
     ./hyprland.nix
-    ./kitty.nix
-    ./nixvim.nix
-    ./rofi.nix
-    ./waybar
-    ./spicetify.nix
-    ./schizofox.nix
-    ./mako.nix
-    ./nyxt.nix
     ./hyprlock.nix
-    ./zen.nix
-    ./anyrun.nix
+    ./kitty.nix
+    ./mako.nix
+    ./niri.nix
+    ./nixvim.nix
+    ./nyxt.nix
+    ./rofi.nix
+    ./schizofox.nix
+    ./spicetify.nix
+    ./vscode.nix
+    ./waybar
     ./wlogout.nix
+    ./zellij.nix
+    ./zen.nix
   ];
 }

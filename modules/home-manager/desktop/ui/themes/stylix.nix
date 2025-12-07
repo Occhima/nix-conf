@@ -51,7 +51,6 @@ in
     ./collection
   ];
 
-  # Base configuration when themes are enabled
   config = mkIf cfg.enable {
     assertions = [
       {

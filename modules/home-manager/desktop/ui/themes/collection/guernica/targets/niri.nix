@@ -1,4 +1,3 @@
-# stolen from: https://github.com/linuxmobile/kaku/blob/niri/home/software/wayland/niri/rules.nix
 {
   lib,
   config,
@@ -7,7 +6,6 @@
 }:
 
 let
-  inherit (lib) mkAfter;
   inherit (lib.custom) themeLib;
   themeEnabled = themeLib.isThemeActive config "guernica";
 in
@@ -18,7 +16,7 @@ in
   ];
   stylix.targets.niri.enable = themeEnabled;
 
-  programs.niri = themeLib.whenTheme config "guernica" (mkAfter {
+  programs.niri = themeLib.whenTheme config "guernica" {
     settings = {
       overview = {
         workspace-shadow.enable = false;
@@ -57,5 +55,5 @@ in
       window-rules = [ ];
 
     };
-  });
+  };
 }
