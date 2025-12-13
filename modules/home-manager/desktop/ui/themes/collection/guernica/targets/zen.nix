@@ -1,5 +1,4 @@
 {
-  # TODO  Inject profile name?
   config,
   lib,
   pkgs,
@@ -17,8 +16,8 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "JustAdumbPrsn";
       repo = "Zen-Nebula";
-      rev = "5c7897357f8d252bb99418043665def8b0ab228f";
-      hash = "sha256-XidK1Q1dQL/gBvPDPoA0YoIYANxln4+2+0d+ST5uF/Y=";
+      rev = "main";
+      hash = "sha256-wtntRAkOGm6fr396kqzqk+GyPk+ytifXTqqOp0YIvlw=";
     };
     installPhase = ''
       mkdir -p $out
@@ -30,35 +29,35 @@ let
 
 in
 {
-  # checking the config multiple times, maysbe pass cond variable as input?
   stylix.targets.zen-browser = {
-    enable = !cond; # disabled by default
-    # profileNames = [
-    #   profileName
-    # ];
+    enable = false; # disabled by default
+    profileNames = [
+      profileName
+    ];
   };
 
-  programs.zen-browser.profiles.guernica = themeLib.whenTheme config "guernica" {
-    id = 0;
+  programs.zen-browser.profiles.${profileName} = themeLib.whenTheme config "guernica" {
     isDefault = true;
     settings = {
 
       # "font.name.monospace.x-western" = config.stylix.fonts.monospace.name;
 
       # Zen Settings ( stolen from:  github.com/LudovicoPiero/dotfiles  zen browser config )
+      "browser.newtabpage.activity-stream.trendingSearch.defaultSearchEngine" = "DuckDuckGo";
+
+      #"zen.widget.linux.transparency" = true;
+      "zen.urlbar.behavior" = "float";
+      "nebula-tab-loading-animation" = 0;
       "zen.tab-unloader.enabled" = true;
       "zen.tab-unloader.timeout-minutes" = 20;
       "zen.view.sidebar-expanded" = false;
       "zen.view.show-newtab-button-top" = false;
       "zen.welcome-screen.seen" = true;
       "zen.glance.open-essential-external-links" = false;
-      "browser.tabs.allow_transparent_browser" = true;
 
-      # for zen userChrome and userCss extras
-      "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-
-      # search engine
-      "browser.newtabpage.activity-stream.trendingSearch.defaultSearchEngine" = "DuckDuckGo";
+      "font.name.sans-serif.x-western" = config.stylix.fonts.sansSerif.name;
+      "font.name.serif.x-western" = config.stylix.fonts.serif.name;
+      "font.name.monospace.x-western" = config.stylix.fonts.monospace.name;
 
     };
     extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [

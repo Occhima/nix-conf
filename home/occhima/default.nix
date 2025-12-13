@@ -18,8 +18,6 @@
     shell = {
       enable = true;
 
-      # infer type from nixos shell, no need to set it here
-      # type = "zsh";
       prompt.type = "starship";
       cli = {
         enable = true;
@@ -102,6 +100,7 @@
           enable = true;
           packages = [
             "com.github.tchx84.Flatseal"
+            "com.github.flxzt.rnote"
           ];
 
         };

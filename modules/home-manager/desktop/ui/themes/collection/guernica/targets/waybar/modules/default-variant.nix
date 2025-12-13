@@ -68,7 +68,7 @@ let
 
   # Simplified clock for default variant
   defaultClockModule = {
-    format = "   {:%H:%M} ";
+    format = "  {:%H:%M} ";
     format-alt = "{:%Y-%m-%d}";
     tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
   };
@@ -83,7 +83,7 @@ let
 
     disk = {
       path = "/";
-      format = " {percentage_used}%";
+      format = " {percentage_used}%";
       unit = "GB";
     };
 
@@ -91,25 +91,24 @@ let
       format = "{icon} {percentage}%";
       format-icons = [ "󰍛" ];
     };
-
     pulseaudio = {
       format = "{icon} {volume}%";
-      format-bluetooth = "{icon}  {volume}%";
+      format-bluetooth = "{icon}  {volume}%";
       format-bluetooth-muted = "󰝟 {icon}";
       format-muted = "󰝟";
       format-source = "{volume}%";
       format-source-muted = "";
       format-icons = {
-        headphone = " ";
-        hands-free = " ";
-        headset = " ";
-        phone = " ";
-        portable = " ";
-        car = " ";
+        headphone = " ";
+        hands-free = " ";
+        headset = " ";
+        phone = " ";
+        portable = " ";
+        car = " ";
         default = [
-          " "
-          " "
-          " "
+          " "
+          " "
+          " "
         ];
       };
       on-click = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
@@ -118,7 +117,7 @@ let
     };
 
     network = {
-      format-wifi = "   {essid} ({signalStrength}%)";
+      format-wifi = "   {essid} ({signalStrength}%)";
       format-ethernet = "󰈀 {ipaddr}/{cidr}";
       tooltip-format = "{ifname} via {gwaddr}";
       format-linked = "{ifname} (No IP) ";

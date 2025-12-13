@@ -14,7 +14,8 @@ in
   config = mkIf (hasProfile config [ "dev" ]) {
     home = {
       packages = [
-        pkgs.devenv
+        # FIXME: Broken
+        # pkgs.devenv
         pkgs.comma
         pkgs.hyperfine
       ];

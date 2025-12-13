@@ -129,7 +129,7 @@
 
       login = {
         enable = true;
-        manager = "sddm";
+        manager = "ly";
       };
     };
 

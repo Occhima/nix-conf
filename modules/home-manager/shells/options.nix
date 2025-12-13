@@ -72,6 +72,7 @@ in
           "aider"
           "zoxide"
           "ripgrep"
+          "zellij"
           "gh"
           "ssh"
           "lazygit"

@@ -16,7 +16,7 @@
     wayland.windowManager.hyprland = {
 
       plugins = with pkgs.hyprlandPlugins; [
-        hyprexpo
+        # hyprexpo
         hyprsplit
         # (hyprsplit.overrideAttrs (_p: rec {
         #   # TODO: remove when in nixpkgs
@@ -35,13 +35,14 @@
 
       settings = {
         plugins = {
-          hyprexpo = {
-            rows = 4;
-            columns = 4;
-            gap_size = config.wayland.windowManager.hyprland.settings.general.gaps_in;
-          };
+          # FIXME: Don't know why but hyprexpo just stopped working
+          # hyprexpo = {
+          #   rows = 4;
+          #   columns = 4;
+          #   gap_size = config.wayland.windowManager.hyprland.settings.general.gaps_in;
+          # };
           hyprsplit = {
-            n_workspaces = 9;
+            num_workspaces = 9;
             # persistent_workspaces = true;
           };
         };
@@ -50,7 +51,7 @@
           "$mainMod, C, exec, ${lib.getExe pkgs.hyprpicker}"
 
           # hyrpexpo
-          "$mainMod, TAB, hyprexpo:expo, toggle"
+          # "$mainMod, TAB, hyprexpo:expo, toggle"
 
           # hyprsplit
           "$mainMod, 1, split:workspace, 1"

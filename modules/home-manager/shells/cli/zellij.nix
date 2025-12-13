@@ -13,8 +13,6 @@ in
     programs.zellij = {
       enable = true;
       settings = {
-        default_mode = "vim";
-        scrollback_editor = "hx";
         session_serialization = false;
       };
     };

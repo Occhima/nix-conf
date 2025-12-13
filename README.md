@@ -220,10 +220,10 @@ Full documentation is available in the [docs directory](./flake/docs). The docum
 ## Roadmap
 
 - [ ] Create nix on droid configs
-- [ ] MicroVM pentesting config <- useless
-- [ ] use gitignore.nix from hercule-ci
+- [ ] Quickshell  as waybar
+- [ ] Zen-Nebula theme not working
+- [ ] fix guernica compact
 - [ ] Niri window manager + new theme
-- [ ] Themes pattern
 - [ ] Dendritic patterna dn import-tree (https://github.com/vic/import-tree)
 
 ## References

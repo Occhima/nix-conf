@@ -98,25 +98,21 @@
     };
   };
 
-  # System info modules
   cpu = {
-    format = "󰘚 {usage}󱉸";
+    format = "{icon} {usage}%";
+    tooltip = false;
+    format-icons = [ "󰻠" ];
   };
 
   memory = {
-    interval = 10;
-    format = "{used:0.1f}G 󰾆";
-    format-alt = "{percentage}% 󰾆";
-    format-alt-click = "click";
-    tooltip = true;
-    tooltip-format = "{used:0.1f}GB/{total:0.1f}G";
-    on-click-right = "kitty --title btop sh -c 'btop'";
+    format = "{icon} {percentage}%";
+    format-icons = [ "󰍛" ];
   };
 
   disk = {
-    interval = 600;
-    format = "󰆼 {percentage_used}󱉸";
     path = "/";
+    format = " {percentage_used}%";
+    unit = "GB";
   };
 
   temperature = {
