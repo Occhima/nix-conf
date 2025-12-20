@@ -36,7 +36,7 @@ jobs:
 
       - name: Create Pull request
         id: pr
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           title: "chore: update flake inputs"
           commit-message: "chore: update flake inputs"
