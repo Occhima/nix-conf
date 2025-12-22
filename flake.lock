@@ -3,12 +3,8 @@
     "agenix": {
       "inputs": {
         "darwin": "darwin",
-        "home-manager": [
-          "nixpkgs"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "home-manager": ["nixpkgs"],
+        "nixpkgs": ["nixpkgs"],
         "systems": "systems"
       },
       "locked": {
@@ -29,9 +25,7 @@
       "inputs": {
         "devshell": "devshell",
         "flake-parts": "flake-parts",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": ["nixpkgs"],
         "pre-commit-hooks": "pre-commit-hooks",
         "treefmt-nix": "treefmt-nix"
       },
@@ -149,10 +143,7 @@
     },
     "darwin": {
       "inputs": {
-        "nixpkgs": [
-          "agenix",
-          "nixpkgs"
-        ]
+        "nixpkgs": ["agenix", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1744478979,
@@ -172,9 +163,7 @@
     "deploy-rs": {
       "inputs": {
         "flake-compat": "flake-compat_2",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": ["nixpkgs"],
         "utils": "utils"
       },
       "locked": {
@@ -250,10 +239,7 @@
     },
     "devshell": {
       "inputs": {
-        "nixpkgs": [
-          "agenix-rekey",
-          "nixpkgs"
-        ]
+        "nixpkgs": ["agenix-rekey", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1728330715,
@@ -271,9 +257,7 @@
     },
     "disko": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": ["nixpkgs"]
       },
       "locked": {
         "lastModified": 1766150702,
@@ -306,9 +290,7 @@
     },
     "emacs-overlay": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": ["nixpkgs"],
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
@@ -439,10 +421,7 @@
     },
     "flake-parts": {
       "inputs": {
-        "nixpkgs-lib": [
-          "agenix-rekey",
-          "nixpkgs"
-        ]
+        "nixpkgs-lib": ["agenix-rekey", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1733312601,
@@ -460,11 +439,7 @@
     },
     "flake-parts_2": {
       "inputs": {
-        "nixpkgs-lib": [
-          "determinate",
-          "nix",
-          "nixpkgs"
-        ]
+        "nixpkgs-lib": ["determinate", "nix", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1748821116,
@@ -499,10 +474,7 @@
     },
     "flake-parts_4": {
       "inputs": {
-        "nixpkgs-lib": [
-          "nixvim",
-          "nixpkgs"
-        ]
+        "nixpkgs-lib": ["nixvim", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1765835352,
@@ -520,10 +492,7 @@
     },
     "flake-parts_5": {
       "inputs": {
-        "nixpkgs-lib": [
-          "nur",
-          "nixpkgs"
-        ]
+        "nixpkgs-lib": ["nur", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1733312601,
@@ -541,10 +510,7 @@
     },
     "flake-parts_6": {
       "inputs": {
-        "nixpkgs-lib": [
-          "schizofox",
-          "nixpkgs"
-        ]
+        "nixpkgs-lib": ["schizofox", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1762980239,
@@ -562,10 +528,7 @@
     },
     "flake-parts_7": {
       "inputs": {
-        "nixpkgs-lib": [
-          "stylix",
-          "nixpkgs"
-        ]
+        "nixpkgs-lib": ["stylix", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1763759067,
@@ -615,15 +578,8 @@
     "git-hooks-nix": {
       "inputs": {
         "flake-compat": "flake-compat_3",
-        "gitignore": [
-          "determinate",
-          "nix"
-        ],
-        "nixpkgs": [
-          "determinate",
-          "nix",
-          "nixpkgs"
-        ]
+        "gitignore": ["determinate", "nix"],
+        "nixpkgs": ["determinate", "nix", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1747372754,
@@ -640,11 +596,7 @@
     },
     "gitignore": {
       "inputs": {
-        "nixpkgs": [
-          "agenix-rekey",
-          "pre-commit-hooks",
-          "nixpkgs"
-        ]
+        "nixpkgs": ["agenix-rekey", "pre-commit-hooks", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1709087332,
@@ -662,11 +614,7 @@
     },
     "gitignore_2": {
       "inputs": {
-        "nixpkgs": [
-          "lanzaboote",
-          "pre-commit",
-          "nixpkgs"
-        ]
+        "nixpkgs": ["lanzaboote", "pre-commit", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1709087332,
@@ -721,16 +669,8 @@
     },
     "hercules-ci-effects": {
       "inputs": {
-        "flake-parts": [
-          "schizofox",
-          "nixpak",
-          "flake-parts"
-        ],
-        "nixpkgs": [
-          "schizofox",
-          "nixpak",
-          "nixpkgs"
-        ]
+        "flake-parts": ["schizofox", "nixpak", "flake-parts"],
+        "nixpkgs": ["schizofox", "nixpak", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1762440648,
@@ -748,9 +688,7 @@
     },
     "home-manager": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": ["nixpkgs"]
       },
       "locked": {
         "lastModified": 1766282146,
@@ -768,10 +706,7 @@
     },
     "home-manager_2": {
       "inputs": {
-        "nixpkgs": [
-          "nix-on-droid",
-          "nixpkgs"
-        ]
+        "nixpkgs": ["nix-on-droid", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1709445365,
@@ -789,10 +724,7 @@
     },
     "home-manager_3": {
       "inputs": {
-        "nixpkgs": [
-          "schizofox",
-          "nixpkgs"
-        ]
+        "nixpkgs": ["schizofox", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1763313531,
@@ -826,9 +758,7 @@
     "lanzaboote": {
       "inputs": {
         "crane": "crane",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": ["nixpkgs"],
         "pre-commit": "pre-commit",
         "rust-overlay": "rust-overlay"
       },
@@ -848,9 +778,7 @@
     },
     "microvm": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": ["nixpkgs"],
         "spectrum": "spectrum"
       },
       "locked": {
@@ -871,9 +799,7 @@
       "inputs": {
         "niri-stable": "niri-stable",
         "niri-unstable": "niri-unstable",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": ["nixpkgs"],
         "nixpkgs-stable": "nixpkgs-stable_2",
         "xwayland-satellite-stable": "xwayland-satellite-stable",
         "xwayland-satellite-unstable": "xwayland-satellite-unstable"
@@ -948,14 +874,8 @@
     },
     "nix-formatter-pack": {
       "inputs": {
-        "nixpkgs": [
-          "nix-on-droid",
-          "nixpkgs"
-        ],
-        "nmd": [
-          "nix-on-droid",
-          "nmd"
-        ],
+        "nixpkgs": ["nix-on-droid", "nixpkgs"],
+        "nmd": ["nix-on-droid", "nmd"],
         "nmt": "nmt"
       },
       "locked": {
@@ -976,9 +896,7 @@
       "inputs": {
         "home-manager": "home-manager_2",
         "nix-formatter-pack": "nix-formatter-pack",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": ["nixpkgs"],
         "nixpkgs-docs": "nixpkgs-docs",
         "nixpkgs-for-bootstrap": "nixpkgs-for-bootstrap",
         "nmd": "nmd"
@@ -1015,9 +933,7 @@
     "nixos-generators": {
       "inputs": {
         "nixlib": "nixlib",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": ["nixpkgs"]
       },
       "locked": {
         "lastModified": 1764234087,
@@ -1051,9 +967,7 @@
     "nixos-wsl": {
       "inputs": {
         "flake-compat": "flake-compat_5",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": ["nixpkgs"]
       },
       "locked": {
         "lastModified": 1765841014,
@@ -1071,15 +985,9 @@
     },
     "nixpak": {
       "inputs": {
-        "flake-parts": [
-          "schizofox",
-          "flake-parts"
-        ],
+        "flake-parts": ["schizofox", "flake-parts"],
         "hercules-ci-effects": "hercules-ci-effects",
-        "nixpkgs": [
-          "schizofox",
-          "nixpkgs"
-        ]
+        "nixpkgs": ["schizofox", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1763150840,
@@ -1283,9 +1191,7 @@
     "nixvim": {
       "inputs": {
         "flake-parts": "flake-parts_4",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": ["nixpkgs"],
         "systems": "systems_3"
       },
       "locked": {
@@ -1304,10 +1210,7 @@
     },
     "nmd": {
       "inputs": {
-        "nixpkgs": [
-          "nix-on-droid",
-          "nixpkgs-docs"
-        ],
+        "nixpkgs": ["nix-on-droid", "nixpkgs-docs"],
         "scss-reset": "scss-reset"
       },
       "locked": {
@@ -1343,9 +1246,7 @@
     "nur": {
       "inputs": {
         "flake-parts": "flake-parts_5",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": ["nixpkgs"]
       },
       "locked": {
         "lastModified": 1766256167,
@@ -1363,14 +1264,8 @@
     },
     "nur_2": {
       "inputs": {
-        "flake-parts": [
-          "stylix",
-          "flake-parts"
-        ],
-        "nixpkgs": [
-          "stylix",
-          "nixpkgs"
-        ]
+        "flake-parts": ["stylix", "flake-parts"],
+        "nixpkgs": ["stylix", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1764773531,
@@ -1390,10 +1285,7 @@
       "inputs": {
         "flake-compat": "flake-compat_4",
         "gitignore": "gitignore_2",
-        "nixpkgs": [
-          "lanzaboote",
-          "nixpkgs"
-        ]
+        "nixpkgs": ["lanzaboote", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1765464257,
@@ -1413,10 +1305,7 @@
       "inputs": {
         "flake-compat": "flake-compat",
         "gitignore": "gitignore",
-        "nixpkgs": [
-          "agenix-rekey",
-          "nixpkgs"
-        ]
+        "nixpkgs": ["agenix-rekey", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1735882644,
@@ -1466,10 +1355,7 @@
     },
     "rust-overlay": {
       "inputs": {
-        "nixpkgs": [
-          "lanzaboote",
-          "nixpkgs"
-        ]
+        "nixpkgs": ["lanzaboote", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1765680428,
@@ -1491,9 +1377,7 @@
         "flake-parts": "flake-parts_6",
         "home-manager": "home-manager_3",
         "nixpak": "nixpak",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": ["nixpkgs"],
         "searx-randomizer": "searx-randomizer",
         "systems": "systems_4"
       },
@@ -1530,10 +1414,7 @@
     "searx-randomizer": {
       "inputs": {
         "crane": "crane_2",
-        "nixpkgs": [
-          "schizofox",
-          "nixpkgs"
-        ]
+        "nixpkgs": ["schizofox", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1762277104,
@@ -1567,9 +1448,7 @@
     },
     "spicetify-nix": {
       "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": ["nixpkgs"],
         "systems": "systems_5"
       },
       "locked": {
@@ -1595,9 +1474,7 @@
         "firefox-gnome-theme": "firefox-gnome-theme",
         "flake-parts": "flake-parts_7",
         "gnome-shell": "gnome-shell",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
+        "nixpkgs": ["nixpkgs"],
         "nur": "nur_2",
         "systems": "systems_6",
         "tinted-foot": "tinted-foot",
@@ -1808,10 +1685,7 @@
     },
     "treefmt-nix": {
       "inputs": {
-        "nixpkgs": [
-          "agenix-rekey",
-          "nixpkgs"
-        ]
+        "nixpkgs": ["agenix-rekey", "nixpkgs"]
       },
       "locked": {
         "lastModified": 1735135567,
@@ -1880,12 +1754,8 @@
     },
     "zen-browser": {
       "inputs": {
-        "home-manager": [
-          "home-manager"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "home-manager": ["home-manager"],
+        "nixpkgs": ["nixpkgs"]
       },
       "locked": {
         "lastModified": 1766204826,

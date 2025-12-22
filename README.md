@@ -220,7 +220,7 @@ Full documentation is available in the [docs directory](./flake/docs). The docum
 ## Roadmap
 
 - [ ] Create nix on droid configs
-- [ ] Quickshell  as waybar
+- [ ] Quickshell as waybar
 - [ ] Zen-Nebula theme not working
 - [ ] fix guernica compact
 - [ ] Niri window manager + new theme

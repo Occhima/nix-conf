@@ -10,6 +10,7 @@ let
   inherit (lib.custom) themeLib;
 
   isCompact = themeLib.isVariant config "compact";
+  stylixColors = config.lib.stylix.colors;
 
   baseSettings = {
     general = {
@@ -92,10 +93,12 @@ let
       border_size = 2;
       resize_on_border = false;
       layout = "master";
+      col.active_border = mkDefault "rgb(${stylixColors.base01})";
+      col.inactive_border = mkDefault "rgb(${stylixColors.base00})";
     };
     group = {
-      col.border_active = mkDefault "rgb(4F7F96)";
-      groupbar.col.active = mkDefault "rgb(000009)";
+      col.border_active = mkDefault "rgb(${stylixColors.base0C})";
+      groupbar.col.active = mkDefault "rgb(${stylixColors.base00})";
     };
 
     decoration = {
@@ -110,8 +113,8 @@ let
         enabled = false;
         range = 6;
         render_power = 1;
-        color = mkDefault "rgb(BA4F80)";
-        color_inactive = mkDefault "rgb(BE869D)";
+        color = mkDefault "rgb(${stylixColors.base0C})";
+        color_inactive = mkDefault "rgb(${stylixColors.base0E})";
       };
 
       blur = {
@@ -128,8 +131,8 @@ let
     };
 
     layerrule = [
-      "blur, waybar" # blur Waybar
-      "ignorezero, waybar"
+      # "blur, waybar" # blur Waybar
+      # "ignorezero, waybar"
 
       "blur, anyrun" # blur anyrun
       "ignorezero, anyrun"

@@ -1,38 +1,6 @@
 { ... }:
 
 {
-  workspaces = {
-    hyprland = {
-      format = " {icon} ";
-      show-special = false;
-      active-only = false;
-      on-click = "activate";
-      on-scroll-up = "hyprctl dispatch workspace e+1";
-      on-scroll-down = "hyprctl dispatch workspace e-1";
-      all-outputs = true;
-      sort-by-number = true;
-      persistent-workspaces = {
-        "1" = [ ];
-        "2" = [ ];
-        "3" = [ ];
-        "4" = [ ];
-      };
-      format-icons = {
-        "1" = " ";
-        "2" = " ";
-        "3" = " ";
-        "4" = " ";
-        "5" = "";
-        "6" = " ";
-        "7" = "";
-        "8" = " ";
-        "9" = " ";
-        "10" = "10";
-        focused = "";
-        default = "";
-      };
-    };
-  };
 
   # Custom separators
   separators = {

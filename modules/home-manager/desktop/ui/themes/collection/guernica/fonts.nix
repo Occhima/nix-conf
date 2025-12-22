@@ -12,6 +12,7 @@ in
   home.packages = themeLib.whenTheme config "guernica" [
     pkgs.nerd-fonts._0xproto
     pkgs.aporetic
+    pkgs.nerd-fonts.jetbrains-mono
     pkgs.iosevka-comfy.comfy
   ];
 
