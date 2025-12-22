@@ -43,61 +43,57 @@ in
     ];
 
     # Workspaces configuration using shared modules
-    window = {
-      hyprland = {
-        format = "󰣆 {title}";
-        max-length = 40;
-        separate-outputs = false;
-        rewrite = {
-          "(.*) — Mozilla Firefox" = " Firefox";
-          "(.*) — Zen Browser" = " Zen";
-          "^.*v( .*|$)" = " Emacs";
-          "^.*~$" = "󰄛 Kitty";
-          "(.*) " = " Empty";
-          "^.*pdf( .*|$)" = "";
-          "^.*(- Mousepad)$" = " $1";
-        };
+    "hyprland/window" = {
+      format = "󰣆 {title}";
+      max-length = 40;
+      separate-outputs = false;
+      rewrite = {
+        "(.*) — Mozilla Firefox" = " Firefox";
+        "(.*) — Zen Browser" = " Zen";
+        "^.*v( .*|$)" = " Emacs";
+        "^.*~$" = "󰄛 Kitty";
+        "(.*) " = " Empty";
+        "^.*pdf( .*|$)" = "";
+        "^.*(- Mousepad)$" = " $1";
       };
     };
 
-    workspaces = {
-      hyprland = {
-        format = " {icon} ";
-        show-special = false;
-        active-only = false;
-        on-click = "activate";
-        on-scroll-up = "hyprctl dispatch workspace e+1";
-        on-scroll-down = "hyprctl dispatch workspace e-1";
-        all-outputs = true;
-        sort-by-number = true;
-        persistent-workspaces = {
-          "11" = [ ];
-          "12" = [ ];
-          "13" = [ ];
-          "14" = [ ];
-        };
-        format-icons = {
-          "11" = " ";
-          "12" = " ";
-          "13" = " ";
-          "14" = " ";
-          "15" = "";
-          "16" = " ";
-          "17" = "";
-          "18" = " ";
-          "19" = " ";
-          "21" = " ";
-          "22" = " ";
-          "23" = " ";
-          "24" = " ";
-          "25" = "";
-          "26" = " ";
-          "27" = "";
-          "28" = " ";
-          "29" = " ";
-          focused = "";
-          default = "";
-        };
+    "hyprland/workspaces" = {
+      format = " {icon} ";
+      show-special = false;
+      active-only = false;
+      all-outputs = false;
+      on-click = "activate";
+      on-scroll-up = "hyprctl dispatch workspace e+1";
+      on-scroll-down = "hyprctl dispatch workspace e-1";
+      sort-by-number = true;
+      # persistent-workspaces = {
+      #   "11" = [ ];
+      #   "12" = [ ];
+      #   "13" = [ ];
+      #   "14" = [ ];
+      # };
+      format-icons = {
+        "11" = " ";
+        "12" = " ";
+        "13" = " ";
+        "14" = " ";
+        "15" = "";
+        "16" = " ";
+        "17" = "";
+        "18" = " ";
+        "19" = " ";
+        "20" = "󰖟";
+        "21" = " ";
+        "22" = " ";
+        "23" = " ";
+        "24" = " ";
+        "25" = "";
+        "26" = " ";
+        "27" = "";
+        "28" = " ";
+        "29" = " ";
+        "30" = "󰖟";
       };
     };
 
@@ -117,7 +113,7 @@ in
         "custom/arrow-right"
         "cpu"
         "memory"
-        "temperature"
+        "disk"
       ];
     };
 
@@ -201,8 +197,8 @@ in
     @define-color background #${base00};
     @define-color background-alt #${base01};
     @define-color muted #${base04};
-    @define-color accent #${base0C};
-    @define-color accent-strong #${base0D};
+    @define-color accent #c0c0c0;
+    @define-color accent-strong #a0a0a0;
 
     @define-color color0 #${base00};
     @define-color color1 #${base01};
@@ -216,8 +212,8 @@ in
     @define-color color9 #${base09};
     @define-color color10 #${base0A};
     @define-color color11 #${base0B};
-    @define-color color12 #${base0C};
-    @define-color color13 #${base0D};
+    @define-color color12 #c0c0c0;
+    @define-color color13 #a0a0a0;
     @define-color color14 #${base0E};
     @define-color color15 #${base0F};
 

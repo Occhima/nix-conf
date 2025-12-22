@@ -93,12 +93,6 @@ let
       border_size = 2;
       resize_on_border = false;
       layout = "master";
-      col.active_border = mkDefault "rgb(${stylixColors.base01})";
-      col.inactive_border = mkDefault "rgb(${stylixColors.base00})";
-    };
-    group = {
-      col.border_active = mkDefault "rgb(${stylixColors.base0C})";
-      groupbar.col.active = mkDefault "rgb(${stylixColors.base00})";
     };
 
     decoration = {
@@ -118,8 +112,9 @@ let
       };
 
       blur = {
+
         enabled = true;
-        size = 6;
+        size = 12;
         passes = 3;
         noise = 0.0200;
         vibrancy = 0.1796;
