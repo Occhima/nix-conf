@@ -35,6 +35,7 @@ in
       type = nullOr (enum [
         "waybar"
         "polybar"
+        "quickshell"
         "eww"
       ]);
       default = null;

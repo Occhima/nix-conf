@@ -28,6 +28,12 @@
       repo = "nixpkgs";
       # ref = "nixos-25.05"; # going back to unstable
     };
+    caelestia-shell = {
+      type = "github";
+      owner = "caelestia-dots";
+      repo = "shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
 

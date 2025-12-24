@@ -217,14 +217,14 @@ in
     @define-color color14 #${base0E};
     @define-color color15 #${base0F};
 
-    @define-color bar-bg alpha(@background, 0.6);
+    @define-color bar-bg @background;
     @define-color card-bg alpha(@accent-strong, 0.3);
     @define-color card-alt alpha(@accent, 0.4);
     @define-color tray-bg alpha(@accent-strong, 0.3);
     @define-color tooltip-bg alpha(@background, 0.8);
     @define-color tooltip-border alpha(@accent, 0.8);
     @define-color group-bg alpha(@background, 0.5);
-    @define-color workspace-bg alpha(@accent-strong, 0.09);
+    @define-color workspace-bg @accent-strong;
     @define-color subtle-accent mix(@accent, @foreground, 0.30);
     @define-color strong-accent mix(@accent, @foreground, 0.15);
     @define-color muted-accent  mix(@accent-strong, @foreground, 0.40);
