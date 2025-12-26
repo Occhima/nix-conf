@@ -12,7 +12,7 @@
     ./nixvim.nix
     ./nyxt.nix
     ./rofi.nix
-    ./quickshell.nix
+    ./caelestia.nix
     ./schizofox.nix
     ./spicetify.nix
     ./vscode.nix

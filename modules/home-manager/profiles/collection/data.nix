@@ -2,6 +2,7 @@
 {
   lib,
   config,
+  pkgs,
   self,
   ...
 }:
@@ -15,7 +16,31 @@ in
   config = mkIf (hasProfile config [ "data" ]) {
     home = {
       packages = [
-        # pkgs.datasette
+        (pkgs.rustPlatform.buildRustPackage rec {
+          pname = "xleak";
+          version = "0.2.5";
+
+          src = pkgs.fetchFromGitHub {
+            owner = "bgreenwell";
+            repo = "xleak";
+            rev = "v${version}";
+            hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+          };
+
+          cargoLock = {
+            lockFile = "${src}/Cargo.lock";
+          };
+
+          doCheck = false;
+
+          meta = with pkgs.lib; {
+            description = "Terminal Excel viewer with interactive TUI, search, formulas, and export";
+            homepage = "https://github.com/bgreenwell/xleak";
+            license = licenses.mit;
+            platforms = platforms.all;
+          };
+        })
+
       ];
     };
   };

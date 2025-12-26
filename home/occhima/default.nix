@@ -85,14 +85,14 @@
 
       ui = {
         windowManager = "hyprland";
-        dock = "waybar";
+        dock = "caelestia";
         launcher = "anyrun";
         notifier = "mako";
         locker = "hyprlock";
         themes = {
           enable = true;
+
           name = "guernica";
-          variant = "compact";
         };
       };
 

@@ -1,10 +1,13 @@
 {
   lib,
+  config,
   ...
 }:
 let
   inherit (lib.options) mkOption;
   inherit (lib.types) enum nullOr;
+
+  cfg = config.modules.desktop.ui;
 
 in
 {
@@ -35,7 +38,7 @@ in
       type = nullOr (enum [
         "waybar"
         "polybar"
-        "quickshell"
+        "caelestia"
         "eww"
       ]);
       default = null;
@@ -60,5 +63,14 @@ in
       default = null;
       description = "The application launcher to use";
     };
+  };
+
+  config = {
+    assertions = [
+      {
+        assertion = cfg.dock == "caelestia" && cfg.windowManager == "hyprland";
+        message = "caelestia only configured for Hyprland, select WM: ${cfg.windowManager}";
+      }
+    ];
   };
 }

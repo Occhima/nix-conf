@@ -17,7 +17,7 @@ in
     inputs.caelestia-shell.homeManagerModules.default
   ];
 
-  config = mkIf (cfg.dock == "quickshell") {
+  config = mkIf (cfg.dock == "caelestia") {
     programs.caelestia = {
       enable = true;
       package = shellPkg;
