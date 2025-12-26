@@ -56,9 +56,8 @@ in
     home.packages = [
       pkgs.marimo
       pkgs.quarto
-
-      #NOTE: still broken
-      # pkgs.rnote
+      pkgs.typst
+      pkgs.rnote
     ];
   };
 }

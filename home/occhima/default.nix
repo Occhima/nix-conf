@@ -8,6 +8,7 @@
       enable = true;
       active = [
         "web"
+        "data"
         "ai"
         "dev"
         "science"
@@ -85,13 +86,12 @@
 
       ui = {
         windowManager = "hyprland";
-        dock = "caelestia";
+        dock = "waybar";
         launcher = "anyrun";
         notifier = "mako";
         locker = "hyprlock";
         themes = {
           enable = true;
-
           name = "guernica";
         };
       };

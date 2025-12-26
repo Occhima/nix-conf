@@ -68,7 +68,7 @@ in
   config = {
     assertions = [
       {
-        assertion = cfg.dock == "caelestia" && cfg.windowManager == "hyprland";
+        assertion = (cfg.dock != "caelestia") || (cfg.windowManager == "hyprland");
         message = "caelestia only configured for Hyprland, select WM: ${cfg.windowManager}";
       }
     ];

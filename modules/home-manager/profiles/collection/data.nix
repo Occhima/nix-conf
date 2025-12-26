@@ -24,7 +24,7 @@ in
             owner = "bgreenwell";
             repo = "xleak";
             rev = "v${version}";
-            hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+            hash = "sha256-5amFyNI1cfTu9b5PV7/n4XIXZbFoSnaTyZo7oPpDQL4=";
           };
 
           cargoLock = {

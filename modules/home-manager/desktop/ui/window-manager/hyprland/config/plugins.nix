@@ -41,10 +41,10 @@
           #   columns = 4;
           #   gap_size = config.wayland.windowManager.hyprland.settings.general.gaps_in;
           # };
-          hyprsplit = {
-            num_workspaces = 9;
-            # persistent_workspaces = true;
-          };
+          # hyprsplit = {
+          #   num_workspaces = 9;
+          # persistent_workspaces = true;
+          # };
         };
         bind = [
           # plugins
