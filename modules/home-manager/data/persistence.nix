@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  inputs,
   ...
 }:
 
@@ -10,9 +9,6 @@ let
   cfg = config.modules.data.persistence;
 in
 {
-  imports = [
-    inputs.impermanence.homeManagerModules.impermanence
-  ];
   options.modules.data.persistence = {
     enable = mkOption {
       type = types.bool;
@@ -44,11 +40,5 @@ in
       }
     ];
 
-    home.persistence = {
-      "${config.home.homeDirectory}/${cfg.location}" = {
-        directories = cfg.directories;
-        allowOther = true;
-      };
-    };
   };
 }

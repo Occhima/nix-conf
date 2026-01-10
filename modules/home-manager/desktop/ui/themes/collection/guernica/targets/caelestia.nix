@@ -30,7 +30,7 @@ in
       };
       spacing.scale = 1;
       transparency = {
-        enabled = false;
+        enabled = true;
         base = 0.9;
         layers = 0.5;
       };
@@ -55,9 +55,10 @@ in
         showBluetooth = true;
         showNetwork = true;
         showLockStatus = true;
-        showAudio = false;
-        showMicrophone = false;
-        showKbLayout = false;
+        showAudio = true;
+        showMicrophone = true;
+        showKbLayout = true;
+
       };
       workspaces = {
         shown = 5;
@@ -134,7 +135,7 @@ in
     services = {
       smartScheme = false;
       useFahrenheit = false;
-      useTwelveHourClock = false;
+      useTwelveHourClock = true;
     };
   };
 }
