@@ -16,19 +16,17 @@
     wayland.windowManager.hyprland = {
 
       plugins = with pkgs.hyprlandPlugins; [
-        # hyprexpo
-        hyprsplit
-        # (hyprsplit.overrideAttrs (_p: rec {
-        #   # TODO: remove when in nixpkgs
-        #   version = "0.51.0";
-        #   src = pkgs.fetchFromGitHub {
-        #     owner = "shezdy";
-        #     repo = "hyprsplit";
-        #     tag = "v${version}";
-        #     hash = "sha256-h6vDtBKTfyuA/6frSFcTrdjoAKhwlGBT+nzjoWf9sQE=";
-        #   };
-        # })
-        # )
+
+        (hyprsplit.overrideAttrs (_p: rec {
+          # TODO: remove when 0.53 is  in nixpkgs
+          version = "0.53.1";
+          src = pkgs.fetchFromGitHub {
+            owner = "shezdy";
+            repo = "hyprsplit";
+            tag = "v${version}";
+            hash = "sha256-seA9mz0Yej4yYZVgzd7yKoHwuueKhfQPu0CyB7EL8No=";
+          };
+        }))
 
         hyprfocus
       ];

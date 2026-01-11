@@ -60,6 +60,7 @@ let
         inherit
           inputs
           self
+          lib
           ;
       };
 
