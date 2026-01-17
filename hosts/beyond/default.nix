@@ -71,7 +71,7 @@
         };
       };
 
-      bluetooth = {
+      bluetooth = {
         enable = true;
         gui = true;
         autoReset = false;

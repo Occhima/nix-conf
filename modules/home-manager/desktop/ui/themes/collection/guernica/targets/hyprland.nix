@@ -41,17 +41,18 @@ let
       };
     };
 
+    # NOTE: change to attrset
     layerrule = [
-      "blur, waybar" # blur Waybar
-      "ignorezero, waybar"
+      "match:namespace anyrun, blur on"
+      "match:namespace anyrun, blur_popups on"
+      "match:namespace anyrun, dim_around on"
+      "match:namespace anyrun, ignorezero on"
 
-      "blur, anyrun" # blur anyrun
-      "ignorezero, anyrun"
+      "match:namespace waybar, blur on"
+      "match:namespace waybar, blur_popups on"
+      "match:namespace waybar, dim_around on"
+      "match:namespace waybar, ignorezero on"
 
-      "blur, rofi" # blur anyrun "ignorezero, rofi"
-      "ignorezero, rofi"
-
-      "blur, logout_dialog"
     ];
 
     animations = {
