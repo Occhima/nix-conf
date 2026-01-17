@@ -46,12 +46,12 @@ let
       "match:namespace anyrun, blur on"
       "match:namespace anyrun, blur_popups on"
       "match:namespace anyrun, dim_around on"
-      "match:namespace anyrun, ignorezero on"
+      # "match:namespace anyrun, ignorezero on"
 
       "match:namespace waybar, blur on"
       "match:namespace waybar, blur_popups on"
       "match:namespace waybar, dim_around on"
-      "match:namespace waybar, ignorezero on"
+      # "match:namespace waybar, ignorezero on"
 
     ];
 

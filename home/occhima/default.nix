@@ -73,10 +73,11 @@
 
     desktop = {
       browser = {
-        active = "zen";
-        firefox.enable = false;
+        active = "firefox";
+        firefox.enable = true;
         nyxt.enable = true;
-        zen.enable = true;
+        zen.enable = false;
+
       };
       terminal = {
         active = "kitty";
@@ -106,6 +107,7 @@
 
         };
         spotify.enable = true;
+        lutris.enable = true;
         discord.enable = true;
         flameshot.enable = true;
         wlogout.enable = true;
