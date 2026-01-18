@@ -73,10 +73,10 @@
 
     desktop = {
       browser = {
-        active = "firefox";
-        firefox.enable = true;
-        nyxt.enable = true;
-        zen.enable = false;
+        active = "zen";
+        firefox.enable = false;
+        nyxt.enable = false;
+        zen.enable = true;
 
       };
       terminal = {
