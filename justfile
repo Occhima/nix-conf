@@ -184,6 +184,16 @@ build pkg:
 [group('package')]
 iso image: (build "nixosConfigurations." + image + ".config.system.build.isoImage")
 
+# <- build the iso image and burn it to a USB device (example: /dev/sdX)
+[group('package')]
+bb-iso image device:
+    @just iso {{ image }}
+    iso_path="$$(ls -1 result/iso/*.iso | head -n 1)"
+    @echo "Burning {{ image }} ISO to {{ device }} from $$iso_path"
+    sudo dd if="$$iso_path" of={{ device }} bs=4M status=progress conv=fsync
+    sync
+
+
 # <- build the .qcow2 image
 [group('package')]
 vm image: (build "nixosConfigurations." + image + ".config.system.build.vmWithDisko")
