@@ -1,18 +1,28 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 let
   inherit (lib.modules) mkForce;
 in
 {
-  # use networkmanager in the live environment
+
+  hardware.wirelessRegulatoryDatabase = true;
   networking.networkmanager = {
     enable = true;
-    # we don't want any plugins, they only takeup space
-    # you might consider adding some if you need a VPN for example
     plugins = mkForce [ ];
+    wifi = {
+      backend = "wpa_supplicant";
+      powersave = true;
+      scanRandMacAddress = true;
+    };
   };
 
-  networking.wireless.enable = mkForce false;
+  networking.wireless = {
+    enable = true;
+    allowAuxiliaryImperativeNetworks = true;
+  };
 
-  # allow ssh into the system for headless installs
   systemd.services.sshd.wantedBy = mkForce [ "multi-user.target" ];
+
+  environment.systemPackages = [
+    pkgs.wpa_supplicant
+  ];
 }
