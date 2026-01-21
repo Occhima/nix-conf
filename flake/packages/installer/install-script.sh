@@ -1,239 +1,186 @@
 #!/usr/bin/env bash
-set -euo pipefail
-export GUM_SPIN_SHOW_OUTPUT=1   # show command output underneath spinners
+set -e
 
-###############################################################################
-# Helper wrappers (ASCII‑only to satisfy strict locales)                      #
-###############################################################################
-PALETTE_ACCENT=212
-PALETTE_INFO=45
-PALETTE_MUTED=243
-PALETTE_BORDER=39
-PALETTE_TITLE=214
+C_BG="#1a1b26"
+C_FG="#c0caf5"
+C_PINK="#ff007c"
+C_PURPLE="#bd93f9"
+C_CYAN="#00e8c6"
+C_GRAY="#414868"
 
-header() {
-  # Modern ASCII art logo with rounded borders and a refined subtitle
-  local title="${1:-NixOS Deployment Wizard}"
-  local subtitle="${2:-Clone | Partition | Install | Update}"
+ICON_DISK="󰋊"
+ICON_NIX=""
+ICON_GIT="󰊢"
+ICON_KEY="󰯄"
+ICON_CHECK=""
+ICON_CROSS=""
+ICON_WARN=""
+ICON_DOWN="󰇚"
+
+banner() {
+  clear
   gum style \
-    --bold \
-    --foreground 50 \
-    --background 236 \
-    --border rounded \
-    --border-foreground "$PALETTE_BORDER" \
-    --align center \
-    --width 100 \
-    " _______  .__       ________                     .___                 __         .__  .__      __                .__          " \
-    " \      \ |__|__  __\_____  \   ______           |   | ____   _______/  |______  |  | |  |   _/  |_  ____   ____ |  |   ______ " \
-    " /   |   \|  \  \/  //   |   \ /  ___/   ______  |   |/    \ /  ___/\   __\__  \ |  | |  |   \   __\/  _ \ /  _ \|  |  /  ___/ " \
-    "/    |    \  |>    </    |    \\\___ \   /_____/  |   |   |  \\\___ \  |  |  / __ \|  |_|  |__  |  | (  <_> |  <_> )  |__\___ \  " \
-    "\____|__  /__/__/\_ \_______  /____  >           |___|___|  /____  > |__| (____  /____/____/  |__|  \____/ \____/|____/____  > " \
-    "        \/         \/       \/     \/                     \/     \/            \/                                          \/  " \
-    "" \
-    "$(gum style --foreground "$PALETTE_TITLE" --bold "$title")" \
-    "$(gum style --foreground 110 "$subtitle")"
+    --border double --border-foreground "$C_PURPLE" --padding "1 2" --margin "1 0" \
+    --align center --width 60 \
+    "$(gum style --foreground "$C_PINK" --bold "NIXOS DEPLOYMENT")" \
+    "$(gum style --foreground "$C_CYAN" "Automated Installation Wizard")"
 }
 
-spinner() {
-  # Usage: spinner "Title" "cmd && ..." ; never aborts main script
-  local title="$1" cmd="$2"
-  gum spin --spinner dot --show-output --title "$title" -- bash -c "${cmd}; exit 0"
+info_box() {
+  gum style --foreground "$C_FG" --border normal --border-foreground "$C_GRAY" --padding "0 1" " $1 "
 }
 
-section() {
-  gum style --foreground "$PALETTE_INFO" --bold --border normal --border-foreground "$PALETTE_BORDER" --padding "0 1" "$1"
+exec_task() {
+  local title="$1"
+  local command="$2"
+
+  echo ""
+  gum style --foreground "$C_BG" --background "$C_PURPLE" --bold --padding "0 1" " EXECUTING: $title "
+  echo ""
+
+  if eval "$command"; then
+    echo ""
+    gum style --foreground "$C_BG" --background "$C_CYAN" --bold --padding "0 1" " $ICON_CHECK SUCCESS "
+    sleep 1.5
+  else
+    echo ""
+    gum style --foreground "$C_BG" --background "$C_PINK" --bold --padding "0 1" " $ICON_CROSS FAILED "
+    gum style --foreground "$C_PINK" "An error occurred in step: $title"
+
+    if gum confirm --selected.background "$C_PINK" "Do you want to abort the script?"; then
+      exit 1
+    fi
+  fi
 }
 
-divider() {
-  gum style --foreground "$PALETTE_MUTED" --faint "────────────────────────────────────────────────────────────"
+ask_input() {
+  gum input --prompt " $1 " --placeholder "$2" --width 50 --cursor.foreground "$C_PINK"
 }
 
-confirm() {
-  gum confirm --prompt "$(gum style --foreground "$PALETTE_ACCENT" --bold "$1")"
+ask_confirm() {
+  gum confirm "$1" --selected.background "$C_CYAN" --selected.foreground "$C_BG"
 }
 
-prompt() {
-  gum input --prompt "$(gum style --foreground "$PALETTE_ACCENT" --bold "$1")"
-}
 
-trap 'gum log --level error "Interrupted – cleaning up"; exit 130' INT
+FLAKE_DIR=${FLAKE_DIR:-"/mnt/etc/nixos"}
+ISO_FLAKE_DIR="$HOME/.config/flake"
+REPO_URL="https://github.com/Occhima/nix-conf.git"
+DISKO_CFG="/tmp/disko-config.nix"
+DISKO_URL_DEFAULT="https://raw.githubusercontent.com/Occhima/nix-conf/main/disko-config.nix"
 
-###############################################################################
-# Splash screen & defaults                                                    #
-###############################################################################
-header "NixOS Deployment Wizard" "Clone | Partition | Install | Update"
+banner
 
-F_REPO="https://github.com/Occhima/nix-conf.git"
-P_REPO="https://github.com/Occhima/pass-conf.git"
-FLAKE_DIR=${FLAKE_DIR:-"$HOME/.config/flake"}
-PASSAGE_DIR=${PASSAGE_DIR:-"$HOME/.passage"}
-DEFAULT_DISKO_CFG="/tmp/disko-config.yaml"
+echo "Select steps to execute (SPACE to select/deselect):"
+TASKS=$(gum choose --no-limit --height 12 --cursor.foreground "$C_PINK" --selected.foreground "$C_CYAN" \
+    "$ICON_GIT  Clone/Update Flake" \
+    "$ICON_DOWN  Fetch Disko Config (Separate)" \
+    "$ICON_DISK  Run Disko (Partition & Mount)" \
+    "$ICON_NIX  Install NixOS (Core)" \
+    "$ICON_KEY  Configure SSH Host Key" \
+  "$ICON_WARN  Exit")
 
-###############################################################################
-# Task picker (multi‑select)                                                  #
-###############################################################################
-TASKS=(
-  "Clone flake"
-  "Partition disk"
-  "Install NixOS"
-  "Install Doom Emacs"
-  "Get password vault"
-  "Copy host SSH key"
-  "Get nixGL"
-  "Quit"
-)
-
-# multi‑select tips: ↑/↓ move | SPACE toggle | ENTER confirm
-chosen=$(printf "%s\n" "${TASKS[@]}" | \
-    gum choose --no-limit \
-  --header "$(gum style --foreground "$PALETTE_ACCENT" --bold "Select task(s) to run")  $(gum style --foreground "$PALETTE_MUTED" "SPACE toggle · ENTER confirm")" )
-
-if [ -z "$chosen" ]; then
-  gum log --level error "Nothing selected – exiting"; exit 1;
+if [[ -z "$TASKS" || "$TASKS" == *"$ICON_WARN  Exit"* ]]; then
+  echo "Exiting..."
+  exit 0
 fi
 
-###############################################################################
-# Main loop: iterate line‑by‑line so items containing spaces stay intact
-###############################################################################
-IFS=$'\n'  # treat each newline‑separated line as one item, even if it has spaces
-for task in $chosen; do
-  case "$task" in
+IFS=$'\n'
+for item in $TASKS; do
+  banner
 
-      ################################ Clone flake ################################
-    "Clone flake")
-      section "Clone flake"
-      divider
-      FLAKE_DIR=$(prompt "Clone directory > " --value "$FLAKE_DIR")
-      [ -z "$FLAKE_DIR" ] && { gum log --level error "Directory path required"; exit 1; }
+  case "$item" in
+    *"Clone/Update Flake"*)
+      info_box "Nix Repository Setup"
 
-      if [[ -d "$FLAKE_DIR/.git" ]]; then
-        if confirm "Directory exists. Run git pull instead?"; then
-          spinner "Updating flake" "git -C \"$FLAKE_DIR\" pull"
-        else
-          gum log --level warn "Skipped update"
+      TARGET_DIR=$(ask_input "Clone Path >" "$ISO_FLAKE_DIR")
+      FLAKE_DIR=$TARGET_DIR
+
+      if [ -d "$TARGET_DIR/.git" ]; then
+        if ask_confirm "Directory exists. Update (git pull)?"; then
+          exec_task "Updating Repository" "git -C $TARGET_DIR pull"
         fi
       else
-        spinner "Cloning flake" "git clone \"$F_REPO\" \"$FLAKE_DIR\""
+        exec_task "Cloning Repository" "git clone $REPO_URL $TARGET_DIR"
       fi
       ;;
 
-      ############################### Partition disk ##############################
-    "Partition disk")
-      section "Partition disk"
-      divider
-      drv_info=$(lsblk -dno NAME,SIZE | gum choose --header "Choose drive (NAME SIZE)")
-      [ -z "$drv_info" ] && { gum log --level warn "No drive chosen. Skipping."; continue; }
-      drv="/dev/${drv_info%% *}"
+    *"Fetch Disko Config"*)
+      info_box "Fetch Partition Config"
 
-      cfg=$(prompt "Path to disko config > " --value "$DEFAULT_DISKO_CFG")
-      [ ! -f "$cfg" ] && { gum log --level error "Config not found: $cfg"; exit 1; }
+      URL=$(ask_input "Config URL (Raw) >" "$DISKO_URL_DEFAULT")
+      DEST=$(ask_input "Save path >" "$DISKO_CFG")
 
-      if confirm "Run disko on $drv with $cfg? This will DESTROY data."; then
-        spinner "Partitioning & mounting" \
-          "sudo DISK=$drv disko --yes-wipe-all-disks --mode destroy,format,mount \"$cfg\""
-      else
-        gum log --level warn "Partition step skipped"
-      fi
+      exec_task "Downloading Config" "curl -L -o $DEST $URL"
       ;;
 
-      ############################### Install NixOS ###############################
-    "Install NixOS")
-      section "Install NixOS"
-      divider
-      host=$(prompt "Hostname > " --value "$(hostname)")
-      [ -z "$host" ] && { gum log --level error "Hostname required"; exit 1; }
+    *"Run Disko"*)
+      info_box "Disk Partitioning (Disko)"
 
-      flake=$(prompt "Flake directory > " --value "$FLAKE_DIR")
-      [ -z "$flake" ] && { gum log --level error "Flake path required"; exit 1; }
+      echo "Available Disks:"
+      lsblk -dno NAME,SIZE,MODEL,TYPE | \
+        gum style --border normal --border-foreground "$C_GRAY" --padding "0 1"
 
-      # Pre‑flight flake check
-      if confirm "Run 'nix flake check' before installation?"; then
-        spinner "Running flake checks" "nix flake check \"$flake\" --no-build"
+      DISK_NAME=$(ask_input "Target Disk Name (e.g., nvme0n1) >" "")
+      DISK="/dev/$DISK_NAME"
+
+      if [ ! -b "$DISK" ]; then
+        gum style --foreground "$C_PINK" "Disk $DISK not found!"
+        sleep 2
+        continue
       fi
 
-      # Partition via flake
-      if confirm "Partition disks for $host using the flake layout? This DESTROYS data."; then
-        spinner "Partitioning disks" \
-          "sudo disko --yes-wipe-all-disks --mode destroy,format,mount --flake \"$flake#$host\""
-      else
-        gum log --level warn "Disko partitioning skipped. Ensure disks are ready."
-      fi
+      CFG_PATH=$(ask_input "Disko Config Path >" "$DISKO_CFG")
 
-      # Install
-      if confirm "Run nixos-install for $host?"; then
-        spinner "Installing NixOS" \
-          "sudo nixos-install --no-channel-copy --no-root-password --flake \"$flake#$host\""
-      else
-        gum log --level warn "nixos-install skipped"
-      fi
-      ;;
-
-      ############################ Install Doom Emacs #############################
-    "Install Doom Emacs")
-      section "Install Doom Emacs"
-      divider
-      if confirm "Install/overwrite Doom Emacs in ~/.config?"; then
-        spinner "Installing Doom Emacs" \
-          "rm -rf ~/.config/emacs ~/.config/doom && \
-         git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs && \
-         git clone https://github.com/Occhima/doom ~/.config/doom && \
-          ~/.config/emacs/bin/doom install --force"
-      else
-        gum log --level warn "Skipped Doom installation"
-      fi
-      ;;
-
-      ############################ Copy host SSH key ##############################
-    "Copy host SSH key")
-      section "Copy host SSH key"
-      divider
-      addr=$(prompt "Remote host/IP > ")
-      hname=$(prompt "Destination hostname entry > ")
-      [ -z "$addr$hname" ] && { gum log --level error "Both fields required"; exit 1; }
-
-      dest="$FLAKE_DIR/hosts/$hname/assets"; mkdir -p "$dest"
-      spinner "Fetching SSH key" \
-        "ssh-keyscan \"$addr\" | grep -o 'ssh-ed25519.*' > \"$dest/host.pub\""
-
-      if [[ -s "$dest/host.pub" ]]; then
-        gum log --level info "Key saved -> $dest/host.pub"
-      else
-        gum log --level error "Failed to grab key from $addr"; exit 1
-      fi
-      ;;
-
-    "Get nixGL")
-      section "Get nixGL"
-      divider
-      if confirm "Install nixGL ( it's not in our flake bc adds impurity )"; then
-        spinner "Installing nixGL" \
-          "nix-channel --add https://github.com/nix-community/nixGL/archive/main.tar.gz nixgl && nix-channel --update && \
-          nix-env -iA nixgl.auto.nixGLDefault"
-      else
-        gum log --level warn "Not installing nixGL"
-      fi
-      ;;
-
-    "Get password vault")
-      section "Get password vault"
-      divider
-      PASS_DIR=$(prompt "Clone directory > " --value "$PASSAGE_DIR")
-      [ -z "$PASS_DIR" ] && { gum log --level error "Directory path required"; exit 1; }
-
-      if [[ -d "$PASS_DIR/.git" ]]; then
-        if confirm "Directory exists. Run git pull instead?"; then
-          spinner "Updating vault ..." "git -C \"$PASS_DIR\" pull"
+      if [ ! -f "$CFG_PATH" ]; then
+        gum style --foreground "$C_PINK" "Config file not found at $CFG_PATH"
+        if ask_confirm "Do you want to fetch it now?"; then
+          URL=$(ask_input "Config URL >" "$DISKO_URL_DEFAULT")
+          exec_task "Downloading Config" "curl -L -o $CFG_PATH $URL"
         else
-          gum log --level warn "Skipped update"
+          continue
         fi
-      else
-        spinner "Cloning vault ..." "git clone \"$P_REPO\" \"$PASS_DIR\""
+      fi
+
+      gum style --foreground "$C_PINK" --bold "$ICON_WARN WARNING: All data on $DISK will be WIPED."
+      if ask_confirm "Are you absolutely sure?"; then
+        exec_task "Partitioning & Mounting" \
+          "DISK=$DISK disko --yes-wipe-all-disks --mode destroy,format,mount $CFG_PATH"
       fi
       ;;
-    "Quit") exit 0 ;;
+
+    *"Install NixOS"*)
+      info_box "System Installation"
+
+      HOSTNAME=$(ask_input "Machine Hostname >" "nixos")
+
+      if [ ! -f "$FLAKE_DIR/flake.nix" ]; then
+        FLAKE_DIR=$(ask_input "Real Flake Path >" "/mnt/etc/nixos")
+      fi
+
+      echo "Installation Options:"
+      CMD="nixos-install --no-root-password --flake $FLAKE_DIR#$HOSTNAME"
+
+      gum style --foreground "$C_GRAY" "Command: $CMD"
+
+      if ask_confirm "Start NixOS Install (No Partitioning)?"; then
+        exec_task "Installing NixOS" "$CMD"
+      fi
+      ;;
+
+    *"Configure SSH Host Key"*)
+      info_box "SSH Setup"
+
+      REMOTE_IP=$(ask_input "Remote IP/Host >" "")
+      HOST_NAME=$(ask_input "Flake Hostname >" "nixos")
+      DEST_DIR="$FLAKE_DIR/hosts/$HOST_NAME/assets"
+
+      mkdir -p "$DEST_DIR"
+
+      exec_task "Fetching SSH Keys" \
+        "ssh-keyscan $REMOTE_IP | grep -o 'ssh-ed25519.*' > $DEST_DIR/host.pub"
+      ;;
   esac
 done
 
-unset IFS  # restore default word splitting
-
-gum log --level warn "All selected tasks completed. You can reboot now."
+banner
+gum style --foreground "$C_CYAN" --bold "Process Finished Successfully!"

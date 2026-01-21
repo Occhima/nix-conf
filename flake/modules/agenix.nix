@@ -9,6 +9,7 @@ let
   configs = [
     "steammachine"
     "aerodynamic"
+    "beyond"
   ];
   nixosConfigs = filterAttrs (name: _: builtins.elem name configs) self.nixosConfigurations;
 in

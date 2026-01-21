@@ -45,6 +45,11 @@ in
         path = ./steammachine;
       };
 
+      beyond = {
+        deployable = false; # disabled bc of the time to build
+        path = ./beyond;
+      };
+
       voyager = {
         deployable = false;
         path = ./voyager;

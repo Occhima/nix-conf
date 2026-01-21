@@ -220,7 +220,7 @@ Full documentation is available in the [docs directory](./flake/docs). The docum
 ## Roadmap
 
 - [ ] Create nix on droid configs
-- [ ] Niri window manager + new theme
+- [ ] Quickshell waybar module
 - [ ] Dendritic patterna dn import-tree (https://github.com/vic/import-tree) ( https://github.com/Doc-Steve/dendritic-design-with-flake-parts )
 
 ## References

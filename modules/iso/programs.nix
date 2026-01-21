@@ -19,6 +19,7 @@
       pciutils # going to need this for lspci
       age-plugin-yubikey
       disko
+      nix-output-monitor
       ;
     inherit (self'.packages) install-tools;
   };

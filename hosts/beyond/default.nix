@@ -19,7 +19,7 @@
 
     network = {
       enable = true;
-      hostName = "steammachine";
+      hostName = "beyond";
       networkmanager.enable = true;
       firewall.enable = true;
       blocker.enable = true;
@@ -147,6 +147,7 @@
       };
       firmware.enable = true;
       flatpak.enable = true;
+      steam.enable = true;
       ssh.enable = true;
     };
 

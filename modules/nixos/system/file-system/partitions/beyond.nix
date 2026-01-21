@@ -2,7 +2,7 @@
   devices.disk = {
     ssd = {
       type = "disk";
-      device = "/dev/disk/by-id/find-me-pls";
+      device = "/dev/nvme0n1";
       content = {
         type = "gpt";
         partitions = {
