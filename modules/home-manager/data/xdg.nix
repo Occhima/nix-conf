@@ -36,8 +36,8 @@ in
         publicShare = "${config.home.homeDirectory}/public/share";
         templates = "${config.home.homeDirectory}/public/templates";
         extraConfig = {
-          XDG_SCREENSHOTS_DIR = "${config.home.homeDirectory}/media/pictures/screenshots";
-          XDG_DEV_DIR = "${config.home.homeDirectory}/dev";
+          SCREENSHOTS = "${config.home.homeDirectory}/media/pictures/screenshots";
+          DEV = "${config.home.homeDirectory}/dev";
         };
       };
     };

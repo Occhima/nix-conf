@@ -42,14 +42,14 @@ pkgs.stdenv.mkDerivation rec {
     nss
     pango
     vulkan-loader
-    xorg.libX11
-    xorg.libXcomposite
-    xorg.libXdamage
-    xorg.libXext
-    xorg.libXfixes
-    xorg.libXrandr
-    xorg.libxcb
-    xorg.libxkbfile
+    libX11
+    libXcomposite
+    libXdamage
+    libXext
+    libXfixes
+    libXrandr
+    libxcb
+    libxkbfile
   ];
 
   runtimeDependencies = [

@@ -76,7 +76,7 @@ in
   home.file."zen-nebula" = themeLib.whenTheme config "guernica" {
     enable = cond;
     source = zenNebulaTheme;
-    target = ".zen/${profileName}/chrome";
+    target = "${config.xdg.configHome}/zen/${profileName}/chrome";
     recursive = true;
   };
 

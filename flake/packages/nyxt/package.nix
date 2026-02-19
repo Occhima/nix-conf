@@ -27,8 +27,8 @@
 }:
 let
   pname = "nyxt";
-  version = "4.0.0-pre-release-13";
-  sha256 = "sha256-9kwgLVvnqXJnL/8jdY2jly/bS2XtgF9WBsDeoXNHX8M=";
+  version = "4.0.0";
+  sha256 = "sha256-v+x6K5svLA3L+IjEdTjmJEf3hvgwhwrvqAcelpY1ScQ=";
   binaryName = "nyxt";
 
   source = fetchurl {

@@ -75,7 +75,7 @@
       browser = {
         active = "zen";
         firefox.enable = false;
-        nyxt.enable = false;
+        nyxt.enable = true;
         zen.enable = true;
 
       };

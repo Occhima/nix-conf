@@ -56,7 +56,7 @@ in
 
     home.packages = [
       # pkgs.marimo
-      pkgs.quarto
+      # pkgs.quarto
       pkgs.typst
 
       (pkgs.rnote.overrideAttrs (_: rec {

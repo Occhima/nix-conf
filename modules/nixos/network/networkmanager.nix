@@ -38,7 +38,7 @@ in
       ];
       wifi = {
         backend = "wpa_supplicant";
-        powersave = true;
+        powersave = false;
         scanRandMacAddress = true;
       };
       ethernet.macAddress = "random";
