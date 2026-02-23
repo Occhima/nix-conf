@@ -34,7 +34,6 @@ let
   source = fetchurl {
     inherit sha256;
     url = "https://github.com/atlas-engineer/nyxt/releases/download/${version}/Linux-Nyxt-x86_64.tar.gz";
-
   };
 
   unpackedSource = runCommand "${pname}-${version}.AppImage" { } ''

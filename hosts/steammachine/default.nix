@@ -147,6 +147,7 @@
       };
       firmware.enable = true;
       flatpak.enable = true;
+      steam.enable = true;
       ssh.enable = true;
     };
 

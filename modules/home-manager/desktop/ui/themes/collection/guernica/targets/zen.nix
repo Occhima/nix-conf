@@ -17,8 +17,9 @@ let
       owner = "JustAdumbPrsn";
       repo = "Zen-Nebula";
       rev = "main";
-      hash = "sha256-wtntRAkOGm6fr396kqzqk+GyPk+ytifXTqqOp0YIvlw=";
+      hash = "sha256-Eg9HsN+yDA8OdVcE9clS+FyUhVBH3ooN/odkZIVR/p4=";
     };
+
     installPhase = ''
       mkdir -p $out
       cp -r $src/Nebula $out/
