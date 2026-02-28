@@ -23,7 +23,7 @@ in
 
       nvidia = {
         package = mkDefault config.boot.kernelPackages.nvidiaPackages.beta;
-        open = false;
+        open = true;
         powerManagement = {
           enable = true;
           finegrained = false;

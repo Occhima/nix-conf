@@ -18,7 +18,9 @@ in
     home.packages = with pkgs; [
       beancount
       beancount-language-server
-      fava
+
+      #NOTE: broken
+      # fava
     ];
   };
 }

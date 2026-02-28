@@ -26,6 +26,7 @@ in
         type = types.enum [
           "zen"
           "firefox"
+          "brave"
           "nyxt"
         ];
         default = "firefox";

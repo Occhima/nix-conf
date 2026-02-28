@@ -19,7 +19,10 @@ in
     home.packages = with pkgs; [
       beancount
       beancount-language-server
-      fava
+
+      #NOTE: Broken
+      # fava
+
       hledger-ui
       hledger-web
     ];

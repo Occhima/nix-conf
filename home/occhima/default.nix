@@ -73,10 +73,11 @@
 
     desktop = {
       browser = {
-        active = "zen";
+        active = "brave";
         firefox.enable = false;
         nyxt.enable = true;
-        zen.enable = true;
+        zen.enable = false;
+        brave.enable = true;
 
       };
       terminal = {
@@ -111,7 +112,9 @@
         discord.enable = true;
         flameshot.enable = true;
         wlogout.enable = true;
-        calibre.enable = true;
+
+        #NOTE: also broken  :()
+        calibre.enable = false;
       };
     };
   };
