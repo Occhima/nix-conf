@@ -18,7 +18,5 @@ in
         includeCoAuthoredBy = true;
       };
     };
-
-    programs.git.ignores = [ ".claude/" ];
   };
 }
