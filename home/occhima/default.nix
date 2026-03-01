@@ -73,11 +73,11 @@
 
     desktop = {
       browser = {
-        active = "brave";
-        firefox.enable = false;
+        active = "firefox";
+        firefox.enable = true;
         nyxt.enable = true;
         zen.enable = false;
-        brave.enable = true;
+        brave.enable = false;
 
       };
       terminal = {
