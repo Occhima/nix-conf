@@ -11,7 +11,6 @@ let
   monitors = osConfig.modules.hardware.monitors or { };
   displays = monitors.displays or { };
 
-  # TODO...
   mkHyprMonitorsV2 =
     _monitorConfig:
     mapAttrsToList (_: monitorCfg: {

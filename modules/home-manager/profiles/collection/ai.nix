@@ -18,7 +18,6 @@ in
   config = mkIf (hasProfile config [ "ai" ]) {
     home = {
       packages = [
-        pkgs.claude-code
         pkgs.python313Packages.google-generativeai
         pkgs.crush
       ];

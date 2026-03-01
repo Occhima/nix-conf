@@ -1,15 +1,16 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
   inherit (lib) mkEnableOption;
   inherit (lib.modules) mkIf;
-  inherit (lib.custom) hasProfile;
+  inherit (lib.custom) isWayland;
 
   cfg = config.modules.services.flatpak;
-  hasGraphicalProfile = hasProfile config [ "graphical" ];
+
 in
 {
   options.modules.services.steam = {
@@ -17,14 +18,22 @@ in
   };
 
   config = mkIf cfg.enable {
-    warnings = mkIf (!hasGraphicalProfile) [
-      "Steam is enabled but the 'graphical' profile is not active. Flatpak applications typically need a graphical environment."
-    ];
     programs.steam = {
       enable = true;
       gamescopeSession.enable = true;
       protontricks.enable = true;
       extest.enable = true;
+      package = mkIf (isWayland config) (
+        pkgs.steam.override {
+          extraEnv = {
+            PROTON_ENABLE_HDR = 1;
+            PROTON_ENABLE_WAYLAND = 1;
+            PROTON_USE_NTSYNC = 1;
+            WAYLANDDRV_PRIMARY_MONITOR = config.modules.hardware.monitors.primaryMonitorName;
+          };
+        }
+      );
+
     };
   };
 }
