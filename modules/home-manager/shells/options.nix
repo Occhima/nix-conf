@@ -61,6 +61,7 @@ in
             "navi"
             "pay-respects"
             "nix-your-shell"
+            "claude-code"
           ]
         );
         default = [
