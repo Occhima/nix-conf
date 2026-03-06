@@ -18,6 +18,7 @@ in
   };
 
   config = mkIf cfg.enable {
+    programs.gamemode.enable = true;
     programs.steam = {
       enable = true;
       gamescopeSession.enable = true;
@@ -29,6 +30,7 @@ in
             PROTON_ENABLE_HDR = 1;
             PROTON_ENABLE_WAYLAND = 1;
             PROTON_USE_NTSYNC = 1;
+            SDL_VIDEODRIVER = "windows";
             WAYLANDDRV_PRIMARY_MONITOR = config.modules.hardware.monitors.primaryMonitorName;
           };
         }

@@ -50,6 +50,8 @@ let
     "$mainMod, up, movefocus, u"
     "$mainMod, down, movefocus, d"
 
+    "$mainMod, F, fullscreen"
+
     # Workspace switching
     # NOTE: Using hyprsplit
     # "$mainMod, 1, workspace, 1"

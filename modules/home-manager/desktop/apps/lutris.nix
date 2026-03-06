@@ -33,7 +33,7 @@ in
       steamPackage = osConfig.programs.steam.package;
       protonPackages = [ pkgs.proton-ge-bin ];
       winePackages = with pkgs; [
-        wineWow64Packages.full
+        wineWow64Packages.waylandFull
       ];
       extraPackages = with pkgs; [
         winetricks
