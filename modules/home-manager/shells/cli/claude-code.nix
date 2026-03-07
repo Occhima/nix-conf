@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }:
 
@@ -15,16 +14,14 @@ in
     programs.claude-code = {
       enable = true;
 
-      # Fetch skills from official Anthropic repository
-      # NOTE: On first build, Nix will provide the correct hash if this fails
-      skills = [
-        (pkgs.fetchFromGitHub {
-          owner = "anthropics";
-          repo = "skills";
-          rev = "main";
-          sha256 = "sha256-0000000000000000000000000000000000000000000=";
-        })
-      ];
+      # skills = [
+      #   (pkgs.fetchFromGitHub {
+      #     owner = "anthropics";
+      #     repo = "skills";
+      #     rev = "main";
+      #     sha256 = "sha256-0000000000000000000000000000000000000000000=";
+      #   })
+      # ];
 
       settings = {
         preferences = {
@@ -37,12 +34,10 @@ in
             source.source = "github";
             source.repo = "perplexityai/modelcontextprotocol";
           };
-          # Official Anthropic skills marketplace
           anthropic-agent-skills = {
             source.source = "github";
             source.repo = "anthropics/skills";
           };
-          # Community superpowers skills
           superpowers-marketplace = {
             source.source = "github";
             source.repo = "obra/superpowers";
@@ -51,9 +46,7 @@ in
         enabledPlugins = {
           "perplexity@perplexity-mcp-server" = true;
           "superpowers@superpowers-marketplace" = true;
-          # Enable official document skills
           "document-skills@anthropic-agent-skills" = true;
-          "frontend-design@anthropic-agent-skills" = true;
           "web-artifacts-builder@anthropic-agent-skills" = true;
         };
         permissions = {
