@@ -89,6 +89,7 @@ in
 
       ];
 
+      xdg.configFile."doom".source = ./doom-config;
       sessionVariables.EMACSDIR = "${config.xdg.configHome}/emacs";
       sessionPath = [ "${config.xdg.configHome}/emacs/bin" ];
 
