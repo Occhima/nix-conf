@@ -71,6 +71,22 @@ in
           systemctl --user daemon-reload
           systemctl --user restart emacs
         '')
+
+        # HACK: This way is more shell agnostic agnostic
+        (pkgs.writeShellScriptBin "refresh-doom" ''
+          doom sync
+          set -euo pipefail
+          systemctl --user daemon-reload
+          systemctl --user restart emacs
+        '')
+
+        (pkgs.writeShellScriptBin "upgrade-doom" ''
+          doom update
+          set -euo pipefail
+          systemctl --user daemon-reload
+          systemctl --user restart emacs
+        '')
+
       ];
 
       sessionVariables.EMACSDIR = "${config.xdg.configHome}/emacs";

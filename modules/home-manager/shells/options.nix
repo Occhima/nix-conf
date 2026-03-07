@@ -59,10 +59,10 @@ in
             "jq"
             "yazi"
             "claude-code"
+            "opencode"
             "navi"
             "pay-respects"
             "nix-your-shell"
-            "claude-code"
           ]
         );
         default = [

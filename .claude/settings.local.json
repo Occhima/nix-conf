@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(git -C /home/occhima/.config/flake diff modules/home-manager/shells/cli/claude-code.nix)",
+      "Bash(git -C /home/occhima/.config/flake log --oneline -20)",
+      "WebSearch",
+      "Bash(nix repl:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(lspci:*)",
+      "WebFetch(domain:wiki.cachyos.org)"
+    ]
+  }
+}
