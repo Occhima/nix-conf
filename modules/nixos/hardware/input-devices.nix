@@ -41,7 +41,9 @@ in
     console.keyMap = mkIf (cfg.keyboard.variant == "") cfg.keyboard.layout;
 
     # hardware.opentabletdriver.enable = true;
-    # boot.kernelModules = [ "wacom" ];
+    #NOTE: for dualsense bt connection
+
+    boot.kernelModules = [ "hid-playstation" ];
     services.xserver = {
       wacom = {
         enable = true;

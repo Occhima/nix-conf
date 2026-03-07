@@ -20,7 +20,7 @@ in
     boot.kernelModules = [ "btusb" ];
     hardware.bluetooth = {
       enable = true;
-      package = pkgs.bluez;
+      package = pkgs.bluezFull;
       powerOnBoot = true;
       disabledPlugins = [ "sap" ];
       settings = {
