@@ -11,6 +11,7 @@
     ./niri.nix
     ./nixvim.nix
     ./nyxt.nix
+    ./quickshell.nix
     ./rofi.nix
     ./caelestia.nix
     ./schizofox.nix

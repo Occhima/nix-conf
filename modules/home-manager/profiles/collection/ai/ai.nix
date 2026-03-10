@@ -35,87 +35,80 @@ in
 
     services.ollama.enable = false;
 
-    # Claude Code agents
     programs.claude-code.settings.agents = [
       "${agentsDir}/based.md"
     ];
 
-    # MCP Servers - shared across AI tools
-    programs.mcp.servers = {
-      # NixOS MCP - nix/nixos documentation and helpers
-      nixos = {
-        command = "nix";
-        args = [
-          "run"
-          "github:utensils/mcp-nixos"
-          "--"
-        ];
-        type = "stdio";
-      };
-
-      # DeepWiki MCP - documentation search
-      deepwiki = {
-        type = "http";
-        url = "https://mcp.deepwiki.com/mcp";
-      };
-
-      # Time MCP - time/timezone operations
-      time = {
-        command = "${pkgs.uv}/bin/uvx";
-        args = [ "mcp-server-time" ];
-        type = "stdio";
-      };
-
-      # GitHub MCP - repo/issues/PRs interaction
-      github = {
-        command = "${pkgs.github-mcp-server}/bin/github-mcp-server";
-        args = [ "stdio" ];
-        type = "stdio";
-        env = {
-          GITHUB_PERSONAL_ACCESS_TOKEN = "{{env:GITHUB_TOKEN}}";
+    programs.mcp = {
+      enable = true;
+      servers = {
+        nixos = {
+          command = "nix";
+          args = [
+            "run"
+            "github:utensils/mcp-nixos"
+            "--"
+          ];
+          type = "stdio";
         };
-      };
 
-      # Filesystem MCP - file operations
-      filesystem = {
-        command = npx;
-        args = [
-          "-y"
-          "@modelcontextprotocol/server-filesystem"
-          homeDir
-          "/tmp"
-        ];
-        type = "stdio";
-      };
+        deepwiki = {
+          type = "http";
+          url = "https://mcp.deepwiki.com/mcp";
+        };
 
-      # Fetch MCP - web content fetching
-      fetch = {
-        command = npx;
-        args = [
-          "-y"
-          "@anthropics/mcp-fetch"
-        ];
-        type = "stdio";
-      };
+        time = {
+          command = "${pkgs.uv}/bin/uvx";
+          args = [ "mcp-server-time" ];
+          type = "stdio";
+        };
 
-      # Memory MCP - persistent memory
-      memory = {
-        command = npx;
-        args = [
-          "-y"
-          "@modelcontextprotocol/server-memory"
-        ];
-        type = "stdio";
-      };
+        github = {
+          command = "${pkgs.github-mcp-server}/bin/github-mcp-server";
+          args = [ "stdio" ];
+          type = "stdio";
+          env = {
+            GITHUB_PERSONAL_ACCESS_TOKEN = "{{env:GITHUB_TOKEN}}";
+          };
+        };
 
-      # Sequential thinking MCP - improved reasoning
-      sequential-thinking = {
-        command = npx;
-        args = [
-          "-y"
-          "@modelcontextprotocol/server-sequential-thinking"
-        ];
-        type = "stdio";
+        filesystem = {
+          command = npx;
+          args = [
+            "-y"
+            "@modelcontextprotocol/server-filesystem"
+            homeDir
+            "/tmp"
+          ];
+          type = "stdio";
+        };
+
+        fetch = {
+          command = npx;
+          args = [
+            "-y"
+            "@anthropics/mcp-fetch"
+          ];
+          type = "stdio";
+        };
+
+        memory = {
+          command = npx;
+          args = [
+            "-y"
+            "@modelcontextprotocol/server-memory"
+          ];
+          type = "stdio";
+        };
+
+        sequential-thinking = {
+          command = npx;
+          args = [
+            "-y"
+            "@modelcontextprotocol/server-sequential-thinking"
+          ];
+          type = "stdio";
+        };
       };
     };
   };
