@@ -25,15 +25,14 @@ in
     programs.quickshell = {
       enable = true;
       package = wrappedPkg;
+      activeConfig = "base";
+      configs = {
+        base = ./config;
+      };
       systemd = {
         enable = true;
         target = "graphical-session.target";
       };
-    };
-
-    xdg.configFile."quickshell" = {
-      source = ./quickshell;
-      recursive = true;
     };
   };
 }

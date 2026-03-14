@@ -12,7 +12,6 @@ let
   stylixColors = config.lib.stylix.colors;
 in
 {
-  # Override quickshell Settings.qml with Guernica/Polykai colors from stylix
   xdg.configFile."quickshell/data/Settings.qml" = mkIf (uiCfg.dock == "quickshell") (
     themeLib.whenTheme config "guernica" {
       text = ''

@@ -1,3 +1,0 @@
-[submodule "modules/home-manager/editor/emacs/doom-config"]
-	path = modules/home-manager/editor/emacs/doom-config
-	url = https://github.com/Occhima/doom

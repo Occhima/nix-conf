@@ -49,6 +49,16 @@ in
 
   config = mkIf cfg.enable {
 
+    xdg.configFile."doom" = {
+      enable = true;
+      source = ./doom-cfg;
+
+      #TODO...
+      # onChange = "";
+
+      recursive = true;
+    };
+
     programs.emacs = {
       enable = true;
       package = if isWayland osConfig then pkgs.emacs-git-pgtk else pkgs.emacs-git;
@@ -92,12 +102,6 @@ in
       sessionVariables.EMACSDIR = "${config.xdg.configHome}/emacs";
       sessionPath = [ "${config.xdg.configHome}/emacs/bin" ];
 
-    };
-
-    xdg.configFile."doom".source = builtins.path {
-      path = ./doom-config;
-      name = "doom-config";
-      filter = path: type: !(type == "regular" && baseNameOf path == ".git");
     };
 
     services.emacs = mkIf cfg.service {
