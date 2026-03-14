@@ -35,10 +35,7 @@ in
 
     services.ollama.enable = false;
 
-    programs.claude-code.settings.agents = [
-      "${agentsDir}/based.md"
-    ];
-
+    programs.claude-code.agentsDir = ./agents;
     programs.mcp = {
       enable = true;
       servers = {
