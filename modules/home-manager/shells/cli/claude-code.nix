@@ -13,6 +13,7 @@ in
 
     programs.claude-code = {
       enable = true;
+      enableMcpIntegration = true;
 
       # skills = [
       #   (pkgs.fetchFromGitHub {
@@ -72,7 +73,7 @@ in
 
         theme = "dark";
         includeCoAuthoredBy = true;
-        enableMcpIntegration = true;
+
       };
     };
   };

@@ -46,12 +46,20 @@ in
       description = "The dock/bar to use";
     };
 
+    shell = mkOption {
+      type = nullOr (enum [
+        "quickshell"
+      ]);
+      default = null;
+      description = "The desktop shell toolkit to use";
+    };
+
     locker = mkOption {
       type = nullOr (enum [
         "hyprlock"
       ]);
       default = null;
-      description = "The dock/bar to use";
+      description = "The screen locker to use";
     };
 
     launcher = mkOption {
@@ -73,8 +81,14 @@ in
         message = "caelestia only configured for Hyprland, select WM: ${cfg.windowManager}";
       }
       {
+
         assertion = (cfg.dock != "quickshell") || (cfg.windowManager == "hyprland");
         message = "quickshell dock only configured for Hyprland, select WM: ${cfg.windowManager}";
+       }
+       {
+        assertion = !(cfg.shell == "quickshell" && cfg.dock == "caelestia");
+        message = "Cannot use quickshell and caelestia together - caelestia is built on quickshell";
+
       }
     ];
   };

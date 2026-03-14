@@ -89,10 +89,15 @@ in
 
       ];
 
-      xdg.configFile."doom".source = ./doom-config;
       sessionVariables.EMACSDIR = "${config.xdg.configHome}/emacs";
       sessionPath = [ "${config.xdg.configHome}/emacs/bin" ];
 
+    };
+
+    xdg.configFile."doom".source = builtins.path {
+      path = ./doom-config;
+      name = "doom-config";
+      filter = path: type: !(type == "regular" && baseNameOf path == ".git");
     };
 
     services.emacs = mkIf cfg.service {
