@@ -9,39 +9,31 @@ let
   inherit (lib) mkIf;
   cfg = config.modules.desktop.ui;
 
-  quickshellConfigDir = ./quickshell;
-in
-{
-  config = mkIf (cfg.dock == "quickshell") {
-    home.packages = with pkgs; [
+  wrappedPkg = pkgs.symlinkJoin {
+    name = "quickshell-wrapped";
+    paths = with pkgs; [
       quickshell
       qt6.qtimageformats
       adwaita-icon-theme
       kdePackages.kirigami
-      pavucontrol
     ];
-
-    xdg.configFile."quickshell" = {
-      source = quickshellConfigDir;
-      recursive = true;
+    meta.mainProgram = pkgs.quickshell.meta.mainProgram;
+  };
+in
+{
+  config = mkIf (cfg.dock == "quickshell") {
+    programs.quickshell = {
+      enable = true;
+      package = wrappedPkg;
+      systemd = {
+        enable = true;
+        target = "graphical-session.target";
+      };
     };
 
-    systemd.user.services.quickshell = {
-      Unit = {
-        Description = "Quickshell desktop shell";
-        PartOf = [ "graphical-session.target" ];
-        After = [ "graphical-session.target" ];
-      };
-
-      Service = {
-        ExecStart = "${pkgs.quickshell}/bin/quickshell";
-        Restart = "on-failure";
-        RestartSec = 3;
-      };
-
-      Install = {
-        WantedBy = [ "graphical-session.target" ];
-      };
+    xdg.configFile."quickshell" = {
+      source = ./quickshell;
+      recursive = true;
     };
   };
 }
