@@ -34,23 +34,27 @@ Scope {
             exclusiveZone: 0
             anchors {
                 bottom: true
+                left: true
+                right: true
             }
             visible: osd.showVolume
 
-            width: 200
             height: 40
-
-            // Center horizontally
-            x: (screen.width - width) / 2
 
             color: "transparent"
 
             Rectangle {
-                anchors.fill: parent
-                anchors.margins: 4
+                width: 200
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                height: parent.height - 8
+
                 color: Data.Settings.bgColor
+
+
                 radius: Data.Settings.rounding
                 border.width: 1
+
                 border.color: Qt.rgba(1, 1, 1, 0.08)
 
                 Row {
