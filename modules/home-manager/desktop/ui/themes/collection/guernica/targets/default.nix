@@ -13,6 +13,7 @@
     ./nyxt.nix
     ./rofi.nix
     ./caelestia.nix
+    ./quickshell.nix
     ./schizofox.nix
     ./spicetify.nix
     ./vscode.nix
