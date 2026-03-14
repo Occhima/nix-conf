@@ -15,7 +15,6 @@ let
   hasAgeKeys = osConfig.modules.secrets.agenix.enable or false;
   homeDir = config.home.homeDirectory;
   npx = "${pkgs.nodejs}/bin/npx";
-  agentsDir = ./agents;
 in
 
 {
@@ -35,7 +34,11 @@ in
 
     services.ollama.enable = false;
 
-    programs.claude-code.agentsDir = ./agents;
+    programs.claude-code = {
+      agentsDir = ./agents;
+      skillsDir = ./skills;
+    };
+
     programs.mcp = {
       enable = true;
       servers = {

@@ -1,0 +1,32 @@
+alias cleanup paru -Rns $(paru -Qtdq) $*
+alias config /usr/bin/git --git-dir=/home/occhima/.cfg/ --work-tree=/home/occhima $*
+alias doom ~/.config/emacs/bin/doom $*
+alias l. exa -a | egrep "^\." $*
+alias la exa -a --color=always --group-directories-first $*
+alias ll exa -l --color=always --group-directories-first $*
+alias ls exa -al --color=always --group-directories-first $*
+alias lt exa -aT --color=always --group-directories-first $*
+alias parsua paru -Sua --noconfirm $*
+alias parsyu paru -Syu --noconfirm $*
+alias unlock sudo rm /var/lib/pacman/db.lck $*
+alias which-command=whence     $*
+alias z=__zoxide_z             $*
+alias zi=__zoxide_zi           $*
+
+alias mcd    mkdir -p $1 && cd $1
+alias cd-    cd -
+alias cd--   cd -2
+alias cd_    cd $_
+
+alias f     find-file                    $1
+alias less view-file $1
+alias ff    find-file-other-window       $1
+alias bd    eshell-up                    $1
+alias l     ls -lh                       $*
+alias ll    ls -lah                      $*
+alias cdp   cd-to-project
+alias clear clear-scrollback
+alias gg    cae-unpackaged-magit-status
+alias q     exit
+alias d     dirvish                      $1 > /dev/null
+alias rg    rg                           --color=always                       $*

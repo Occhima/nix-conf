@@ -1,60 +1,44 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 
 let
   inherit (lib.custom) themeLib;
+  inherit (lib) mkIf;
+
+  uiCfg = config.modules.desktop.ui;
   stylixColors = config.lib.stylix.colors;
-
-  colorsQml = pkgs.writeText "Colors.qml" ''
-    pragma Singleton
-    import QtQuick
-
-    QtObject {
-      // Base16 color scheme: ${config.stylix.base16Scheme.name or "guernica"}
-      readonly property color background: "#${stylixColors.base00}"
-      readonly property color backgroundAlt: "#${stylixColors.base01}"
-      readonly property color surface: "#${stylixColors.base02}"
-      readonly property color comment: "#${stylixColors.base03}"
-      readonly property color foregroundDim: "#${stylixColors.base04}"
-      readonly property color foreground: "#${stylixColors.base05}"
-      readonly property color foregroundAlt: "#${stylixColors.base06}"
-      readonly property color foregroundBright: "#${stylixColors.base07}"
-
-      readonly property color accent: "#${stylixColors.base08}"
-      readonly property color link: "#${stylixColors.base09}"
-      readonly property color success: "#${stylixColors.base0A}"
-      readonly property color warning: "#${stylixColors.base0B}"
-      readonly property color secondary: "#${stylixColors.base0C}"
-      readonly property color primary: "#${stylixColors.base0D}"
-      readonly property color error: "#${stylixColors.base0E}"
-      readonly property color urgent: "#${stylixColors.base0F}"
-
-      // Semantic aliases
-      readonly property color text: foreground
-      readonly property color textDim: foregroundDim
-      readonly property color border: surface
-      readonly property color selection: surface
-    }
-  '';
 in
 {
-  config = themeLib.whenTheme config "guernica" {
-    xdg.configFile."quickshell/theme/Colors.qml".source = colorsQml;
-    xdg.configFile."quickshell/theme/qmldir".text = ''
-      module Theme
-      singleton Colors 1.0 Colors.qml
-    '';
+  xdg.configFile."quickshell/data/Settings.qml" = mkIf (uiCfg.dock == "quickshell") (
+    themeLib.whenTheme config "guernica" {
+      text = ''
+        pragma Singleton
 
-    home.sessionVariables = {
-      QUICKSHELL_THEME_BG = "#${stylixColors.base00}";
-      QUICKSHELL_THEME_FG = "#${stylixColors.base05}";
-      QUICKSHELL_THEME_ACCENT = "#${stylixColors.base0D}";
-      QUICKSHELL_THEME_ERROR = "#${stylixColors.base0E}";
-      QUICKSHELL_THEME_SUCCESS = "#${stylixColors.base0A}";
-    };
-  };
+        import QtQuick
+
+        QtObject {
+            // Guernica / Polykai color scheme (from stylix)
+            readonly property string bgColor: "#${stylixColors.base00}"
+            readonly property string bgLight: "#${stylixColors.base01}"
+            readonly property string bgLighter: "#${stylixColors.base02}"
+            readonly property string fgColor: "#${stylixColors.base05}"
+            readonly property string fgDim: "#${stylixColors.base03}"
+            readonly property string accentColor: "#${stylixColors.base0D}"
+            readonly property string warningColor: "#${stylixColors.base08}"
+            readonly property string successColor: "#${stylixColors.base0A}"
+            readonly property string errorColor: "#${stylixColors.base0E}"
+            readonly property string purpleColor: "#${stylixColors.base0C}"
+            readonly property string blueColor: "#${stylixColors.base09}"
+            readonly property string yellowColor: "#${stylixColors.base0B}"
+
+            readonly property int rounding: 14
+            readonly property int barWidth: 48
+            readonly property int barMargin: 10
+        }
+      '';
+    }
+  );
 }

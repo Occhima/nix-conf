@@ -1,0 +1,29 @@
+
+* Blogs                                                              :elfeed:
+
+** Politics  :politics:
+
+*** Brasil :brasil:
+**** https://www.reddit.com/r/brasil/.rss :reddit:
+
+** Software Development                                                    :dev:
+*** Emacs                                                    :emacs:
+**** https://www.reddit.com/r/emacs/.rss                             :reddit:
+
+** ArXiv
+*** http://export.arxiv.org/api/query?search_query=cat:math.OC&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending :academic:math:
+*** http://export.arxiv.org/api/query?search_query=cat:stats.ML&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending :academic:machine_learning:
+*** http://export.arxiv.org/api/query?search_query=cat:cs.AI&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending :academic:machine_learning:computer_science:
+*** http://export.arxiv.org/api/query?search_query=cat:cs.LG&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending :computer_science:academic:
+
+*** http://export.arxiv.org/api/query?search_query=cat:stats.CO&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending :statistics:
+*** http://export.arxiv.org/api/query?search_query=cat:q-fin.CP&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending :quant_finance:
+*** http://export.arxiv.org/api/query?search_query=cat:q-fin.EC&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending :quant_finance:
+*** http://export.arxiv.org/api/query?search_query=cat:q-fin.GN&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending :quant_finance:
+*** http://export.arxiv.org/api/query?search_query=cat:q-fin.PM&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending :quant_finance:
+*** http://export.arxiv.org/api/query?search_query=cat:q-fin.ST&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending :quant_finance:
+*** http://export.arxiv.org/api/query?search_query=cat:q-fin.TR&start=0&max_results=100&sortBy=submittedDate&sortOrder=descending :quant_finance:
+
+
+** Numerai :numerai:
+*** https://www.reddit.com/r/numerai/.rss                               :reddit:

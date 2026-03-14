@@ -15,15 +15,6 @@ in
       enable = true;
       enableMcpIntegration = true;
 
-      # skills = [
-      #   (pkgs.fetchFromGitHub {
-      #     owner = "anthropics";
-      #     repo = "skills";
-      #     rev = "main";
-      #     sha256 = "sha256-0000000000000000000000000000000000000000000=";
-      #   })
-      # ];
-
       settings = {
         preferences = {
           vimMode = true;

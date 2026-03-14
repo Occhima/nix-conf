@@ -39,6 +39,7 @@ in
         "waybar"
         "polybar"
         "caelestia"
+        "quickshell"
         "eww"
       ]);
       default = null;
@@ -80,8 +81,14 @@ in
         message = "caelestia only configured for Hyprland, select WM: ${cfg.windowManager}";
       }
       {
+
+        assertion = (cfg.dock != "quickshell") || (cfg.windowManager == "hyprland");
+        message = "quickshell dock only configured for Hyprland, select WM: ${cfg.windowManager}";
+      }
+      {
         assertion = !(cfg.shell == "quickshell" && cfg.dock == "caelestia");
         message = "Cannot use quickshell and caelestia together - caelestia is built on quickshell";
+
       }
     ];
   };
