@@ -25,6 +25,11 @@
             enable = false;
           };
 
+          # QML
+          # qmlformat = {
+          #   enable = true;
+          # };
+
           deadnix = {
             enable = true;
           };

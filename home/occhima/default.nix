@@ -88,7 +88,7 @@
 
       ui = {
         windowManager = "hyprland";
-        dock = "waybar";
+        dock = "quickshell";
         launcher = "anyrun";
         notifier = "mako";
         locker = "hyprlock";
