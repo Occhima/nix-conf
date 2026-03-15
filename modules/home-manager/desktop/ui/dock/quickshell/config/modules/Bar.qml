@@ -38,7 +38,20 @@ Scope {
                 color: Data.Settings.bgColor
                 radius: Data.Settings.rounding
                 border.width: 1
-                border.color: Qt.rgba(1, 1, 1, 0.06)
+                border.color: Data.Settings.fgColor
+                opacity: 0.9
+
+                Rectangle {
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        top: parent.top
+                    }
+                    height: Math.max(24, parent.height * 0.2)
+                    radius: parent.radius
+                    color: Data.Settings.bgLight
+                    opacity: 0.45
+                }
 
                 ColumnLayout {
                     anchors {
@@ -117,6 +130,28 @@ Scope {
                                 anchors.horizontalCenter: parent.horizontalCenter
                             }
                         }
+
+                        Item {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: widgets.implicitHeight
+
+                            Components.Widgets {
+                                id: widgets
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+                        }
+
+                        Item {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: stats.implicitHeight
+
+                            Components.SystemStats {
+                                id: stats
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+                        }
+
+
 
                         Item {
                             Layout.fillWidth: true
