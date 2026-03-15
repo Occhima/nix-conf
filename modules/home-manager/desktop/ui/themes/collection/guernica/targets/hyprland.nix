@@ -54,13 +54,10 @@ let
       # "match:namespace waybar, dim_around on"
       # "match:namespace waybar, ignorezero on"
 
-      # QuickShell panels
-      "blur, quickshell-bar"
-      "ignorezero, quickshell-bar"
-      "blur, quickshell-controlcenter"
-      "ignorezero, quickshell-controlcenter"
-      "blur, quickshell-calendar"
-      "ignorezero, quickshell-calendar"
+      "match:namespace quickshell, blur on"
+      "match:namespace quickshell, blur_popups on"
+      "match:namespace quickshell, dim_around on"
+
     ];
 
     animations = {
@@ -145,8 +142,6 @@ let
       "ignorezero, rofi"
 
       "blur, logout_dialog"
-
-      # QuickShell panels
     ];
     animations = {
       enabled = true;
