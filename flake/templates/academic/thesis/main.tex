@@ -1,0 +1,104 @@
+\documentclass[a4paper,12pt,twoside,english]{book}
+
+% Language support
+\usepackage[english]{babel}
+
+% Core packages
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{microtype}
+
+% Bibliography
+\usepackage[backend=biber,style=authoryear,natbib=true]{biblatex}
+\addbibresource{references.bib}
+
+% Figures and tables
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% Code listings
+\usepackage{listings}
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+}
+
+% Hyperlinks
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue,
+}
+
+% Custom theorem environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% Title information
+\title{Thesis Title}
+\author{Author Name}
+\date{\today}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+
+\chapter*{Abstract}
+Your abstract here.
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\mainmatter
+
+\chapter{Introduction}
+\label{ch:introduction}
+
+Introduction text here.
+
+\section{Motivation}
+\label{sec:motivation}
+
+\section{Contributions}
+\label{sec:contributions}
+
+\section{Thesis Organization}
+\label{sec:organization}
+
+\chapter{Related Work}
+\label{ch:related}
+
+\chapter{Methodology}
+\label{ch:methodology}
+
+\chapter{Experiments}
+\label{ch:experiments}
+
+\chapter{Results}
+\label{ch:results}
+
+\chapter{Conclusion}
+\label{ch:conclusion}
+
+\backmatter
+
+\printbibliography
+
+\end{document}

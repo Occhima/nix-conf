@@ -1,18 +1,19 @@
 import QtQuick
+import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
-import "../data" as Data
+import "root:/data" as Data
 
-Column {
-    spacing: 4
+Row {
+    spacing: 6
 
     Repeater {
         model: {
-            const wsList = [];
+            const wsList = []
             for (let i = 1; i <= 5; i++) {
-                wsList.push(i);
+                wsList.push(i)
             }
-            return wsList;
+            return wsList
         }
 
         Rectangle {
@@ -20,19 +21,19 @@ Column {
             readonly property bool active: Hyprland.focusedWorkspace?.id === modelData
             readonly property bool occupied: {
                 for (const ws of Hyprland.workspaces.values) {
-                    if (ws.id === modelData && ws.windows > 0) return true;
+                    if (ws.id === modelData && ws.windows > 0) return true
                 }
-                return false;
+                return false
             }
 
-            width: 8
-            height: active ? 20 : 8
-            radius: width / 2
+            width: active ? 24 : 8
+            height: 8
+            radius: height / 2
             color: active ? Data.Settings.accentColor
                  : occupied ? Data.Settings.fgDim
                  : Data.Settings.bgLighter
 
-            Behavior on height {
+            Behavior on width {
                 NumberAnimation { duration: 150; easing.type: Easing.OutCubic }
             }
             Behavior on color {

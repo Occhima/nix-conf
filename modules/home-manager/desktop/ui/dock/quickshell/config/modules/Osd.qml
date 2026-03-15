@@ -2,8 +2,8 @@ import QtQuick
 import Quickshell
 import Quickshell.Wayland
 
-import "../services" as Services
-import "../data" as Data
+import "root:/services" as Services
+import "root:/data" as Data
 
 Scope {
     id: osd
@@ -39,7 +39,7 @@ Scope {
             }
             visible: osd.showVolume
 
-            height: 40
+            implicitHeight: 40
 
             color: "transparent"
 

@@ -1,9 +1,9 @@
 import QtQuick
 import Quickshell
 import Quickshell.Services.SystemTray
-import "../data" as Data
+import "root:/data" as Data
 
-Column {
+Row {
     spacing: 4
 
     Repeater {
@@ -12,9 +12,9 @@ Column {
         Image {
             required property SystemTrayItem modelData
             source: modelData.icon
-            width: 20
-            height: 20
-            sourceSize: Qt.size(20, 20)
+            width: 18
+            height: 18
+            sourceSize: Qt.size(18, 18)
 
             MouseArea {
                 anchors.fill: parent
@@ -22,9 +22,9 @@ Column {
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onClicked: mouse => {
                     if (mouse.button === Qt.LeftButton) {
-                        modelData.activate();
+                        modelData.activate()
                     } else {
-                        modelData.display();
+                        modelData.display()
                     }
                 }
             }

@@ -9,7 +9,11 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:github.com)",
       "Bash(lspci:*)",
-      "WebFetch(domain:wiki.cachyos.org)"
+      "WebFetch(domain:wiki.cachyos.org)",
+      "mcp__deepwiki__ask_question",
+      "mcp__github__search_code",
+      "mcp__github__get_file_contents",
+      "Bash(curl:*)"
     ]
   }
 }

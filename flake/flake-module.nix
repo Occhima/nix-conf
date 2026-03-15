@@ -20,8 +20,9 @@ in
     ./overlays/flake-module.nix
     ./packages/flake-module.nix
     ./apps/flake-module.nix
-
+    ./templates/flake-module.nix
     ./modules
+
     inputs.flake-parts.flakeModules.partitions
   ];
 

@@ -18,6 +18,7 @@ QtObject {
     readonly property string yellowColor: "#ffe080"
 
     readonly property int rounding: 14
-    readonly property int barWidth: 48
-    readonly property int barMargin: 10
+    readonly property int barHeight: 40
+    readonly property int barMargin: 8
+    readonly property int barSideMargin: 16
 }

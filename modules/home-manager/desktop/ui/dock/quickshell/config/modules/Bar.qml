@@ -3,8 +3,8 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
 
-import "../components" as Components
-import "../data" as Data
+import "root:/components/bar" as BarComponents
+import "root:/data" as Data
 
 Scope {
     Variants {
@@ -18,158 +18,100 @@ Scope {
             screen: modelData
             layer: WlrLayer.Top
             namespace: "quickshell-bar"
-            exclusiveZone: Data.Settings.barWidth + Data.Settings.barMargin * 2
+            exclusiveZone: Data.Settings.barHeight + Data.Settings.barMargin * 2
+
             anchors {
                 top: true
-                bottom: true
                 left: true
+                right: true
             }
 
-            width: Data.Settings.barWidth + Data.Settings.barMargin * 2
-            height: screen.height
+            implicitHeight: Data.Settings.barHeight + Data.Settings.barMargin * 2
+            implicitWidth: screen.width
 
             color: "transparent"
 
-            Rectangle {
+            RowLayout {
                 anchors {
                     fill: parent
-                    margins: Data.Settings.barMargin
+                    topMargin: Data.Settings.barMargin
+                    leftMargin: Data.Settings.barSideMargin
+                    rightMargin: Data.Settings.barSideMargin
                 }
-                color: Data.Settings.bgColor
-                radius: Data.Settings.rounding
-                border.width: 1
-                border.color: Data.Settings.fgColor
-                opacity: 0.9
+                spacing: 8
 
+                // Left section: Workspaces pill
                 Rectangle {
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                        top: parent.top
+                    Layout.preferredHeight: Data.Settings.barHeight
+                    Layout.preferredWidth: workspacesRow.implicitWidth + 20
+                    Layout.alignment: Qt.AlignVCenter
+                    color: Data.Settings.bgColor
+                    radius: Data.Settings.rounding
+                    opacity: 0.95
+
+                    Row {
+                        id: workspacesRow
+                        anchors.centerIn: parent
+                        spacing: 4
+
+                        BarComponents.Workspaces {
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
                     }
-                    height: Math.max(24, parent.height * 0.2)
-                    radius: parent.radius
-                    color: Data.Settings.bgLight
-                    opacity: 0.45
                 }
 
-                ColumnLayout {
-                    anchors {
-                        fill: parent
-                        margins: 10
+                // Spacer
+                Item { Layout.fillWidth: true }
+
+                // Center section: Clock pill
+                Rectangle {
+                    Layout.preferredHeight: Data.Settings.barHeight
+                    Layout.preferredWidth: clock.implicitWidth + 32
+                    Layout.alignment: Qt.AlignVCenter
+                    color: Data.Settings.bgColor
+                    radius: Data.Settings.rounding
+                    opacity: 0.95
+
+                    BarComponents.Clock {
+                        id: clock
+                        anchors.centerIn: parent
                     }
+                }
+
+                // Spacer
+                Item { Layout.fillWidth: true }
+
+                // Right section: Multiple pills
+                Row {
+                    Layout.alignment: Qt.AlignVCenter
                     spacing: 8
 
-                    // Top section: Workspaces
-                    Item {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: workspaces.implicitHeight
-
-                        Components.Workspaces {
-                            id: workspaces
-                            anchors.horizontalCenter: parent.horizontalCenter
-                        }
-                    }
-
-                    // Divider
+                    // System tray pill
                     Rectangle {
-                        Layout.alignment: Qt.AlignHCenter
-                        width: 20
-                        height: 1
-                        color: Data.Settings.fgColor
-                        opacity: 0.15
-                    }
+                        visible: sysTray.itemCount > 0
+                        height: Data.Settings.barHeight
+                        width: sysTray.implicitWidth + 20
+                        color: Data.Settings.bgColor
+                        radius: Data.Settings.rounding
+                        opacity: 0.95
 
-                    // Spacer
-                    Item { Layout.fillHeight: true }
-
-                    // Center: Clock
-                    Item {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: clock.implicitHeight
-
-                        Components.Clock {
-                            id: clock
-                            anchors.horizontalCenter: parent.horizontalCenter
+                        BarComponents.SysTray {
+                            id: sysTray
+                            anchors.centerIn: parent
                         }
                     }
 
-                    // Spacer
-                    Item { Layout.fillHeight: true }
-
-                    // Divider
+                    // Status icons pill
                     Rectangle {
-                        Layout.alignment: Qt.AlignHCenter
-                        width: 20
-                        height: 1
-                        color: Data.Settings.fgColor
-                        opacity: 0.15
-                    }
+                        height: Data.Settings.barHeight
+                        width: statusIcons.implicitWidth + 20
+                        color: Data.Settings.bgColor
+                        radius: Data.Settings.rounding
+                        opacity: 0.95
 
-                    // Bottom section: System tray + status icons
-                    ColumnLayout {
-                        Layout.fillWidth: true
-                        spacing: 6
-
-                        Item {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: sysTray.implicitHeight
-
-                            Components.SysTray {
-                                id: sysTray
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
-                        }
-
-                        Item {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: noti.implicitHeight
-
-                            Components.Noti {
-                                id: noti
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
-                        }
-
-                        Item {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: widgets.implicitHeight
-
-                            Components.Widgets {
-                                id: widgets
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
-                        }
-
-                        Item {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: stats.implicitHeight
-
-                            Components.SystemStats {
-                                id: stats
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
-                        }
-
-
-
-                        Item {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 20
-
-                            Components.Volume {
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
-                        }
-
-                        Item {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: battery.visible ? 20 : 0
-
-                            Components.Battery {
-                                id: battery
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
+                        BarComponents.StatusIcons {
+                            id: statusIcons
+                            anchors.centerIn: parent
                         }
                     }
                 }

@@ -10,5 +10,7 @@ ShellRoot {
     Scope {
         Modules.Bar {}
         Modules.Osd {}
+        Modules.CalendarPopup {}
+        Modules.QuickSettingsPopup {}
     }
 }
