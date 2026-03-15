@@ -141,6 +141,9 @@ let
       "blur, rofi" # blur anyrun "ignorezero, rofi"
       "ignorezero, rofi"
 
+      "blur, quickshell" # blur anyrun "ignorezero, rofi"
+      "ignorezero, quickshell"
+
       "blur, logout_dialog"
     ];
     animations = {
