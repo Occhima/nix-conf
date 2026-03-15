@@ -11,5 +11,6 @@ ShellRoot {
         Modules.Bar {}
         Modules.Osd {}
         Modules.QuickSettingsPopup {}
+        Modules.CalendarPopup {}
     }
 }

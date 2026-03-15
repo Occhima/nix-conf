@@ -8,8 +8,11 @@ QtObject {
     readonly property PwNode defaultSink: Pipewire.defaultAudioSink
     readonly property PwNode defaultSource: Pipewire.defaultAudioSource
 
-    readonly property real volume: defaultSink?.audio?.volume ?? 0
-    readonly property bool muted: defaultSink?.audio?.muted ?? false
+    // Safety check for sink availability
+    readonly property bool sinkReady: defaultSink !== null && defaultSink.audio !== null
+
+    readonly property real volume: sinkReady ? (defaultSink.audio.volume ?? 0) : 0
+    readonly property bool muted: sinkReady ? (defaultSink.audio.muted ?? false) : false
 
     readonly property string volumeIcon: {
         if (muted || volume === 0) return "audio-volume-muted-symbolic";

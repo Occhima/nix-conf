@@ -87,6 +87,6 @@ Item {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        onClicked: Data.Runtime.toggleQuickSettings()
+        onClicked: Data.Runtime.toggleCalendar()
     }
 }

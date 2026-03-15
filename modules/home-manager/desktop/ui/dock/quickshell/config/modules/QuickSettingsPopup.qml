@@ -53,10 +53,10 @@ Scope {
                 }
                 width: 340
                 height: contentLayout.implicitHeight + 40
-                color: Data.Settings.bgColor
+                color: Data.Settings.bgColorTranslucent
                 radius: 24
                 border.width: 1
-                border.color: Qt.rgba(255, 255, 255, 0.06)
+                border.color: Qt.rgba(255, 255, 255, 0.08)
 
                 // Block clicks from closing
                 MouseArea {
@@ -533,18 +533,8 @@ Scope {
             StatItem {
                 icon: "cpu-symbolic"
                 label: "CPU"
-                value: cpuUsage
+                value: Services.SystemUsage.cpuUsage
                 accentColor: Data.Settings.errorColor
-
-                property real cpuUsage: 0
-
-                Timer {
-                    interval: 2000
-                    running: Data.Runtime.quickSettingsVisible
-                    repeat: true
-                    triggeredOnStart: true
-                    onTriggered: parent.cpuUsage = Math.random() * 0.3 + 0.05 // Placeholder
-                }
             }
 
             Item { Layout.fillWidth: true }
@@ -560,18 +550,8 @@ Scope {
             StatItem {
                 icon: "memory-symbolic"
                 label: "RAM"
-                value: memUsage
-
-                property real memUsage: 0
+                value: Services.SystemUsage.memUsage
                 accentColor: Data.Settings.warningColor
-
-                Timer {
-                    interval: 2000
-                    running: Data.Runtime.quickSettingsVisible
-                    repeat: true
-                    triggeredOnStart: true
-                    onTriggered: parent.memUsage = Math.random() * 0.4 + 0.3 // Placeholder
-                }
             }
 
             Item { Layout.fillWidth: true }
@@ -587,18 +567,8 @@ Scope {
             StatItem {
                 icon: "drive-harddisk-symbolic"
                 label: "Disk"
-                value: diskUsage
+                value: Services.SystemUsage.diskUsage
                 accentColor: Data.Settings.accentColor
-
-                property real diskUsage: 0
-
-                Timer {
-                    interval: 5000
-                    running: Data.Runtime.quickSettingsVisible
-                    repeat: true
-                    triggeredOnStart: true
-                    onTriggered: parent.diskUsage = Math.random() * 0.3 + 0.5 // Placeholder
-                }
             }
 
             Item { Layout.fillWidth: true }

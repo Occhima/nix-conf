@@ -5,23 +5,44 @@ import Quickshell.Hyprland
 import "root:/data" as Data
 
 Row {
+    id: workspacesRow
     spacing: 6
 
-    Repeater {
-        model: {
-            const wsList = []
-            for (let i = 1; i <= 5; i++) {
-                wsList.push(i)
+    // Screen/monitor this bar is on - set by parent
+    property var screen: null
+
+    // Number of workspaces per monitor (hyprsplit config)
+    readonly property int workspacesPerMonitor: 9
+
+    // Get the monitor ID for this screen
+    readonly property int monitorId: {
+        if (!screen) return 0;
+        // Find matching Hyprland monitor
+        for (const mon of Hyprland.monitors.values) {
+            if (mon.name === screen.name) {
+                return mon.id;
             }
-            return wsList
         }
+        return 0;
+    }
+
+    // Calculate workspace range for this monitor
+    readonly property int wsStart: monitorId * workspacesPerMonitor + 1
+    readonly property int wsEnd: wsStart + workspacesPerMonitor - 1
+
+    Repeater {
+        model: workspacesRow.workspacesPerMonitor
 
         Rectangle {
-            required property int modelData
-            readonly property bool active: Hyprland.focusedWorkspace?.id === modelData
+            required property int index
+            readonly property int wsId: workspacesRow.wsStart + index
+            readonly property int displayNum: index + 1
+
+            readonly property bool active: Hyprland.focusedMonitor?.id === workspacesRow.monitorId &&
+                                          Hyprland.focusedWorkspace?.id === wsId
             readonly property bool occupied: {
                 for (const ws of Hyprland.workspaces.values) {
-                    if (ws.id === modelData && ws.windows > 0) return true
+                    if (ws.id === wsId && ws.windows > 0) return true
                 }
                 return false
             }
@@ -43,7 +64,7 @@ Row {
             MouseArea {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
-                onClicked: Hyprland.dispatch("workspace " + modelData)
+                onClicked: Hyprland.dispatch("split:workspace " + displayNum)
             }
         }
     }

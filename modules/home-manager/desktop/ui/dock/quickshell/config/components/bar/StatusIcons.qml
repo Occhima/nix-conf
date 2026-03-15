@@ -8,10 +8,9 @@ import "root:/components/shared" as Shared
 Row {
     spacing: 4
 
-    // Network
+    // Network - just shows status, no click action
     Shared.IconButton {
         icon: Services.Networking.icon
-        onClicked: Data.Runtime.toggleQuickSettings()
 
         ToolTip {
             visible: parent.hovered
@@ -28,10 +27,9 @@ Row {
         color: Qt.rgba(255, 255, 255, 0.12)
     }
 
-    // Bluetooth
+    // Bluetooth - just shows status
     Shared.IconButton {
         icon: Services.Bluetooth.icon
-        onClicked: Data.Runtime.toggleQuickSettings()
 
         ToolTip {
             visible: parent.hovered
@@ -48,14 +46,13 @@ Row {
         color: Qt.rgba(255, 255, 255, 0.12)
     }
 
-    // Volume
+    // Volume - just shows status
     Shared.IconButton {
         icon: Services.Pipewire.volumeIcon
-        onClicked: Data.Runtime.toggleQuickSettings()
 
         ToolTip {
             visible: parent.hovered
-            text: Math.round(Services.Pipewire.volume * 100) + "%"
+            text: Services.Pipewire.sinkReady ? Math.round(Services.Pipewire.volume * 100) + "%" : "No audio"
         }
     }
 
@@ -87,6 +84,26 @@ Row {
             color: Data.Settings.fgColor
             font.pixelSize: 11
             font.weight: Font.Medium
+        }
+    }
+
+    // Separator before settings
+    Rectangle {
+        anchors.verticalCenter: parent.verticalCenter
+        width: 1
+        height: 12
+        radius: 0.5
+        color: Qt.rgba(255, 255, 255, 0.12)
+    }
+
+    // Settings icon - opens quick settings popup
+    Shared.IconButton {
+        icon: "emblem-system-symbolic"
+        onClicked: Data.Runtime.toggleQuickSettings()
+
+        ToolTip {
+            visible: parent.hovered
+            text: "Quick Settings"
         }
     }
 }

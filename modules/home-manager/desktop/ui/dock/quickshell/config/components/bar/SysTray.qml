@@ -4,9 +4,13 @@ import Quickshell.Services.SystemTray
 import "root:/data" as Data
 
 Row {
+    id: sysTrayRow
     spacing: 4
 
+    property int itemCount: trayRepeater.count
+
     Repeater {
+        id: trayRepeater
         model: SystemTray.items
 
         Image {

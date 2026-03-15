@@ -14,7 +14,8 @@
       "mcp__github__search_code",
       "mcp__github__get_file_contents",
       "Bash(curl:*)",
-      "mcp__deepwiki__read_wiki_structure"
+      "mcp__deepwiki__read_wiki_structure",
+      "Skill(brainstorming)"
     ]
   }
 }

@@ -75,6 +75,7 @@ Scope {
 
                         BarComponents.Workspaces {
                             anchors.verticalCenter: parent.verticalCenter
+                            screen: bar.screen
                         }
                     }
                 }
@@ -187,12 +188,6 @@ Scope {
                             BarComponents.StatusIcons {
                                 anchors.verticalCenter: parent.verticalCenter
                             }
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: Data.Runtime.toggleQuickSettings()
                         }
                     }
                 }

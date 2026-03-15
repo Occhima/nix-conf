@@ -4,9 +4,11 @@ import QtQuick
 
 QtObject {
     // Guernica / Polykai color scheme
-    readonly property string bgColor: "#141818"
-    readonly property string bgLight: "#1e2424"
-    readonly property string bgLighter: "#3c4848"
+    readonly property color bgColor: "#141818"
+    readonly property color bgColorTranslucent: Qt.rgba(0.078, 0.094, 0.094, 0.85)
+    readonly property color bgLight: "#1e2424"
+    readonly property color bgLightTranslucent: Qt.rgba(0.118, 0.141, 0.141, 0.9)
+    readonly property color bgLighter: "#3c4848"
     readonly property string fgColor: "#f8f8f8"
     readonly property string fgDim: "#909090"
     readonly property string accentColor: "#40c4ff"
