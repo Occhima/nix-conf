@@ -31,26 +31,45 @@ Scope {
 
             color: "transparent"
 
-            RowLayout {
-                anchors {
-                    fill: parent
-                    topMargin: Data.Settings.barMargin
-                    leftMargin: Data.Settings.barSideMargin
-                    rightMargin: Data.Settings.barSideMargin
-                }
-                spacing: 8
+            Item {
+                id: barContainer
+                anchors.fill: parent
+                anchors.topMargin: Data.Settings.barMargin
+                anchors.leftMargin: Data.Settings.barSideMargin
+                anchors.rightMargin: Data.Settings.barSideMargin
 
-                // Left section: Workspaces pill
+                // LEFT MODULE - Workspaces
                 Rectangle {
-                    Layout.preferredHeight: Data.Settings.barHeight
-                    Layout.preferredWidth: workspacesRow.implicitWidth + 20
-                    Layout.alignment: Qt.AlignVCenter
+                    id: leftModule
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    height: 32
+                    width: workspacesContent.implicitWidth + 20
+                    radius: 16
                     color: Data.Settings.bgColor
-                    radius: Data.Settings.rounding
-                    opacity: 0.95
+                    border.width: 1
+                    border.color: Qt.rgba(255, 255, 255, 0.06)
+
+                    Behavior on width {
+                        NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
+                    }
+
+                    // Top highlight
+                    Rectangle {
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.margins: 1
+                        height: parent.height / 2
+                        radius: parent.radius - 1
+                        gradient: Gradient {
+                            GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.04) }
+                            GradientStop { position: 1.0; color: "transparent" }
+                        }
+                    }
 
                     Row {
-                        id: workspacesRow
+                        id: workspacesContent
                         anchors.centerIn: parent
                         spacing: 4
 
@@ -60,40 +79,72 @@ Scope {
                     }
                 }
 
-                // Spacer
-                Item { Layout.fillWidth: true }
-
-                // Center section: Clock pill
+                // CENTER MODULE - Clock
                 Rectangle {
-                    Layout.preferredHeight: Data.Settings.barHeight
-                    Layout.preferredWidth: clock.implicitWidth + 32
-                    Layout.alignment: Qt.AlignVCenter
+                    id: centerModule
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    height: 32
+                    width: clockContent.implicitWidth + 24
+                    radius: 16
                     color: Data.Settings.bgColor
-                    radius: Data.Settings.rounding
-                    opacity: 0.95
+                    border.width: 1
+                    border.color: Qt.rgba(255, 255, 255, 0.06)
+
+                    // Top highlight
+                    Rectangle {
+                        anchors.top: parent.top
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.margins: 1
+                        height: parent.height / 2
+                        radius: parent.radius - 1
+                        gradient: Gradient {
+                            GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.04) }
+                            GradientStop { position: 1.0; color: "transparent" }
+                        }
+                    }
 
                     BarComponents.Clock {
-                        id: clock
+                        id: clockContent
                         anchors.centerIn: parent
                     }
                 }
 
-                // Spacer
-                Item { Layout.fillWidth: true }
-
-                // Right section: Multiple pills
+                // RIGHT SIDE - Multiple Pills
                 Row {
-                    Layout.alignment: Qt.AlignVCenter
+                    id: rightPills
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
                     spacing: 8
 
-                    // System tray pill
+                    // System Tray Pill
                     Rectangle {
                         visible: sysTray.itemCount > 0
-                        height: Data.Settings.barHeight
+                        height: 32
                         width: sysTray.implicitWidth + 20
+                        radius: 16
                         color: Data.Settings.bgColor
-                        radius: Data.Settings.rounding
-                        opacity: 0.95
+                        border.width: 1
+                        border.color: Qt.rgba(255, 255, 255, 0.06)
+
+                        Behavior on width {
+                            NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
+                        }
+
+                        // Top highlight
+                        Rectangle {
+                            anchors.top: parent.top
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.margins: 1
+                            height: parent.height / 2
+                            radius: parent.radius - 1
+                            gradient: Gradient {
+                                GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.04) }
+                                GradientStop { position: 1.0; color: "transparent" }
+                            }
+                        }
 
                         BarComponents.SysTray {
                             id: sysTray
@@ -101,17 +152,47 @@ Scope {
                         }
                     }
 
-                    // Status icons pill
+                    // Status Icons Pill (WiFi, Bluetooth, Volume, Battery)
                     Rectangle {
-                        height: Data.Settings.barHeight
-                        width: statusIcons.implicitWidth + 20
+                        height: 32
+                        width: statusRow.implicitWidth + 20
+                        radius: 16
                         color: Data.Settings.bgColor
-                        radius: Data.Settings.rounding
-                        opacity: 0.95
+                        border.width: 1
+                        border.color: Qt.rgba(255, 255, 255, 0.06)
 
-                        BarComponents.StatusIcons {
-                            id: statusIcons
+                        Behavior on width {
+                            NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
+                        }
+
+                        // Top highlight
+                        Rectangle {
+                            anchors.top: parent.top
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.margins: 1
+                            height: parent.height / 2
+                            radius: parent.radius - 1
+                            gradient: Gradient {
+                                GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.04) }
+                                GradientStop { position: 1.0; color: "transparent" }
+                            }
+                        }
+
+                        Row {
+                            id: statusRow
                             anchors.centerIn: parent
+                            spacing: 6
+
+                            BarComponents.StatusIcons {
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: Data.Runtime.toggleQuickSettings()
                         }
                     }
                 }
