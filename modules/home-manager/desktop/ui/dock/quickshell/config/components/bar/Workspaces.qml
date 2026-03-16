@@ -50,7 +50,7 @@ Row {
             width: active ? 24 : 8
             height: 8
             radius: height / 2
-            color: active ? Data.Settings.accentColor
+            color: active ? Data.Settings.fgColor
                  : occupied ? Data.Settings.fgDim
                  : Data.Settings.bgLighter
 

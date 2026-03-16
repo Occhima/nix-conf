@@ -29,11 +29,10 @@ Item {
                 font.weight: Font.Bold
             }
 
-            // Animated colon separator
             Text {
                 id: colonText
-                text: ":"
-                color: Data.Settings.accentColor
+                text: " : "
+                color: Data.Settings.fgColor
                 font.pixelSize: 13
                 font.weight: Font.Bold
 

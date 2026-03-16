@@ -12,5 +12,7 @@ ShellRoot {
         Modules.Osd {}
         Modules.QuickSettingsPopup {}
         Modules.CalendarPopup {}
+        Modules.DashboardPopup {}
+        Modules.BluetoothPopup {}
     }
 }

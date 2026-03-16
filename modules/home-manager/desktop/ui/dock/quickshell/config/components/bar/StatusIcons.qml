@@ -12,10 +12,6 @@ Row {
     Shared.IconButton {
         icon: Services.Networking.icon
 
-        ToolTip {
-            visible: parent.hovered
-            text: Services.Networking.statusText
-        }
     }
 
     // Separator
@@ -30,11 +26,8 @@ Row {
     // Bluetooth - just shows status
     Shared.IconButton {
         icon: Services.Bluetooth.icon
+        onClicked: Data.Runtime.toggleBluetooth()
 
-        ToolTip {
-            visible: parent.hovered
-            text: Services.Bluetooth.statusText
-        }
     }
 
     // Separator
@@ -50,10 +43,6 @@ Row {
     Shared.IconButton {
         icon: Services.Pipewire.volumeIcon
 
-        ToolTip {
-            visible: parent.hovered
-            text: Services.Pipewire.sinkReady ? Math.round(Services.Pipewire.volume * 100) + "%" : "No audio"
-        }
     }
 
     // Battery (only if present) with percentage
@@ -101,9 +90,5 @@ Row {
         icon: "emblem-system-symbolic"
         onClicked: Data.Runtime.toggleQuickSettings()
 
-        ToolTip {
-            visible: parent.hovered
-            text: "Quick Settings"
-        }
     }
 }

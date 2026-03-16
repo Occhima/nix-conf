@@ -11,8 +11,16 @@ QtObject {
     // Safety check for sink availability
     readonly property bool sinkReady: defaultSink !== null && defaultSink.audio !== null
 
-    readonly property real volume: sinkReady ? (defaultSink.audio.volume ?? 0) : 0
-    readonly property bool muted: sinkReady ? (defaultSink.audio.muted ?? false) : false
+    readonly property real volume: {
+        if (!sinkReady) return 0;
+        const vol = defaultSink.audio.volume ?? 0;
+        return isNaN(vol) ? 0 : vol;
+    }
+
+    readonly property bool muted: {
+        if (!sinkReady) return false;
+        return defaultSink.audio.muted ?? false;
+    }
 
     readonly property string volumeIcon: {
         if (muted || volume === 0) return "audio-volume-muted-symbolic";

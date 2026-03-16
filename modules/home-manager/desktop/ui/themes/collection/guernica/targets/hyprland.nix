@@ -15,8 +15,8 @@ let
   baseSettings = {
     general = {
       layout = "dwindle";
-      gaps_in = 10;
-      gaps_out = 30;
+      gaps_in = 8;
+      gaps_out = 20;
       border_size = 1;
     };
 

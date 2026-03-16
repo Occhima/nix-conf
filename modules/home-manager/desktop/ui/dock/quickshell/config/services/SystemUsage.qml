@@ -10,6 +10,11 @@ QtObject {
     property real cpuUsage: 0
     property real memUsage: 0
     property real diskUsage: 0
+    property real cpuTemp: 0
+    property real gpuTemp: 0
+    property real gpuUsage: 0
+    property real memUsedGiB: 0
+    property real memTotalGiB: 0
 
     // CPU calculation state
     property real _prevIdle: 0
@@ -45,6 +50,33 @@ QtObject {
                     const total = parseFloat(parts[1]);
                     const used = parseFloat(parts[2]);
                     root.memUsage = total > 0 ? used / total : 0;
+                    root.memUsedGiB = used / 1024 / 1024;
+                    root.memTotalGiB = total / 1024 / 1024;
+                }
+            }
+        }
+    }
+
+    property var cpuTempProc: Process {
+        command: ["sh", "-c", "cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -1"]
+        stdout: SplitParser {
+            onRead: data => {
+                const val = parseFloat(data.trim());
+                if (!isNaN(val)) root.cpuTemp = val > 200 ? val / 1000 : val;
+            }
+        }
+    }
+
+    property var gpuInfoProc: Process {
+        command: ["sh", "-c", "if command -v nvidia-smi >/dev/null 2>&1; then nvidia-smi --query-gpu=utilization.gpu,temperature.gpu --format=csv,noheader,nounits | head -1; else echo '0,0'; fi"]
+        stdout: SplitParser {
+            onRead: data => {
+                const parts = data.split(",");
+                if (parts.length >= 2) {
+                    const usage = parseFloat(parts[0].trim());
+                    const temp = parseFloat(parts[1].trim());
+                    root.gpuUsage = isNaN(usage) ? 0 : usage / 100;
+                    root.gpuTemp = isNaN(temp) ? 0 : temp;
                 }
             }
         }
@@ -71,6 +103,8 @@ QtObject {
         onTriggered: {
             cpuProc.running = true;
             memProc.running = true;
+            cpuTempProc.running = true;
+            gpuInfoProc.running = true;
         }
     }
 

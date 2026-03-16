@@ -270,19 +270,19 @@ Scope {
     // Process launchers
     Process {
         id: settingsProcess
-        command: ["nm-connection-editor"]
+        command: ["qs-network-settings"]
         onStarted: Data.Runtime.closeAll()
     }
 
     Process {
         id: lockProcess
-        command: ["loginctl", "lock-session"]
+        command: ["qs-lock"]
         onStarted: Data.Runtime.closeAll()
     }
 
     Process {
         id: powerProcess
-        command: ["wlogout"]
+        command: ["qs-logout"]
         onStarted: Data.Runtime.closeAll()
     }
 

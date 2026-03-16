@@ -90,7 +90,8 @@
         windowManager = "hyprland";
         dock = "quickshell";
         launcher = "anyrun";
-        notifier = "mako";
+
+        notifier = null;
         locker = "hyprlock";
         themes = {
           enable = true;
