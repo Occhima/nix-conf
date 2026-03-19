@@ -8,11 +8,7 @@ import "root:/data" as Data
 import "root:/services" as Services
 
 Scope {
-    id: controlCenter
-
-    // Animation durations
-    readonly property int animShort: 150
-    readonly property int animMedium: 250
+    id: root
 
     Variants {
         model: Quickshell.screens
@@ -31,64 +27,57 @@ Scope {
                 right: true
             }
 
-            implicitHeight: panelContent.height + Data.Settings.barHeight + Data.Settings.barMargin * 2 + 16
+            implicitHeight: panelContent.height + Data.Settings.barHeight + Data.Settings.barMargin * 2 + 60
             implicitWidth: 380
-
             color: "transparent"
 
-            // Click outside to close
             MouseArea {
                 anchors.fill: parent
                 onClicked: Data.Runtime.closeAll()
             }
 
-            // Main Panel
             Rectangle {
-                id: panelContent
+                id: panel
+
                 anchors {
                     top: parent.top
                     topMargin: Data.Settings.barHeight + Data.Settings.barMargin * 2 + 12
                     right: parent.right
                     rightMargin: Data.Settings.barSideMargin
                 }
+
                 width: 340
-                height: contentLayout.implicitHeight + 40
+                height: panelContent.implicitHeight + 40
                 color: Data.Settings.bgColorTranslucent
                 radius: 24
                 border.width: 1
-                border.color: Qt.rgba(255, 255, 255, 0.08)
-
-                // Block clicks from closing
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: mouse.accepted = true
-                }
-
-                // Appear animation
-                scale: Data.Runtime.quickSettingsVisible ? 1.0 : 0.94
-                opacity: Data.Runtime.quickSettingsVisible ? 1.0 : 0
-
-                Behavior on scale {
-                    NumberAnimation { duration: controlCenter.animMedium; easing.type: Easing.OutCubic }
-                }
-                Behavior on opacity {
-                    NumberAnimation { duration: controlCenter.animShort }
-                }
-
+                border.color: Data.Settings.borderNormal
+                clip: true
                 transformOrigin: Item.TopRight
 
+                scale: Data.Runtime.quickSettingsVisible ? 1.0 : 0.96
+                opacity: Data.Runtime.quickSettingsVisible ? 1.0 : 0.0
+
+                Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
+                Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: function(mouse) { mouse.accepted = true }
+                }
+
                 ColumnLayout {
-                    id: contentLayout
+                    id: panelContent
+
                     anchors {
                         fill: parent
                         margins: 20
                     }
                     spacing: 16
 
-                    // Header: Time & Date + Actions
                     RowLayout {
                         Layout.fillWidth: true
-                        spacing: 12
+                        spacing: 8
 
                         ColumnLayout {
                             spacing: 2
@@ -118,36 +107,34 @@ Scope {
 
                         Item { Layout.fillWidth: true }
 
-                        // Header action buttons
                         RowLayout {
                             spacing: 6
 
                             HeaderButton {
-                                icon: "network-wireless-symbolic"
-                                tooltip: "Network Settings"
+                                icon: "preferences-system-symbolic"
                                 onClicked: settingsProcess.running = true
                             }
                             HeaderButton {
                                 icon: "system-lock-screen-symbolic"
-                                tooltip: "Lock Screen"
                                 onClicked: lockProcess.running = true
                             }
                             HeaderButton {
                                 icon: "system-shutdown-symbolic"
-                                tooltip: "Power Menu"
                                 onClicked: powerProcess.running = true
                             }
                         }
+
+                        Rectangle {
+                            width: 1
+                            height: 24
+                            color: Data.Settings.borderNormal
+                        }
+
+                        CloseButton {}
                     }
 
-                    // Divider
-                    Rectangle {
-                        Layout.fillWidth: true
-                        height: 1
-                        color: Qt.rgba(255, 255, 255, 0.08)
-                    }
+                    Divider {}
 
-                    // Quick Toggles Grid
                     GridLayout {
                         Layout.fillWidth: true
                         columns: 2
@@ -186,45 +173,37 @@ Scope {
 
                         QuickToggle {
                             Layout.fillWidth: true
-                            icon: "audio-volume-muted-symbolic"
+                            icon: Services.Pipewire.sinkReady ? Services.Pipewire.volumeIcon : "audio-volume-muted-symbolic"
                             label: Services.Pipewire.muted ? "Muted" : "Sound"
-                            subLabel: Services.Pipewire.muted ? "Tap to unmute" : Math.round(Services.Pipewire.volume * 100) + "%"
+                            subLabel: {
+                                if (!Services.Pipewire.sinkReady) return "Unavailable"
+                                if (Services.Pipewire.muted) return "Tap to unmute"
+                                return Math.round(Services.Pipewire.volume * 100) + "%"
+                            }
                             active: Services.Pipewire.muted
                             activeColor: Data.Settings.errorColor
                             onClicked: Services.Pipewire.toggleMute()
                         }
                     }
 
-                    // Divider
-                    Rectangle {
-                        Layout.fillWidth: true
-                        height: 1
-                        color: Qt.rgba(255, 255, 255, 0.08)
-                    }
+                    Divider {}
 
-                    // Volume Slider
                     SliderControl {
                         Layout.fillWidth: true
                         icon: Services.Pipewire.volumeIcon
                         label: "Volume"
-                        value: Services.Pipewire.volume
+                        value: Services.Pipewire.sinkReady ? Services.Pipewire.volume : 0
+                        enabled: Services.Pipewire.sinkReady
                         accentColor: Data.Settings.accentColor
-                        onSliderMoved: newVal => Services.Pipewire.setVolume(newVal)
+                        onSliderMoved: newVal => {
+                            if (Services.Pipewire.sinkReady) Services.Pipewire.setVolume(newVal)
+                        }
                     }
 
-                    // Divider
-                    Rectangle {
-                        Layout.fillWidth: true
-                        height: 1
-                        color: Qt.rgba(255, 255, 255, 0.08)
-                    }
+                    Divider {}
 
-                    // System Stats
-                    SystemStats {
-                        Layout.fillWidth: true
-                    }
+                    SystemStats { Layout.fillWidth: true }
 
-                    // Battery info (if present)
                     Rectangle {
                         Layout.fillWidth: true
                         height: 48
@@ -267,7 +246,6 @@ Scope {
         }
     }
 
-    // Process launchers
     Process {
         id: settingsProcess
         command: ["qs-network-settings"]
@@ -286,47 +264,76 @@ Scope {
         onStarted: Data.Runtime.closeAll()
     }
 
-    // Header Button Component
-    component HeaderButton: Rectangle {
-        id: headerBtn
-        property string icon
-        property string tooltip: ""
-        signal clicked()
+    component Divider: Rectangle {
+        Layout.fillWidth: true
+        height: 1
+        color: Data.Settings.borderNormal
+    }
+
+    component CloseButton: Rectangle {
+        id: closeBtn
 
         width: 36
         height: 36
         radius: 18
-        color: headerMouse.containsMouse ? Data.Settings.bgLighter : Data.Settings.bgLight
+        color: closeMouse.containsMouse ? Data.Settings.bgLighter : Data.Settings.bgLight
+        scale: closeMouse.pressed ? 0.92 : 1.0
 
-        Behavior on color {
-            ColorAnimation { duration: controlCenter.animShort }
-        }
-
-        scale: headerMouse.pressed ? 0.92 : 1.0
-        Behavior on scale {
-            NumberAnimation { duration: 100 }
-        }
+        Behavior on color { ColorAnimation { duration: 150 } }
+        Behavior on scale { NumberAnimation { duration: 100; easing.type: Easing.OutCubic } }
 
         Image {
             anchors.centerIn: parent
-            source: Quickshell.iconPath(headerBtn.icon)
+            source: Quickshell.iconPath("window-close-symbolic")
             width: 16
             height: 16
             sourceSize: Qt.size(16, 16)
         }
 
         MouseArea {
-            id: headerMouse
+            id: closeMouse
             anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
             hoverEnabled: true
-            onClicked: headerBtn.clicked()
+            cursorShape: Qt.PointingHandCursor
+            onClicked: Data.Runtime.closeAll()
         }
     }
 
-    // Quick Toggle Component
+    component HeaderButton: Rectangle {
+        id: btn
+
+        property string icon
+        signal clicked()
+
+        width: 36
+        height: 36
+        radius: 18
+        color: btnMouse.containsMouse ? Data.Settings.bgLighter : Data.Settings.bgLight
+        scale: btnMouse.pressed ? 0.92 : 1.0
+
+        Behavior on color { ColorAnimation { duration: 150 } }
+        Behavior on scale { NumberAnimation { duration: 100; easing.type: Easing.OutCubic } }
+
+        Image {
+            anchors.centerIn: parent
+            source: Quickshell.iconPath(btn.icon)
+            width: 16
+            height: 16
+            sourceSize: Qt.size(16, 16)
+        }
+
+        MouseArea {
+            id: btnMouse
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            hoverEnabled: true
+            onClicked: btn.clicked()
+        }
+    }
+
     component QuickToggle: Rectangle {
         id: toggle
+
         property string icon
         property string label
         property string subLabel
@@ -337,25 +344,18 @@ Scope {
         height: 64
         radius: 20
         color: active ? activeColor : Data.Settings.bgLight
-
-        Behavior on color {
-            ColorAnimation { duration: controlCenter.animMedium; easing.type: Easing.OutCubic }
-        }
-
         scale: toggleMouse.pressed ? 0.96 : 1.0
-        Behavior on scale {
-            NumberAnimation { duration: 100 }
-        }
 
-        // Hover overlay
+        Behavior on color { ColorAnimation { duration: 250 } }
+        Behavior on scale { NumberAnimation { duration: 100; easing.type: Easing.OutCubic } }
+
         Rectangle {
             anchors.fill: parent
             radius: parent.radius
-            color: toggle.active ? Qt.rgba(0, 0, 0, 0.1) : Qt.rgba(255, 255, 255, 0.05)
+            color: toggle.active ? Qt.rgba(0, 0, 0, 0.1) : Data.Settings.borderSubtle
             opacity: toggleMouse.containsMouse && !toggleMouse.pressed ? 1 : 0
-            Behavior on opacity {
-                NumberAnimation { duration: controlCenter.animShort }
-            }
+
+            Behavior on opacity { NumberAnimation { duration: 150 } }
         }
 
         MouseArea {
@@ -372,16 +372,13 @@ Scope {
             anchors.rightMargin: 16
             spacing: 12
 
-            // Icon circle
             Rectangle {
                 Layout.preferredWidth: 36
                 Layout.preferredHeight: 36
                 radius: 18
-                color: toggle.active ? Qt.rgba(255, 255, 255, 0.25) : Data.Settings.bgLighter
+                color: toggle.active ? Qt.rgba(1, 1, 1, 0.25) : Data.Settings.bgLighter
 
-                Behavior on color {
-                    ColorAnimation { duration: controlCenter.animShort }
-                }
+                Behavior on color { ColorAnimation { duration: 150 } }
 
                 Image {
                     anchors.centerIn: parent
@@ -404,9 +401,7 @@ Scope {
                     elide: Text.ElideRight
                     Layout.fillWidth: true
 
-                    Behavior on color {
-                        ColorAnimation { duration: controlCenter.animShort }
-                    }
+                    Behavior on color { ColorAnimation { duration: 150 } }
                 }
 
                 Text {
@@ -417,24 +412,24 @@ Scope {
                     Layout.fillWidth: true
                     visible: text !== ""
 
-                    Behavior on color {
-                        ColorAnimation { duration: controlCenter.animShort }
-                    }
+                    Behavior on color { ColorAnimation { duration: 150 } }
                 }
             }
         }
     }
 
-    // Slider Control Component
     component SliderControl: ColumnLayout {
         id: slider
+
         property string icon
         property string label
         property real value: 0
+        property bool enabled: true
         property color accentColor: Data.Settings.accentColor
         signal sliderMoved(real newVal)
 
         spacing: 8
+        opacity: enabled ? 1.0 : 0.5
 
         RowLayout {
             Layout.fillWidth: true
@@ -457,14 +452,13 @@ Scope {
             Item { Layout.fillWidth: true }
 
             Text {
-                text: Math.round(slider.value * 100) + "%"
+                text: slider.enabled ? Math.round(slider.value * 100) + "%" : "--%"
                 color: Data.Settings.fgDim
                 font.pixelSize: 12
                 font.weight: Font.Bold
             }
         }
 
-        // Slider track
         Rectangle {
             Layout.fillWidth: true
             height: 8
@@ -477,12 +471,9 @@ Scope {
                 radius: parent.radius
                 color: slider.accentColor
 
-                Behavior on width {
-                    NumberAnimation { duration: 100 }
-                }
+                Behavior on width { NumberAnimation { duration: 100; easing.type: Easing.OutCubic } }
             }
 
-            // Slider knob
             Rectangle {
                 x: parent.width * Math.min(1, slider.value) - width / 2
                 anchors.verticalCenter: parent.verticalCenter
@@ -490,33 +481,25 @@ Scope {
                 height: 16
                 radius: 8
                 color: Data.Settings.fgColor
-                visible: sliderMouse.containsMouse || sliderMouse.pressed
+                visible: slider.enabled && (sliderMouse.containsMouse || sliderMouse.pressed)
 
-                Behavior on x {
-                    NumberAnimation { duration: 50 }
-                }
+                Behavior on x { NumberAnimation { duration: 50 } }
             }
 
             MouseArea {
                 id: sliderMouse
                 anchors.fill: parent
                 anchors.margins: -4
-                hoverEnabled: true
-                onClicked: mouse => {
-                    const val = Math.max(0, Math.min(1, mouse.x / parent.width))
-                    slider.sliderMoved(val)
-                }
+                hoverEnabled: slider.enabled
+                enabled: slider.enabled
+                onClicked: mouse => slider.sliderMoved(Math.max(0, Math.min(1, mouse.x / parent.width)))
                 onPositionChanged: mouse => {
-                    if (pressed) {
-                        const val = Math.max(0, Math.min(1, mouse.x / parent.width))
-                        slider.sliderMoved(val)
-                    }
+                    if (pressed) slider.sliderMoved(Math.max(0, Math.min(1, mouse.x / parent.width)))
                 }
             }
         }
     }
 
-    // System Stats Component
     component SystemStats: Rectangle {
         height: 64
         radius: 16
@@ -538,13 +521,7 @@ Scope {
             }
 
             Item { Layout.fillWidth: true }
-
-            Rectangle {
-                width: 1
-                height: 36
-                color: Qt.rgba(255, 255, 255, 0.08)
-            }
-
+            Rectangle { width: 1; height: 36; color: Data.Settings.borderNormal }
             Item { Layout.fillWidth: true }
 
             StatItem {
@@ -555,13 +532,7 @@ Scope {
             }
 
             Item { Layout.fillWidth: true }
-
-            Rectangle {
-                width: 1
-                height: 36
-                color: Qt.rgba(255, 255, 255, 0.08)
-            }
-
+            Rectangle { width: 1; height: 36; color: Data.Settings.borderNormal }
             Item { Layout.fillWidth: true }
 
             StatItem {
@@ -575,7 +546,6 @@ Scope {
         }
     }
 
-    // Stat Item Component
     component StatItem: ColumnLayout {
         property string icon
         property string label
@@ -603,7 +573,6 @@ Scope {
             }
         }
 
-        // Progress bar
         Rectangle {
             Layout.alignment: Qt.AlignHCenter
             Layout.preferredWidth: 44
@@ -617,9 +586,7 @@ Scope {
                 radius: 1.5
                 color: accentColor
 
-                Behavior on width {
-                    NumberAnimation { duration: controlCenter.animMedium }
-                }
+                Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
             }
         }
 

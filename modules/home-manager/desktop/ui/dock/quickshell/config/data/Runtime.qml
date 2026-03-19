@@ -3,45 +3,20 @@ pragma Singleton
 import QtQuick
 
 QtObject {
-    property bool quickSettingsVisible: false
-    property bool calendarVisible: false
-    property bool dashboardVisible: false
-    property bool bluetoothVisible: false
+    property string activePopup: ""
 
+    readonly property bool quickSettingsVisible: activePopup === "quickSettings"
+    readonly property bool calendarVisible: activePopup === "calendar"
+    readonly property bool dashboardVisible: activePopup === "dashboard"
+    readonly property bool bluetoothVisible: activePopup === "bluetooth"
 
-    function toggleQuickSettings() {
-        dashboardVisible = false
-        bluetoothVisible = false
-        calendarVisible = false
-        quickSettingsVisible = !quickSettingsVisible
+    function toggle(name: string): void {
+        activePopup = activePopup === name ? "" : name
     }
 
-    function toggleCalendar() {
-
-        dashboardVisible = false
-        bluetoothVisible = false
-        quickSettingsVisible = false
-        calendarVisible = !calendarVisible
-    }
-
-    function toggleDashboard() {
-        calendarVisible = false
-        quickSettingsVisible = false
-        bluetoothVisible = false
-        dashboardVisible = !dashboardVisible
-    }
-
-    function toggleBluetooth() {
-        calendarVisible = false
-        quickSettingsVisible = false
-        dashboardVisible = false
-        bluetoothVisible = !bluetoothVisible
-    }
-
-    function closeAll() {
-        quickSettingsVisible = false
-        calendarVisible = false
-        dashboardVisible = false
-        bluetoothVisible = false
-    }
+    function toggleQuickSettings(): void { toggle("quickSettings") }
+    function toggleCalendar(): void { toggle("calendar") }
+    function toggleDashboard(): void { toggle("dashboard") }
+    function toggleBluetooth(): void { toggle("bluetooth") }
+    function closeAll(): void { activePopup = "" }
 }

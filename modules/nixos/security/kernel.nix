@@ -1,14 +1,13 @@
 {
   lib,
   config,
-  self,
   ...
 }:
 let
   inherit (lib.modules) mkIf;
   inherit (lib.lists) optionals concatLists;
   inherit (lib.options) mkEnableOption;
-  inherit (self.lib.custom) hasProfile;
+  inherit (lib.custom) hasProfile;
 
   cfg = config.modules.security.kernel;
 in

@@ -16,7 +16,6 @@ QtObject {
     property real memUsedGiB: 0
     property real memTotalGiB: 0
 
-    // CPU calculation state
     property real _prevIdle: 0
     property real _prevTotal: 0
 
@@ -24,19 +23,18 @@ QtObject {
         command: ["cat", "/proc/stat"]
         stdout: SplitParser {
             onRead: data => {
-                if (data.startsWith("cpu ")) {
-                    const parts = data.split(/\s+/).slice(1).map(Number);
-                    const idle = parts[3] + parts[4];
-                    const total = parts.reduce((a, b) => a + b, 0);
+                if (!data.startsWith("cpu ")) return
+                const parts = data.split(/\s+/).slice(1).map(Number)
+                const idle = parts[3] + parts[4]
+                const total = parts.reduce((a, b) => a + b, 0)
 
-                    if (root._prevTotal > 0) {
-                        const idleDelta = idle - root._prevIdle;
-                        const totalDelta = total - root._prevTotal;
-                        root.cpuUsage = totalDelta > 0 ? 1 - (idleDelta / totalDelta) : 0;
-                    }
-                    root._prevIdle = idle;
-                    root._prevTotal = total;
+                if (root._prevTotal > 0) {
+                    const idleDelta = idle - root._prevIdle
+                    const totalDelta = total - root._prevTotal
+                    root.cpuUsage = totalDelta > 0 ? 1 - (idleDelta / totalDelta) : 0
                 }
+                root._prevIdle = idle
+                root._prevTotal = total
             }
         }
     }
@@ -45,14 +43,13 @@ QtObject {
         command: ["sh", "-c", "free | grep Mem"]
         stdout: SplitParser {
             onRead: data => {
-                const parts = data.split(/\s+/).filter(p => p.length > 0);
-                if (parts.length >= 3) {
-                    const total = parseFloat(parts[1]);
-                    const used = parseFloat(parts[2]);
-                    root.memUsage = total > 0 ? used / total : 0;
-                    root.memUsedGiB = used / 1024 / 1024;
-                    root.memTotalGiB = total / 1024 / 1024;
-                }
+                const parts = data.split(/\s+/).filter(p => p.length > 0)
+                if (parts.length < 3) return
+                const total = parseFloat(parts[1])
+                const used = parseFloat(parts[2])
+                root.memUsage = total > 0 ? used / total : 0
+                root.memUsedGiB = used / 1024 / 1024
+                root.memTotalGiB = total / 1024 / 1024
             }
         }
     }
@@ -61,8 +58,8 @@ QtObject {
         command: ["sh", "-c", "cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -1"]
         stdout: SplitParser {
             onRead: data => {
-                const val = parseFloat(data.trim());
-                if (!isNaN(val)) root.cpuTemp = val > 200 ? val / 1000 : val;
+                const val = parseFloat(data.trim())
+                if (!isNaN(val)) root.cpuTemp = val > 200 ? val / 1000 : val
             }
         }
     }
@@ -71,13 +68,12 @@ QtObject {
         command: ["sh", "-c", "if command -v nvidia-smi >/dev/null 2>&1; then nvidia-smi --query-gpu=utilization.gpu,temperature.gpu --format=csv,noheader,nounits | head -1; else echo '0,0'; fi"]
         stdout: SplitParser {
             onRead: data => {
-                const parts = data.split(",");
-                if (parts.length >= 2) {
-                    const usage = parseFloat(parts[0].trim());
-                    const temp = parseFloat(parts[1].trim());
-                    root.gpuUsage = isNaN(usage) ? 0 : usage / 100;
-                    root.gpuTemp = isNaN(temp) ? 0 : temp;
-                }
+                const parts = data.split(",")
+                if (parts.length < 2) return
+                const usage = parseFloat(parts[0].trim())
+                const temp = parseFloat(parts[1].trim())
+                root.gpuUsage = isNaN(usage) ? 0 : usage / 100
+                root.gpuTemp = isNaN(temp) ? 0 : temp
             }
         }
     }
@@ -86,11 +82,8 @@ QtObject {
         command: ["sh", "-c", "df / | tail -1"]
         stdout: SplitParser {
             onRead: data => {
-                const parts = data.split(/\s+/).filter(p => p.length > 0);
-                if (parts.length >= 5) {
-                    const pct = parts[4].replace('%', '');
-                    root.diskUsage = parseFloat(pct) / 100;
-                }
+                const parts = data.split(/\s+/).filter(p => p.length > 0)
+                if (parts.length >= 5) root.diskUsage = parseFloat(parts[4].replace('%', '')) / 100
             }
         }
     }
@@ -101,10 +94,10 @@ QtObject {
         repeat: true
         triggeredOnStart: true
         onTriggered: {
-            cpuProc.running = true;
-            memProc.running = true;
-            cpuTempProc.running = true;
-            gpuInfoProc.running = true;
+            cpuProc.running = true
+            memProc.running = true
+            cpuTempProc.running = true
+            gpuInfoProc.running = true
         }
     }
 

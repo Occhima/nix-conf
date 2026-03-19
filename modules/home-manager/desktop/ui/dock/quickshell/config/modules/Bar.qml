@@ -28,52 +28,24 @@ Scope {
 
             implicitHeight: Data.Settings.barHeight + Data.Settings.barMargin * 2
             implicitWidth: screen.width
-
             color: "transparent"
 
             Item {
-                id: barContainer
+                id: container
+
                 anchors.fill: parent
                 anchors.topMargin: Data.Settings.barMargin
                 anchors.leftMargin: Data.Settings.barSideMargin
                 anchors.rightMargin: Data.Settings.barSideMargin
 
-                // LEFT SIDE - Workspaces + Taskbar
                 Row {
-                    id: leftPills
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
                     spacing: 8
 
-                    // Workspaces Pill
-                    Rectangle {
-                        height: 32
-                        width: workspacesContent.implicitWidth + 20
-                        radius: 16
-                        color: Data.Settings.bgColor
-                        border.width: 1
-                        border.color: Qt.rgba(255, 255, 255, 0.06)
-
-                        Behavior on width {
-                            NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
-                        }
-
-                        // Top highlight
-                        Rectangle {
-                            anchors.top: parent.top
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            anchors.margins: 1
-                            height: parent.height / 2
-                            radius: parent.radius - 1
-                            gradient: Gradient {
-                                GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.04) }
-                                GradientStop { position: 1.0; color: "transparent" }
-                            }
-                        }
-
+                    BarPill {
                         Row {
-                            id: workspacesContent
+                            id: workspacesRow
                             anchors.centerIn: parent
                             spacing: 4
 
@@ -82,35 +54,15 @@ Scope {
                                 screen: bar.screen
                             }
                         }
-                    }
 
+                        implicitWidth: workspacesRow.implicitWidth + 20
+                    }
                 }
 
-                // CENTER MODULE - Clock
-                Rectangle {
-                    id: centerModule
+                BarPill {
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    height: 32
-                    width: centerRow.implicitWidth + 24
-                    radius: 16
-                    color: Data.Settings.bgColor
-                    border.width: 1
-                    border.color: Qt.rgba(255, 255, 255, 0.06)
-
-                    // Top highlight
-                    Rectangle {
-                        anchors.top: parent.top
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        anchors.margins: 1
-                        height: parent.height / 2
-                        radius: parent.radius - 1
-                        gradient: Gradient {
-                            GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.04) }
-                            GradientStop { position: 1.0; color: "transparent" }
-                        }
-                    }
+                    implicitWidth: centerRow.implicitWidth + 24
 
                     Row {
                         id: centerRow
@@ -118,7 +70,6 @@ Scope {
                         spacing: 6
 
                         BarComponents.Clock {
-                            id: clockContent
                             anchors.verticalCenter: parent.verticalCenter
                         }
 
@@ -127,11 +78,9 @@ Scope {
                             width: 20
                             height: 20
                             radius: 10
-                            color: centerMouse.containsMouse ? Qt.rgba(255, 255, 255, 0.14) : "transparent"
+                            color: dashMouse.containsMouse ? Data.Settings.borderHover : "transparent"
 
-                            Behavior on color {
-                                ColorAnimation { duration: 120 }
-                            }
+                            Behavior on color { ColorAnimation { duration: 100 } }
 
                             Image {
                                 anchors.centerIn: parent
@@ -143,7 +92,7 @@ Scope {
                             }
 
                             MouseArea {
-                                id: centerMouse
+                                id: dashMouse
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
@@ -153,40 +102,14 @@ Scope {
                     }
                 }
 
-                // RIGHT SIDE - Multiple Pills
                 Row {
-                    id: rightPills
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     spacing: 8
 
-                    // System Tray Pill
-                    Rectangle {
+                    BarPill {
                         visible: sysTray.itemCount > 0
-                        height: 32
-                        width: sysTray.implicitWidth + 20
-                        radius: 16
-                        color: Data.Settings.bgColor
-                        border.width: 1
-                        border.color: Qt.rgba(255, 255, 255, 0.06)
-
-                        Behavior on width {
-                            NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
-                        }
-
-                        // Top highlight
-                        Rectangle {
-                            anchors.top: parent.top
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            anchors.margins: 1
-                            height: parent.height / 2
-                            radius: parent.radius - 1
-                            gradient: Gradient {
-                                GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.04) }
-                                GradientStop { position: 1.0; color: "transparent" }
-                            }
-                        }
+                        implicitWidth: sysTray.implicitWidth + 20
 
                         BarComponents.SysTray {
                             id: sysTray
@@ -194,32 +117,8 @@ Scope {
                         }
                     }
 
-                    // Status Icons Pill (WiFi, Bluetooth, Volume, Battery)
-                    Rectangle {
-                        height: 32
-                        width: statusRow.implicitWidth + 20
-                        radius: 16
-                        color: Data.Settings.bgColor
-                        border.width: 1
-                        border.color: Qt.rgba(255, 255, 255, 0.06)
-
-                        Behavior on width {
-                            NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
-                        }
-
-                        // Top highlight
-                        Rectangle {
-                            anchors.top: parent.top
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            anchors.margins: 1
-                            height: parent.height / 2
-                            radius: parent.radius - 1
-                            gradient: Gradient {
-                                GradientStop { position: 0.0; color: Qt.rgba(1, 1, 1, 0.04) }
-                                GradientStop { position: 1.0; color: "transparent" }
-                            }
-                        }
+                    BarPill {
+                        implicitWidth: statusRow.implicitWidth + 20
 
                         Row {
                             id: statusRow
@@ -233,6 +132,36 @@ Scope {
                     }
                 }
             }
+        }
+    }
+
+    component BarPill: Rectangle {
+        default property alias content: contentItem.data
+
+        height: 32
+        radius: 16
+        color: Data.Settings.bgColor
+        border.width: 1
+        border.color: Data.Settings.borderSubtle
+
+        Behavior on width { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+
+        Rectangle {
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: 1
+            height: parent.height / 2
+            radius: parent.radius - 1
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: Data.Settings.borderSubtle }
+                GradientStop { position: 1.0; color: "transparent" }
+            }
+        }
+
+        Item {
+            id: contentItem
+            anchors.fill: parent
         }
     }
 }

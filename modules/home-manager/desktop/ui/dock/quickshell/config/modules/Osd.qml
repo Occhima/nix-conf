@@ -6,20 +6,20 @@ import "root:/services" as Services
 import "root:/data" as Data
 
 Scope {
-    id: osd
+    id: root
 
     property bool showVolume: false
 
     Connections {
         target: Services.Pipewire
-        function onVolumeChanged() { osd.showVolume = true; volumeTimer.restart(); }
-        function onMutedChanged() { osd.showVolume = true; volumeTimer.restart(); }
+        function onVolumeChanged() { root.showVolume = true; timer.restart() }
+        function onMutedChanged() { root.showVolume = true; timer.restart() }
     }
 
     Timer {
-        id: volumeTimer
+        id: timer
         interval: 1500
-        onTriggered: osd.showVolume = false
+        onTriggered: root.showVolume = false
     }
 
     Variants {
@@ -32,30 +32,26 @@ Scope {
             layer: WlrLayer.Overlay
             namespace: "quickshell-osd"
             exclusiveZone: 0
+            visible: root.showVolume
+
             anchors {
                 bottom: true
                 left: true
                 right: true
             }
-            visible: osd.showVolume
 
             implicitHeight: 40
-
             color: "transparent"
 
             Rectangle {
                 width: 200
+                height: parent.height - 8
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-                height: parent.height - 8
-
-                color: Data.Settings.bgColor
-
-
                 radius: Data.Settings.rounding
+                color: Data.Settings.bgColor
                 border.width: 1
-
-                border.color: Qt.rgba(1, 1, 1, 0.08)
+                border.color: Data.Settings.borderNormal
 
                 Row {
                     anchors.centerIn: parent
@@ -82,9 +78,7 @@ Scope {
                             radius: parent.radius
                             color: Data.Settings.accentColor
 
-                            Behavior on width {
-                                NumberAnimation { duration: 100 }
-                            }
+                            Behavior on width { NumberAnimation { duration: 100; easing.type: Easing.OutCubic } }
                         }
                     }
                 }

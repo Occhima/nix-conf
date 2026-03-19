@@ -2,12 +2,11 @@
   config,
   osConfig,
   lib,
-  self,
   pkgs,
   ...
 }:
 let
-  inherit (self.lib.custom) ifPackageNotEnabled isWayland;
+  inherit (lib.custom) ifPackageNotEnabled isWayland;
   inherit (lib) mkEnableOption mkIf;
   inherit (builtins) getAttr;
 

@@ -5,20 +5,18 @@ import "root:/data" as Data
 Rectangle {
     id: root
 
-    property string icon: ""
+    property string icon
     property int iconSize: 18
-    property bool hovered: mouseArea.containsMouse
+    property bool hovered: mouse.containsMouse
 
     signal clicked()
 
     width: 28
     height: 28
-    radius: Data.Settings.rounding / 2
-    color: hovered ? Qt.rgba(255, 255, 255, 0.1) : "transparent"
+    radius: 7
+    color: hovered ? Qt.rgba(1, 1, 1, 0.1) : "transparent"
 
-    Behavior on color {
-        ColorAnimation { duration: 150 }
-    }
+    Behavior on color { ColorAnimation { duration: 150 } }
 
     Image {
         anchors.centerIn: parent
@@ -29,7 +27,7 @@ Rectangle {
     }
 
     MouseArea {
-        id: mouseArea
+        id: mouse
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor

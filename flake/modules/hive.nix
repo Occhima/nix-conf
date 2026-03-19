@@ -6,7 +6,7 @@
   ...
 }:
 let
-  inherit (self.lib.colmena) mkNode metaFor;
+  inherit (lib.colmena) mkNode metaFor;
   l = lib // builtins;
 
   configurations = l.removeAttrs self.nixosConfigurations [ "bootstrap-graphical" ];

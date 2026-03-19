@@ -8,56 +8,25 @@ import "root:/components/shared" as Shared
 Row {
     spacing: 4
 
-    // Network - just shows status, no click action
-    Shared.IconButton {
-        icon: Services.Networking.icon
+    Shared.IconButton { icon: Services.Networking.icon }
 
-    }
+    Separator {}
 
-    // Separator
-    Rectangle {
-        anchors.verticalCenter: parent.verticalCenter
-        width: 1
-        height: 12
-        radius: 0.5
-        color: Qt.rgba(255, 255, 255, 0.12)
-    }
-
-    // Bluetooth - just shows status
     Shared.IconButton {
         icon: Services.Bluetooth.icon
         onClicked: Data.Runtime.toggleBluetooth()
-
     }
 
-    // Separator
-    Rectangle {
-        anchors.verticalCenter: parent.verticalCenter
-        width: 1
-        height: 12
-        radius: 0.5
-        color: Qt.rgba(255, 255, 255, 0.12)
-    }
+    Separator {}
 
-    // Volume - just shows status
-    Shared.IconButton {
-        icon: Services.Pipewire.volumeIcon
+    Shared.IconButton { icon: Services.Pipewire.volumeIcon }
 
-    }
-
-    // Battery (only if present) with percentage
     Row {
         visible: Services.UPower.hasBattery
         spacing: 4
         anchors.verticalCenter: parent.verticalCenter
 
-        Rectangle {
-            anchors.verticalCenter: parent.verticalCenter
-            width: 1
-            height: 12
-            radius: 0.5
-            color: Qt.rgba(255, 255, 255, 0.12)
-        }
+        Separator {}
 
         Image {
             anchors.verticalCenter: parent.verticalCenter
@@ -76,19 +45,18 @@ Row {
         }
     }
 
-    // Separator before settings
-    Rectangle {
+    Separator {}
+
+    Shared.IconButton {
+        icon: "emblem-system-symbolic"
+        onClicked: Data.Runtime.toggleQuickSettings()
+    }
+
+    component Separator: Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         width: 1
         height: 12
         radius: 0.5
-        color: Qt.rgba(255, 255, 255, 0.12)
-    }
-
-    // Settings icon - opens quick settings popup
-    Shared.IconButton {
-        icon: "emblem-system-symbolic"
-        onClicked: Data.Runtime.toggleQuickSettings()
-
+        color: Data.Settings.borderHover
     }
 }

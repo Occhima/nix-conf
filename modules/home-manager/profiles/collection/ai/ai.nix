@@ -4,14 +4,13 @@
   pkgs,
   lib,
   config,
-  self,
   osConfig,
   ...
 }:
 
 let
   inherit (lib) mkIf;
-  inherit (self.lib.custom) hasProfile;
+  inherit (lib.custom) hasProfile;
   hasAgeKeys = osConfig.modules.secrets.agenix.enable or false;
   homeDir = config.home.homeDirectory;
   npx = "${pkgs.nodejs}/bin/npx";

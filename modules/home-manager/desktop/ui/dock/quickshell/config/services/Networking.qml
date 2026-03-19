@@ -7,18 +7,16 @@ import QtQuick
 QtObject {
     id: root
 
-    // WiFi state
     property bool wifiEnabled: false
     property bool wifiConnected: false
     property string wifiSsid: ""
     property int wifiSignal: 0
 
-    // Ethernet state
     property bool ethernetConnected: false
     property string ethernetDevice: ""
 
-    // Combined state
     readonly property bool connected: wifiConnected || ethernetConnected
+
     readonly property string connectionType: {
         if (ethernetConnected) return "ethernet"
         if (wifiConnected) return "wifi"
@@ -26,18 +24,14 @@ QtObject {
     }
 
     readonly property string icon: {
-        if (ethernetConnected) {
-            return "network-wired-symbolic"
-        }
+        if (ethernetConnected) return "network-wired-symbolic"
         if (wifiConnected) {
             if (wifiSignal >= 75) return "network-wireless-signal-excellent-symbolic"
             if (wifiSignal >= 50) return "network-wireless-signal-good-symbolic"
             if (wifiSignal >= 25) return "network-wireless-signal-ok-symbolic"
             return "network-wireless-signal-weak-symbolic"
         }
-        if (wifiEnabled) {
-            return "network-wireless-offline-symbolic"
-        }
+        if (wifiEnabled) return "network-wireless-offline-symbolic"
         return "network-offline-symbolic"
     }
 
@@ -49,25 +43,16 @@ QtObject {
     }
 
     function toggleWifi() {
-        const newState = wifiEnabled ? "off" : "on"
-        wifiToggleProc.command = ["nmcli", "radio", "wifi", newState]
+        wifiToggleProc.command = ["nmcli", "radio", "wifi", wifiEnabled ? "off" : "on"]
         wifiToggleProc.running = true
     }
 
-    function reload() {
-        statusProc.running = true
-    }
+    function reload() { statusProc.running = true }
 
-    // Monitor network changes
     property var monitor: Process {
         command: ["nmcli", "monitor"]
         running: true
-        stdout: SplitParser {
-            onRead: data => {
-                // Debounce updates
-                reloadTimer.restart()
-            }
-        }
+        stdout: SplitParser { onRead: data => reloadTimer.restart() }
     }
 
     property var reloadTimer: Timer {
@@ -75,14 +60,10 @@ QtObject {
         onTriggered: root.reload()
     }
 
-    // Check network status
     property var statusProc: Process {
         command: ["bash", "-c", `
-            # WiFi status
             WIFI_ENABLED=$(nmcli radio wifi)
             WIFI_INFO=$(nmcli -t -f active,ssid,signal dev wifi 2>/dev/null | grep '^yes' | head -1)
-
-            # Ethernet status
             ETH_INFO=$(nmcli -t -f type,state,device con show --active 2>/dev/null | grep '^.*ethernet.*activated' | head -1)
 
             echo "WIFI_ENABLED=$WIFI_ENABLED"
@@ -109,38 +90,21 @@ QtObject {
             onRead: line => {
                 const parts = line.split("=")
                 if (parts.length !== 2) return
-                const key = parts[0]
-                const value = parts[1]
+                const [key, value] = parts
 
                 switch (key) {
-                    case "WIFI_ENABLED":
-                        root.wifiEnabled = (value === "enabled")
-                        break
-                    case "WIFI_CONNECTED":
-                        root.wifiConnected = (value === "yes")
-                        break
-                    case "WIFI_SSID":
-                        root.wifiSsid = value
-                        break
-                    case "WIFI_SIGNAL":
-                        root.wifiSignal = parseInt(value) || 0
-                        break
-                    case "ETH_CONNECTED":
-                        root.ethernetConnected = (value === "yes")
-                        break
-                    case "ETH_DEVICE":
-                        root.ethernetDevice = value
-                        break
+                    case "WIFI_ENABLED": root.wifiEnabled = value === "enabled"; break
+                    case "WIFI_CONNECTED": root.wifiConnected = value === "yes"; break
+                    case "WIFI_SSID": root.wifiSsid = value; break
+                    case "WIFI_SIGNAL": root.wifiSignal = parseInt(value) || 0; break
+                    case "ETH_CONNECTED": root.ethernetConnected = value === "yes"; break
+                    case "ETH_DEVICE": root.ethernetDevice = value; break
                 }
             }
         }
     }
 
-    property var wifiToggleProc: Process {
-        onExited: root.reload()
-    }
+    property var wifiToggleProc: Process { onExited: root.reload() }
 
-    Component.onCompleted: {
-        reload()
-    }
+    Component.onCompleted: reload()
 }

@@ -3,13 +3,12 @@
   lib,
   config,
   pkgs,
-  self,
   ...
 }:
 
 let
   inherit (lib) mkIf;
-  inherit (self.lib.custom) hasProfile;
+  inherit (lib.custom) hasProfile;
 in
 
 {
