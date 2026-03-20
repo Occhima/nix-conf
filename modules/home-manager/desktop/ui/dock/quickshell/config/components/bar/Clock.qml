@@ -10,7 +10,7 @@ Item {
     Row {
         id: content
         anchors.centerIn: parent
-        spacing: 8
+        spacing: Data.Settings.spacingSm
 
         Row {
             anchors.verticalCenter: parent.verticalCenter
@@ -20,14 +20,14 @@ Item {
                 id: hours
                 text: new Date().getHours().toString().padStart(2, '0')
                 color: Data.Settings.fgColor
-                font.pixelSize: 13
+                font.pixelSize: Data.Settings.fontBase
                 font.weight: Font.Bold
             }
 
             Text {
                 text: " : "
                 color: Data.Settings.fgColor
-                font.pixelSize: 13
+                font.pixelSize: Data.Settings.fontBase
                 font.weight: Font.Bold
 
                 SequentialAnimation on opacity {
@@ -42,7 +42,7 @@ Item {
                 id: minutes
                 text: new Date().getMinutes().toString().padStart(2, '0')
                 color: Data.Settings.fgColor
-                font.pixelSize: 13
+                font.pixelSize: Data.Settings.fontBase
                 font.weight: Font.Bold
             }
         }
@@ -55,7 +55,7 @@ Item {
                 return days[d.getDay()] + " " + d.getDate()
             }
             color: Data.Settings.fgDim
-            font.pixelSize: 11
+            font.pixelSize: Data.Settings.fontSm
             font.weight: Font.Medium
         }
     }

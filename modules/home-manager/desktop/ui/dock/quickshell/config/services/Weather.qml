@@ -4,21 +4,19 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 
+import "root:/data" as Data
+
 QtObject {
     id: root
 
-    property string temperature: "--°"
+    property string temperature: "--\u00b0"
     property string description: "Weather"
 
-    function _trim(x) {
-        return (x ?? "").toString().trim();
-    }
-
     function update() {
-        weather_proc.running = true;
+        weatherProc.running = true
     }
 
-    property var weather_proc: Process {
+    property var weatherProc: Process {
         command: [
             "sh",
             "-lc",
@@ -27,24 +25,23 @@ QtObject {
 
         stdout: SplitParser {
             onRead: data => {
-                const text = root._trim(data);
+                const text = Data.Utils.trim(data)
                 if (!text)
-                    return;
+                    return
 
-                const parts = text.split("|");
+                const parts = text.split("|")
                 if (parts.length >= 2) {
-                    let temp = root._trim(parts[0]);
-                    const desc = root._trim(parts[1]);
+                    let temp = Data.Utils.trim(parts[0])
+                    const desc = Data.Utils.trim(parts[1])
 
-                    // Strip leading "+" from positive temperatures
                     if (temp.startsWith("+"))
-                        temp = temp.substring(1);
+                        temp = temp.substring(1)
 
                     if (temp)
-                        root.temperature = temp;
+                        root.temperature = temp
 
                     if (desc)
-                        root.description = desc;
+                        root.description = desc
                 }
             }
         }

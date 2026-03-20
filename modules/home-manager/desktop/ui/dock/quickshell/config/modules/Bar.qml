@@ -41,13 +41,13 @@ Scope {
                 Row {
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
-                    spacing: 8
+                    spacing: Data.Settings.spacingSm
 
                     BarPill {
                         Row {
                             id: workspacesRow
                             anchors.centerIn: parent
-                            spacing: 4
+                            spacing: Data.Settings.spacingXs
 
                             BarComponents.Workspaces {
                                 anchors.verticalCenter: parent.verticalCenter
@@ -55,14 +55,14 @@ Scope {
                             }
                         }
 
-                        implicitWidth: workspacesRow.implicitWidth + 20
+                        implicitWidth: workspacesRow.implicitWidth + Data.Settings.spacingXl
                     }
                 }
 
                 BarPill {
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    implicitWidth: centerRow.implicitWidth + 24
+                    implicitWidth: centerRow.implicitWidth + Data.Settings.spacingXxl
 
                     Row {
                         id: centerRow
@@ -80,14 +80,14 @@ Scope {
                             radius: 10
                             color: dashMouse.containsMouse ? Data.Settings.borderHover : "transparent"
 
-                            Behavior on color { ColorAnimation { duration: 100 } }
+                            Behavior on color { ColorAnimation { duration: Data.Settings.animFast } }
 
                             Image {
                                 anchors.centerIn: parent
                                 source: Quickshell.iconPath("view-grid-symbolic")
-                                width: 14
-                                height: 14
-                                sourceSize: Qt.size(14, 14)
+                                width: Data.Settings.iconSm
+                                height: Data.Settings.iconSm
+                                sourceSize: Qt.size(Data.Settings.iconSm, Data.Settings.iconSm)
                                 opacity: 0.7
                             }
 
@@ -105,11 +105,11 @@ Scope {
                 Row {
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
-                    spacing: 8
+                    spacing: Data.Settings.spacingSm
 
                     BarPill {
                         visible: sysTray.itemCount > 0
-                        implicitWidth: sysTray.implicitWidth + 20
+                        implicitWidth: sysTray.implicitWidth + Data.Settings.spacingXl
 
                         BarComponents.SysTray {
                             id: sysTray
@@ -118,7 +118,7 @@ Scope {
                     }
 
                     BarPill {
-                        implicitWidth: statusRow.implicitWidth + 20
+                        implicitWidth: statusRow.implicitWidth + Data.Settings.spacingXl
 
                         Row {
                             id: statusRow

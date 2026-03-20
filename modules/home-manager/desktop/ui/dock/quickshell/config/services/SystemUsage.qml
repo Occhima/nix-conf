@@ -19,12 +19,14 @@ QtObject {
     property real _prevIdle: 0
     property real _prevTotal: 0
 
-    property var cpuProc: Process {
-        command: ["cat", "/proc/stat"]
-        stdout: SplitParser {
-            onRead: data => {
-                if (!data.startsWith("cpu ")) return
-                const parts = data.split(/\s+/).slice(1).map(Number)
+    property var cpuStat: FileView {
+        path: "/proc/stat"
+        onLoaded: {
+            const content = text()
+            const lines = content.split("\n")
+            for (const line of lines) {
+                if (!line.startsWith("cpu ")) continue
+                const parts = line.split(/\s+/).slice(1).map(Number)
                 const idle = parts[3] + parts[4]
                 const total = parts.reduce((a, b) => a + b, 0)
 
@@ -35,31 +37,39 @@ QtObject {
                 }
                 root._prevIdle = idle
                 root._prevTotal = total
+                break
             }
         }
     }
 
-    property var memProc: Process {
-        command: ["sh", "-c", "free | grep Mem"]
-        stdout: SplitParser {
-            onRead: data => {
-                const parts = data.split(/\s+/).filter(p => p.length > 0)
-                if (parts.length < 3) return
-                const total = parseFloat(parts[1])
-                const used = parseFloat(parts[2])
-                root.memUsage = total > 0 ? used / total : 0
+    property var cpuTempFile: FileView {
+        path: "/sys/class/thermal/thermal_zone0/temp"
+        onLoaded: {
+            const content = text()
+            const val = parseFloat(content.trim())
+            if (!isNaN(val)) root.cpuTemp = val > 200 ? val / 1000 : val
+        }
+    }
+
+    property var memInfo: FileView {
+        path: "/proc/meminfo"
+        onLoaded: {
+            const content = text()
+            let total = 0
+            let available = 0
+            const lines = content.split("\n")
+            for (const line of lines) {
+                if (line.startsWith("MemTotal:")) {
+                    total = parseFloat(line.split(/\s+/)[1])
+                } else if (line.startsWith("MemAvailable:")) {
+                    available = parseFloat(line.split(/\s+/)[1])
+                }
+            }
+            if (total > 0) {
+                const used = total - available
+                root.memUsage = used / total
                 root.memUsedGiB = used / 1024 / 1024
                 root.memTotalGiB = total / 1024 / 1024
-            }
-        }
-    }
-
-    property var cpuTempProc: Process {
-        command: ["sh", "-c", "cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | head -1"]
-        stdout: SplitParser {
-            onRead: data => {
-                const val = parseFloat(data.trim())
-                if (!isNaN(val)) root.cpuTemp = val > 200 ? val / 1000 : val
             }
         }
     }
@@ -94,9 +104,9 @@ QtObject {
         repeat: true
         triggeredOnStart: true
         onTriggered: {
-            cpuProc.running = true
-            memProc.running = true
-            cpuTempProc.running = true
+            cpuStat.reload()
+            memInfo.reload()
+            cpuTempFile.reload()
             gpuInfoProc.running = true
         }
     }

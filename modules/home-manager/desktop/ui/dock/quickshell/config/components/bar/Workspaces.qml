@@ -43,8 +43,8 @@ Row {
             radius: height / 2
             color: active ? Data.Settings.fgColor : occupied ? Data.Settings.fgDim : Data.Settings.bgLighter
 
-            Behavior on width { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
-            Behavior on color { ColorAnimation { duration: 150 } }
+            Behavior on width { NumberAnimation { duration: Data.Settings.animShort; easing.type: Easing.OutCubic } }
+            Behavior on color { ColorAnimation { duration: Data.Settings.animShort } }
 
             MouseArea {
                 anchors.fill: parent

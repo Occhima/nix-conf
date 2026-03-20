@@ -6,7 +6,7 @@ Rectangle {
     id: root
 
     property string icon
-    property int iconSize: 18
+    property int iconSize: Data.Settings.iconLg
     property bool hovered: mouse.containsMouse
 
     signal clicked()
@@ -14,9 +14,9 @@ Rectangle {
     width: 28
     height: 28
     radius: 7
-    color: hovered ? Qt.rgba(1, 1, 1, 0.1) : "transparent"
+    color: hovered ? Data.Settings.hoverBg : "transparent"
 
-    Behavior on color { ColorAnimation { duration: 150 } }
+    Behavior on color { ColorAnimation { duration: Data.Settings.animShort } }
 
     Image {
         anchors.centerIn: parent

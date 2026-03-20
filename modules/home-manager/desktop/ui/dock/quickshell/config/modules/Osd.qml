@@ -45,7 +45,7 @@ Scope {
 
             Rectangle {
                 width: 200
-                height: parent.height - 8
+                height: parent.height - Data.Settings.spacingSm
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 radius: Data.Settings.rounding
@@ -59,9 +59,9 @@ Scope {
 
                     Image {
                         source: Quickshell.iconPath(Services.Pipewire.volumeIcon)
-                        width: 18
-                        height: 18
-                        sourceSize: Qt.size(18, 18)
+                        width: Data.Settings.iconLg
+                        height: Data.Settings.iconLg
+                        sourceSize: Qt.size(Data.Settings.iconLg, Data.Settings.iconLg)
                         anchors.verticalCenter: parent.verticalCenter
                     }
 
@@ -78,7 +78,7 @@ Scope {
                             radius: parent.radius
                             color: Data.Settings.accentColor
 
-                            Behavior on width { NumberAnimation { duration: 100; easing.type: Easing.OutCubic } }
+                            Behavior on width { NumberAnimation { duration: Data.Settings.animFast; easing.type: Easing.OutCubic } }
                         }
                     }
                 }

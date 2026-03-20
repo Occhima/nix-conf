@@ -2,10 +2,12 @@ import QtQuick
 import Quickshell
 import Quickshell.Services.SystemTray
 
+import "root:/data" as Data
+
 Row {
     id: root
 
-    spacing: 4
+    spacing: Data.Settings.spacingXs
 
     property int itemCount: repeater.count
 
@@ -17,9 +19,9 @@ Row {
             required property SystemTrayItem modelData
 
             source: modelData.icon
-            width: 18
-            height: 18
-            sourceSize: Qt.size(18, 18)
+            width: Data.Settings.iconLg
+            height: Data.Settings.iconLg
+            sourceSize: Qt.size(Data.Settings.iconLg, Data.Settings.iconLg)
 
             MouseArea {
                 anchors.fill: parent

@@ -6,7 +6,7 @@ import "root:/services" as Services
 import "root:/components/shared" as Shared
 
 Row {
-    spacing: 4
+    spacing: Data.Settings.spacingXs
 
     Shared.IconButton { icon: Services.Networking.icon }
 
@@ -23,7 +23,7 @@ Row {
 
     Row {
         visible: Services.UPower.hasBattery
-        spacing: 4
+        spacing: Data.Settings.spacingXs
         anchors.verticalCenter: parent.verticalCenter
 
         Separator {}
@@ -31,16 +31,16 @@ Row {
         Image {
             anchors.verticalCenter: parent.verticalCenter
             source: Quickshell.iconPath(Services.UPower.icon)
-            width: 16
-            height: 16
-            sourceSize: Qt.size(16, 16)
+            width: Data.Settings.iconMd
+            height: Data.Settings.iconMd
+            sourceSize: Qt.size(Data.Settings.iconMd, Data.Settings.iconMd)
         }
 
         Text {
             anchors.verticalCenter: parent.verticalCenter
             text: Math.round(Services.UPower.percentage) + "%"
             color: Data.Settings.fgColor
-            font.pixelSize: 11
+            font.pixelSize: Data.Settings.fontSm
             font.weight: Font.Medium
         }
     }

@@ -4,89 +4,59 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 
+import "root:/data" as Data
+
 QtObject {
     id: root
 
     property string osPrettyName: "Linux"
     property string wm: "Wayland"
     property string uptime: "..."
-    property string user: "user"
-    property string home: ""
+    property string user: Quickshell.env("USER") || "user"
+    property string home: Quickshell.env("HOME") || ""
 
     readonly property string facePath: home ? "file://" + home + "/.face" : ""
 
-    function _trim(x) {
-        return (x ?? "").toString().trim();
-    }
-
     function update() {
-        os_proc.running = true;
-        wm_proc.running = true;
-        uptime_proc.running = true;
-        user_proc.running = true;
-        home_proc.running = true;
+        osRelease.reload()
+        detectWm()
+        uptimeProc.running = true
     }
 
-    property var os_proc: Process {
-        command: ["sh", "-lc", "grep '^PRETTY_NAME=' /etc/os-release | cut -d= -f2- | tr -d '\"'"]
+    function detectWm() {
+        if (Quickshell.env("HYPRLAND_INSTANCE_SIGNATURE")) {
+            root.wm = "Hyprland"
+        } else if (Quickshell.env("NIRI_SOCKET")) {
+            root.wm = "Niri"
+        } else {
+            root.wm = "Wayland"
+        }
+    }
 
-        stdout: SplitParser {
-            onRead: data => {
-                const v = root._trim(data);
-                if (v)
-                    root.osPrettyName = v;
+    property var osRelease: FileView {
+        path: "/etc/os-release"
+        onLoaded: {
+            const content = text()
+            const lines = content.split("\n")
+            for (const line of lines) {
+                if (line.startsWith("PRETTY_NAME=")) {
+                    let value = line.substring(12)
+                    value = value.replace(/^["']|["']$/g, "")
+                    if (value) root.osPrettyName = value
+                    break
+                }
             }
         }
     }
 
-    property var wm_proc: Process {
-        command: [
-            "sh",
-            "-lc",
-            "if [ -n \"$HYPRLAND_INSTANCE_SIGNATURE\" ]; then echo Hyprland; elif [ -n \"$NIRI_SOCKET\" ]; then echo Niri; else echo Wayland; fi"
-        ]
-
-        stdout: SplitParser {
-            onRead: data => {
-                const v = root._trim(data);
-                if (v)
-                    root.wm = v;
-            }
-        }
-    }
-
-    property var uptime_proc: Process {
+    property var uptimeProc: Process {
         command: ["sh", "-lc", "uptime -p 2>/dev/null | sed 's/^up //'"]
 
         stdout: SplitParser {
             onRead: data => {
-                const v = root._trim(data);
+                const v = Data.Utils.trim(data)
                 if (v)
-                    root.uptime = v;
-            }
-        }
-    }
-
-    property var user_proc: Process {
-        command: ["sh", "-lc", "id -un"]
-
-        stdout: SplitParser {
-            onRead: data => {
-                const v = root._trim(data);
-                if (v)
-                    root.user = v;
-            }
-        }
-    }
-
-    property var home_proc: Process {
-        command: ["sh", "-lc", "printf %s \"$HOME\""]
-
-        stdout: SplitParser {
-            onRead: data => {
-                const v = root._trim(data);
-                if (v)
-                    root.home = v;
+                    root.uptime = v
             }
         }
     }

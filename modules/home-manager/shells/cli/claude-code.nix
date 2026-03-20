@@ -36,9 +36,10 @@ in
           };
         };
         enabledPlugins = {
-          "perplexity@perplexity-mcp-server" = true;
+          #"perplexity@perplexity-mcp-server" = true;
           "superpowers@superpowers-marketplace" = true;
           "document-skills@anthropic-agent-skills" = true;
+          "everything-claude-code@everything-claude-code" = true;
           "web-artifacts-builder@anthropic-agent-skills" = true;
         };
         permissions = {

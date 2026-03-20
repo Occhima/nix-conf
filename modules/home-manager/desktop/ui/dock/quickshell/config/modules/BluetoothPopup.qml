@@ -57,11 +57,11 @@ Scope {
                 clip: true
                 transformOrigin: Item.TopRight
 
-                scale: Data.Runtime.bluetoothVisible ? 1.0 : 0.96
+                scale: Data.Runtime.bluetoothVisible ? 1.0 : Data.Settings.popupScaleHidden
                 opacity: Data.Runtime.bluetoothVisible ? 1.0 : 0.0
 
-                Behavior on scale { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
-                Behavior on opacity { NumberAnimation { duration: 150 } }
+                Behavior on scale { NumberAnimation { duration: Data.Settings.animMedium; easing.type: Easing.OutCubic } }
+                Behavior on opacity { NumberAnimation { duration: Data.Settings.animShort } }
 
                 MouseArea {
                     anchors.fill: parent
@@ -70,8 +70,8 @@ Scope {
 
                 ColumnLayout {
                     anchors.fill: parent
-                    anchors.margins: 16
-                    spacing: 12
+                    anchors.margins: Data.Settings.spacingLg
+                    spacing: Data.Settings.spacingMd
 
                     RowLayout {
                         Layout.fillWidth: true
@@ -86,9 +86,9 @@ Scope {
                             Image {
                                 anchors.centerIn: parent
                                 source: Quickshell.iconPath("bluetooth-symbolic")
-                                width: 18
-                                height: 18
-                                sourceSize: Qt.size(18, 18)
+                                width: Data.Settings.iconLg
+                                height: Data.Settings.iconLg
+                                sourceSize: Qt.size(Data.Settings.iconLg, Data.Settings.iconLg)
                             }
                         }
 
@@ -98,7 +98,7 @@ Scope {
                             Text {
                                 text: "Bluetooth"
                                 color: Data.Settings.fgColor
-                                font.pixelSize: 18
+                                font.pixelSize: Data.Settings.fontXl
                                 font.weight: Font.DemiBold
                             }
 
@@ -123,14 +123,14 @@ Scope {
                         radius: 12
                         color: scanMouse.containsMouse ? Data.Settings.bgLighter : Data.Settings.bgLight
 
-                        Behavior on color { ColorAnimation { duration: 150 } }
+                        Behavior on color { ColorAnimation { duration: Data.Settings.animShort } }
 
                         Row {
                             anchors.centerIn: parent
-                            spacing: 8
+                            spacing: Data.Settings.spacingSm
 
                             Text {
-                                text: "⟳"
+                                text: "\u27f3"
                                 color: Data.Settings.fgColor
                                 font.pixelSize: 16
                             }
@@ -138,7 +138,7 @@ Scope {
                             Text {
                                 text: "Scan for devices"
                                 color: Data.Settings.fgColor
-                                font.pixelSize: 14
+                                font.pixelSize: Data.Settings.fontLg
                                 font.weight: Font.DemiBold
                             }
                         }
@@ -166,7 +166,7 @@ Scope {
                             model: Services.Bluetooth.devices
 
                             delegate: Rectangle {
-                                id: device
+                                id: deviceItem
 
                                 required property BluetoothDevice modelData
 
@@ -179,7 +179,7 @@ Scope {
                                 radius: 10
                                 color: deviceMouse.containsMouse ? Data.Settings.borderSubtle : Qt.rgba(0, 0, 0, 0.12)
 
-                                Behavior on color { ColorAnimation { duration: 150 } }
+                                Behavior on color { ColorAnimation { duration: Data.Settings.animShort } }
 
                                 MouseArea {
                                     id: deviceMouse
@@ -189,12 +189,12 @@ Scope {
 
                                 RowLayout {
                                     anchors.fill: parent
-                                    anchors.leftMargin: 12
+                                    anchors.leftMargin: Data.Settings.spacingMd
                                     anchors.rightMargin: 10
                                     spacing: 10
 
                                     Text {
-                                        text: "󰋋"
+                                        text: "\U000f0133"
                                         color: Data.Settings.fgColor
                                         font.pixelSize: 16
                                     }
@@ -204,16 +204,16 @@ Scope {
                                         spacing: 2
 
                                         Text {
-                                            text: device.modelData?.name ?? "Unknown"
+                                            text: deviceItem.modelData?.name ?? "Unknown"
                                             color: Data.Settings.fgColor
-                                            font.pixelSize: 14
+                                            font.pixelSize: Data.Settings.fontLg
                                             font.weight: Font.DemiBold
                                             elide: Text.ElideRight
                                             Layout.fillWidth: true
                                         }
 
                                         Text {
-                                            text: device.isConnected ? "Connected" : (device.isPaired ? "Paired" : "Available")
+                                            text: deviceItem.isConnected ? "Connected" : (deviceItem.isPaired ? "Paired" : "Available")
                                             color: Data.Settings.fgDim
                                             font.pixelSize: 12
                                         }
@@ -223,13 +223,13 @@ Scope {
                                         width: 28
                                         height: 28
                                         radius: 14
-                                        color: device.isConnected ? Qt.rgba(0.93, 0.2, 0.25, 0.2) : Data.Settings.hoverBg
+                                        color: deviceItem.isConnected ? Qt.rgba(0.93, 0.2, 0.25, 0.2) : Data.Settings.hoverBg
                                         border.width: 1
                                         border.color: Data.Settings.borderHover
 
                                         Text {
                                             anchors.centerIn: parent
-                                            text: device.isConnected ? "×" : "↔"
+                                            text: deviceItem.isConnected ? "\u00d7" : "\u2194"
                                             color: Data.Settings.fgColor
                                             font.pixelSize: 16
                                         }
@@ -238,11 +238,11 @@ Scope {
                                             anchors.fill: parent
                                             cursorShape: Qt.PointingHandCursor
                                             onClicked: {
-                                                if (!device.modelData) return
-                                                if (device.isConnected)
-                                                    Services.Bluetooth.disconnectDevice(device.modelData)
+                                                if (!deviceItem.modelData) return
+                                                if (deviceItem.isConnected)
+                                                    Services.Bluetooth.disconnectDevice(deviceItem.modelData)
                                                 else
-                                                    Services.Bluetooth.connectDevice(device.modelData)
+                                                    Services.Bluetooth.connectDevice(deviceItem.modelData)
                                             }
                                         }
                                     }
@@ -258,10 +258,10 @@ Scope {
 
                         Text {
                             anchors.centerIn: parent
-                            text: "⚙ Bluetooth Settings"
+                            text: "\u2699 Bluetooth Settings"
                             color: settingsMouse.containsMouse ? Data.Settings.fgColor : Data.Settings.fgDim
 
-                            Behavior on color { ColorAnimation { duration: 150 } }
+                            Behavior on color { ColorAnimation { duration: Data.Settings.animShort } }
                         }
 
                         MouseArea {
