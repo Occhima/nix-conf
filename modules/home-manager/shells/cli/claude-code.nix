@@ -41,6 +41,7 @@ in
           "document-skills@anthropic-agent-skills" = true;
           "everything-claude-code@everything-claude-code" = true;
           "web-artifacts-builder@anthropic-agent-skills" = true;
+          "nyldn@claude-octopus" = true;
         };
         permissions = {
           disableBypassPermissionsMode = "disable";

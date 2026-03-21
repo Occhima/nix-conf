@@ -45,6 +45,7 @@
         enable = true;
         service = true;
         default = true;
+        flavor = "doom";
       };
     };
 
