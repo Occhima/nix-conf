@@ -27,6 +27,7 @@ in
       userDirs = mkIf pkgs.stdenv.isLinux rec {
         enable = true;
         createDirectories = true;
+        setSessionVariables = true;
         documents = "${config.home.homeDirectory}/documents";
         download = "${config.home.homeDirectory}/downloads";
         desktop = "${config.home.homeDirectory}/desktop";
