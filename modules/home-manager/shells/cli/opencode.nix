@@ -15,8 +15,32 @@ in
       enableMcpIntegration = true;
 
       settings = {
-        theme = "dark";
         autoupdate = false;
+        share = "manual";
+
+        permission = {
+          read = {
+            "*" = "allow";
+            "./.env" = "deny";
+            "./.env.*" = "deny";
+            "./secrets/**" = "deny";
+            "./venv/**" = "deny";
+            "./config/credentials.json" = "deny";
+            "./build" = "deny";
+          };
+
+          bash = {
+            "*" = "ask";
+            "git diff*" = "allow";
+            "git push*" = "deny";
+          };
+
+          websearch = "allow";
+          webfetch = {
+            "*" = "ask";
+            "https://docs.letta.com*" = "allow";
+          };
+        };
       };
     };
   };

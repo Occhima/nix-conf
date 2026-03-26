@@ -37,6 +37,10 @@ in
       agentsDir = ./agents;
       skillsDir = ./skills;
     };
+    programs.opencode = {
+      agents = ./agents;
+      skills = ./skills;
+    };
 
     programs.mcp = {
       enable = true;
