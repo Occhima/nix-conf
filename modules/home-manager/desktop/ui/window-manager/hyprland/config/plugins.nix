@@ -24,11 +24,11 @@
             owner = "shezdy";
             repo = "hyprsplit";
             tag = "v${version}";
-            hash = lib.fakeHash;
+            hash = "sha256-NFMLZmM6lM7v6WFcewOp7pKPlr6ampX/MB/kGxt/gPE=";
           };
         }))
         # hyprsplit
-        # hyprfocus
+        hyprfocus
       ];
 
       settings = {

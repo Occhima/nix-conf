@@ -34,14 +34,29 @@ in
             source.source = "github";
             source.repo = "obra/superpowers";
           };
+          autoresearch = {
+            source = {
+              source = "github";
+              repo = "uditgoenka/autoresearch";
+            };
+          };
+          "everything-claude-code" = {
+            source = {
+              source = "github";
+              repo = " affaan-m/everything-claude-code";
+            };
+          };
+
         };
         enabledPlugins = {
           #"perplexity@perplexity-mcp-server" = true;
           "superpowers@superpowers-marketplace" = true;
-          "document-skills@anthropic-agent-skills" = true;
+          # "document-skills@anthropic-agent-skills" = true;
           "everything-claude-code@everything-claude-code" = true;
-          "web-artifacts-builder@anthropic-agent-skills" = true;
-          "nyldn@claude-octopus" = true;
+          # "web-artifacts-builder@anthropic-agent-skills" = true;
+          # "nyldn@claude-octopus" = true;
+          # "nyldn@claude-octopus" = true;
+          "autoresearch@autoresearch" = true;
         };
         permissions = {
           disableBypassPermissionsMode = "disable";

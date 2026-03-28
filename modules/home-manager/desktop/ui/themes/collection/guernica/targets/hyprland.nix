@@ -74,8 +74,8 @@ let
         "fade, 1, 7, default"
         "workspaces, 0, 2, myBezier2"
 
-        "hyprfocusIn, 1, 0.25, focusIn"
-        "hyprfocusOut, 1, 0.25, focusOut"
+        # "hyprfocusIn, 1, 0.25, focusIn"
+        # "hyprfocusOut, 1, 0.25, focusOut"
       ];
     };
   };
