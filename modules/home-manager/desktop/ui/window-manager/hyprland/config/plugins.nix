@@ -28,7 +28,7 @@
           };
         }))
         # hyprsplit
-        hyprfocus
+        # hyprfocus
       ];
 
       settings = {
