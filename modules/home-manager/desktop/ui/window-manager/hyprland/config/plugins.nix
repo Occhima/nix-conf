@@ -17,18 +17,18 @@
 
       plugins = with pkgs.hyprlandPlugins; [
 
-        # (hyprsplit.overrideAttrs (_p: rec {
-        #   # TODO: remove when 0.53 is  in nixpkgs
-        #   version = "0.53.1";
-        #   src = pkgs.fetchFromGitHub {
-        #     owner = "shezdy";
-        #     repo = "hyprsplit";
-        #     tag = "v${version}";
-        #     hash = "sha256-seA9mz0Yej4yYZVgzd7yKoHwuueKhfQPu0CyB7EL8No=";
-        #   };
-        # }))
-        hyprsplit
-        hyprfocus
+        (hyprsplit.overrideAttrs (_p: rec {
+          # TODO: remove when 0.54.2 is  in nixpkgs
+          version = "0.54.2";
+          src = pkgs.fetchFromGitHub {
+            owner = "shezdy";
+            repo = "hyprsplit";
+            tag = "v${version}";
+            hash = lib.fakeHash;
+          };
+        }))
+        # hyprsplit
+        # hyprfocus
       ];
 
       settings = {
@@ -77,14 +77,14 @@
 
         ];
         animations = {
-          bezier = [
-            "focusIn, 1, -0.07, -0.1, 0.95"
-            "focusOut, 1, -0.07, -0.1, 0.95"
-          ];
-          animation = [
-            "hyprfocusIn, 1, 0.25, focusIn"
-            "hyprfocusOut, 1, 0.25, focusOut"
-          ];
+          # bezier = [
+          #   "focusIn, 1, -0.07, -0.1, 0.95"
+          #   "focusOut, 1, -0.07, -0.1, 0.95"
+          # ];
+          # animation = [
+          #   "hyprfocusIn, 1, 0.25, focusIn"
+          #   "hyprfocusOut, 1, 0.25, focusOut"
+          # ];
 
         };
       };

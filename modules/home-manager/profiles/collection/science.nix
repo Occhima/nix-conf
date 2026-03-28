@@ -57,18 +57,7 @@ in
       # pkgs.marimo
       # pkgs.quarto
       pkgs.typst
-
-      (pkgs.rnote.overrideAttrs (_: rec {
-        pname = "rnote";
-        version = "0.13.1";
-        src = pkgs.fetchFromGitHub {
-          owner = "flxzt";
-          repo = "rnote";
-          tag = "v${version}";
-          hash = "sha256-EMxA5QqmIae/d3nUpwKjgURo0nOyaNbma8poB5mcQW0=";
-        };
-      }))
-
+      pkgs.rnote
     ];
   };
 }

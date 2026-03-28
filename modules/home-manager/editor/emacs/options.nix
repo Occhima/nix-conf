@@ -34,7 +34,7 @@ in
 
     home = {
       packages = [
-        (pkgs.writeShellScriptBin "remdaemon" ''
+        (pkgs.writeShellScriptBin "restart-emacs-daemon" ''
           set -euo pipefail
           systemctl --user daemon-reload
           systemctl --user restart emacs

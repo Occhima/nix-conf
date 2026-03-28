@@ -72,7 +72,7 @@ in
 
       (pkgs.writeShellScriptBin "upgrade-doom" ''
         set -euo pipefail
-        doom update
+        doom upgrade
         systemctl --user daemon-reload
         systemctl --user restart emacs
       '')

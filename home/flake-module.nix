@@ -62,6 +62,20 @@ let
           self
           lib
           ;
+        osConfig = {
+          modules = {
+            system.display.type = "";
+            hardware = {
+              monitors = { };
+              yubikey.enable = false;
+            };
+            services.steam.enable = false;
+            secrets.agenix.enable = false;
+          };
+          users.users = { };
+          programs.steam.package = null;
+          age.secrets = { };
+        };
       };
 
     };
