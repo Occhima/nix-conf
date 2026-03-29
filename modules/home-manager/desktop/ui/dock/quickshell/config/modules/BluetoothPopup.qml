@@ -8,6 +8,7 @@ import Quickshell.Io
 
 import "root:/data" as Data
 import "root:/services" as Services
+import "root:/components/shared" as Shared
 
 Scope {
     id: root
@@ -43,7 +44,7 @@ Scope {
 
                 anchors {
                     top: parent.top
-                    topMargin: Data.Settings.barHeight + Data.Settings.barMargin * 2 + 12
+                    topMargin: 4
                     right: parent.right
                     rightMargin: Data.Settings.barSideMargin
                 }
@@ -110,6 +111,10 @@ Scope {
                         }
 
                         Item { Layout.fillWidth: true }
+
+                        Shared.CloseButton {
+                            useIcon: false
+                        }
 
                         Switch {
                             checked: Services.Bluetooth.powered

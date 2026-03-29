@@ -139,7 +139,7 @@ Scope {
         default property alias content: contentItem.data
 
         height: 32
-        radius: 16
+        radius: 8
         color: Data.Settings.bgColor
         border.width: 1
         border.color: Data.Settings.borderSubtle
@@ -152,7 +152,7 @@ Scope {
             anchors.right: parent.right
             anchors.margins: 1
             height: parent.height / 2
-            radius: parent.radius - 1
+            radius: Math.max(0, parent.radius - 1)
             gradient: Gradient {
                 GradientStop { position: 0.0; color: Data.Settings.borderSubtle }
                 GradientStop { position: 1.0; color: "transparent" }

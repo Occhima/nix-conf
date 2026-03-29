@@ -30,18 +30,39 @@ Row {
 
             readonly property int wsId: root.wsStart + index
             readonly property int displayNum: index + 1
-            readonly property bool active: Hyprland.focusedMonitor?.id === root.monitorId &&
-                                          Hyprland.focusedWorkspace?.id === wsId
+            readonly property string displayNumText: String(displayNum)
+            readonly property bool active: {
+                if (Hyprland.focusedMonitor?.id !== root.monitorId) return false
+
+                const focused = Hyprland.focusedWorkspace
+                if (!focused) return false
+                if (focused.id === wsId || focused.id === displayNum) return true
+
+                const focusedName = String(focused.name ?? focused.lastIpcObject?.name ?? "")
+                return focusedName === displayNumText || focusedName.startsWith(displayNumText + ":")
+            }
             readonly property bool occupied: {
-                for (const ws of Hyprland.workspaces.values)
-                    if (ws.id === wsId && ws.windows > 0) return true
+                for (const ws of Hyprland.workspaces.values) {
+                    const windows = ws.windows ?? ws.lastIpcObject?.windows ?? 0
+                    const wsName = String(ws.name ?? ws.lastIpcObject?.name ?? "")
+                    const matches = ws.id === wsId ||
+                                    ws.id === displayNum ||
+                                    wsName === String(wsId) ||
+                                    wsName === displayNumText ||
+                                    wsName.startsWith(displayNumText + ":")
+                    if (matches && windows > 0) return true
+                }
                 return false
             }
 
-            width: active ? 24 : 8
-            height: 8
-            radius: height / 2
-            color: active ? Data.Settings.fgColor : occupied ? Data.Settings.fgDim : Data.Settings.bgLighter
+            width: active ? 24 : 10
+            height: 10
+            radius: 3
+            color: active
+                   ? Data.Settings.fgColor
+                   : occupied
+                     ? Data.Settings.accentColor
+                     : Data.Settings.bgLighter
 
             Behavior on width { NumberAnimation { duration: Data.Settings.animShort; easing.type: Easing.OutCubic } }
             Behavior on color { ColorAnimation { duration: Data.Settings.animShort } }

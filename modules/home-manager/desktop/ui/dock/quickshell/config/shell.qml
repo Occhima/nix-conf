@@ -14,5 +14,6 @@ ShellRoot {
         Modules.CalendarPopup {}
         Modules.DashboardPopup {}
         Modules.BluetoothPopup {}
+        Modules.NetworkPopup {}
     }
 }

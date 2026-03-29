@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Controls
 import Quickshell
 import "root:/data" as Data
 import "root:/services" as Services
@@ -8,7 +7,11 @@ import "root:/components/shared" as Shared
 Row {
     spacing: Data.Settings.spacingXs
 
-    Shared.IconButton { icon: Services.Networking.icon }
+    Shared.IconButton {
+        id: networkButton
+        icon: Services.Networking.icon
+        onHoveredChanged: Data.Runtime.setNetworkPopupVisible(hovered)
+    }
 
     Separator {}
 
