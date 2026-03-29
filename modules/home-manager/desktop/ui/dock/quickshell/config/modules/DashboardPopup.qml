@@ -43,8 +43,7 @@ Scope {
             }
 
             implicitWidth: screen.width
-            implicitHeight: panel.height + Data.Settings.barHeight
-                            + Data.Settings.barMargin * 2 + 20
+            implicitHeight: panel.height + 12
             color: "transparent"
 
             MouseArea {
@@ -57,8 +56,7 @@ Scope {
 
                 anchors {
                     top: parent.top
-                    topMargin: Data.Settings.barHeight
-                               + Data.Settings.barMargin * 2 + 14
+                    topMargin: 6
                     horizontalCenter: parent.horizontalCenter
                 }
 

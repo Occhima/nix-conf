@@ -28,18 +28,6 @@ in
             "./config/credentials.json" = "deny";
             "./build" = "deny";
           };
-
-          bash = {
-            "*" = "ask";
-            "git diff*" = "allow";
-            "git push*" = "deny";
-          };
-
-          websearch = "allow";
-          webfetch = {
-            "*" = "ask";
-            "https://docs.letta.com*" = "allow";
-          };
         };
       };
     };

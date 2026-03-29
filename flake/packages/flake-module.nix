@@ -9,7 +9,11 @@
       pkgs,
       # self',
       ...
+
     }:
+    let
+      neuricoPkg = pkgs.callPackage ./neurico/package.nix { };
+    in
     {
       packages = {
         inherit (pkgs.callPackage ./scripts/package.nix { })
@@ -20,6 +24,8 @@
         docs = pkgs.callPackage ./docs/package.nix { };
         nyxt-source = pkgs.callPackage ./nyxt/package.nix { };
         antigravity = pkgs.callPackage ./antigravity/package.nix { };
+        neurico-scripts = neuricoPkg.scripts;
+        neurico = neuricoPkg.neurico;
 
         # vbox = nixosGenerate {
         #   system = "x86_64-linux";

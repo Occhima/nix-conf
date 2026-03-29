@@ -15,7 +15,6 @@ Singleton {
 
     readonly property BluetoothDevice connectedDevice: {
         if (!adapter || !devices) return null
-        // Try ObjectModel pattern (values array)
         const devList = devices.values ?? devices
         const len = devList.length ?? devList.count ?? 0
         for (let i = 0; i < len; i++) {

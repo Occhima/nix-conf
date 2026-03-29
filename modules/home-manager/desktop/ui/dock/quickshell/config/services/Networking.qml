@@ -24,7 +24,7 @@ QtObject {
     }
 
     readonly property string icon: {
-        if (ethernetConnected) return "network-wired-symbolic"
+        if (ethernetConnected) return "network-wired"
         if (wifiConnected) {
             if (wifiSignal >= 75) return "network-wireless-signal-excellent-symbolic"
             if (wifiSignal >= 50) return "network-wireless-signal-good-symbolic"

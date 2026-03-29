@@ -27,7 +27,7 @@ Scope {
                 right: true
             }
 
-            implicitHeight: panelContent.height + Data.Settings.barHeight + Data.Settings.barMargin * 2 + 60
+            implicitHeight: panelContent.height + 40
             implicitWidth: 380
             color: "transparent"
 
@@ -41,7 +41,7 @@ Scope {
 
                 anchors {
                     top: parent.top
-                    topMargin: Data.Settings.barHeight + Data.Settings.barMargin * 2 + 12
+                    topMargin: 4
                     right: parent.right
                     rightMargin: Data.Settings.barSideMargin
                 }

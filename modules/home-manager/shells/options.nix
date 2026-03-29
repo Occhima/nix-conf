@@ -78,6 +78,7 @@ in
           "gh"
           "ssh"
           "claude-code"
+          "opencode"
           "lazygit"
           "pandoc"
           "jq"

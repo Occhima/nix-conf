@@ -21,7 +21,6 @@ in
     home = {
       packages = [
         pkgs.python313Packages.google-generativeai
-        pkgs.crush
       ];
 
       sessionVariables = mkIf hasAgeKeys {

@@ -194,7 +194,7 @@ Scope {
                                     spacing: 10
 
                                     Text {
-                                        text: "\U000f0133"
+                                        text: "󰋋"
                                         color: Data.Settings.fgColor
                                         font.pixelSize: 16
                                     }

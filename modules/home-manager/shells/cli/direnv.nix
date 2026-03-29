@@ -38,6 +38,7 @@ in
       config = {
         global = {
           warn_timeout = "10m";
+          load_dotenv = true;
         };
       };
     };
