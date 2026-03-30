@@ -140,6 +140,12 @@ Scope {
                         }
                     }
 
+
+                    Dashboard.PerformanceDeck {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 178
+                    }
+
                     RowLayout {
                         id: body
 
@@ -189,11 +195,6 @@ Scope {
                                     currentTime: dashboard.now
                                 }
 
-                                Dashboard.ResourceBarsCard {
-                                    Layout.preferredWidth: 76
-                                    Layout.fillHeight: true
-                                    Layout.minimumHeight: 150
-                                }
                             }
                         }
 
