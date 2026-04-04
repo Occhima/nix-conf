@@ -241,7 +241,7 @@
        (python
         +lsp
         ;; +pyright
-        +pyenv
+        +uv
         +tree-sitter
         ;;+poetry
         ;; +conda

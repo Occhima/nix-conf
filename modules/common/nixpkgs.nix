@@ -6,7 +6,7 @@
     allowUnfreePredicate = _: false;
     allowBroken = false;
     permittedInsecurePackages = [ ];
-    allowUnsupportedSystem = true;
+    allowUnsupportedSystem = false;
   };
   nixpkgs.overlays = builtins.attrValues self.overlays;
 }

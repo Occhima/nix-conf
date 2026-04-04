@@ -6,19 +6,49 @@
 }:
 
 let
-  inherit (lib) mkIf mkDefault;
+  inherit (lib)
+    mkIf
+    mkDefault
+    getName
+    optionals
+    ;
   cfg = config.modules.hardware.gpu;
 in
 {
   config = mkIf (cfg.type == "nvidia") {
-
-    nixpkgs.config.allowUnfree = true;
-    nixpkgs.config.cudaSupport = false;
+    nixpkgs.config = {
+      cudaSupport = true;
+      allowUnfreePredicate =
+        pkg:
+        builtins.elem (getName pkg) [
+          "cudatoolkit"
+          "cuda_cudart"
+          "cuda_cccl"
+          "cuda_nvcc"
+          "libcublas"
+          "libcufft"
+          "libcurand"
+          "libcusolver"
+          "libcusparse"
+          "libnpp"
+          "nvidia-persistenced"
+          "nvidia-settings"
+          "nvidia-x11"
+        ];
+    };
 
     services.xserver.videoDrivers = [ "nvidia" ];
     hardware = {
       graphics = {
-        extraPackages = [ pkgs.nvidia-vaapi-driver ];
+        extraPackages = with pkgs; [
+
+          nvidia-vaapi-driver
+          libva-vdpau-driver
+          libvdpau-va-gl
+          # Add CUDA packages to system graphics packages
+          cudaPackages.cudatoolkit
+          cudaPackages.cuda_cudart
+        ];
       };
 
       nvidia = {
@@ -30,12 +60,7 @@ in
         };
 
         nvidiaSettings = true;
-
-        # disabling due to  error in config
-        # https://github.com/NixOS/nixpkgs/issues/437066
-        # come back when this issue is solved
         nvidiaPersistenced = true;
-
         modesetting.enable = true;
       };
     };
@@ -44,7 +69,10 @@ in
       blacklistedKernelModules = [
         "i2c_nvidia_gpu"
       ];
-      kernelParams = [ "nvidia-drm.fbdev=1" ];
+      kernelParams = optionals (builtins.elem "nvidia" config.services.xserver.videoDrivers) [
+        "nvidia-drm.modeset=1"
+        "nvidia_drm.fbdev=1"
+      ];
     };
 
     environment.sessionVariables = {
@@ -67,6 +95,11 @@ in
       libva
       libva-utils
       mesa
+      cudaPackages.cudatoolkit
+      cudaPackages.cuda_nvcc
+      cudaPackages.cuda_cccl
+      cudaPackages.libcublas
+      cudaPackages.cuda_cudart
       #(nvtopPackages.nvidia)
     ];
 

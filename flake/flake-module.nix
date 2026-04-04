@@ -56,7 +56,7 @@ in
         inherit system;
         config = {
           allowUnfree = true;
-          allowUnsupportedSystem = true;
+          allowUnsupportedSystem = false;
         };
         overlays = builtins.attrValues self.overlays;
       };

@@ -190,7 +190,11 @@
   ;; (add-hook 'python-ts-mode-hook combobulate-mode-hook )
   (setq +python-ipython-repl-args '("-i" "--simple-prompt" "--no-color-info"))
   (setq +python-jupyter-repl-args '("--simple-prompt"))
-  )
+  ()
+  (set-eglot-client! '(python-mode python-ts-mode) '("ty" "server")))
+
+
+)
 
 (after! combobulate
   (setq combobulate-key-prefix "C-c o")

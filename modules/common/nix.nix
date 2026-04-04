@@ -30,9 +30,7 @@ in
         "https://hyprland.cachix.org"
         # "https://install.determinate.systems"
         "https://devenv.cachix.org"
-        "https://occhima.cachix.org"
-        "https://anyrun.cachix.org"
-        "https://niri.cachix.org"
+        "https://cache.nixos-cuda.org"
       ];
 
       trusted-public-keys = [
@@ -41,8 +39,8 @@ in
         "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
         "occhima.cachix.org-1:Uzuoh9jCigJUFzRKj6OAgHsgwfDZ23hhJIBUru3aULI="
         "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
-        "anyrun.cachix.org-1:pqBobmOjI7nKlsUMV25u9QHa9btJK65/C8vnO3p346s="
         "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
+        "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
       ];
       auto-optimise-store = pkgs.stdenv.hostPlatform.isLinux;
 
