@@ -181,7 +181,7 @@
        emacs-lisp                       ; drown in parentheses
        ;;erlang                        ; an elegant language for a more civilized ge
        (ess +lsp +tree-sitter) ; emacs speaks statistics
-       quarto
+       ;;quarto
        ;;faust                         ; dsp, but you get to keep your soul
        ;;fsharp                        ; ML stands for Microsoft's Language
        ;;fstar                         ; (dependent) types and (monadic) effects and Z3

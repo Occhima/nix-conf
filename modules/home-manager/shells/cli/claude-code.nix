@@ -40,6 +40,12 @@ in
               repo = "uditgoenka/autoresearch";
             };
           };
+          caveman = {
+            source = {
+              source = "github";
+              repo = "JuliusBrussee/caveman";
+            };
+          };
           "everything-claude-code" = {
             source = {
               source = "github";
@@ -57,6 +63,7 @@ in
           # "nyldn@claude-octopus" = true;
           # "nyldn@claude-octopus" = true;
           "autoresearch@autoresearch" = true;
+          "caveman@caveman" = true;
         };
         permissions = {
           disableBypassPermissionsMode = "disable";
