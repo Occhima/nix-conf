@@ -14,6 +14,34 @@ let
   hasAgeKeys = osConfig.modules.secrets.agenix.enable or false;
   homeDir = config.home.homeDirectory;
   npx = "${pkgs.nodejs}/bin/npx";
+
+  abTop = (
+    pkgs.rustPlatform.buildRustPackage rec {
+      pname = "abtop";
+      version = "0.2.14";
+
+      src = pkgs.fetchFromGitHub {
+        owner = "graykode";
+        repo = "abtop";
+        rev = "v${version}";
+        hash = "sha256-9gIBRWNek7588d/t/EV4Yv1dRoop2ZuHxZVCeSA9vIk=";
+      };
+
+      cargoLock = {
+        lockFile = "${src}/Cargo.lock";
+      };
+
+      doCheck = true;
+
+      meta = with pkgs.lib; {
+        description = "";
+        homepage = "https://github.com/graycode/abtop";
+        license = licenses.mit;
+        platforms = platforms.all;
+      };
+    }
+  );
+
 in
 
 {
@@ -21,6 +49,7 @@ in
     home = {
       packages = [
         pkgs.python313Packages.google-generativeai
+        abTop
       ];
 
       sessionVariables = mkIf hasAgeKeys {
@@ -34,7 +63,7 @@ in
 
     programs.claude-code = {
       agentsDir = ./agents;
-      skillsDir = ./skills;
+      skills = ./skills;
     };
     programs.opencode = {
       agents = ./agents;

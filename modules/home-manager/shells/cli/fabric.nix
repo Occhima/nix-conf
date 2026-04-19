@@ -10,11 +10,9 @@ let
 in
 {
   config = mkIf (cfg.enable && builtins.elem "fabric-ai" cfg.tools) {
-
     programs.fabric-ai = {
       enable = true;
       enableYtAlias = true;
-      enablePatternAlias = true;
     };
   };
 }
