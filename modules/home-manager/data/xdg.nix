@@ -24,7 +24,7 @@ in
       configHome = "${config.home.homeDirectory}/.config";
       dataHome = "${config.home.homeDirectory}/.local/share";
       cacheHome = "${config.home.homeDirectory}/.cache";
-      userDirs = mkIf pkgs.stdenv.isLinux rec {
+      userDirs = mkIf pkgs.stdenv.isLinux {
         enable = true;
         createDirectories = true;
         setSessionVariables = true;

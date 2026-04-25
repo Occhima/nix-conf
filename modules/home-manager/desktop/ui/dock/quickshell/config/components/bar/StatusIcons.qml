@@ -13,14 +13,10 @@ Row {
         onHoveredChanged: Data.Runtime.setNetworkPopupVisible(hovered)
     }
 
-    Separator {}
-
     Shared.IconButton {
         icon: Services.Bluetooth.icon
         onClicked: Data.Runtime.toggleBluetooth()
     }
-
-    Separator {}
 
     Shared.IconButton { icon: Services.Pipewire.volumeIcon }
 
@@ -28,8 +24,6 @@ Row {
         visible: Services.UPower.hasBattery
         spacing: Data.Settings.spacingXs
         anchors.verticalCenter: parent.verticalCenter
-
-        Separator {}
 
         Image {
             anchors.verticalCenter: parent.verticalCenter
@@ -48,18 +42,8 @@ Row {
         }
     }
 
-    Separator {}
-
     Shared.IconButton {
         icon: "emblem-system-symbolic"
         onClicked: Data.Runtime.toggleQuickSettings()
-    }
-
-    component Separator: Rectangle {
-        anchors.verticalCenter: parent.verticalCenter
-        width: 1
-        height: 12
-        radius: 0.5
-        color: Data.Settings.borderHover
     }
 }

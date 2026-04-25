@@ -139,7 +139,7 @@ Scope {
         default property alias content: contentItem.data
 
         height: 32
-        radius: 8
+        radius: height / 2
         color: Data.Settings.bgColor
         border.width: 1
         border.color: Data.Settings.borderSubtle

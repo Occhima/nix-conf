@@ -55,8 +55,8 @@ Row {
                 return false
             }
 
-            width: active ? 24 : 10
-            height: 10
+            width: active ? 18 : 6
+            height: 6
             radius: 3
             color: active
                    ? Data.Settings.fgColor

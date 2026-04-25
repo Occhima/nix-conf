@@ -31,6 +31,13 @@ in
         General = {
           useGrimAdapter = usingWayland;
           disabledGrimWarning = true;
+          showStartupLaunchMessage = false;
+          savePath = config.xdg.userDirs.extraConfig.SCREENSHOTS;
+          savePathFixed = true;
+          saveAsFileExtension = ".jpg";
+          filenamePattern = "%F_%H-%M";
+          drawThickness = 1;
+          copyPathAfterSave = true;
         };
       };
     };

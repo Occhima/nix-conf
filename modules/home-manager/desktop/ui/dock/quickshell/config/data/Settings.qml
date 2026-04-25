@@ -26,7 +26,7 @@ QtObject {
     readonly property int rounding: 14
     readonly property int barHeight: 40
     readonly property int barMargin: 8
-    readonly property int barSideMargin: 16
+    readonly property int barSideMargin: 8
 
     readonly property int animFast: 100
     readonly property int animShort: 150

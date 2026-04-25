@@ -15,7 +15,18 @@ QtObject {
     property string user: Quickshell.env("USER") || "user"
     property string home: Quickshell.env("HOME") || ""
 
-    readonly property string facePath: home ? "file://" + home + "/.face" : ""
+    property string facePath: ""
+
+    property var faceCheckProc: Process {
+        command: ["bash", "-c", "[ -f '" + root.home + "/.face' ] && echo exists || true"]
+        running: root.home !== ""
+        stdout: SplitParser {
+            onRead: data => {
+                if (data.trim() === "exists")
+                    root.facePath = "file://" + root.home + "/.face"
+            }
+        }
+    }
 
     function update() {
         osRelease.reload()
