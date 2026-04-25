@@ -72,8 +72,8 @@ Scope {
                     InfoRow { label: "Interface"; value: Services.Networking.activeInterface || "--" }
                     InfoRow { label: "IPv4"; value: Services.Networking.ipv4Address || "--" }
                     InfoRow { label: "Gateway"; value: Services.Networking.gateway || "--" }
-                    InfoRow { label: "Down"; value: Services.Networking.downloadKbps.toFixed(1) + " KB/s" }
-                    InfoRow { label: "Up"; value: Services.Networking.uploadKbps.toFixed(1) + " KB/s" }
+                    InfoRow { label: "Down"; value: Services.Networking.downloadKbps.toFixed(2) + " Mb/s" }
+                    InfoRow { label: "Up"; value: Services.Networking.uploadKbps.toFixed(2) + " Mb/s" }
                 }
             }
         }

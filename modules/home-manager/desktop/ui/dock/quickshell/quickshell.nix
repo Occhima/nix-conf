@@ -63,8 +63,8 @@ let
       fi
 
       if speed_json="$(librespeed-cli --json 2>/dev/null)"; then
-        down_kbps="$(printf '%s' "$speed_json" | jq -r '(((.download // .downloadSpeed // 0) / 8) / 1024) | floor | tostring' 2>/dev/null || printf '0')"
-        up_kbps="$(printf '%s' "$speed_json" | jq -r '(((.upload // .uploadSpeed // 0) / 8) / 1024) | floor | tostring' 2>/dev/null || printf '0')"
+        down_kbps="$(printf '%s' "$speed_json" | jq -r '(.download // .downloadSpeed // 0 | tostring)' 2>/dev/null || printf '0')"
+        up_kbps="$(printf '%s' "$speed_json" | jq -r '(.upload // .uploadSpeed // 0 | tostring)' 2>/dev/null || printf '0')"
       fi
 
       printf 'ACTIVE_INTERFACE=%s\n' "$active_interface"

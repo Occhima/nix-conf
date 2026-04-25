@@ -47,10 +47,13 @@ in
 {
   config = mkIf (hasProfile config [ "ai" ]) {
     home = {
+
+      # TODO: add codeburn
       packages = [
         pkgs.python313Packages.google-generativeai
         pkgs.rtk
         abTop
+
       ];
 
       sessionVariables = mkIf hasAgeKeys {
