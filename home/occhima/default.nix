@@ -110,13 +110,15 @@
 
         };
         spotify.enable = true;
-        lutris.enable = true;
-        discord.enable = true;
+
+        # NOTE: broken
+        lutris.enable = false;
+        discord.enable = false;
         flameshot.enable = true;
         wlogout.enable = true;
 
         #NOTE: also broken  :()
-        calibre.enable = false;
+        calibre.enable = true;
       };
     };
   };

@@ -17,17 +17,13 @@ in
   };
 
   config = mkIf cfg.enable {
-    boot.kernelModules = [ "btusb" ];
     hardware.bluetooth = {
       enable = true;
       package = pkgs.bluez;
       powerOnBoot = true;
-      disabledPlugins = [ "sap" ];
       settings = {
         General = {
           JustWorksRepairing = "always";
-          MultiProfile = "multiple";
-          Experimental = true;
         };
       };
     };
