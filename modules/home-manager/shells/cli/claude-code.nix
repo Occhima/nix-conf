@@ -22,6 +22,12 @@ in
 
         # NOTE: stolen from: https://github.com/ViZiD/dotfiles/blob/master/modules/cli/vibecoding.nix
         extraKnownMarketplaces = {
+          "thedotmack/claude-mem" = {
+            source = {
+              source = "github";
+              repo = "thedotmack/claude-mem";
+            };
+          };
           perplexity-mcp-server = {
             source.source = "github";
             source.repo = "perplexityai/modelcontextprotocol";
@@ -52,6 +58,12 @@ in
               repo = " affaan-m/everything-claude-code";
             };
           };
+          "forrestchang/andrej-karpathy-skills" = {
+            source = {
+              source = "github";
+              repo = "forrestchang/andrej-karpathy-skills";
+            };
+          };
 
         };
         enabledPlugins = {
@@ -64,6 +76,10 @@ in
           # "nyldn@claude-octopus" = true;
           "autoresearch@autoresearch" = true;
           "caveman@caveman" = true;
+          "feature-dev@claude-plugins-official" = true;
+          "claude-md-management@claude-plugins-official" = true;
+          "claude-code-setup@claude-plugins-official" = true;
+          "andrej-karpathy-skills@karpathy-skills" = true;
         };
         permissions = {
           disableBypassPermissionsMode = "disable";

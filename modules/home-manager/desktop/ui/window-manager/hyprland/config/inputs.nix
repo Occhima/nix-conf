@@ -1,4 +1,9 @@
-{ config, ... }:
+{ config, osConfig, ... }:
+let
+  primary = osConfig.modules.hardware.monitors.primaryMonitorName;
+  output = osConfig.modules.hardware.monitors.displays.${primary}.output;
+
+in
 {
   wayland.windowManager.hyprland.settings = {
     input = {
@@ -8,6 +13,10 @@
       follow_mouse = 1;
       touchpad = {
         natural_scroll = false;
+      };
+      tablet = {
+        transform = 1;
+        output = output;
       };
       sensitivity = -0.5;
       repeat_delay = 250;

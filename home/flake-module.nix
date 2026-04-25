@@ -65,7 +65,15 @@ let
           modules = {
             system.display.type = "";
             hardware = {
-              monitors = { };
+              monitors = {
+                primaryMonitorName = "test";
+                displays = {
+                  test = {
+                    output = "";
+                  };
+                };
+
+              };
               yubikey.enable = false;
             };
             services.steam.enable = false;

@@ -10,7 +10,6 @@ in
       "toram"
     ];
 
-    loader.systemd-boot.enable = mkForce false;
     swraid.enable = mkForce false;
     supportedFilesystems = mkForce [
       "btrfs"
