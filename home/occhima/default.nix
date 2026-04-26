@@ -69,7 +69,7 @@
       r.enable = false;
       haskell.enable = false;
       c.enable = true;
-      julia.enable = false;
+      julia.enable = true;
     };
 
     desktop = {
