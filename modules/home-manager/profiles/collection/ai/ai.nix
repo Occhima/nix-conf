@@ -136,6 +136,23 @@ in
           type = "stdio";
         };
 
+        paper-search = {
+          command = "${pkgs.uv}/bin/uvx";
+          args = [ "paper-search-mcp" ];
+          type = "stdio";
+
+          env = {
+            # NOTE: Needed envs
+            PAPER_SEARCH_MCP_UNPAYWALL_EMAIL = config.accounts.email.accounts.usp.address;
+            # PAPER_SEARCH_MCP_CORE_API_KEY = "{{env:PAPER_SEARCH_MCP_CORE_API_KEY}}";
+            # PAPER_SEARCH_MCP_SEMANTIC_SCHOLAR_API_KEY = "{{env:PAPER_SEARCH_MCP_SEMANTIC_SCHOLAR_API_KEY}}";
+            # PAPER_SEARCH_MCP_ZENODO_ACCESS_TOKEN = "{{env:PAPER_SEARCH_MCP_ZENODO_ACCESS_TOKEN}}";
+            # PAPER_SEARCH_MCP_GOOGLE_SCHOLAR_PROXY_URL = "{{env:PAPER_SEARCH_MCP_GOOGLE_SCHOLAR_PROXY_URL}}";
+            # PAPER_SEARCH_MCP_IEEE_API_KEY = "{{env:PAPER_SEARCH_MCP_IEEE_API_KEY}}";
+            # PAPER_SEARCH_MCP_ACM_API_KEY = "{{env:PAPER_SEARCH_MCP_ACM_API_KEY}}";
+          };
+        };
+
         sequential-thinking = {
           command = npx;
           args = [

@@ -68,6 +68,17 @@
         enable = false;
       };
 
+      monitors = {
+        primaryMonitorName = "edp1";
+        displays = {
+          edp1 = {
+            output = "eDP-1";
+            mode = "2560x1080@180";
+            position = "0x0";
+          };
+        };
+      };
+
       yubikey.enable = true;
     };
 
