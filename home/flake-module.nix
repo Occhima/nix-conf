@@ -66,15 +66,14 @@ let
             system.display.type = "";
             hardware = {
               monitors = {
-                primaryMonitorName = "test";
+                primaryMonitorName = "dp1";
                 displays = {
-                  test = {
+                  dp1 = {
                     output = "DP-1";
                     mode = "2560x1080@180";
                     position = "0x0";
                   };
                 };
-
               };
               yubikey.enable = false;
             };

@@ -11,19 +11,6 @@ let
   juliaPackages = [
     "LanguageServer"
     "SymbolServer"
-    "StaticLint"
-    "DataFrames"
-    "CSV"
-    "Plots"
-    "StatsBase"
-    "StatsPlots"
-    "LinearAlgebra"
-    "MLJ"
-    "StatsBase"
-    "Distributions"
-    "GLM"
-    "Query"
-    "Gadfly"
   ];
 
   juliaEnv = pkgs.julia.withPackages juliaPackages;
