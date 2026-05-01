@@ -1,6 +1,6 @@
 {
   plugins.cmp = {
-    enable = true;
+    enable = false;
 
     # Setting this means we don't need to explicitly enable
     # each completion source, so long as the plugin is listed
@@ -29,10 +29,6 @@
         }
         {
           name = "treesitter";
-          groupIndex = 2;
-        }
-        {
-          name = "spell";
           groupIndex = 2;
         }
         {

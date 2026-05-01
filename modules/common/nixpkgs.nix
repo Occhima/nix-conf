@@ -2,8 +2,7 @@
 {
   # system specific overrides,
   nixpkgs.config = {
-    allowUnfree = true; # super restrictive configs
-    allowUnfreePredicate = _: false;
+    allowUnfree = true;
     allowBroken = false;
     permittedInsecurePackages = [ ];
     allowUnsupportedSystem = false;

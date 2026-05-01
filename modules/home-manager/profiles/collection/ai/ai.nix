@@ -9,11 +9,10 @@
 }:
 
 let
-  inherit (lib) mkIf;
+  inherit (lib) mkIf getExe getExe';
   inherit (lib.custom) hasProfile;
   hasAgeKeys = osConfig.modules.secrets.agenix.enable or false;
   homeDir = config.home.homeDirectory;
-  npx = "${pkgs.nodejs}/bin/npx";
 
   abTop = (
     pkgs.rustPlatform.buildRustPackage rec {
@@ -87,19 +86,32 @@ in
           type = "stdio";
         };
 
+        devenv = {
+          command = getExe pkgs.devenv;
+          args = [ "mcp" ];
+          type = "stdio";
+        };
+
         deepwiki = {
           type = "http";
           url = "https://mcp.deepwiki.com/mcp";
         };
 
+        context7 = {
+          type = "http";
+          url = "https://mcp.context7.com/mcp";
+          headers = {
+            CONTEXT7_API_KEY = "{env:CONTEXT7_API_KEY}";
+          };
+        };
+
         time = {
-          command = "${pkgs.uv}/bin/uvx";
-          args = [ "mcp-server-time" ];
+          command = getExe pkgs.mcp-server-time;
           type = "stdio";
         };
 
         github = {
-          command = "${pkgs.github-mcp-server}/bin/github-mcp-server";
+          command = getExe pkgs.github-mcp-server;
           args = [ "stdio" ];
           type = "stdio";
           env = {
@@ -108,58 +120,51 @@ in
         };
 
         filesystem = {
-          command = npx;
+          command = getExe pkgs.mcp-server-filesystem;
           args = [
-            "-y"
-            "@modelcontextprotocol/server-filesystem"
             homeDir
             "/tmp"
           ];
           type = "stdio";
         };
 
-        fetch = {
-          command = npx;
-          args = [
-            "-y"
-            "@anthropics/mcp-fetch"
-          ];
+        memory = {
+          command = getExe pkgs.mcp-server-memory;
+          args = [ ];
+          type = "stdio";
+
+        };
+
+        playwright-mcp = {
+          command = getExe pkgs.playwright-mcp;
+          args = [ ];
+          type = "stdio";
+        };
+        perplexity = {
+          command = getExe pkgs.perplexity-mcp;
+          args = [ ];
           type = "stdio";
         };
 
-        memory = {
-          command = npx;
-          args = [
-            "-y"
-            "@modelcontextprotocol/server-memory"
-          ];
+        sequential-thinking = {
+          command = getExe pkgs.mcp-server-sequential-thinking;
+          args = [ ];
           type = "stdio";
         };
 
         paper-search = {
-          command = "${pkgs.uv}/bin/uvx";
-          args = [ "paper-search-mcp" ];
-          type = "stdio";
-
-          env = {
-            # NOTE: Needed envs
-            PAPER_SEARCH_MCP_UNPAYWALL_EMAIL = config.accounts.email.accounts.usp.address;
-            # PAPER_SEARCH_MCP_CORE_API_KEY = "{{env:PAPER_SEARCH_MCP_CORE_API_KEY}}";
-            # PAPER_SEARCH_MCP_SEMANTIC_SCHOLAR_API_KEY = "{{env:PAPER_SEARCH_MCP_SEMANTIC_SCHOLAR_API_KEY}}";
-            # PAPER_SEARCH_MCP_ZENODO_ACCESS_TOKEN = "{{env:PAPER_SEARCH_MCP_ZENODO_ACCESS_TOKEN}}";
-            # PAPER_SEARCH_MCP_GOOGLE_SCHOLAR_PROXY_URL = "{{env:PAPER_SEARCH_MCP_GOOGLE_SCHOLAR_PROXY_URL}}";
-            # PAPER_SEARCH_MCP_IEEE_API_KEY = "{{env:PAPER_SEARCH_MCP_IEEE_API_KEY}}";
-            # PAPER_SEARCH_MCP_ACM_API_KEY = "{{env:PAPER_SEARCH_MCP_ACM_API_KEY}}";
-          };
-        };
-
-        sequential-thinking = {
-          command = npx;
+          command = getExe' pkgs.uv "uvx";
           args = [
-            "-y"
-            "@modelcontextprotocol/server-sequential-thinking"
+            "--from"
+            "paper-search-mcp"
+            "python"
+            "-m"
+            "paper_search_mcp.server"
           ];
           type = "stdio";
+          env = {
+            PAPER_SEARCH_MCP_UNPAYWALL_EMAIL = config.accounts.email.accounts.usp.address;
+          };
         };
       };
     };

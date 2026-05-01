@@ -17,6 +17,7 @@ in
       settings = {
         autoupdate = false;
         share = "manual";
+        plugin = [ "oh-my-openagent@latest" ];
 
         permission = {
           read = {

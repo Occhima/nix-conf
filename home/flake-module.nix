@@ -40,7 +40,7 @@ let
         # TODO: Use the same value from common/nixpkgs?
         overlays = builtins.attrValues self.overlays;
         config = {
-          #allowUnfree = true;
+          allowUnfree = true;
           allowBroken = false;
           allowUnsupportedSystem = false;
 

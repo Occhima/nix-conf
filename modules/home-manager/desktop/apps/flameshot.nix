@@ -29,8 +29,8 @@ in
       package = flameShotPkg;
       settings = {
         General = {
-          useGrimAdapter = usingWayland;
-          disabledGrimWarning = true;
+          # useGrimAdapter = usingWayland;
+          # disabledGrimWarning = true;
           showStartupLaunchMessage = false;
           savePath = config.xdg.userDirs.extraConfig.SCREENSHOTS;
           savePathFixed = true;

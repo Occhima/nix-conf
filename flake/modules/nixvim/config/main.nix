@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   viAlias = true;
   vimAlias = true;
@@ -39,7 +39,7 @@
     tmux-navigator.enable = true;
   };
 
-  extraPlugins = with pkgs.vimPlugins; [
-    vim-be-good # vim motions minigames
-  ];
+  # extraPlugins = with pkgs.vimPlugins; [
+  #   # vim-be-good # vim motions minigames
+  # ];
 }
