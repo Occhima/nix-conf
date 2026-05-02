@@ -2,114 +2,65 @@
 {
   plugins.lualine = {
     enable = true;
-    settings = {
-      options = {
-        theme = "auto";
-        globalstatus = true;
-        section_separators = {
-          left = "";
-          right = "";
-        };
-        component_separators = {
-          left = "│";
-          right = "│";
-        };
-        disabled_filetypes.statusline = [ "dashboard" "alpha" ];
+    settings.options = {
+      globalstatus = true;
+      section_separators = {
+        left = "";
+        right = "";
       };
-      sections = {
-        lualine_a = [ "mode" ];
-        lualine_b = [ "branch" "diff" "diagnostics" ];
-        lualine_c = [
-          {
-            __unkeyed-1 = "filename";
-            path = 1;
-            shorting_target = 40;
-          }
-        ];
-        lualine_x = [ "filetype" ];
-        lualine_y = [ "progress" ];
-        lualine_z = [ "location" ];
-      };
-      inactive_sections = {
-        lualine_c = [ "filename" ];
-        lualine_x = [ "location" ];
+      component_separators = {
+        left = "│";
+        right = "│";
       };
     };
   };
 
-  plugins.dashboard = {
+  plugins.notify = {
     enable = true;
     settings = {
-      theme = "doom";
-      config = {
-        header = [
-          ""
-          "  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗"
-          "  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║"
-          "  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║"
-          "  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║"
-          "  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║"
-          "  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝"
-          ""
-        ];
-        center = [
-          {
-            action = "Telescope find_files";
-            desc = " Find File";
-            icon = " ";
-            key = "f";
-          }
-          {
-            action = "Telescope oldfiles";
-            desc = " Recent Files";
-            icon = "󰄉 ";
-            key = "r";
-          }
-          {
-            action = "Telescope live_grep";
-            desc = " Find Text";
-            icon = " ";
-            key = "g";
-          }
-          {
-            action = "Neogit";
-            desc = " Git";
-            icon = " ";
-            key = "G";
-          }
-          {
-            action = "qa";
-            desc = " Quit";
-            icon = "󰅚 ";
-            key = "q";
-          }
-        ];
-        footer = [ ];
-      };
+      timeout = 2500;
+      stages = "fade";
+      render = "default";
+      top_down = true;
     };
   };
 
   plugins.noice = {
     enable = true;
-    settings = {
-      lsp = {
-        override = {
-          "vim.lsp.util.convert_input_to_markdown_lines" = true;
-          "vim.lsp.util.stylize_markdown" = true;
-        };
-        signature.enabled = false;
-      };
-      presets = {
-        bottom_search = true;
-        command_palette = true;
-        long_message_to_split = true;
-        lsp_doc_border = true;
-      };
+    settings.presets = {
+      command_palette = true;
+      long_message_to_split = true;
+      lsp_doc_border = true;
     };
   };
 
-  plugins.indent-blankline = {
+  plugins.dressing.enable = true;
+
+  plugins.which-key = {
     enable = true;
-    settings.indent.char = "¦";
+    settings.delay = 300;
+  };
+
+  plugins.gitsigns = {
+    enable = true;
+    settings.signs = {
+      add.text = "▎";
+      change.text = "▎";
+      delete.text = "";
+      topdelete.text = "";
+      changedelete.text = "▎";
+      untracked.text = "▎";
+    };
+  };
+
+  opts = {
+    termguicolors = true;
+    number = true;
+    relativenumber = true;
+    cursorline = true;
+    signcolumn = "yes";
+    laststatus = 3;
+    pumblend = 10;
+    winblend = 8;
   };
 }

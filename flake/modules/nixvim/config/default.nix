@@ -3,6 +3,7 @@
     ./ai.nix
     ./colorscheme.nix
     ./completion.nix
+    ./dashboard.nix
     ./git.nix
     ./keymaps
     ./lsp.nix
