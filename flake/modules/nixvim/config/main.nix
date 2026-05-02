@@ -7,39 +7,26 @@
   editorconfig.enable = true;
 
   plugins = {
-    #FIXME: giving hash mismatch
-    lualine.enable = false;
     comment.enable = true;
     todo-comments.enable = true;
     web-devicons.enable = true;
 
     refactoring = {
-      enable = true;
+      enable = false;
       enableTelescope = true;
-    };
-
-    indent-blankline = {
-      enable = true;
-      settings.indent.char = "¦";
     };
 
     mini = {
       enable = true;
       modules = {
-        surround = { }; # ~ surround
-        trailspace = { }; # Highlight/remove trailing whitespace
+        surround = { };
+        trailspace = { };
       };
     };
 
     nvim-autopairs.enable = true;
-
-    luasnip.enable = true; # TODO install snippets
-
-    # Enable tmux-navigator
+    luasnip.enable = true;
     tmux-navigator.enable = true;
+    bufdelete.enable = true;
   };
-
-  # extraPlugins = with pkgs.vimPlugins; [
-  #   # vim-be-good # vim motions minigames
-  # ];
 }
