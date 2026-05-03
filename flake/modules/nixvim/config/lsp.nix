@@ -47,11 +47,26 @@
         python = [ "ruff_format" ];
         rust = [ "rustfmt" ];
         lua = [ "stylua" ];
-        javascript = [ "prettierd" "prettier" ];
-        typescript = [ "prettierd" "prettier" ];
-        json = [ "prettierd" "prettier" ];
-        yaml = [ "prettierd" "prettier" ];
-        markdown = [ "prettierd" "prettier" ];
+        javascript = [
+          "prettierd"
+          "prettier"
+        ];
+        typescript = [
+          "prettierd"
+          "prettier"
+        ];
+        json = [
+          "prettierd"
+          "prettier"
+        ];
+        yaml = [
+          "prettierd"
+          "prettier"
+        ];
+        markdown = [
+          "prettierd"
+          "prettier"
+        ];
         sh = [ "shfmt" ];
       };
     };

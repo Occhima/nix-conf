@@ -62,13 +62,19 @@
 
     # Gitsigns: hunk actions
     {
-      mode = [ "n" "v" ];
+      mode = [
+        "n"
+        "v"
+      ];
       key = "<leader>ghs";
       action = "<cmd>Gitsigns stage_hunk<CR>";
       options.desc = "Stage hunk";
     }
     {
-      mode = [ "n" "v" ];
+      mode = [
+        "n"
+        "v"
+      ];
       key = "<leader>ghr";
       action = "<cmd>Gitsigns reset_hunk<CR>";
       options.desc = "Reset hunk";
