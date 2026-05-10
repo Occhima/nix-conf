@@ -20,7 +20,6 @@ in
           vimMode = true;
         };
 
-        # NOTE: stolen from: https://github.com/ViZiD/dotfiles/blob/master/modules/cli/vibecoding.nix
         extraKnownMarketplaces = {
           "thedotmack/claude-mem" = {
             source = {

@@ -5,6 +5,7 @@
   lib,
   config,
   osConfig,
+  self,
   ...
 }:
 
@@ -49,9 +50,10 @@ in
 
       # TODO: add codeburn
       packages = [
-        pkgs.python313Packages.google-generativeai
+        # pkgs.python313Packages.google-generativeai
         pkgs.rtk
         abTop
+        self.packages.${pkgs.stdenv.hostPlatform.system}.nyxt-source
 
       ];
 
