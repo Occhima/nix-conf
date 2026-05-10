@@ -51,12 +51,12 @@ in
               repo = "JuliusBrussee/caveman";
             };
           };
-          "everything-claude-code" = {
-            source = {
-              source = "github";
-              repo = " affaan-m/everything-claude-code";
-            };
-          };
+          # "everything-claude-code" = {
+          #   source = {
+          #     source = "github";
+          #     repo = " affaan-m/everything-claude-code";
+          #   };
+          # };
           "forrestchang/andrej-karpathy-skills" = {
             source = {
               source = "github";
@@ -69,7 +69,7 @@ in
           #"perplexity@perplexity-mcp-server" = true;
           "superpowers@superpowers-marketplace" = true;
           # "document-skills@anthropic-agent-skills" = true;
-          "everything-claude-code@everything-claude-code" = true;
+          # "everything-claude-code@everything-claude-code" = true;
           # "web-artifacts-builder@anthropic-agent-skills" = true;
           # "nyldn@claude-octopus" = true;
           # "nyldn@claude-octopus" = true;

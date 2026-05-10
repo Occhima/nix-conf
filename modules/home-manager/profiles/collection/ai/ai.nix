@@ -13,7 +13,6 @@ let
   inherit (lib) mkIf getExe getExe';
   inherit (lib.custom) hasProfile;
   hasAgeKeys = osConfig.modules.secrets.agenix.enable or false;
-  homeDir = config.home.homeDirectory;
 
   abTop = (
     pkgs.rustPlatform.buildRustPackage rec {
@@ -53,7 +52,7 @@ in
         # pkgs.python313Packages.google-generativeai
         pkgs.rtk
         abTop
-        self.packages.${pkgs.stdenv.hostPlatform.system}.nyxt-source
+        self.packages.${pkgs.stdenv.hostPlatform.system}.jcode
 
       ];
 
@@ -121,14 +120,14 @@ in
           };
         };
 
-        filesystem = {
-          command = getExe pkgs.mcp-server-filesystem;
-          args = [
-            homeDir
-            "/tmp"
-          ];
-          type = "stdio";
-        };
+        # filesystem = {
+        #   command = getExe pkgs.mcp-server-filesystem;
+        #   args = [
+        #     homeDir
+        #     "/tmp"
+        #   ];
+        #   type = "stdio";
+        # };
 
         memory = {
           command = getExe pkgs.mcp-server-memory;

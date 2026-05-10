@@ -36,7 +36,7 @@
   )
 
 (after! corfu
-  (setq! orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq orderless-component-separator #'orderless-escapable-split-on-space)
   )
 
 (after! consult-gh
