@@ -17,7 +17,7 @@
     home = {
       stateVersion = "25.05";
       homeDirectory = "/home/${config.home.username}";
-      preferXdgDirectories = true;
+
       sessionVariables = {
         FLAKE = config.modules.home.flakePath;
         NH_FLAKE = config.modules.home.flakePath;

@@ -10,7 +10,7 @@ in
 {
 
   imports = [
-    ./config
+    ./config/hyprlang
   ];
   config = lib.mkIf (cfg.windowManager == "hyprland") {
 
@@ -23,6 +23,8 @@ in
         no_update_news = true;
         no_donation_nag = true;
       };
+
+      configType = "hyprlang";
 
       systemd = {
         enable = true;

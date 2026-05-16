@@ -17,6 +17,11 @@ in
 
     programs.uv = {
       enable = true;
+      settings = {
+        index-strategy = "first-index";
+        compile-bytecode = true;
+        exclude-newer = "7 days";
+      };
     };
 
     programs.pyenv = {

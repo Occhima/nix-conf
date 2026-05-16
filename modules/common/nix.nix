@@ -44,6 +44,11 @@ in
       ];
       auto-optimise-store = pkgs.stdenv.hostPlatform.isLinux;
 
+      # Refuse to use substituted paths that carry no valid signature from a
+      # trusted key. Default is true but making it explicit prevents accidental
+      # override via flake nixConfig or environment variables.
+      require-sigs = true;
+
       # users or groups which are allowed to do anything with the Nix daemon
       allowed-users = [ sudoers ];
       # users or groups which are allowed to manage the nix store

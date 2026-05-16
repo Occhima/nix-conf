@@ -19,6 +19,7 @@ in
   };
 
   config = mkIf cfg.enable {
+    home.preferXdgDirectories = true;
     xdg = {
       enable = true;
       configHome = "${config.home.homeDirectory}/.config";
