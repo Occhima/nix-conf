@@ -87,11 +87,11 @@ in
           type = "stdio";
         };
 
-        devenv = {
-          command = getExe pkgs.devenv;
-          args = [ "mcp" ];
-          type = "stdio";
-        };
+        # devenv = {
+        #   command = getExe pkgs.devenv;
+        #   args = [ "mcp" ];
+        #   type = "stdio";
+        # };
 
         deepwiki = {
           type = "http";
@@ -106,10 +106,10 @@ in
           };
         };
 
-        time = {
-          command = getExe pkgs.mcp-server-time;
-          type = "stdio";
-        };
+        # time = {
+        #   command = getExe pkgs.mcp-server-time;
+        #   type = "stdio";
+        # };
 
         github = {
           command = getExe pkgs.github-mcp-server;
@@ -141,17 +141,18 @@ in
           args = [ ];
           type = "stdio";
         };
-        perplexity = {
-          command = getExe pkgs.perplexity-mcp;
-          args = [ ];
-          type = "stdio";
-        };
 
-        sequential-thinking = {
-          command = getExe pkgs.mcp-server-sequential-thinking;
-          args = [ ];
-          type = "stdio";
-        };
+        # perplexity = {
+        #   command = getExe pkgs.perplexity-mcp;
+        #   args = [ ];
+        #   type = "stdio";
+        # };
+
+        # sequential-thinking = {
+        #   command = getExe pkgs.mcp-server-sequential-thinking;
+        #   args = [ ];
+        #   type = "stdio";
+        # };
 
         paper-search = {
           command = getExe' pkgs.uv "uvx";

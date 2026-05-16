@@ -113,7 +113,7 @@
 
         # NOTE: broken
         lutris.enable = false;
-        discord.enable = false;
+        discord.enable = true;
         flameshot.enable = true;
         wlogout.enable = true;
 

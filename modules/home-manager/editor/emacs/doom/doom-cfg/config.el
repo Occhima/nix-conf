@@ -19,7 +19,7 @@
       command-line-default-directory "~/"
       delete-by-moving-to-trash t
       +lookup-provider-url-alist
-      '(("Doom Emacs issues" "https://github.com/hlissner/doom-emacs/issues?q=is%%3Aissue+%s")
+      '(("Doom Emacs issues" "https://github.com/doomemacs/doomemacs/issues?q=is%%3Aissue+%s")
         ("DuckDuckGo"        +lookup--online-backend-duckduckgo "https://duckduckgo.com/?q=%s")
         ("StackOverflow"     "https://stackoverflow.com/search?q=%s")
         ("Github"            "https://github.com/search?ref=simplesearch&q=%s")

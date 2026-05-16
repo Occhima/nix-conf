@@ -3,8 +3,6 @@
   (setq telega-use-docker t))
 
 ;; mu4e
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
-
 (after! mu4e
   (setq sendmail-program (executable-find "msmtp")
         send-mail-function #'smtpmail-send-it

@@ -31,7 +31,7 @@
 (after! bibtex
   (setq bibtex-completion-pdf-open-function
         (lambda (fpath)
-          (call-process "open" nil 0 nil fpath))
+          (call-process "xdg-open" nil 0 nil fpath))
 
         bibtex-completion-bibliography occhima/bibliographies
         bibtex-completion-library-path occhima/library-paths
