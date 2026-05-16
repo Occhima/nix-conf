@@ -181,7 +181,6 @@
        emacs-lisp                       ; drown in parentheses
        ;;erlang                        ; an elegant language for a more civilized ge
        (ess +lsp +tree-sitter) ; emacs speaks statistics
-       ;;quarto
        ;;faust                         ; dsp, but you get to keep your soul
        ;;fsharp                        ; ML stands for Microsoft's Language
        ;;fstar                         ; (dependent) types and (monadic) effects and Z3
@@ -263,6 +262,7 @@
        ;;terra                         ; Earth and Moon in alignment for performance.
        (web +lsp +tree-sitter)                       ; the tubes
        (yaml +tree-sitter)                             ; JSON, but readable
+       just                                           ; just a command runner
 
        :email
        (mu4e +gmail +org +consult)
