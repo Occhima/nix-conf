@@ -24,7 +24,7 @@ in
         no_donation_nag = true;
       };
 
-      configType = "hyprlang";
+      configType = "lua";
 
       systemd = {
         enable = true;
