@@ -78,6 +78,12 @@
               nh
               fzf
 
+              lua5_4
+              lua-language-server
+              stylua
+              emacs
+              emacsPackages.elisp-lint
+
               gitAndTools.hub
               namaka
 

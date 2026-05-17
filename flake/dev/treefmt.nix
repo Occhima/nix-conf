@@ -47,6 +47,11 @@
           # TypeScript / JSON
           # biome = { enable = true; };
 
+          # Lua
+          stylua = {
+            enable = true;
+          };
+
           # YAML
           prettier = {
             enable = true;
