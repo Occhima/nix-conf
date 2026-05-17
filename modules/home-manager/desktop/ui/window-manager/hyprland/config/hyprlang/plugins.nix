@@ -24,7 +24,7 @@
             owner = "shezdy";
             repo = "hyprsplit";
             tag = "v${version}";
-            hash = lib.fakeHash;
+            hash = "sha256-0/b9n3NvXiA2NGz2Bt/h8TLyBc+twJiHriHyI8JovdI=";
           };
         }))
         # hyprsplit
