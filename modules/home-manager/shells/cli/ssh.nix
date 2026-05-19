@@ -13,20 +13,16 @@ in
     programs.ssh = {
       enable = true;
       enableDefaultConfig = false;
-      matchBlocks = {
-        "*" = {
-          hashKnownHosts = true;
-          compression = true;
-        };
+      settings."*" = {
+        HashKnownHosts = true;
+        Compression = true;
       };
 
       # TODO...
-      # matchBlocks = {
-      #   "github.com" = mkIf hasAgeKeys {
-      #     user = "git";
-      #     hostname = "github.com";
-      #     identityFile = osConfig.age.secrets.github.path;
-      #   };
+      # settings."github.com" = mkIf hasAgeKeys {
+      #   User = "git";
+      #   HostName = "github.com";
+      #   IdentityFile = osConfig.age.secrets.github.path;
       # };
     };
   };

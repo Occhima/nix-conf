@@ -24,7 +24,7 @@ in
         no_donation_nag = true;
       };
 
-      configType = "lua";
+      configType = "hyprlang"; # Bc some of my plugins rely on this
 
       systemd = {
         enable = true;

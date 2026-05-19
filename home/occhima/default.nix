@@ -89,6 +89,13 @@
 
       ui = {
         windowManager = "hyprland";
+        windowManagerOpts.hyprland.plugins = {
+          enable = true;
+          enabledPlugins = [
+            "hy3"
+            "split-monitor-workspaces"
+          ];
+        };
         dock = "quickshell";
         launcher = "anyrun";
 
