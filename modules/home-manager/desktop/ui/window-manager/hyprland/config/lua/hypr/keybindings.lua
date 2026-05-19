@@ -19,6 +19,7 @@ local function bind_core()
     { mod .. " + right", hl.dsp.focus({ direction = "right" }) },
     { mod .. " + up", hl.dsp.focus({ direction = "up" }) },
     { mod .. " + down", hl.dsp.focus({ direction = "down" }) },
+    { mod .. " + C", util.exec(programs.color_picker) },
     { mod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }) },
     { mod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }) },
     { mod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }) },
@@ -65,8 +66,6 @@ end
 
 local function bind_hyprsplit()
   util.when_enabled(features.hyprsplit, function()
-    hl.bind(mod .. " + C", util.exec(programs.color_picker))
-
     for workspace = 1, 9 do
       hl.bind(mod .. " + " .. workspace, util.exec("hyprctl dispatch split:workspace " .. workspace))
       hl.bind(
@@ -77,6 +76,53 @@ local function bind_hyprsplit()
 
     hl.bind(mod .. " + D", util.exec("hyprctl dispatch split:swapactiveworkspaces current +1"))
     hl.bind(mod .. " + G", util.exec("hyprctl dispatch split:grabroguewindows"))
+  end)
+end
+
+local function focused_mon_index()
+  local pipe = io.popen("hyprctl monitors -j")
+  if not pipe then
+    return 0
+  end
+  local out = pipe:read("*a") or "[]"
+  pipe:close()
+  local i = 0
+  for entry in out:gmatch("{[^{}]*}") do
+    if entry:find('"focused"%s*:%s*true') then
+      return i
+    end
+    i = i + 1
+  end
+  return 0
+end
+
+local function bind_native_workspaces()
+  util.when_enabled(features.native_workspaces, function()
+    local per = (options.workspaces or { per_monitor = 9 }).per_monitor
+
+    for slot = 1, per do
+      hl.bind(mod .. " + " .. slot, function()
+        local target = focused_mon_index() * per + slot
+        hl.exec_cmd("hyprctl dispatch workspace " .. target)
+      end)
+      hl.bind(mod .. " + SHIFT + " .. slot, function()
+        local target = focused_mon_index() * per + slot
+        hl.exec_cmd("hyprctl dispatch movetoworkspacesilent " .. target)
+      end)
+    end
+  end)
+end
+
+local function bind_split_monitor_workspaces()
+  util.when_enabled(features.split_monitor_workspaces, function()
+    local per = (options.workspaces or { per_monitor = 9 }).per_monitor
+
+    for slot = 1, per do
+      hl.bind(mod .. " + " .. slot, util.exec("hyprctl dispatch split-workspace " .. slot))
+      hl.bind(mod .. " + SHIFT + " .. slot, util.exec("hyprctl dispatch split-movetoworkspacesilent " .. slot))
+    end
+
+    hl.bind(mod .. " + G", util.exec("hyprctl dispatch split-grabroguewindows"))
   end)
 end
 
@@ -116,6 +162,8 @@ function M.setup()
   bind_launchers()
   bind_optional_apps()
   bind_hyprsplit()
+  bind_native_workspaces()
+  bind_split_monitor_workspaces()
   bind_gamemode()
 end
 

@@ -23,8 +23,15 @@ M.features = {
   emacs_service = true,
   clipboard = false,
   steam = false,
-  hyprsplit = true,
+  hyprsplit = false,
+  native_workspaces = true,
+  split_monitor_workspaces = false,
+  hy3 = false,
   compact_theme = false,
+}
+
+M.workspaces = {
+  per_monitor = 9,
 }
 
 M.input = {

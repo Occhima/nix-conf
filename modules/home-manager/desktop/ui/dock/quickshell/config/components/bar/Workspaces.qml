@@ -70,7 +70,7 @@ Row {
             MouseArea {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
-                onClicked: Hyprland.dispatch("split:workspace " + displayNum)
+                onClicked: Hyprland.dispatch("workspace " + wsId)
             }
         }
     }
