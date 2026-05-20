@@ -21,7 +21,7 @@ in
     };
 
     wayland.windowManager.hyprland.settings.bind = mkIf (uiCfg.launcher == "rofi") [
-      "$mainMod, K, exec, clipcat-menu --rofi-menu-length 10"
+      "$mainMod, X, exec, clipcat-menu --rofi-menu-length 10"
     ];
   };
 }

@@ -14,7 +14,7 @@ in
         "$mainMod, Q, exec, ${desktopCfg.terminal.active}"
 
         # Window management
-        "$mainMod, X, killactive,"
+        "$mainMod, K, killactive,"
         "$mainMod SHIFT, M, exit,"
         "$mainMod SHIFT, R, exec, hyprctl reload"
         "$mainMod, V, togglefloating,"
