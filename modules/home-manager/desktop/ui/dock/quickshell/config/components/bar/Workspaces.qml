@@ -13,7 +13,15 @@ Row {
 
     readonly property int workspacesPerMonitor: 9
     readonly property var monitor: screen ? Hyprland.monitorFor(screen) : null
-    readonly property int wsStart: (monitor?.id ?? 0) * workspacesPerMonitor + 1
+
+    readonly property var monitorWorkspaces: {
+        if (!monitor) return []
+        const arr = []
+        for (const ws of Hyprland.workspaces.values)
+            if (ws.monitor?.name === monitor.name) arr.push(ws)
+        arr.sort((a, b) => a.id - b.id)
+        return arr
+    }
 
     Repeater {
         model: root.workspacesPerMonitor
@@ -21,12 +29,8 @@ Row {
         Rectangle {
             required property int index
 
-            readonly property int wsId: root.wsStart + index
-            readonly property var workspace: {
-                for (const ws of Hyprland.workspaces.values)
-                    if (ws.id === wsId) return ws
-                return null
-            }
+            readonly property int slot: index + 1
+            readonly property var workspace: root.monitorWorkspaces[index] ?? null
 
             readonly property bool active: workspace?.active ?? false
             readonly property bool occupied: (workspace?.toplevels?.values?.length ?? 0) > 0
@@ -46,7 +50,7 @@ Row {
             MouseArea {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
-                onClicked: Hyprland.dispatch("workspace " + wsId)
+                onClicked: Hyprland.dispatch("split-workspace " + slot)
             }
         }
     }
