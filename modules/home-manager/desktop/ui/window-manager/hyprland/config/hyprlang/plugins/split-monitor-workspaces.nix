@@ -14,8 +14,6 @@ let
     && hyprCfg.plugins.enable
     && elem "split-monitor-workspaces" hyprCfg.plugins.enabledPlugins;
 
-  # zjeffer's fork is not in nixpkgs; build from source against the same
-  # hyprland headers HM is wiring up.
   splitMonitorWorkspaces = pkgs.hyprland.stdenv.mkDerivation {
     pname = "split-monitor-workspaces";
     version = "unstable-2026-05-15";
@@ -55,14 +53,9 @@ in
       plugins = [ splitMonitorWorkspaces ];
 
       settings = {
-        plugins.split-monitor-workspaces = {
+        plugin.split-monitor-workspaces = {
           count = per;
-          keep_focused = 0;
-          enable_notifications = 0;
-          enable_persistent_workspaces = 1;
-          enable_wrapping = 1;
-          link_monitors = 0;
-          enable_hy3 = if hy3On then 1 else 0;
+          enable_hy3 = hy3On;
         };
 
         bind =

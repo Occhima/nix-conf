@@ -42,7 +42,7 @@ let
     "$mainMod SHIFT, M, exit,"
     "$mainMod SHIFT, R, exec, hyprctl reload"
     "$mainMod, V, togglefloating,"
-    "$mainMod, J, togglesplit,"
+    "$mainMod, J, layoutmsg, togglesplit"
 
     # Focus movement
     "$mainMod, left, movefocus, l"
