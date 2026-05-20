@@ -121,7 +121,8 @@
         # NOTE: broken
         lutris.enable = false;
         discord.enable = true;
-        flameshot.enable = true;
+        flameshot.enable = false;
+        grimblast.enable = true;
         wlogout.enable = true;
 
         #NOTE: also broken  :()
