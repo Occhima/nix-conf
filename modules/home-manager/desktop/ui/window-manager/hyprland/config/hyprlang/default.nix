@@ -2,6 +2,7 @@
   imports = [
     ./general.nix
     ./keybindings.nix
+    ./gamemode.nix
     ./services.nix
     ./misc.nix
     ./animations.nix

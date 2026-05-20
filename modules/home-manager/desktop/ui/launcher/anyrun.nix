@@ -79,5 +79,8 @@ in
       '';
     };
 
+    wayland.windowManager.hyprland.settings.bind = [
+      "$mainMod, SPACE, exec, anyrun"
+    ];
   };
 }

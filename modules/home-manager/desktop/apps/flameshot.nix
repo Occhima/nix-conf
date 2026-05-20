@@ -42,5 +42,8 @@ in
       };
     };
 
+    wayland.windowManager.hyprland.settings.bind = [
+      "$mainMod, S, exec, flameshot gui"
+    ];
   };
 }

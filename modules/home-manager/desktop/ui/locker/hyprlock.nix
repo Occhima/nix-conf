@@ -10,8 +10,8 @@ let
 
 in
 {
-  config = {
-    programs.hyprlock = mkIf (cfg.locker == "hyprlock") {
+  config = mkIf (cfg.locker == "hyprlock") {
+    programs.hyprlock = {
       enable = true;
       settings = {
         general = {
@@ -23,6 +23,10 @@ in
         };
       };
     };
+
+    wayland.windowManager.hyprland.settings.bind = [
+      "$mainMod, L, exec, hyprlock"
+    ];
   };
 
 }

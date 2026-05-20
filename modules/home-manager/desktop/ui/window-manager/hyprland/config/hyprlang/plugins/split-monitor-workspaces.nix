@@ -67,6 +67,7 @@ in
             "$mainMod, bracketright, split-cycleworkspaces, next"
             "$mainMod, bracketleft, split-cycleworkspaces, prev"
             "$mainMod, G, split-grabroguewindows"
+            "$mainMod, D, split-changemonitor, next"
           ];
       };
     };

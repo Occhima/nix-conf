@@ -53,5 +53,9 @@ in
       defaultEditor = cfg.default;
       startWithUserSession = "graphical";
     };
+
+    wayland.windowManager.hyprland.settings.bind = mkIf cfg.service [
+      "$mainMod, E, exec, emacsclient -c"
+    ];
   };
 }

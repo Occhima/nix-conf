@@ -7,6 +7,7 @@ let
   inherit (lib) mkEnableOption mkIf;
 
   cfg = config.modules.services.clipboard;
+  uiCfg = config.modules.desktop.ui;
 in
 {
   options.modules.services.clipboard = {
@@ -18,5 +19,9 @@ in
       enable = true;
       enableSystemdUnit = true;
     };
+
+    wayland.windowManager.hyprland.settings.bind = mkIf (uiCfg.launcher == "rofi") [
+      "$mainMod, K, exec, clipcat-menu --rofi-menu-length 10"
+    ];
   };
 }

@@ -20,5 +20,9 @@ in
     programs.wlogout = {
       enable = true;
     };
+
+    wayland.windowManager.hyprland.settings.bind = [
+      "$mainMod, W, exec, wlogout"
+    ];
   };
 }
