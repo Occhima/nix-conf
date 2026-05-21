@@ -20,7 +20,7 @@ let
     owner = "ChicagoHAI";
     repo = "NeuriCo";
 
-    rev = "d2a29c367061687f714541977618cc7bdfef6305";
+    rev = "e588288ba5e376cf33baaf778713d31ddb9dd61f";
     hash = lib.fakeHash;
   };
 

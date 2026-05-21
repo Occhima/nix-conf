@@ -52,7 +52,10 @@ in
         # pkgs.python313Packages.google-generativeai
         pkgs.rtk
         abTop
+        # pkgs.nodePackages."@agentmemory/agentmemory"
         self.packages.${pkgs.stdenv.hostPlatform.system}.jcode
+        self.packages.${pkgs.stdenv.hostPlatform.system}.agentmemory
+        self.packages.${pkgs.stdenv.hostPlatform.system}.codegraph
 
       ];
 

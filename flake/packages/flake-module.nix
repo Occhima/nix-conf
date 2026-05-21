@@ -25,6 +25,9 @@
         nyxt-source = pkgs.callPackage ./nyxt/package.nix { };
         antigravity = pkgs.callPackage ./antigravity/package.nix { };
         jcode = pkgs.callPackage ./jcode/package.nix { };
+        update-packages = pkgs.callPackage ./update-packages/package.nix { };
+        agentmemory = pkgs.callPackage ./agentmemory/package.nix { };
+        codegraph = pkgs.callPackage ./codegraph/package.nix { };
         # whatscli = pkgs.callPackage ./whatscli/package.nix { };
         # neurico-scripts = neuricoPkg.scripts;
         # neurico = neuricoPkg.neurico;

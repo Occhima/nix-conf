@@ -15,7 +15,7 @@
     }:
 
     let
-      inherit (self'.packages) install-tools;
+      inherit (self'.packages) install-tools update-packages;
       nixConfig = pkgs.writeText "nix.conf" ''
         warn-dirty = false
         http2 = true
@@ -77,6 +77,7 @@
               nix # always use same nix version of my flake
               nh
               fzf
+              self'.packages.update-packages
 
               lua5_4
               lua-language-server
@@ -97,6 +98,7 @@
               config.formatter
 
               install-tools
+              update-packages
             ]
             ++ lib.lists.optionals pkgs.stdenv.hostPlatform.isLinux [ deploy-rs ];
 
