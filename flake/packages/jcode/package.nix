@@ -8,16 +8,16 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "jcode";
-  version = "0.12.3";
+  version = "0.13.0";
 
   src = fetchFromGitHub {
     owner = "1jehuang";
     repo = "jcode";
     rev = "v${version}";
-    hash = "sha256-ZuBVChtHxAFnLax/bgI/5OilPRKO5MJ3UTKNT/3CCIg=";
+    hash = "sha256-4spsWpmfQ2H7hURRwghMzlx6+2pt2tyoAwyu51D2MGg=";
   };
 
-  cargoHash = "sha256-ycSpYBiOd13fsnuYU1y9Wmkj3YF9XhlWyRogf+AnlZQ=";
+  cargoHash = "sha256-T5WykR3Og8lRHRm9MvwMC9+GQsD4EbSyxgxrJPN8BT8=";
 
   nativeBuildInputs = [
     pkg-config

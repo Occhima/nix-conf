@@ -11,11 +11,11 @@ buildNpmPackage {
   src = fetchFromGitHub {
     owner = "rohitg00";
     repo = "agentmemory";
-    rev = "bc641077913c0ac043e702a8f6519189e89b1721";
-    hash = "sha256-DGaF5iFqWy8nq8QwWWj/fK6xZCBXWE+9udBH6TNI288=";
+    rev = "355124141625ccc0d740ae08ddaaf77fe2c165ae";
+    hash = "sha256-ziK/yA1LK6XO5iNTfykNL5vJPDIdsUfhAYv9N6dcJLI=";
   };
 
-  npmDepsHash = "sha256-9x09s3PDEmM214QrlNgQoF9yKRqqNObedKL0ZTYNpcQ=";
+  npmDepsHash = "sha256-BLZOS/FnbBOtN50NWQb8aEu9Kuax87Dc6afbTdEXFqA=";
 
   npmBuildScript = "build";
   npmFlags = [
