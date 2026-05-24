@@ -202,7 +202,7 @@
        (julia
         +tree-sitter
         +lsp
-        +snail
+        ;; +snail ;; It's giving some weird errors
         )
 
                                         ; a better, faster MATLAB

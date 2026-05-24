@@ -60,6 +60,8 @@ in
       "zen.welcome-screen.seen" = true;
       "zen.glance.open-essential-external-links" = false;
 
+      "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+
       "font.name.sans-serif.x-western" = config.stylix.fonts.sansSerif.name;
       "font.name.serif.x-western" = config.stylix.fonts.serif.name;
       "font.name.monospace.x-western" = config.stylix.fonts.monospace.name;
@@ -75,6 +77,7 @@ in
       to-deepl
       bonjourr-startpage
       search-by-image
+      zen-internet
     ];
   };
 

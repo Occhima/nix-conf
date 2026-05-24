@@ -168,12 +168,14 @@
 ;; Annotate with a comment sentinel on the line before the string:
 ;;
 ;;   text =
-;;     # bash
+;;     # bash / python / json / markdown
 ;;     ''
-;;       echo hello
+;;       content here
 ;;     '';
 ;;
-(after! polymode
+(use-package! polymode
+  :mode ("\\.nix\\'" . +poly-nix-mode)
+  :config
   (define-hostmode +nix-ts-hostmode :mode 'nix-ts-mode)
 
   (define-innermode +nix-bash-innermode
@@ -197,13 +199,19 @@
     :head-mode 'host
     :tail-mode 'host)
 
+  (define-innermode +nix-markdown-innermode
+    :mode 'markdown-mode
+    :head-matcher "# markdown\n[ \t]*''"
+    :tail-matcher "''"
+    :head-mode 'host
+    :tail-mode 'host)
+
   (define-polymode +poly-nix-mode
     :hostmode '+nix-ts-hostmode
     :innermodes '(+nix-bash-innermode
                   +nix-python-innermode
-                  +nix-json-innermode))
-
-  (add-to-list 'auto-mode-alist '("\\.nix\\'" . +poly-nix-mode)))
+                  +nix-json-innermode
+                  +nix-markdown-innermode)))
 
 ;; ;; treesit-range-rules alternative (no indirect buffers, but verbose):
 ;; (after! nix-ts-mode

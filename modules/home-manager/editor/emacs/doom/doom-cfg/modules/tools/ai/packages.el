@@ -1,5 +1,26 @@
+(package! shell-maker)
+(package! acp
+  :recipe (:host github :repo "xenodium/acp.el"))
+(package! agent-shell)
+
+(package! agent-shell-bookmark
+  :recipe (:host github :repo "dcluna/agent-shell-bookmark"))
+
+(package! agent-recall)
+
+(package! agent-shell-pet
+  :recipe (:host github :repo "lgmoneda/agent-shell-pet"
+           :files ("*.el" "pets" "renderers")))
+
+(package! agent-shell-workspace
+  :recipe (:host github :repo "gveres/agent-shell-workspace"))
+
+(package! agent-shell-sidebar
+  :recipe (:host github :repo "cmacrae/agent-shell-sidebar"))
+
 
 (package! chatgpt-shell
+  :disable t
   :recipe  (:host github :repo "xenodium/chatgpt-shell")
   )
 
@@ -7,7 +28,10 @@
   :disable t
   )
 
-(package! aidermacs :recipe (:host github :repo "MatthewZMD/aidermacs" :files ("*.el")))
+(package! aidermacs
+  :disable t
+  :recipe
+  (:host github :repo "MatthewZMD/aidermacs" :files ("*.el")))
 
 
 (package! copilot

@@ -10,5 +10,11 @@
       path = ./academic;
       description = "Academic research monorepo with UV workspace, LaTeX thesis, Python research packages, and Nix flake-parts";
     };
+
+    agents-project = {
+      path = ./agents-project;
+      description = "Agents based software engineering project";
+    };
+
   };
 }

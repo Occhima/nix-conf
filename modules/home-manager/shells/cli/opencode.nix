@@ -17,7 +17,14 @@ in
       settings = {
         autoupdate = false;
         share = "manual";
-        plugin = [ "oh-my-openagent@latest" ];
+        # Agents are defined centrally in profiles/collection/ai/agents.nix
+        # and injected via programs.opencode.settings.agent in ai.nix.
+        plugin = [
+          "oh-my-openagent@latest"
+          "opencode-claude-auth@latest"
+          "@mohak34/opencode-notifier"
+          "@tarquinen/opencode-dcp"
+        ];
 
         permission = {
           read = {
