@@ -62,6 +62,20 @@ in
 
       "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
 
+      # Dark mode
+      "browser.display.background_color.dark" = "#1C1B22";
+      "browser.display.foreground_color.dark" = "#FBFBFE";
+      "browser.active_color.dark" = "#FF6666";
+      "browser.anchor_color.dark" = "#00CADB";
+      "browser.visited_color.dark" = "#FFADFF";
+      "browser.theme.dark-private-windows" = true;
+      "extensions.webextensions.pageActionIconDarkModeFilter.enabled" = true;
+      "layout.css.accent-color.darkening-target-contrast-ratio" = 6.0;
+      "layout.css.light-dark-images.enabled" = true;
+      "widget.disable-dark-scrollbar" = false;
+      "widget.non-native-theme.scrollbar.dark-themed" = true;
+      "zen.theme.dark-mode-bias" = 0.3;
+
       "font.name.sans-serif.x-western" = config.stylix.fonts.sansSerif.name;
       "font.name.serif.x-western" = config.stylix.fonts.serif.name;
       "font.name.monospace.x-western" = config.stylix.fonts.monospace.name;

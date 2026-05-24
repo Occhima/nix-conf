@@ -51,10 +51,16 @@
   :defer t
   :custom
   (agent-shell-preferred-agent-config 'opencode)
+  (agent-shell-display-action
+   '((display-buffer-in-side-window)
+     (side . right)
+     (window-width . 0.4)))
   :config
-  (set-popup-rule! "^\\*agent-shell" :side 'right :size 0.4 :quit nil :select t)
   (map! :leader
-        :desc "Agent shell" "a" #'agent-shell-opencode-start-agent))
+        :prefix ("O" . "opencode")
+        :desc "Start"     "O" #'agent-shell-opencode-start-agent
+        :desc "Toggle"    "o" #'agent-shell-toggle
+        :desc "New shell" "n" #'agent-shell-new-shell))
 
 (use-package! agent-shell-bookmark
   :after agent-shell)
@@ -68,20 +74,17 @@
   (agent-recall-browse-sort 'modified-desc)
   :config
   (map! :leader
-        :desc "Recall search"  "r s" #'agent-recall-search
-        :desc "Recall browse"  "r b" #'agent-recall-browse
-        :desc "Recall resume"  "r r" #'agent-recall-resume))
-
-(use-package! agent-shell-pet
-  :after agent-shell
-  :config
-  (global-agent-shell-pet-mode 1))
+        :prefix "O"
+        :desc "Recall search" "r" #'agent-recall-search
+        :desc "Recall browse" "b" #'agent-recall-browse
+        :desc "Recall resume" "R" #'agent-recall-resume))
 
 (use-package! agent-shell-workspace
   :after agent-shell
   :config
   (map! :leader
-        :desc "Agent workspace" "a w" #'agent-shell-workspace-toggle))
+        :prefix "O"
+        :desc "Workspace" "w" #'agent-shell-workspace-toggle))
 
 (use-package! agent-shell-sidebar
   :after agent-shell
@@ -89,12 +92,14 @@
   (agent-shell-sidebar-width "30%")
   (agent-shell-sidebar-position 'right)
   (agent-shell-sidebar-locked t)
-  (agent-shell-sidebar-default-config
-   (agent-shell-opencode-make-agent-config))
   :config
+  (with-eval-after-load 'agent-shell-opencode
+    (setq agent-shell-sidebar-default-config
+          (agent-shell-opencode-make-agent-config)))
   (map! :leader
-        :desc "Agent sidebar"       "a s" #'agent-shell-sidebar-toggle
-        :desc "Agent sidebar focus" "a f" #'agent-shell-sidebar-toggle-focus))
+        :prefix "O"
+        :desc "Sidebar"       "s" #'agent-shell-sidebar-toggle
+        :desc "Sidebar focus" "f" #'agent-shell-sidebar-toggle-focus))
 
 (use-package! monet
   :defer t

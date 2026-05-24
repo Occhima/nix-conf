@@ -8,10 +8,6 @@
 
 (package! agent-recall)
 
-(package! agent-shell-pet
-  :recipe (:host github :repo "lgmoneda/agent-shell-pet"
-           :files ("*.el" "pets" "renderers")))
-
 (package! agent-shell-workspace
   :recipe (:host github :repo "gveres/agent-shell-workspace"))
 
