@@ -22,6 +22,13 @@
       prompt.type = "starship";
       cli = {
         enable = true;
+        toolSets = [
+          "core"
+          "git"
+          "shell"
+          "tui"
+          "security"
+        ];
         passwordStore = {
           enable = true;
         };
@@ -74,10 +81,10 @@
 
     desktop = {
       browser = {
-        active = "firefox";
-        firefox.enable = true;
-        nyxt.enable = true;
-        zen.enable = false;
+        active = "zen";
+        firefox.enable = false;
+        nyxt.enable = false;
+        zen.enable = true;
         brave.enable = false;
 
       };

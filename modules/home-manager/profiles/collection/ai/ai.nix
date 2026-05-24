@@ -5,7 +5,6 @@
   lib,
   config,
   osConfig,
-  self,
   ...
 }:
 
@@ -45,6 +44,8 @@ in
 
 {
   config = mkIf (hasProfile config [ "ai" ]) {
+    modules.shell.cli.toolSets = lib.mkAfter [ "ai" ];
+
     home = {
 
       # TODO: add codeburn
@@ -52,11 +53,6 @@ in
         # pkgs.python313Packages.google-generativeai
         pkgs.rtk
         abTop
-        # pkgs.nodePackages."@agentmemory/agentmemory"
-        self.packages.${pkgs.stdenv.hostPlatform.system}.jcode
-        self.packages.${pkgs.stdenv.hostPlatform.system}.agentmemory
-        self.packages.${pkgs.stdenv.hostPlatform.system}.codegraph
-
       ];
 
       sessionVariables = mkIf hasAgeKeys {

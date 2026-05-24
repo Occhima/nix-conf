@@ -38,6 +38,29 @@ in
     cli = {
       enable = mkEnableOption "Enable CLI tools and utilities";
 
+      toolSets = mkOption {
+        type = types.listOf (
+          types.enum [
+            "core"
+            "git"
+            "shell"
+            "ai"
+            "tui"
+            "security"
+          ]
+        );
+        default = [ ];
+        description = ''
+          Predefined tool groups to enable.
+          core: bat eza fzf ripgrep jq pandoc
+          git: gh lazygit jujutsu
+          shell: atuin zoxide direnv nix-your-shell navi pay-respects
+          ai: claude-code opencode aider fabric jcode codegraph agentmemory
+          tui: yazi zellij fastfetch
+          security: ssh
+        '';
+      };
+
       tools = mkOption {
         type = types.listOf (
           types.enum [
@@ -64,31 +87,14 @@ in
             "navi"
             "pay-respects"
             "nix-your-shell"
+            "jcode"
+            "codegraph"
+            "agentmemory"
           ]
         );
-        default = [
-          "atuin"
-          "bat"
-          "direnv"
-          "eza"
-          "fzf"
-          "aider"
-          "zoxide"
-          "ripgrep"
-          "zellij"
-          "gh"
-          "ssh"
-          "claude-code"
-          "fabric"
-          "opencode"
-          "lazygit"
-          "pandoc"
-          "jq"
-          "navi"
-          "nix-your-shell"
-        ];
-        description = "List of CLI tools to enable";
-        example = ''[ "bat" "eza" "fzf" "git" ]'';
+        default = [ ];
+        description = "Individual CLI tools to enable, merged with toolSets";
+        example = ''[ "bat" "eza" "fzf" ]'';
       };
     };
   };

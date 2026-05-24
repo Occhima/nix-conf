@@ -15,8 +15,8 @@ in
       enable = true;
       settings = {
         user = {
-          name = config.programs.git.userName;
-          email = config.programs.git.userEmail;
+          name = config.programs.git.settings.user.name;
+          email = config.programs.git.settings.user.email;
         };
 
         aliases = {

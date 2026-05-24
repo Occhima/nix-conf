@@ -17,15 +17,17 @@ let
       owner = "JustAdumbPrsn";
       repo = "Zen-Nebula";
       rev = "main";
-      hash = "sha256-Eg9HsN+yDA8OdVcE9clS+FyUhVBH3ooN/odkZIVR/p4=";
+      hash = "sha256-1jZ+7ndp31qTGreStonmSz97zulA48fTR+0g/Zqw0UI=";
     };
 
-    installPhase = ''
-      mkdir -p $out
-      cp -r $src/Nebula $out/
-      cp -r $src/userChrome.css $out/
-      cp -r $src/userContent.css $out/
-    '';
+    installPhase =
+      #bash
+      ''
+        mkdir -p $out
+        cp -r $src/nebula/. $out/
+        mv $out/chrome.css $out/userChrome.css
+        mv $out/content.css $out/userContent.css
+      '';
   };
 
 in
@@ -39,12 +41,14 @@ in
 
   programs.zen-browser.profiles.${profileName} = themeLib.whenTheme config "guernica" {
     isDefault = true;
+    path = profileName;
     settings = {
 
       # "font.name.monospace.x-western" = config.stylix.fonts.monospace.name;
 
       # Zen Settings ( stolen from:  github.com/LudovicoPiero/dotfiles  zen browser config )
       "browser.newtabpage.activity-stream.trendingSearch.defaultSearchEngine" = "DuckDuckGo";
+      "browser.tabs.allow_transparent_browser" = true;
 
       #"zen.widget.linux.transparency" = true;
       "zen.urlbar.behavior" = "float";
@@ -77,7 +81,7 @@ in
   home.file."zen-nebula" = themeLib.whenTheme config "guernica" {
     enable = cond;
     source = zenNebulaTheme;
-    target = "${config.xdg.configHome}/zen/${profileName}/chrome";
+    target = "${config.home.homeDirectory}/.zen/${profileName}/chrome";
     recursive = true;
   };
 
