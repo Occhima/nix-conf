@@ -81,10 +81,10 @@
 
     desktop = {
       browser = {
-        active = "zen";
+        active = "zen-beta";
         firefox.enable = false;
         nyxt.enable = false;
-        zen.enable = true;
+        zen-beta.enable = true;
         brave.enable = false;
 
       };

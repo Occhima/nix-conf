@@ -43,3 +43,4 @@ ops/keys/ssh/*
 *.tmp
 tmp/
 .aider*
+/.agent-shell/
