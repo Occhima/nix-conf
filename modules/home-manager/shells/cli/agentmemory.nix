@@ -13,7 +13,6 @@ in
 {
   config = mkIf (cfg.enable && builtins.elem "agentmemory" cfg.tools) {
     home.packages = [ pkg ];
-
     programs.mcp.servers.agentmemory = {
       command = getExe pkg;
       args = [ "mcp" ];

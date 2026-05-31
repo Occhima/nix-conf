@@ -142,9 +142,9 @@
       type = "github";
       owner = "nix-community";
       repo = "nixvim";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
+      # inputs = {
+      #   nixpkgs.follows = "nixpkgs";
+      # };
     };
 
     # For secure boot support

@@ -40,16 +40,11 @@ in
       "zen.theme.gradient.show-custom-color" = true;
       "zen.urlbar.behavior" = "float";
       "zen.workspaces.continue-where-left-off" = true;
-
       "zen.welcome-screen.seen" = true;
 
       "zen.view.compact.enable-at-startup" = true;
       "zen.view.compact.hide-tabbar" = true;
 
-      # ── Transparency master switches ─────────────────────────────────────
-      # `browser.tabs.allow_transparent_browser` is the real gate for the
-      # alpha channel reaching the compositor; without it the linux pref
-      # alone is a no-op.
       "zen.widget.linux.transparency" = true;
       "browser.tabs.allow_transparent_browser" = true;
       "zen.view.grey-out-inactive-windows" = false;
@@ -57,10 +52,6 @@ in
       # ── Transparent-Zen mod (sameerasw 642854b5) tunables ───────────────
       "mod.sameerasw.zen_transparent_glance_enabled" = true;
       "mod.sameerasw.zen_transparent_sidebar_enabled" = true;
-
-      # Custom flat colour the mod paints behind the gradient. We keep it
-      # close to black with ~80 % alpha so the niri wallpaper still peeks
-      # through and our userChrome gradient sits on top cleanly.
       "mod.sameerasw.zen_bg_color_enabled" = true;
       "mod.sameerasw.zen_transparency_color" = "#0e0e12cc";
       "mod.sameerasw.zen_no_shadow" = true;

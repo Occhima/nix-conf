@@ -27,6 +27,14 @@ in
               repo = "thedotmack/claude-mem";
             };
           };
+
+          agentmemory = {
+            source = {
+              source = "github";
+              repo = "rohitg00/agentmemory";
+            };
+          };
+
           perplexity-mcp-server = {
             source.source = "github";
             source.repo = "perplexityai/modelcontextprotocol";
@@ -75,6 +83,7 @@ in
           # "nyldn@claude-octopus" = true;
           "autoresearch@autoresearch" = true;
           "caveman@caveman" = true;
+          "agentmemory@agentmemory" = true;
           "feature-dev@claude-plugins-official" = true;
           "claude-md-management@claude-plugins-official" = true;
           "claude-code-setup@claude-plugins-official" = true;

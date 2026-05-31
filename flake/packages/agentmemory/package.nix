@@ -1,30 +1,36 @@
+# stolen from: https://github.com/aliceisjustplaying/pix/blob/48a4c0720d26075d7d3220efb3f9c50613fa03f9/pkgs/agentmemory/default.nix
 {
-  lib,
   buildNpmPackage,
-  fetchFromGitHub,
+  fetchurl,
+  lib,
+  makeWrapper,
+  nodejs_24,
 }:
 
-buildNpmPackage {
+buildNpmPackage rec {
   pname = "agentmemory";
-  version = "0.9.21";
+  version = "0.9.24";
 
-  src = fetchFromGitHub {
-    owner = "rohitg00";
-    repo = "agentmemory";
-    rev = "355124141625ccc0d740ae08ddaaf77fe2c165ae";
-    hash = "sha256-ziK/yA1LK6XO5iNTfykNL5vJPDIdsUfhAYv9N6dcJLI=";
+  nodejs = nodejs_24;
+  nativeBuildInputs = [ makeWrapper ];
+
+  src = fetchurl {
+    url = "https://registry.npmjs.org/@agentmemory/agentmemory/-/agentmemory-${version}.tgz";
+    hash = "sha512-fvnAk8UgCwvNZJMuUrgj7Ac+CSuKo6KgZvTWQkjElU/Y++/g91UcrkfnYJ3RIFAxDxTZ+WkEUphhmOXn34tORQ==";
   };
-
-  npmDepsHash = "sha256-BLZOS/FnbBOtN50NWQb8aEu9Kuax87Dc6afbTdEXFqA=";
-
-  npmBuildScript = "build";
-  npmFlags = [
-    "--legacy-peer-deps"
-    "--ignore-scripts"
-  ];
 
   postPatch = ''
     cp ${./package-lock.json} package-lock.json
+  '';
+
+  npmFlags = [ "--legacy-peer-deps" ];
+  npmRebuildFlags = [ "--ignore-scripts" ];
+  npmDepsHash = "sha256-15RU7Ai/2V/HYS3p9VJoiE1LhXP4X3PsvDDX8A1GnjY=";
+
+  dontNpmBuild = true;
+
+  postInstall = ''
+    makeWrapper $out/bin/agentmemory $out/bin/agentmemory-mcp --add-flags mcp
   '';
 
   meta = with lib; {
@@ -32,5 +38,6 @@ buildNpmPackage {
     homepage = "https://github.com/rohitg00/agentmemory";
     license = licenses.asl20;
     mainProgram = "agentmemory";
+    platforms = platforms.linux;
   };
 }
