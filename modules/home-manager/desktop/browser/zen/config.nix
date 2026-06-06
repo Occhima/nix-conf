@@ -34,6 +34,7 @@ in
       };
 
       profiles.default = {
+        # NOTE: the zen browser flake enables sine support
         mods = [
           "e122b5d9-d385-4bf8-9971-e137809097d0" # No Top Sites
           "253a3a74-0cc4-47b7-8b82-996a64f030d5" # Floating History
@@ -41,6 +42,21 @@ in
           "7190e4e9-bead-4b40-8f57-95d852ddc941" # Tab title fixes
           "803c7895-b39b-458e-84f8-a521f4d7a064" # Hide Inactive Workspaces
           "906c6915-5677-48ff-9bfc-096a02a72379" # Floating Status Bar
+        ];
+
+        extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
+          ublock-origin
+          refined-github
+          enhanced-github
+          foxyproxy-standard
+          sponsorblock
+          vimium
+          to-deepl
+          bonjourr-startpage
+          search-by-image
+          zen-internet
+          foxytab
+          owasp-penetration-testing-kit
         ];
 
         search = {
@@ -75,7 +91,7 @@ in
           };
         };
       };
-      nativeMessagingHosts = [ pkgs.firefoxpwa ];
+      # nativeMessagingHosts = [ pkgs.firefoxpwa ];
     };
 
   };

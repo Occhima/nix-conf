@@ -135,11 +135,12 @@ in
 
         };
 
-        playwright-mcp = {
-          command = getExe pkgs.playwright-mcp;
-          args = [ ];
-          type = "stdio";
-        };
+        # NOTE: Taking tooo long to build
+        # playwright-mcp = {
+        #   command = getExe pkgs.playwright-mcp;
+        #   args = [ ];
+        #   type = "stdio";
+        # };
 
         # perplexity = {
         #   command = getExe pkgs.perplexity-mcp;

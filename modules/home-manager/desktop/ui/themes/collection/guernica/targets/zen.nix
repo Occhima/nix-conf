@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 let
@@ -166,19 +165,6 @@ in
         }
       }
     '';
-
-    extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [
-      ublock-origin
-      refined-github
-      enhanced-github
-      foxyproxy-standard
-      sponsorblock
-      vimium
-      to-deepl
-      bonjourr-startpage
-      search-by-image
-      zen-internet
-    ];
 
   };
 

@@ -26,7 +26,7 @@
       wireless.enable = true;
 
       vpn = {
-        openvpn.enable = false;
+        openvpn.enable = true;
 
       };
     };
