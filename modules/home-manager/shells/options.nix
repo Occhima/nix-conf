@@ -55,7 +55,7 @@ in
           core: bat eza fzf ripgrep jq pandoc
           git: gh lazygit jujutsu
           shell: atuin zoxide direnv nix-your-shell navi pay-respects
-          ai: claude-code opencode aider fabric jcode codegraph agentmemory
+          ai: claude-code opencode aider fabric jcode codegraph agentmemory feynman
           tui: yazi zellij fastfetch
           security: ssh
         '';
@@ -90,6 +90,7 @@ in
             "jcode"
             "codegraph"
             "agentmemory"
+            "feynman"
           ]
         );
         default = [ ];

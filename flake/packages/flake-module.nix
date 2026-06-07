@@ -28,6 +28,7 @@
         update-packages = pkgs.callPackage ./update-packages/package.nix { };
         agentmemory = pkgs.callPackage ./agentmemory/package.nix { };
         codegraph = pkgs.callPackage ./codegraph/package.nix { };
+        feynman = pkgs.callPackage ./feynman/package.nix { };
         # whatscli = pkgs.callPackage ./whatscli/package.nix { };
         # neurico-scripts = neuricoPkg.scripts;
         # neurico = neuricoPkg.neurico;

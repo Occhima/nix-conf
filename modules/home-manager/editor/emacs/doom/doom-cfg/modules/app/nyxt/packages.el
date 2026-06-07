@@ -1,6 +1,4 @@
 
-(package! nyxt
-  :recipe (:host github :repo "migalmoreno/nyxt.el" :files ("*.el")))
 
 (package! emacs-with-nyxt
   :disable t

@@ -19,7 +19,7 @@ in
       type = "stdio";
       env = {
         AGENTMEMORY_URL = "http://localhost:3111";
-        AGENTMEMORY_SECRET = "{env:AGENTMEMORY_SECRET}";
+        AGENTMEMORY_SECRET = "{{env:AGENTMEMORY_SECRET}}";
       };
     };
   };

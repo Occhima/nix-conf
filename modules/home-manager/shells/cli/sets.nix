@@ -37,6 +37,7 @@ let
       "jcode"
       "codegraph"
       "agentmemory"
+      "feynman"
     ];
     tui = [
       "yazi"

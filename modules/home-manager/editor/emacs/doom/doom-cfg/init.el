@@ -276,7 +276,7 @@
        ;; twitter                      ; twitter client https://twitter.com/vnought
        ;; everywhere
        ereader
-       nyxt
+       ;; nyxt
        weather
 
 
