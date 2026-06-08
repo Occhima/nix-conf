@@ -14,7 +14,6 @@ in
   };
 
   programs.zen-browser.profiles.default = themeLib.whenTheme config "guernica" {
-    isDefault = true;
     mods = [
       "a6335949-4465-4b71-926c-4a52d34bc9c0" # Better find bar
       "79dde383-4fe7-404a-a8e6-9be440022542" # Tidy Popup
