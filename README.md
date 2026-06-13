@@ -219,7 +219,9 @@ Full documentation is available in the [docs directory](./flake/docs). The docum
 
 ## Roadmap
 
+- [ ] Nixos microVM pentesting container
 - [ ] Create nix on droid configs
+- [ ] Add feynman CLI
 - [ ] Use unfree predicates instead of allowing a global unfree
 - [ ] Dendritic patterna dn import-tree (https://github.com/vic/import-tree) ( https://github.com/Doc-Steve/dendritic-design-with-flake-parts )
 

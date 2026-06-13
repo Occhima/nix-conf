@@ -47,6 +47,7 @@ in
             "ai"
             "tui"
             "security"
+            "dev"
           ]
         );
         default = [ ];
@@ -72,6 +73,7 @@ in
             "gh"
             "ssh"
             "aider"
+            "distrobox"
             "zoxide"
             "ripgrep"
             "lazygit"

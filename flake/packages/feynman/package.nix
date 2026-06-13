@@ -1,4 +1,11 @@
-{ lib, buildNpmPackage, nodejs_24, makeWrapper, fetchFromGitHub, fetchurl }:
+{
+  lib,
+  buildNpmPackage,
+  nodejs_24,
+  makeWrapper,
+  fetchFromGitHub,
+  fetchurl,
+}:
 
 # Slopped derivation, but hey.... it works !
 let
@@ -37,7 +44,10 @@ buildNpmPackage {
 
   # preinstall checks the host Node version; prepack/build run tsc.  Neither
   # is needed when we ship the npm tarball's pre-built dist/.
-  npmInstallFlags = [ "--ignore-scripts" "--legacy-peer-deps" ];
+  npmInstallFlags = [
+    "--ignore-scripts"
+    "--legacy-peer-deps"
+  ];
   dontNpmBuild = true;
 
   postPatch = ''

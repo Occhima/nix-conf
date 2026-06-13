@@ -28,6 +28,7 @@
           "shell"
           "tui"
           "security"
+          "dev"
         ];
         passwordStore = {
           enable = true;
@@ -59,11 +60,11 @@
     services = {
 
       # FIXME: broken, can't make it work on my wayland + nvidia machine
-      espanso.enable = false;
+      espanso.enable = true;
 
       podman = {
         enable = true;
-        quadlets = [ "netrunner" ];
+        # quadlets = [ "netrunner" ];
       };
       clipboard.enable = false;
       cachix.enable = false;

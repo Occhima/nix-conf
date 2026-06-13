@@ -52,12 +52,12 @@ in
           };
         };
 
-        extraConfig = ''
-          DefaultTimeoutStartSec = 15s;
-          DefaultTimeoutStopSec = 15s;
-          DefaultTimeoutAbortSec = 15s;
-          DefaultDeviceTimeoutSec = 15s;
-        '';
+        # extraConfig = ''
+        #   DefaultTimeoutStartSec = 15s;
+        #   DefaultTimeoutStopSec = 15s;
+        #   DefaultTimeoutAbortSec = 15s;
+        #   DefaultDeviceTimeoutSec = 15s;
+        # '';
       };
 
       coredump.enable = true;

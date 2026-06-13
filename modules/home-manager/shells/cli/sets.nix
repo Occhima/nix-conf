@@ -16,6 +16,9 @@ let
       "jq"
       "pandoc"
     ];
+    dev = [
+      "distrobox"
+    ];
     git = [
       "gh"
       "lazygit"

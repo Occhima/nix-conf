@@ -32,6 +32,12 @@ in
           };
         };
         matches = {
+          # tbh = "to be honest";
+          # btw = "by the way";
+          # wdym = "what do you mean";
+          # afaik = "as far as I know";
+          # pls = "please";
+          # iirc = "if I remember correctly";
           emails.matches = [
             {
               trigger = ";pmail";
