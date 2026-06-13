@@ -22,7 +22,7 @@
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
 
-(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
+(remove-hook '+dashboard-functions #'+dashboard-widget-shortmenu)
 
 (after! doom-themes
   (setq doom-themes-enable-bold t

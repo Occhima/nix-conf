@@ -38,6 +38,7 @@
        doom   ; what makes DOOM look the way it does
        dashboard                 ; a nifty splas screen for Emacs
        doom-quit                 ; DOOM quit-message prompts when you quit Emacs
+       unicode
 
        (emoji
         +ascii
@@ -77,6 +78,7 @@
        ;;vi-tilde-fringe               ; fringe tildes to mark beyond EOB
        ;; window-select          ; visually switch windows
        workspaces             ; tab emulation, persistence & separate workspaces
+
        zen                         ; distraction-free coding or writing
 
        :editor
