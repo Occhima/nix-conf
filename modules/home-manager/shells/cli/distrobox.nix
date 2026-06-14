@@ -17,11 +17,11 @@ in
 
       containers = {
         netrunner = {
-          image = "kalilinux/kali-rolling:latest";
+          image = "kalilinux/kali-rolling";
           entry = true;
-          home = "${config.home.homeDirectory}/pentesting/kali";
           init = true;
-          pre_init_hooks = "export SHELL=/usr/bin/nu;";
+          home = "${config.home.homeDirectory}/pentesting/kali";
+
           additional_packages = [
             "git"
             "npm"

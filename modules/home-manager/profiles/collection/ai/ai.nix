@@ -134,6 +134,17 @@ in
           type = "stdio";
 
         };
+        agentmemory = {
+          enable = false;
+          command = "${pkgs.bun}/bin/bunx";
+          args = [
+            "-y"
+            "@agentmemory/mcp"
+          ];
+          env = {
+            AGENTMEMORY_URL = "http://localhost:3111";
+          };
+        };
 
         # NOTE: Taking tooo long to build
         # playwright-mcp = {

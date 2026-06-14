@@ -39,7 +39,6 @@ let
       "fabric"
       "jcode"
       "codegraph"
-      "agentmemory"
       "feynman"
     ];
     tui = [

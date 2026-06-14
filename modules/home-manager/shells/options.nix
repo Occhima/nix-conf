@@ -91,7 +91,6 @@ in
             "nix-your-shell"
             "jcode"
             "codegraph"
-            "agentmemory"
             "feynman"
           ]
         );
