@@ -108,7 +108,6 @@ in
       # Polkit configuration
       polkit = {
         enable = mkDefault true;
-        debug = true;
       };
 
       soteria.enable = hasProfile config [ "graphical" ];

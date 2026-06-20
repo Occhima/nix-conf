@@ -21,6 +21,10 @@ in
         };
 
         extraKnownMarketplaces = {
+          ponytail = {
+            source = "github";
+            repo = "DietrichGebert/ponytail";
+          };
           "thedotmack/claude-mem" = {
             source = {
               source = "github";
@@ -83,6 +87,7 @@ in
           # "nyldn@claude-octopus" = true;
           "autoresearch@autoresearch" = true;
           "caveman@caveman" = true;
+          "ponytail@ponytail" = true;
           "agentmemory@agentmemory" = true;
           "feature-dev@claude-plugins-official" = true;
           "claude-md-management@claude-plugins-official" = true;
