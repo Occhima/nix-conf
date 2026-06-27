@@ -6,16 +6,16 @@
 
 buildNpmPackage rec {
   pname = "codegraph";
-  version = "0.9.7";
+  version = "1.1.1";
 
   src = fetchFromGitHub {
     owner = "colbymchenry";
     repo = "codegraph";
-    rev = "b026e64b413bb4dca1bc7326d7de0837afe0a899";
-    hash = "sha256-+pfuglPHbLkl3v3DuYvdVsxjJeQxoQkZmlZbvMNvkmY=";
+    rev = "7a361ef16eee63ec61585c76aff6e2f7742211c0";
+    hash = "sha256-08vEZe0N0lsAcHe0686GUhrqNVrMuKUVrIovp/baSoA=";
   };
 
-  npmDepsHash = "sha256-svl9IrD3iisl66wYPzy3WzR5oa4yJ0dRSrVrJv4/A94=";
+  npmDepsHash = "sha256-SQmYRcDW/JDVVJ7fWW/FbVwxf1zBY9RVVsbIBnvrEU0=";
 
   npmBuildScript = "build";
 

@@ -22,8 +22,10 @@ in
 
         extraKnownMarketplaces = {
           ponytail = {
-            source = "github";
-            repo = "DietrichGebert/ponytail";
+            source = {
+              source = "github";
+              repo = "DietrichGebert/ponytail";
+            };
           };
           "thedotmack/claude-mem" = {
             source = {

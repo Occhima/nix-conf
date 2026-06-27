@@ -9,14 +9,14 @@
 
 # Slopped derivation, but hey.... it works !
 let
-  version = "0.2.52";
+  version = "0.3.4";
 
   # Published npm tarball.  Ships pre-built dist/ plus the bundled
   # runtime-workspace.tgz that carries @earendil-works/* and the companion
   # plugin packages.  We reuse both instead of rebuilding from source.
   npmTarball = fetchurl {
     url = "https://registry.npmjs.org/@companion-ai/feynman/-/feynman-${version}.tgz";
-    hash = "sha512-f6HypxyRb8pBXB7ZnE0+9AlL0TTsowqxwb2irCSvW9H6o3jwt9zDU2SwrizKm3o0q4mq5MXYeTSb0kuWgZX6gQ==";
+    hash = "sha256-Y4Zvg/FwD7cFPSSqwaaEkFmOCKfTKFGxEeOU4i9ybRw=";
   };
 in
 buildNpmPackage {
@@ -29,7 +29,7 @@ buildNpmPackage {
   src = fetchFromGitHub {
     owner = "companion-inc";
     repo = "feynman";
-    rev = "ac56c9913cbf6bf122fb33ebe58984daa082232f";
+    rev = "852a2f1e02a886535abe618106a85395c0b5fff6";
     hash = "sha256-+TZEFIGDaW9qAoeya8f5Db275eaV4nAdLIt9NupN0FI=";
   };
 

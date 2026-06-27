@@ -32,35 +32,37 @@ let
       workspace_down = "ctrl+shift+j";
       workspace_up = "ctrl+shift+k";
       workspace_right = "ctrl+shift+l";
+      side_panel_toggle = "alt+m";
+      copy_selection_toggle = "alt+y";
+      diagram_pane_toggle = "alt+t";
+      typing_scroll_lock_toggle = "alt+s";
+      diff_mode_cycle = "alt+g";
+      info_widget_toggle = "alt+i";
       session_picker_enter = "current-terminal";
-    };
-
-    dictation = {
-      command = "";
-      mode = "send";
-      key = "off";
-      timeout_secs = 90;
     };
 
     display = {
       diff_mode = "pinned";
+      diagram_mode = "pinned";
+      centered = false;
       queue_mode = true;
       auto_server_reload = true;
       mouse_capture = true;
       debug_socket = false;
-      centered = false;
       show_thinking = true;
-      diagram_mode = "pinned";
+      reasoning_display = "current";
       markdown_spacing = "document";
       pin_images = true;
+      diff_line_wrap = true;
+      prompt_preview = true;
       idle_animation = true;
       prompt_entry_animation = true;
-      disabled_animations = [ ];
-      diff_line_wrap = true;
+      compact_notifications = true;
+      show_agentgrep_output = false;
       performance = "full";
       animation_fps = 120;
       redraw_fps = 120;
-      prompt_preview = true;
+      disabled_animations = [ ];
       native_scrollbars = {
         chat = true;
         side_panel = true;
@@ -71,25 +73,61 @@ let
       memory = true;
       swarm = true;
       message_timestamps = true;
+      persist_memory_injections = false;
+      kv_cache_miss_notices = true;
       update_channel = "stable";
+    };
+
+    websearch = {
+      engine = "duckduckgo";
+      fallback_engines = [ "bing" ];
+      bing_market = "en-US";
+    };
+
+    tools = {
+      profile = "full";
+      disabled = [ "gmail" ];
+      disable_base_tools = false;
     };
 
     auth = {
       trusted_external_sources = [ ];
+      trusted_external_source_paths = [ ];
     };
 
     provider = {
       openai_reasoning_effort = "high";
+      anthropic_reasoning_effort = "high";
+      openai_transport = "auto";
+      openai_service_tier = "priority";
       openai_native_compaction_mode = "auto";
       openai_native_compaction_threshold_tokens = 200000;
+      preserve_reasoning_context = true;
       cross_provider_failover = "countdown";
       same_provider_account_failover = true;
+      copilot_premium = "zero";
     };
 
-    providers = { };
+    providers = {
+      sakana = {
+        name = "Sakana";
+        base_url = "https://api.sakana.ai/v1";
+        api_key_env = "SAKANA_API_KEY";
+        models = [
+          "fugu"
+          "fugu-ultra"
+        ];
+      };
+    };
 
     agents = {
-      memory_sidecar_enabled = false;
+      swarm_model = "inherit";
+      swarm_spawn_mode = "inline";
+      swarm_gallery_max_pct = 35;
+      memory_sidecar_enabled = true;
+      memory_rerank_cadence = 3;
+      memory_rerank_judges = 2;
+      memory_rerank_min_agree = 2;
     };
 
     ambient = {
@@ -119,19 +157,19 @@ let
     gateway = {
       enabled = false;
       port = 7643;
-      bind_addr = "0.0.0.0";
+      bind_addr = "127.0.0.1";
     };
 
     compaction = {
       mode = "reactive";
       lookahead_turns = 15;
-      ewma_alpha = 0.30000001192092896;
-      proactive_floor = 0.4000000059604645;
+      ewma_alpha = 0.3;
+      proactive_floor = 0.4;
       min_samples = 3;
       stall_window = 5;
       min_turns_between_compactions = 10;
-      topic_shift_threshold = 0.44999998807907104;
-      relevance_keep_threshold = 0.6499999761581421;
+      topic_shift_threshold = 0.45;
+      relevance_keep_threshold = 0.65;
       goal_window_turns = 5;
     };
 
@@ -143,11 +181,17 @@ let
       enabled = false;
     };
   };
+
+  configFile = tomlFormat.generate "jcode-config" settings;
 in
 {
   config = mkIf (cfg.enable && builtins.elem "jcode" cfg.tools) {
     home.packages = [ pkg ];
 
-    xdg.configFile."jcode/config.toml".source = tomlFormat.generate "jcode-config" settings;
+    home.file = {
+      ".jcode/config.toml".source = configFile;
+      ".config/agents/skills".source = "${self}/modules/home-manager/profiles/collection/ai/skills";
+      ".config/AGENTS.md".source = "${self}/modules/home-manager/profiles/collection/ai/AGENTS.md";
+    };
   };
 }

@@ -41,12 +41,14 @@ in
             "curl"
             "unzip"
             "tar"
+            "jq"
+            "seclists"
           ];
 
           init_hooks = [
             "GOPATH=/root/go GOBIN=/usr/local/bin go install -v github.com/projectdiscovery/pdtm/cmd/pdtm@latest"
             "/usr/local/bin/pdtm -install-all -bp /usr/local/bin"
-            "PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install pwncat-cs || true"
+            "PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install pwncat-cs posting || true"
           ];
         };
       };

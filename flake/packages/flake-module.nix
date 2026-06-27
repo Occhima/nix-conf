@@ -25,6 +25,7 @@
         nyxt-source = pkgs.callPackage ./nyxt/package.nix { };
         antigravity = pkgs.callPackage ./antigravity/package.nix { };
         jcode = pkgs.callPackage ./jcode/package.nix { };
+        ampcode = pkgs.callPackage ./ampcode/package.nix { };
         update-packages = pkgs.callPackage ./update-packages/package.nix { };
         codegraph = pkgs.callPackage ./codegraph/package.nix { };
         feynman = pkgs.callPackage ./feynman/package.nix { };
