@@ -56,9 +56,7 @@ in
       ];
 
       sessionVariables = mkIf hasAgeKeys {
-        OPENAI_API_KEY = "$( cat ${osConfig.age.secrets.openai-api-key.path} )";
-        ANTHROPIC_API_KEY = "$( cat ${osConfig.age.secrets.aider-anthropic.path} )";
-        GEMINI_API_KEY = "$( cat ${osConfig.age.secrets.gemini-api-key.path} )";
+        OPENROUTER_API_KEY = "$( cat ${osConfig.age.secrets.openrouter-api-key.path} )";
       };
     };
 

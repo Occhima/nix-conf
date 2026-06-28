@@ -21,13 +21,6 @@ in
   config = mkIf cfg.enable {
     boot.kernelModules = [ "tun" ];
     programs.openvpn3.enable = true;
-    services.openvpn.servers = {
-      lab_htb = {
-        config = "config ${config.age.secrets.htb-ovpn.path}";
-        autoStart = false;
-      };
-    };
     environment.systemPackages = [ pkgs.openvpn ];
-
   };
 }

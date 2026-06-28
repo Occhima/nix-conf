@@ -16,32 +16,13 @@ in
 
       settings = {
         autoupdate = false;
-        provider = {
-          sakana = {
-            npm = "@ai-sdk/openai-compatible";
-            name = "Sakana Fugu";
-            options = {
-              baseURL = "https://api.sakana.ai/v1";
-              apiKey = "{env:SAKANA_API_KEY}";
-            };
-            models = {
-              "fugu" = {
-                name = "Fugu";
-              };
-              "fugu-ultra" = {
-                name = "Fugu Ultra";
-              };
-            };
-          };
-        };
         share = "manual";
-        # Agents are defined centrally in profiles/collection/ai/agents.nix
-        # and injected via programs.opencode.settings.agent in ai.nix.
         plugin = [
           "oh-my-openagent@latest"
           "opencode-claude-auth@latest"
           "@mohak34/opencode-notifier"
           "@tarquinen/opencode-dcp"
+          "@dietrichgebert/ponytail"
         ];
 
         permission = {

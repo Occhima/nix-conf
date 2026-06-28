@@ -109,15 +109,6 @@ let
     };
 
     providers = {
-      sakana = {
-        name = "Sakana";
-        base_url = "https://api.sakana.ai/v1";
-        api_key_env = "SAKANA_API_KEY";
-        models = [
-          "fugu"
-          "fugu-ultra"
-        ];
-      };
     };
 
     agents = {
