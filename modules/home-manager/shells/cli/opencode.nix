@@ -23,6 +23,8 @@ in
           "@mohak34/opencode-notifier"
           "@tarquinen/opencode-dcp"
           "@dietrichgebert/ponytail"
+          "@simonwjackson/opencode-direnv"
+          "harness-memory/plugin"
         ];
 
         permission = {
