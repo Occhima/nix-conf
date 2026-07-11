@@ -5,7 +5,7 @@
 }:
 
 let
-  inherit (lib.custom) themeLib;
+  inherit (lib.occhima) themeLib;
 in
 {
   stylix.targets.kitty.enable = themeLib.whenTheme config "guernica" false;

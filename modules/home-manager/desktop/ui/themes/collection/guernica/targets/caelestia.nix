@@ -5,7 +5,7 @@
 }:
 
 let
-  inherit (lib.custom) themeLib;
+  inherit (lib.occhima) themeLib;
 
   stylixFonts = config.stylix.fonts;
 

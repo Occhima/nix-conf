@@ -16,7 +16,7 @@ in
     enable = mkEnableOption "wlogout";
   };
 
-  config = mkIf (desktopCfg.apps.wlogout.enable) {
+  config = mkIf desktopCfg.apps.wlogout.enable {
     programs.wlogout = {
       enable = true;
     };

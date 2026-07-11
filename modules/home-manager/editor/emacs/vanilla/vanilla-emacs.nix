@@ -1,16 +1,14 @@
 {
   config,
-  osConfig,
   lib,
   pkgs,
   ...
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.custom) isWayland;
   cfg = config.modules.editor.emacs;
 
-  emacsBase = if isWayland osConfig then pkgs.emacs-git-pgtk else pkgs.emacs-git;
+  emacsBase = if config.modules.hostContext.wayland then pkgs.emacs-git-pgtk else pkgs.emacs-git;
 
   readRecursively =
     dir:

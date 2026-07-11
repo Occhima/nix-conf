@@ -1,16 +1,14 @@
 {
   config,
   pkgs,
-  osConfig,
   lib,
   ...
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.custom) getShellFromConfig;
   cfg = config.modules.shell;
 
-  nixosModuleSetShell = getShellFromConfig osConfig config.home.username;
+  nixosModuleSetShell = config.modules.hostContext.defaultShell;
   usingNushell = (nixosModuleSetShell == "nushell") || cfg.type == "nushell";
 in
 {

@@ -6,7 +6,7 @@
 }:
 
 let
-  inherit (lib.custom) themeLib;
+  inherit (lib.occhima) themeLib;
 in
 {
   programs.hyprlock = themeLib.whenTheme config "guernica" {

@@ -15,7 +15,7 @@ in
     enable = mkEnableOption "discord";
   };
 
-  config = mkIf (cfg.enable) {
+  config = mkIf cfg.enable {
     programs.vesktop = {
       enable = true;
       settings = {

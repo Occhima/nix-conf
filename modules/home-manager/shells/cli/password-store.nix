@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  osConfig,
   ...
 }:
 let
@@ -10,7 +9,7 @@ let
   cfg = config.modules.shell.cli.passwordStore;
   cfgShell = config.modules.shell.cli;
   storeSettings = config.programs.password-store;
-  hasYubikeySupport = osConfig.modules.hardware.yubikey.enable or false;
+  hasYubikeySupport = config.modules.hostContext.yubikey;
 
   agePackage = pkgs.rage;
   passageRoot = "${config.xdg.configHome}/secrets";

@@ -6,7 +6,7 @@
 let
   inherit (lib.modules) mkDefault;
   inherit (lib) mkIf;
-  inherit (lib.custom) hasProfile;
+  inherit (lib.occhima) hasProfile;
 
   MHz = x: x * 1000;
 in

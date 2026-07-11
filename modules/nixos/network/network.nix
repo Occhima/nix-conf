@@ -22,7 +22,7 @@ in
   config = mkIf cfg.enable {
     environment.etc.hosts.mode = "0644";
     networking = {
-      hostName = cfg.hostName;
+      inherit (cfg) hostName;
       hostId = builtins.substring 0 8 (builtins.hashString "md5" cfg.hostName);
 
       useDHCP = mkForce false;

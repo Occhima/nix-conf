@@ -7,7 +7,7 @@
 let
   inherit (lib.meta) getExe;
   inherit (lib.modules) mkIf;
-  inherit (lib.custom) isWayland;
+  inherit (lib.occhima) isWayland;
 
   usingWayland = isWayland config;
 in

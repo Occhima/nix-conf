@@ -7,7 +7,7 @@
 }:
 let
   inherit (lib.modules) mkForce mkIf;
-  inherit (lib.custom) hasProfile;
+  inherit (lib.occhima) hasProfile;
 in
 
 {

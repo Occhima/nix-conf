@@ -6,7 +6,7 @@
 
 let
   inherit (config.lib.stylix) colors;
-  inherit (lib.custom) themeLib;
+  inherit (lib.occhima) themeLib;
 
 in
 {

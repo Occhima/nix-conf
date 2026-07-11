@@ -8,7 +8,6 @@ This directory contains user-specific Home Manager configurations. Each user has
 
 * Directory Structure
 
-- ~flake-module.nix~ - Exports all user configurations as homeConfigurations
 - ~<username>/~ - User-specific Home Manager configuration
   - ~default.nix~ - Main user configuration
 

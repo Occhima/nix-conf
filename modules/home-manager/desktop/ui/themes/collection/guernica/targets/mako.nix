@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 let
-  inherit (lib.custom) themeLib;
+  inherit (lib.occhima) themeLib;
 in
 {
   stylix.targets.mako.enable = themeLib.whenTheme config "guernica" false;

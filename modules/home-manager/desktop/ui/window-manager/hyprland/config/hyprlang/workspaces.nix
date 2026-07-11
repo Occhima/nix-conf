@@ -1,6 +1,5 @@
 {
   config,
-  osConfig,
   lib,
   pkgs,
   ...
@@ -27,8 +26,8 @@ let
       || elem "split-monitor-workspaces" hyprCfg.plugins.enabledPlugins
     );
 
-  displays = osConfig.modules.hardware.monitors.displays or { };
-  primaryName = osConfig.modules.hardware.monitors.primaryMonitorName or "";
+  displays = config.modules.hostContext.monitors.displays or { };
+  primaryName = config.modules.hostContext.monitors.primaryMonitorName or "";
 
   monitorList =
     let
@@ -53,7 +52,8 @@ let
       flags = [
         "monitor:${monitor.output}"
         "persistent:true"
-      ] ++ optional (slot == 1 && monitor.isPrimary) "default:true";
+      ]
+      ++ optional (slot == 1 && monitor.isPrimary) "default:true";
     in
     "${toString id}, ${concatStringsSep ", " flags}";
 

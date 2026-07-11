@@ -15,22 +15,22 @@ let
     mkDefault
     ;
   inherit (lib.strings) optionalString;
-  inherit (inputs.haumea.lib) load matchers;
 
   cfg = config.modules.secrets.agenix;
   persist = config.modules.system.file-system.impermanence.enable;
   secretsDir = self + /secrets/vault;
-  ageSecrets = load {
-    src = secretsDir;
-    loader = [
-      (matchers.extension "age" (
-        _ctx: path: {
-          rekeyFile = path;
-          owner = "occhima";
-        }
-      ))
-    ];
-  };
+
+  # Every *.age file in the vault becomes a secret, keyed by file name.
+  ageSecrets = lib.pipe (builtins.readDir secretsDir) [
+    (lib.filterAttrs (name: type: type == "regular" && lib.hasSuffix ".age" name))
+    (lib.mapAttrs' (
+      name: _:
+      lib.nameValuePair (lib.removeSuffix ".age" name) {
+        rekeyFile = secretsDir + "/${name}";
+        owner = "occhima";
+      }
+    ))
+  ];
 
 in
 {

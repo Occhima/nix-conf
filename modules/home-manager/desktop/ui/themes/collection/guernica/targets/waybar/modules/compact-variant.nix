@@ -133,8 +133,8 @@ in
 
     };
 
-    disk = modules.disk;
-    temperature = modules.temperature;
+    inherit (modules) disk;
+    inherit (modules) temperature;
 
     # Demo group (audio, tray, media)
     "group/demo" = {
@@ -154,11 +154,11 @@ in
       ];
     };
 
-    tray = modules.tray;
-    pulseaudio = modules.pulseaudio;
-    mpris = modules.mpris;
-    battery = modules.battery;
-    idle_inhibitor = modules.idle_inhibitor;
+    inherit (modules) tray;
+    inherit (modules) pulseaudio;
+    inherit (modules) mpris;
+    inherit (modules) battery;
+    inherit (modules) idle_inhibitor;
 
     # Hub group (utilities and clock)
     "group/hub" = {
@@ -188,7 +188,7 @@ in
     "custom/weather" = modules."custom/weather";
     "custom/theme-switcher" = modules."custom/theme-switcher";
 
-    clock = modules.clock;
+    inherit (modules) clock;
     "custom/power" = modules."custom/power";
   };
 

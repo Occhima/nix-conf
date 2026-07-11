@@ -5,7 +5,7 @@
 }:
 
 let
-  inherit (lib.custom) themeLib;
+  inherit (lib.occhima) themeLib;
   inherit (lib) mkIf;
 
   uiCfg = config.modules.desktop.ui;

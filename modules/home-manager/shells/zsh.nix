@@ -2,20 +2,18 @@
   config,
   pkgs,
   lib,
-  osConfig,
   ...
 }:
 
 let
   inherit (lib) mkIf;
   inherit (lib.strings) optionalString;
-  inherit (lib.custom) getShellFromConfig;
   cfg = config.modules.shell;
   cfgCli = config.modules.shell.cli;
   hasFzfSupport = builtins.elem "fzf" cfgCli.tools;
   hasJqSupport = builtins.elem "jq" cfgCli.tools;
 
-  nixosModuleSetShell = getShellFromConfig osConfig config.home.username;
+  nixosModuleSetShell = config.modules.hostContext.defaultShell;
   usingZsh = (nixosModuleSetShell == "zsh") || cfg.type == "zsh";
 
 in
@@ -25,7 +23,7 @@ in
       enable = true;
       syntaxHighlighting.enable = true;
       autosuggestion.enable = false;
-      initContent = (optionalString (builtins.elem "fastfetch" cfgCli.tools) "fastfetch");
+      initContent = optionalString (builtins.elem "fastfetch" cfgCli.tools) "fastfetch";
       dotDir = "${config.xdg.configHome}/zsh";
       plugins = [
         {

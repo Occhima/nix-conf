@@ -6,7 +6,7 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.custom) hasProfile;
+  inherit (lib.occhima) hasProfile;
 in
 {
   config = mkIf (hasProfile config [ "laptop" ]) {

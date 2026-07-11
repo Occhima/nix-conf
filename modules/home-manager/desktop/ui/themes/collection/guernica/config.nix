@@ -6,7 +6,7 @@
 }:
 
 let
-  inherit (lib.custom) themeLib;
+  inherit (lib.occhima) themeLib;
   wallpaperPath = ./assets/wallpapers/guernica.jpg;
 in
 {

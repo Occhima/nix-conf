@@ -1,6 +1,6 @@
 {
+  config,
   lib,
-  osConfig,
   ...
 }:
 let
@@ -8,7 +8,7 @@ let
     mkIf
     mapAttrsToList
     ;
-  monitors = osConfig.modules.hardware.monitors or { };
+  monitors = config.modules.hostContext.monitors;
   displays = monitors.displays or { };
 
   mkHyprMonitorsV2 =

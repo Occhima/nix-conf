@@ -18,12 +18,12 @@ in
         enable = true;
         shellWrapperName = "y";
         plugins = with pkgs.yaziPlugins; {
-          full-border = full-border;
-          ouch = ouch;
-          vcs-files = vcs-files;
-          smart-enter = smart-enter;
-          git = git;
-          toggle-pane = toggle-pane;
+          inherit full-border;
+          inherit ouch;
+          inherit vcs-files;
+          inherit smart-enter;
+          inherit git;
+          inherit toggle-pane;
         };
 
         keymap = {

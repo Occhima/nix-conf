@@ -6,7 +6,7 @@
 }:
 
 let
-  inherit (lib.custom) themeLib;
+  inherit (lib.occhima) themeLib;
   themeEnabled = themeLib.isThemeActive config "guernica";
 in
 

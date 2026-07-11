@@ -57,8 +57,8 @@ in
         virtualisation = {
           libvirtd.enable = true;
           spiceUSBRedirection.enable = true;
-          memorySize = cfg.memorySize;
-          diskSize = cfg.diskSize;
+          inherit (cfg) memorySize;
+          inherit (cfg) diskSize;
         };
       };
     };

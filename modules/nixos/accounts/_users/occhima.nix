@@ -5,7 +5,7 @@
   ...
 }:
 let
-  inherit (lib.custom) ifTheyExist;
+  inherit (lib.occhima) ifTheyExist;
 in
 {
   initialPassword = "changeme";

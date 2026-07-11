@@ -1,4 +1,4 @@
-{ osConfig, lib, ... }:
+{ config, lib, ... }:
 let
 
   inherit (builtins)
@@ -38,13 +38,13 @@ let
       mode = { inherit width height refresh; };
     };
 
-  monitors = osConfig.modules.hardware.monitors or { };
+  monitors = config.modules.hostContext.monitors;
   displays = monitors.displays or { };
 
   outputs = mapAttrs' (_name: v: nameValuePair v.output (parseMonitorMeta v)) displays;
 in
 {
   programs.niri.settings = {
-    outputs = outputs;
+    inherit outputs;
   };
 }

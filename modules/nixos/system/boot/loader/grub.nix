@@ -37,7 +37,7 @@ in
       grub = {
         enable = true;
         efiSupport = true;
-        device = cfgGrub.device;
+        inherit (cfgGrub) device;
         #efiInstallAsRemovable = true;
         theme = bigsurTheme;
       };

@@ -7,7 +7,7 @@
 
 let
   inherit (lib) mkIf;
-  inherit (lib.custom) isWayland;
+  inherit (lib.occhima) isWayland;
   cfg = config.modules.system.login;
 
   theme = pkgs.elegant-sddm.override {

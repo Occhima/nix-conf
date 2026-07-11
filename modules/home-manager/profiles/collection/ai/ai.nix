@@ -4,41 +4,39 @@
   pkgs,
   lib,
   config,
-  osConfig,
+  osConfig ? { },
   ...
 }:
 
 let
   inherit (lib) mkIf getExe getExe';
-  inherit (lib.custom) hasProfile;
+  inherit (lib.occhima) hasProfile;
   hasAgeKeys = osConfig.modules.secrets.agenix.enable or false;
 
-  abTop = (
-    pkgs.rustPlatform.buildRustPackage rec {
-      pname = "abtop";
-      version = "0.2.14";
+  abTop = pkgs.rustPlatform.buildRustPackage rec {
+    pname = "abtop";
+    version = "0.2.14";
 
-      src = pkgs.fetchFromGitHub {
-        owner = "graykode";
-        repo = "abtop";
-        rev = "v${version}";
-        hash = "sha256-9gIBRWNek7588d/t/EV4Yv1dRoop2ZuHxZVCeSA9vIk=";
-      };
+    src = pkgs.fetchFromGitHub {
+      owner = "graykode";
+      repo = "abtop";
+      rev = "v${version}";
+      hash = "sha256-9gIBRWNek7588d/t/EV4Yv1dRoop2ZuHxZVCeSA9vIk=";
+    };
 
-      cargoLock = {
-        lockFile = "${src}/Cargo.lock";
-      };
+    cargoLock = {
+      lockFile = "${src}/Cargo.lock";
+    };
 
-      doCheck = true;
+    doCheck = true;
 
-      meta = with pkgs.lib; {
-        description = "";
-        homepage = "https://github.com/graycode/abtop";
-        license = licenses.mit;
-        platforms = platforms.all;
-      };
-    }
-  );
+    meta = with pkgs.lib; {
+      description = "";
+      homepage = "https://github.com/graycode/abtop";
+      license = licenses.mit;
+      platforms = platforms.all;
+    };
+  };
 
 in
 

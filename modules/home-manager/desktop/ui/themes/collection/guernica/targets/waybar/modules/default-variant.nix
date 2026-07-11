@@ -177,15 +177,15 @@ in
       # Use simplified modules for default variant
       "custom/power" = defaultPowerModule;
       clock = defaultClockModule;
-      cpu = defaultModules.cpu;
-      disk = defaultModules.disk;
-      memory = defaultModules.memory;
-      pulseaudio = defaultModules.pulseaudio;
-      network = defaultModules.network;
-      battery = defaultModules.battery;
+      inherit (defaultModules) cpu;
+      inherit (defaultModules) disk;
+      inherit (defaultModules) memory;
+      inherit (defaultModules) pulseaudio;
+      inherit (defaultModules) network;
+      inherit (defaultModules) battery;
 
       # Use tray from shared modules
-      tray = modules.tray;
+      inherit (modules) tray;
     }
 
     perWMWorkspaceSettings

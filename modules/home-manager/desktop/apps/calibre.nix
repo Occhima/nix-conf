@@ -16,7 +16,7 @@ in
     enable = mkEnableOption "calibre";
   };
 
-  config = mkIf (cfg.enable) {
+  config = mkIf cfg.enable {
     home.packages = [
       pkgs.calibre
     ];

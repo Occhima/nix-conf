@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 let
-  inherit (lib.custom) themeLib;
+  inherit (lib.occhima) themeLib;
 in
 {
   # Maybe I'll want nvim to manage its colorscheme and opacity itself

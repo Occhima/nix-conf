@@ -8,7 +8,7 @@
 
 let
   inherit (inputs) spicetify-nix;
-  inherit (lib.custom) themeLib;
+  inherit (lib.occhima) themeLib;
   spicePkgs = spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
   cond = themeLib.isThemeActive config "guernica";
 in

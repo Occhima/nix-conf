@@ -37,7 +37,7 @@ in
     ) "Flatpak is not enabled in  NixOS configuration. Enable services.flatpak in your NixOS config.";
 
     services.flatpak = {
-      packages = cfg.packages;
+      inherit (cfg) packages;
       uninstallUnmanaged = false;
       uninstallUnused = true;
       update.auto.enable = false;

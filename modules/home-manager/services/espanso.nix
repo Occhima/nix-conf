@@ -1,12 +1,10 @@
 {
   config,
   lib,
-  osConfig,
   ...
 }:
 let
   inherit (lib) mkEnableOption mkIf;
-  inherit (lib.custom) isWayland;
 
   cfg = config.modules.services.espanso;
 in
@@ -18,7 +16,7 @@ in
   config = mkIf cfg.enable {
     services.espanso =
       let
-        usingWayland = isWayland osConfig;
+        usingWayland = config.modules.hostContext.wayland;
       in
       {
         enable = true;

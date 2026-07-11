@@ -17,7 +17,7 @@ let
   configFilename = if isVM then "face2face.nix" else "${hostname}.nix";
 
   hostConfigExists = builtins.pathExists hostDiskoConfig;
-  hostDiskoConfig = ./partitions/${configFilename};
+  hostDiskoConfig = ./_partitions/${configFilename};
 
   requestedConfig =
     optionalString isVM "(VM detected, using face2face.nix)"

@@ -5,7 +5,7 @@
 }:
 
 let
-  inherit (lib.custom) themeLib;
+  inherit (lib.occhima) themeLib;
 in
 {
   stylix.base16Scheme = themeLib.whenTheme config "guernica" {

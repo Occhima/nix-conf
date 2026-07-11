@@ -5,7 +5,7 @@
 }:
 
 let
-  inherit (lib.custom) themeLib;
+  inherit (lib.occhima) themeLib;
   inherit (config.lib.formats.rasi) mkLiteral;
 in
 {

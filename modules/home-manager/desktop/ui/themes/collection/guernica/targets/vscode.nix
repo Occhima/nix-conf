@@ -5,7 +5,7 @@
 }:
 
 let
-  inherit (lib.custom) themeLib;
+  inherit (lib.occhima) themeLib;
 in
 {
   stylix.targets.vscode.enable = themeLib.whenTheme config "guernica" true;

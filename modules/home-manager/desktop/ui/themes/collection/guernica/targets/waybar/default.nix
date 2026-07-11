@@ -1,6 +1,6 @@
 { config, lib, ... }:
 let
-  inherit (lib.custom) themeLib;
+  inherit (lib.occhima) themeLib;
   uiCfg = config.modules.desktop.ui;
 
   defaultVariant = import ./modules/default-variant.nix { inherit lib config uiCfg; };

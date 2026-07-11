@@ -7,7 +7,7 @@ let
   inherit (lib.attrsets) mapAttrs;
   inherit (lib.modules) mkForce;
   inherit (lib) mkIf;
-  inherit (lib.custom) hasProfile;
+  inherit (lib.occhima) hasProfile;
 in
 {
   config = mkIf (hasProfile config [ "headless" ]) {

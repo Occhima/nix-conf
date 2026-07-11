@@ -4,7 +4,7 @@
   config,
   lib,
   pkgs,
-  osConfig,
+  osConfig ? { },
   ...
 }:
 let
@@ -18,7 +18,7 @@ in
     enable = mkEnableOption "lutris";
   };
 
-  config = mkIf (desktopCfg.apps.lutris.enable) {
+  config = mkIf desktopCfg.apps.lutris.enable {
 
     home.packages = with pkgs; [
       mangohud
@@ -30,7 +30,7 @@ in
     programs.lutris = {
       enable = true;
       defaultWinePackage = pkgs.proton-ge-bin;
-      steamPackage = osConfig.programs.steam.package;
+      steamPackage = osConfig.programs.steam.package or null;
       protonPackages = [ pkgs.proton-ge-bin ];
       winePackages = with pkgs; [
         wineWow64Packages.waylandFull

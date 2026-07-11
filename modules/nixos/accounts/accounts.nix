@@ -25,11 +25,10 @@ let
     genAttrs
     ;
 
-  hostname = config.networking.hostName;
   cfg = config.modules.accounts;
   allUsers = {
-    occhima = import ./users/occhima.nix { inherit pkgs lib config; };
-    root = ./users/root.nix;
+    occhima = import ./_users/occhima.nix { inherit pkgs lib config; };
+    root = ./_users/root.nix;
   };
 
   mkHomeManagerConfig =
@@ -97,10 +96,10 @@ in
       useUserPackages = true;
       backupFileExtension = "bak";
 
-      sharedModules = [ self.homeModules.default ];
+      sharedModules = [ self.modules.homeManager.default ];
 
       extraSpecialArgs = {
-        inherit inputs self hostname;
+        inherit inputs self;
       };
 
       users = genAttrs (filter (username: username != "root" && elem username cfg.enabledUsers) (

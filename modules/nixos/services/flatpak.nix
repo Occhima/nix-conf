@@ -6,7 +6,7 @@
 let
   inherit (lib) mkEnableOption;
   inherit (lib.modules) mkIf;
-  inherit (lib.custom) hasProfile;
+  inherit (lib.occhima) hasProfile;
 
   cfg = config.modules.services.flatpak;
   hasGraphicalProfile = hasProfile config [ "graphical" ];

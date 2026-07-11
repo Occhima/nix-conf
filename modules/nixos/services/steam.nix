@@ -7,7 +7,7 @@
 let
   inherit (lib) mkEnableOption;
   inherit (lib.modules) mkIf;
-  inherit (lib.custom) isWayland;
+  inherit (lib.occhima) isWayland;
 
   cfg = config.modules.services.steam;
 

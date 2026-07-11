@@ -6,7 +6,7 @@
 let
   inherit (lib) mkEnableOption mkOption mkDefault;
   inherit (lib.types) str;
-  inherit (lib.custom) hasProfile;
+  inherit (lib.occhima) hasProfile;
 
   cfg = config.modules.security.auth;
 in

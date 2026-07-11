@@ -1,15 +1,13 @@
 {
   lib,
   config,
-  osConfig,
   pkgs,
   ...
 }:
 let
   inherit (lib) mkEnableOption mkIf;
-  inherit (lib.custom) isWayland;
 
-  usingWayland = isWayland osConfig;
+  usingWayland = config.modules.hostContext.wayland;
 
   cfg = config.modules.desktop.apps.flameshot;
 

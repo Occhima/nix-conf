@@ -7,7 +7,7 @@
 let
   inherit (lib) mkAfter mkDefault optionalAttrs;
   inherit (lib.attrsets) recursiveUpdate;
-  inherit (lib.custom) themeLib;
+  inherit (lib.occhima) themeLib;
 
   isCompact = themeLib.isVariant config "compact";
   stylixColors = config.lib.stylix.colors;

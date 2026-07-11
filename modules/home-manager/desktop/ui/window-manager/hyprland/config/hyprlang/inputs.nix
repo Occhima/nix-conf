@@ -1,7 +1,7 @@
-{ config, osConfig, ... }:
+{ config, ... }:
 let
-  primary = osConfig.modules.hardware.monitors.primaryMonitorName;
-  output = osConfig.modules.hardware.monitors.displays.${primary}.output;
+  primary = config.modules.hostContext.monitors.primaryMonitorName;
+  output = config.modules.hostContext.monitors.displays.${primary}.output;
 
 in
 {
@@ -16,7 +16,7 @@ in
       };
       tablet = {
         transform = 1;
-        output = output;
+        inherit output;
       };
       sensitivity = -0.5;
       repeat_delay = 250;

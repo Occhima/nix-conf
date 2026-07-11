@@ -6,7 +6,7 @@
 
 let
   inherit (lib) mkIf;
-  # inherit (lib.custom) hasProfile;
+  # inherit (lib.occhima) hasProfile;
   cfg = config.modules.shell.cli;
 in
 # configuredAiSupport = hasProfile config [ "ai" ];

@@ -1,5 +1,5 @@
 {
-  osConfig,
+  config,
   pkgs,
   lib,
   ...
@@ -28,7 +28,7 @@ let
   '';
 in
 {
-  config = mkIf osConfig.modules.services.steam.enable {
+  config = mkIf config.modules.hostContext.steam {
     wayland.windowManager.hyprland.settings.bind = [
       "$mainMod, G, exec, ${gamemode}/bin/gamemode"
     ];

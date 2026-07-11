@@ -11,7 +11,6 @@ let
 in
 {
 
-  # imports = [ inputs.determinate.nixosModules.default ];
   nix = {
     gc = {
       automatic = true;

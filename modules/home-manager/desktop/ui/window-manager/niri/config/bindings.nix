@@ -10,7 +10,7 @@ let
   uiCfg = config.modules.desktop.ui;
 
   a = config.lib.niri.actions;
-  spawn = a.spawn;
+  inherit (a) spawn;
 
   termBin = desktopCfg.terminal.active;
 in

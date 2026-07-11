@@ -40,7 +40,7 @@ in
 
     virtualisation.podman = {
       enable = true;
-      dockerCompat = cfg.dockerCompat;
+      inherit (cfg) dockerCompat;
       dockerSocket.enable = cfg.dockerCompat;
       defaultNetwork.settings.dns_enabled = true;
       # enableNvidia =

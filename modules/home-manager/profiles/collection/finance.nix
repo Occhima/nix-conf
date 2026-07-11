@@ -7,7 +7,7 @@
 }:
 let
   inherit (lib) mkIf;
-  inherit (lib.custom) hasProfile;
+  inherit (lib.occhima) hasProfile;
 in
 # podmanEnabled = config.modules.services.podman.enable;
 # add maybe finance if podman enabled
