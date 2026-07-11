@@ -1,4 +1,7 @@
-name: Flake Check
+# Hand-maintained (the actions-nix generator was removed together with the
+# duplicated just-flake recipes). Third-party actions are pinned to full
+# commit SHAs; bump them by editing the SHA and the version comment.
+name: CI
 
 on:
   pull_request:
@@ -13,38 +16,115 @@ jobs:
   scanning:
     name: GitGuardian scan
     runs-on: ubuntu-latest
-    timeout-minutes: 120
-
+    timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          fetch-depth: 0
 
       - name: GitGuardian scan
-        uses: GitGuardian/ggshield/actions/secret@main
+        uses: GitGuardian/ggshield/actions/secret@aaada885532b9451e5774d063d968e74a238ff44 # v1.52.2
         env:
-          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
-          GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-          GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
           GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
+          GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
+          GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
 
   check:
-    name: Flake Check
+    name: Lint and flake check
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
+
+      - uses: DeterminateSystems/flakehub-cache-action@8ceb5534cc3f9ba4f1083af0ab4ce21b6c19217f # v3.21.5
+
+      - uses: DeterminateSystems/flake-checker-action@3164002371bc90729c68af0e24d5aacf20d7c9f6 # v12
+
+      - name: Formatting
+        run: nix build .#checks.x86_64-linux.treefmt --print-build-logs
+
+      - name: Dead code
+        run: nix run nixpkgs#deadnix -- --fail .
+
+      - name: Static analysis
+        run: nix run nixpkgs#statix -- check .
+
+      - name: Flake check
+        run: nix flake check --show-trace
+
+  hosts:
+    name: Build ${{ matrix.host }}
     runs-on: ubuntu-latest
     timeout-minutes: 120
-
+    strategy:
+      fail-fast: false
+      matrix:
+        host:
+          - aerodynamic
+          - crescendoll
+          - steammachine
+          - beyond
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
-      - name: Install Nix
-        uses: DeterminateSystems/determinate-nix-action@v3
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /opt/hostedtoolcache
+          df -h /
 
-      - name: Check flake inputs
-        uses: DeterminateSystems/flake-checker-action@v2
-        with:
-          fail-mode: true
-          ignore-missing-flake-lock: false
+      - uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
 
-      - name: Run nix flake check
-        run: nix flake check --show-trace
+      - uses: DeterminateSystems/flakehub-cache-action@8ceb5534cc3f9ba4f1083af0ab4ce21b6c19217f # v3.21.5
+
+      - name: Build system closure
+        run: |
+          nix build \
+            ".#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel" \
+            --no-link \
+            --print-build-logs
+
+  # The ISO host is evaluated rather than built: the image build does not
+  # fit on the default runners. Build it locally with `just iso voyager`.
+  iso:
+    name: Evaluate voyager ISO
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
+
+      - uses: DeterminateSystems/flakehub-cache-action@8ceb5534cc3f9ba4f1083af0ab4ce21b6c19217f # v3.21.5
+
+      - name: Evaluate ISO derivation
+        run: |
+          nix eval --raw \
+            .#nixosConfigurations.voyager.config.system.build.isoImage.drvPath
+
+  home:
+    name: Build standalone home-manager
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /opt/hostedtoolcache
+          df -h /
+
+      - uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
+
+      - uses: DeterminateSystems/flakehub-cache-action@8ceb5534cc3f9ba4f1083af0ab4ce21b6c19217f # v3.21.5
+
+      - name: Build activation package
+        run: |
+          nix build \
+            .#homeConfigurations.occhima.activationPackage \
+            --no-link \
+            --print-build-logs
