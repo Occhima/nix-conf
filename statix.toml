@@ -1,0 +1,3 @@
+# `plugins.a = { }; plugins.b = { };` is the established style in this
+# configuration; merging repeated keys is noisier, not clearer.
+disabled = ["repeated_keys"]
