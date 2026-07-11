@@ -44,7 +44,7 @@ just reload     # Reload direnv
 just check      # Run flake check
 just fmt        # Format code with treefmt
 just lint       # Run linting tools (deadnix)
-just test       # Run tests
+just unit-tests # Run tests
 just pre-commit # Run pre-commit hooks
 just clean      # Clean nix store and optimize
 just update     # Update flake inputs
@@ -81,7 +81,7 @@ The typical workflow for making changes is:
 When working on NixOS modules:
 
 1. Edit files in `modules/nixos/`
-2. Test with `just test`
+2. Test with `just unit-tests`
 3. Apply changes with `just test-switch` or `just switch`
 
 ### Modifying Home Manager Modules
@@ -89,7 +89,7 @@ When working on NixOS modules:
 When working on Home Manager modules:
 
 1. Edit files in `modules/home-manager/`
-2. Test with `just test`
+2. Test with `just unit-tests`
 3. Apply changes with `just home-switch`
 
 ### Adding New Modules
@@ -137,7 +137,7 @@ in
 To run all tests:
 
 ```bash
-just test
+just unit-tests
 ```
 
 This will:

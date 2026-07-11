@@ -30,7 +30,7 @@ This repository contains a complete NixOS system configuration that follows mode
 | Directory          | Description                               |
 | ------------------ | ----------------------------------------- |
 | `flake.nix`        | Main flake entry point                    |
-| `flake-module.nix` | Root flake module imported by flake.nix   |
+| `modules/flake/`   | Structural flake modules (auto-discovered) |
 | `hosts/`           | Host-specific configurations              |
 | `home/`            | User home configurations via home-manager |
 | `modules/`         | Shared NixOS and home-manager modules     |
@@ -50,7 +50,7 @@ This repository contains a complete NixOS system configuration that follows mode
 
 ### Development Commands
 
-- `just test` - Run tests (nix-unit)
+- `just unit-tests` - Run tests (nix-unit)
 - `just fmt` - Format code with treefmt
 - `just lint` - Run linting (deadnix)
 - `just check` - Run flake check

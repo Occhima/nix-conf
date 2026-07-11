@@ -174,7 +174,7 @@ Visual theme configurations:
 These home-manager modules are integrated with NixOS in two ways:
 
 1. **Via NixOS module** - Through the accounts module in modules/nixos/accounts/accounts.nix
-2. **Standalone** - Through home/flake-module.nix for use outside of NixOS
+2. **Standalone** - Through modules/flake/home-manager.nix for use outside of NixOS
 
 For NixOS systems, you can enable home-manager modules by configuring your user in the host configuration:
 
