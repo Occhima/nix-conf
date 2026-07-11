@@ -2,23 +2,12 @@
   description = "My extra-bloated NixOS config";
 
   outputs =
-    { flake-parts, ... }@inputs:
-    flake-parts.lib.mkFlake { inherit inputs; } (
-      {
-        ...
-      }:
-      let
-        flakeModules = [
-          ./flake/flake-module.nix
-          ./modules/flake-module.nix
-          ./hosts/flake-module.nix
-          ./home/flake-module.nix
-        ];
-      in
-      {
-        imports = flakeModules;
-      }
-    );
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      # Structural top-level modules are discovered automatically; see
+      # modules/flake/default.nix for the rules.
+      imports = [ ./modules/flake ];
+    };
 
   inputs = {
     # Sources
@@ -35,27 +24,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-
-    nixpkgs-unstable = {
-      type = "github";
-      owner = "NixOS";
-      repo = "nixpkgs";
-      ref = "nixos-unstable";
-    };
-
     # ========= Utilities =========
     disko = {
       type = "github";
       owner = "nix-community";
       repo = "disko";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nixos-hardware = {
-      type = "github";
-      owner = "NixOS";
-      repo = "nixos-hardware";
     };
 
     flake-parts = {
@@ -78,12 +52,6 @@
       repo = "impermanence";
     };
 
-    systems = {
-      type = "github";
-      owner = "nix-systems";
-      repo = "default";
-    };
-
     nur = {
       type = "github";
       owner = "nix-community";
@@ -100,12 +68,6 @@
       };
     };
 
-    easy-hosts = {
-      type = "github";
-      owner = "tgirlcloud";
-      repo = "easy-hosts";
-    };
-
     # Sec (commented out)
 
     agenix = {
@@ -114,7 +76,7 @@
       repo = "agenix";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        home-manager.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
       };
     };
 
@@ -174,16 +136,6 @@
       };
     };
 
-    # TODO: Generate iso images and etc with nixos-generators
-    nixos-generators = {
-      type = "github";
-      owner = "nix-community";
-      repo = "nixos-generators";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
-
     # https://github.com/search?q=colmena&type=repositories
     # For now, Im using deploy-rs as reployment tool
     # colmena = {
@@ -197,11 +149,6 @@
     # };
 
     # Utility for importing modules
-    haumea = {
-      type = "github";
-      owner = "nix-community";
-      repo = "haumea";
-    };
 
     # Emacs overlay
     emacs-overlay = {
@@ -238,13 +185,6 @@
       repo = "microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
 
-    };
-
-    nix-on-droid = {
-      type = "github";
-      owner = "nix-community";
-      repo = "nix-on-droid";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     niri = {
