@@ -25,33 +25,34 @@ let
       # looked up through `self`).
       specialArgs = { inherit inputs self; };
 
-      modules = [
-        rootModule.${host.class}
-        {
-          networking.hostName = lib.mkDefault name;
-          nixpkgs.hostPlatform = lib.mkDefault host.system;
-          nixpkgs.flake.source = inputs.nixpkgs.outPath;
-        }
-      ]
-      ++ lib.optionals (host.class == "iso") [
-        "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel.nix"
-      ]
-      ++ lib.optionals (host.class == "nixos") [
-        {
-          assertions = [
-            {
-              assertion = host.stateVersion != null;
-              message = "occhima.hosts.${name}: a nixos host must pin its stateVersion";
-            }
-          ];
-          system.stateVersion = host.stateVersion;
-          modules.profiles = {
-            enable = host.profiles != [ ];
-            active = host.profiles;
-          };
-        }
-      ]
-      ++ host.modules;
+      modules =
+        [
+          rootModule.${host.class}
+          {
+            networking.hostName = lib.mkDefault name;
+            nixpkgs.hostPlatform = lib.mkDefault host.system;
+            nixpkgs.flake.source = inputs.nixpkgs.outPath;
+          }
+        ]
+        ++ lib.optionals (host.class == "iso") [
+          "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal-new-kernel.nix"
+        ]
+        ++ lib.optionals (host.class == "nixos") [
+          {
+            assertions = [
+              {
+                assertion = host.stateVersion != null;
+                message = "occhima.hosts.${name}: a nixos host must pin its stateVersion";
+              }
+            ];
+            system.stateVersion = host.stateVersion;
+            modules.profiles = {
+              enable = host.profiles != [ ];
+              active = host.profiles;
+            };
+          }
+        ]
+        ++ host.modules;
     };
 in
 {

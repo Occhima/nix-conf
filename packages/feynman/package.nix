@@ -30,7 +30,7 @@ buildNpmPackage {
     owner = "companion-inc";
     repo = "feynman";
     rev = "852a2f1e02a886535abe618106a85395c0b5fff6";
-    hash = "sha256-+TZEFIGDaW9qAoeya8f5Db275eaV4nAdLIt9NupN0FI=";
+    hash = "sha256-g7iE1JVV83G70bqacim7bzBZwIvaniIIM9hJO6YmYRw=";
   };
 
   # nodejs_24 matches the Node version that produced the upstream

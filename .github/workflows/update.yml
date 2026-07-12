@@ -33,7 +33,7 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v7
         with:
-          title: 'chore: update flake inputs'
-          commit-message: 'chore: update flake inputs'
+          title: "chore: update flake inputs"
+          commit-message: "chore: update flake inputs"
           branch: update-flake-inputs
           token: ${{ github.token }}

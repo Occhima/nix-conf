@@ -132,15 +132,15 @@ feature: configure its option.**
 modules.virtualisation.podman.enable = true;
 ```
 
-Feature modules are auto-imported and therefore always *available*, but
-never *active* until enabled. Do not enable features by importing named
+Feature modules are auto-imported and therefore always _available_, but
+never _active_ until enabled. Do not enable features by importing named
 modules — imports are structural registration, not behavioral selection.
 Two activation paths for the same feature would mean two sources of
 truth for what a machine runs.
 
 The only modules meant to be imported wholesale are the class roots
 (`modules.nixos.default`, `modules.nixos.iso`,
-`modules.homeManager.default`), because they *are* the composition, not
+`modules.homeManager.default`), because they _are_ the composition, not
 a feature.
 
 ## Profiles
@@ -228,7 +228,7 @@ lives in the host directory.
 
 ## Why dendritic-inspired, not fully dendritic
 
-The fully dendritic pattern makes *every* Nix file a top-level
+The fully dendritic pattern makes _every_ Nix file a top-level
 flake-parts module. This repository borrows the good part — automatic,
 convention-driven composition with no central import lists — but keeps
 conceptual distinctions the dendritic pattern erases:

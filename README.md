@@ -109,13 +109,13 @@ That's it — there is no registry to update. See
 
 ## Hosts
 
-| Host         | Class | Description                        |
-| ------------ | ----- | ---------------------------------- |
-| aerodynamic  | nixos | Laptop (Intel/NVIDIA, graphical)   |
-| steammachine | nixos | Desktop (AMD/NVIDIA, graphical)    |
-| beyond       | nixos | Desktop (AMD/NVIDIA, graphical)    |
-| crescendoll  | nixos | WSL development environment        |
-| voyager      | iso   | Bootable installer image           |
+| Host         | Class | Description                      |
+| ------------ | ----- | -------------------------------- |
+| aerodynamic  | nixos | Laptop (Intel/NVIDIA, graphical) |
+| steammachine | nixos | Desktop (AMD/NVIDIA, graphical)  |
+| beyond       | nixos | Desktop (AMD/NVIDIA, graphical)  |
+| crescendoll  | nixos | WSL development environment      |
+| voyager      | iso   | Bootable installer image         |
 
 ## Development
 

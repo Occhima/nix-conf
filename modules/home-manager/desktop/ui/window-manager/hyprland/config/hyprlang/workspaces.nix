@@ -52,8 +52,7 @@ let
       flags = [
         "monitor:${monitor.output}"
         "persistent:true"
-      ]
-      ++ optional (slot == 1 && monitor.isPrimary) "default:true";
+      ] ++ optional (slot == 1 && monitor.isPrimary) "default:true";
     in
     "${toString id}, ${concatStringsSep ", " flags}";
 
