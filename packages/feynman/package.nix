@@ -40,7 +40,7 @@ buildNpmPackage {
   nodejs = nodejs_24;
   nativeBuildInputs = [ makeWrapper ];
 
-  npmDepsHash = "sha256-cpNXLT0CvFPp3mGvtL/Cc4OiuHaBTX1vKcS5oOuE8zw=";
+  npmDepsHash = "sha256-kppZcqunQp9SWooUwmU85xy/4KsSBcADm6qZL+PXpwI=";
 
   # preinstall checks the host Node version; prepack/build run tsc.  Neither
   # is needed when we ship the npm tarball's pre-built dist/.
