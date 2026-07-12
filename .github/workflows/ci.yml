@@ -1,6 +1,5 @@
 # Hand-maintained (the actions-nix generator was removed together with the
-# duplicated just-flake recipes). Third-party actions are pinned to full
-# commit SHAs; bump them by editing the SHA and the version comment.
+# duplicated just-flake recipes).
 name: CI
 
 on:
@@ -19,12 +18,12 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: GitGuardian scan
-        uses: GitGuardian/ggshield/actions/secret@aaada885532b9451e5774d063d968e74a238ff44 # v1.52.2
+        uses: GitGuardian/ggshield/actions/secret@v1.52.2
         env:
           GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
           GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
@@ -37,13 +36,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@v6
 
-      - uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
+      - uses: DeterminateSystems/nix-installer-action@v22
 
-      - uses: DeterminateSystems/flakehub-cache-action@8ceb5534cc3f9ba4f1083af0ab4ce21b6c19217f # v3.21.5
+      - uses: DeterminateSystems/flakehub-cache-action@main
 
-      - uses: DeterminateSystems/flake-checker-action@3164002371bc90729c68af0e24d5aacf20d7c9f6 # v12
+      - uses: DeterminateSystems/flake-checker-action@v12
 
       - name: Formatting
         run: nix build .#checks.x86_64-linux.treefmt --print-build-logs
@@ -70,16 +69,16 @@ jobs:
           - steammachine
           - beyond
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@v6
 
       - name: Free disk space
         run: |
           sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /opt/hostedtoolcache
           df -h /
 
-      - uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
+      - uses: DeterminateSystems/nix-installer-action@v22
 
-      - uses: DeterminateSystems/flakehub-cache-action@8ceb5534cc3f9ba4f1083af0ab4ce21b6c19217f # v3.21.5
+      - uses: DeterminateSystems/flakehub-cache-action@main
 
       - name: Build system closure
         run: |
@@ -95,11 +94,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@v6
 
-      - uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
+      - uses: DeterminateSystems/nix-installer-action@v22
 
-      - uses: DeterminateSystems/flakehub-cache-action@8ceb5534cc3f9ba4f1083af0ab4ce21b6c19217f # v3.21.5
+      - uses: DeterminateSystems/flakehub-cache-action@main
 
       - name: Evaluate ISO derivation
         run: |
@@ -111,16 +110,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@v6
 
       - name: Free disk space
         run: |
           sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /opt/hostedtoolcache
           df -h /
 
-      - uses: DeterminateSystems/nix-installer-action@ef8a148080ab6020fd15196c2084a2eea5ff2d25 # v22
+      - uses: DeterminateSystems/nix-installer-action@v22
 
-      - uses: DeterminateSystems/flakehub-cache-action@8ceb5534cc3f9ba4f1083af0ab4ce21b6c19217f # v3.21.5
+      - uses: DeterminateSystems/flakehub-cache-action@main
 
       - name: Build activation package
         run: |
