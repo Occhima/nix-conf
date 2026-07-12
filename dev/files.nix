@@ -258,23 +258,23 @@
         gitToplevel = ../.;
         files = [
           {
-            path = ".devcontainer/devcontainer.json";
+            path_ = ".devcontainer/devcontainer.json";
             drv = jsonFormat.generate "devcontainer.json" devContainer;
           }
           {
-            path = "garnix.yaml";
+            path_ = "garnix.yaml";
             drv = yamlFormat.generate "garnix.yaml" garnix;
           }
           {
-            path = "AGENTS.md";
+            path_ = "AGENTS.md";
             drv = pkgs.writeText "AGENTS.md" agentsMd;
           }
           {
-            path = "PROMPT.md";
+            path_ = "PROMPT.md";
             drv = pkgs.writeText "PROMPT.md" promptMd;
           }
           {
-            path = ".gitignore";
+            path_ = ".gitignore";
             drv = pkgs.writeText ".gitignore" gitIgnore;
           }
         ];
