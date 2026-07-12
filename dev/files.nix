@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
 
-  imports = [ inputs.files.flakeModule ];
+  imports = [ inputs.files.flakeModules.default ];
 
   perSystem =
     { pkgs, ... }:

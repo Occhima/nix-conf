@@ -11,6 +11,9 @@ let
   standaloneContext = {
     modules.hostContext = {
       wayland = false;
+      steam = false;
+      yubikey = false;
+      defaultShell = "";
       monitors = {
         primaryMonitorName = "dp1";
         displays.dp1 = {

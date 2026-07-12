@@ -77,6 +77,11 @@ in
     expected = false;
   };
 
+  "test isPackageEnabled with null config (standalone osConfig)" = {
+    expr = isPackageEnabled null "git";
+    expected = false;
+  };
+
   #####################################################################
   # Tests for ifPackageNotEnabled
   #####################################################################

@@ -1,6 +1,6 @@
-{ self', ... }:
+{ pkgs, self, ... }:
 let
-  inherit (self'.packages) install-tools;
+  inherit (self.packages.${pkgs.stdenv.hostPlatform.system}) install-tools;
 in
 {
   programs = {

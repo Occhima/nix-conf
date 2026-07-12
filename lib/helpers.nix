@@ -10,8 +10,9 @@ rec {
   # stolen from: https://github.com/isabelroses/dotfiles/blob/main/modules/flake/lib/validators.nix
   ifTheyExist = config: groups: filter (group: hasAttr group config.users.groups) groups;
 
-  isPackageEnabled =
-    config: program: hasAttr program config.programs && config.programs.${program}.enable;
+  # Tolerates a null/absent config (standalone home-manager passes
+  # osConfig = null).
+  isPackageEnabled = config: program: config.programs.${program}.enable or false;
 
   ifPackageNotEnabled =
     config: osConfig: programs:

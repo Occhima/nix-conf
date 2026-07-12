@@ -1,4 +1,4 @@
-{ pkgs, self', ... }:
+{ pkgs, self, ... }:
 {
   system = {
     disableInstallerTools = true;
@@ -21,7 +21,7 @@
       disko
       nix-output-monitor
       ;
-    inherit (self'.packages) install-tools;
+    inherit (self.packages.${pkgs.stdenv.hostPlatform.system}) install-tools;
   };
 
   hardware.enableRedistributableFirmware = true;
