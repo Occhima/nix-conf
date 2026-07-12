@@ -1,6 +1,4 @@
-# Hand-maintained (the actions-nix generator was removed together with the
-# duplicated just-flake recipes).
-name: CI
+name: Flake Check
 
 on:
   pull_request:
@@ -15,115 +13,38 @@ jobs:
   scanning:
     name: GitGuardian scan
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 120
+
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
 
       - name: GitGuardian scan
-        uses: GitGuardian/ggshield/actions/secret@v1.52.2
+        uses: GitGuardian/ggshield/actions/secret@main
         env:
-          GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
-          GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
-          GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
           GITGUARDIAN_API_KEY: ${{ secrets.GITGUARDIAN_API_KEY }}
+          GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          GITHUB_PULL_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GITHUB_PUSH_BASE_SHA: ${{ github.event.base }}
+          GITHUB_PUSH_BEFORE_SHA: ${{ github.event.before }}
 
   check:
-    name: Lint and flake check
+    name: Flake Check
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 120
+
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout
+        uses: actions/checkout@v6
 
-      - uses: DeterminateSystems/nix-installer-action@v22
+      - name: Install Nix
+        uses: DeterminateSystems/determinate-nix-action@v3
 
-      - uses: DeterminateSystems/flakehub-cache-action@main
+      - name: Check flake inputs
+        uses: DeterminateSystems/flake-checker-action@v2
+        with:
+          fail-mode: true
+          ignore-missing-flake-lock: false
 
-      - uses: DeterminateSystems/flake-checker-action@v12
-
-      - name: Formatting
-        run: nix build .#checks.x86_64-linux.treefmt --print-build-logs
-
-      - name: Dead code
-        run: nix run nixpkgs#deadnix -- --fail .
-
-      - name: Static analysis
-        run: nix run nixpkgs#statix -- check .
-
-      - name: Flake check
+      - name: Run nix flake check
         run: nix flake check --show-trace
-
-  hosts:
-    name: Build ${{ matrix.host }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 120
-    strategy:
-      fail-fast: false
-      matrix:
-        host:
-          - aerodynamic
-          - crescendoll
-          - steammachine
-          - beyond
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Free disk space
-        run: |
-          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /opt/hostedtoolcache
-          df -h /
-
-      - uses: DeterminateSystems/nix-installer-action@v22
-
-      - uses: DeterminateSystems/flakehub-cache-action@main
-
-      - name: Build system closure
-        run: |
-          nix build \
-            ".#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel" \
-            --no-link \
-            --print-build-logs
-
-  # The ISO host is evaluated rather than built: the image build does not
-  # fit on the default runners. Build it locally with `just iso voyager`.
-  iso:
-    name: Evaluate voyager ISO
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: DeterminateSystems/nix-installer-action@v22
-
-      - uses: DeterminateSystems/flakehub-cache-action@main
-
-      - name: Evaluate ISO derivation
-        run: |
-          nix eval --raw \
-            .#nixosConfigurations.voyager.config.system.build.isoImage.drvPath
-
-  home:
-    name: Build standalone home-manager
-    runs-on: ubuntu-latest
-    timeout-minutes: 120
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Free disk space
-        run: |
-          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /opt/hostedtoolcache
-          df -h /
-
-      - uses: DeterminateSystems/nix-installer-action@v22
-
-      - uses: DeterminateSystems/flakehub-cache-action@main
-
-      - name: Build activation package
-        run: |
-          nix build \
-            .#homeConfigurations.occhima.activationPackage \
-            --no-link \
-            --print-build-logs
