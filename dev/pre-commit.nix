@@ -31,8 +31,10 @@
               enable = true;
             };
 
+            # the hook's pinned statix flags style lints that current
+            # statix does not; the explicit `statix check` CI step is the gate
             statix = {
-              enable = true;
+              enable = false;
               package = pkgs.statix;
             };
 

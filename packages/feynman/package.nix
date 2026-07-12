@@ -68,8 +68,8 @@ buildNpmPackage {
         'mkdirSync(resolve(appRoot, ".feynman"), { recursive: true });' \
         'mkdirSync(feynmanHome, { recursive: true });' \
       --replace-fail \
-        '"-C", resolve(appRoot, ".feynman")' \
-        '"-C", feynmanHome' \
+        'cwd: resolve(appRoot, ".feynman"),' \
+        'cwd: feynmanHome,' \
       --replace-fail \
         'const PRUNE_VERSION = 6;' \
         'const PRUNE_VERSION = 6;
@@ -79,13 +79,7 @@ buildNpmPackage {
         'writeIfChanged(entryPath, cliSource, "utf8")' \
       --replace-fail \
         'writeFileSync(terminalPath, terminalSource, "utf8")' \
-        'writeIfChanged(terminalPath, terminalSource, "utf8")' \
-      --replace-fail \
-        'writeFileSync(interactiveThemePath, themeSource, "utf8")' \
-        'writeIfChanged(interactiveThemePath, themeSource, "utf8")' \
-      --replace-fail \
-        'writeFileSync(editorPath, editorSource, "utf8")' \
-        'writeIfChanged(editorPath, editorSource, "utf8")'
+        'writeIfChanged(terminalPath, terminalSource, "utf8")'
   '';
 
   postBuild = ''
