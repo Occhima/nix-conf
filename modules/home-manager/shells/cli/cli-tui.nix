@@ -1,7 +1,7 @@
-{ inputs, ... }:
+{ config, ... }:
 {
   config.flake.modules.homeManager.cli-tui = {
-    imports = with inputs.self.modules.homeManager; [
+    imports = with config.flake.modules.homeManager; [
       yazi
       zellij
       fastfetch

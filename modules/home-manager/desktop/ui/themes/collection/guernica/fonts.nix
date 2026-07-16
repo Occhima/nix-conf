@@ -1,15 +1,14 @@
-{ ... }:
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) themeLib;
+in
 {
   config.flake.modules.homeManager.themes-guernica =
     {
       pkgs,
       config,
-      lib,
       ...
     }:
-    let
-      inherit (lib.custom) themeLib;
-    in
     {
       home.packages = themeLib.whenTheme config "guernica" [
         pkgs.nerd-fonts._0xproto

@@ -1,20 +1,22 @@
-{ ... }:
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) themeLib;
+  themes-stylix = config.flake.modules.homeManager.themes-stylix;
+in
 {
   config.flake.modules.homeManager.themes-guernica =
     {
       config,
-      inputs,
       lib,
       ...
     }:
     let
-      inherit (lib.custom) themeLib;
       isGuernica = themeLib.isThemeActive config "guernica";
       isCompact = themeLib.isVariant config "compact";
       usingNiri = config.programs.niri.enable;
     in
     {
-      imports = [ inputs.self.modules.homeManager.themes-stylix ];
+      imports = [ themes-stylix ];
 
       config = {
         modules.desktop.ui.themes = {

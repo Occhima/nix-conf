@@ -1,9 +1,8 @@
 # stolen from: github.com/linuxmobile/kaku
-{ ... }:
+{ inputs, ... }:
 {
   config.flake.modules.homeManager.niri =
     {
-      inputs,
       pkgs,
       ...
     }:

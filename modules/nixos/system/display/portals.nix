@@ -1,4 +1,7 @@
-{ ... }:
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) isWayland;
+in
 {
   config.flake.modules.nixos.display-portals =
     {
@@ -10,7 +13,6 @@
     let
       inherit (lib.meta) getExe;
       inherit (lib.modules) mkIf;
-      inherit (lib.custom) isWayland;
 
       usingWayland = isWayland config;
     in

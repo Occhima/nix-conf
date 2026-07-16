@@ -1,10 +1,11 @@
-{ ... }:
+{ config, inputs, ... }:
+let
+  flakePkgs = config.flake.packages;
+in
 {
   config.flake.modules.homeManager.neovim = (
     {
-      inputs,
       config,
-      self,
       lib,
       pkgs,
       ...
@@ -25,7 +26,7 @@
 
       config = {
         home = {
-          packages = [ self.packages.${pkgs.stdenv.hostPlatform.system}.nvim ];
+          packages = [ flakePkgs.${pkgs.stdenv.hostPlatform.system}.nvim ];
           sessionVariables = mkIf cfg.default {
             EDITOR = "nvim";
           };

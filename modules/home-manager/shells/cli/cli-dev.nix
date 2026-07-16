@@ -1,6 +1,6 @@
-{ inputs, ... }:
+{ config, ... }:
 {
   config.flake.modules.homeManager.cli-dev = {
-    imports = with inputs.self.modules.homeManager; [ distrobox ];
+    imports = with config.flake.modules.homeManager; [ distrobox ];
   };
 }

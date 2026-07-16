@@ -1,7 +1,10 @@
-{ ... }:
+{ config, ... }:
+let
+  flakePkgs = config.flake.packages;
+in
 {
   config.flake.modules.nixos.iso-programs =
-    { inputs, pkgs, ... }:
+    { pkgs, ... }:
     {
       system = {
         disableInstallerTools = true;
@@ -24,7 +27,7 @@
           disko
           nix-output-monitor
           ;
-        inherit (inputs.self.packages.${pkgs.stdenv.hostPlatform.system}) install-tools;
+        inherit (flakePkgs.${pkgs.stdenv.hostPlatform.system}) install-tools;
       };
 
       hardware.enableRedistributableFirmware = true;

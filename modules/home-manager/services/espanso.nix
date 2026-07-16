@@ -1,15 +1,14 @@
-{ ... }:
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) isWayland;
+in
 {
   config.flake.modules.homeManager.espanso = (
     {
       config,
-      lib,
-      osConfig,
+      osConfig ? { },
       ...
     }:
-    let
-      inherit (lib.custom) isWayland;
-    in
     {
       config = {
         services.espanso =

@@ -1,14 +1,13 @@
-{ ... }:
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) themeLib;
+in
 {
   config.flake.modules.homeManager.themes-guernica =
     {
       config,
-      lib,
       ...
     }:
-    let
-      inherit (lib.custom) themeLib;
-    in
     {
       stylix.base16Scheme = themeLib.whenTheme config "guernica" {
         # scheme stolen from: raw.githubusercontent.com/adamgraham/polykai/refs/heads/master/Base16/polykai.yaml

@@ -1,9 +1,12 @@
-{ ... }:
+{ config, ... }:
+let
+  flakePkgs = config.flake.packages;
+in
 {
   config.flake.modules.nixos.environment-packages =
-    { inputs, pkgs, ... }:
+    { pkgs, ... }:
     let
-      inherit (inputs.self.packages.${pkgs.stdenv.hostPlatform.system}) install-tools;
+      inherit (flakePkgs.${pkgs.stdenv.hostPlatform.system}) install-tools;
     in
     {
       programs = {

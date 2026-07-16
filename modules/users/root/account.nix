@@ -1,0 +1,12 @@
+# root — NixOS account aspect.
+{ ... }:
+{
+  flake.modules.nixos.user-root = {
+    users.users.root = {
+      initialPassword = "changeme";
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM/N9m28W8c9Fs9InErjlNRXCwPe1CR9HafzqjTcSis9"
+      ];
+    };
+  };
+}

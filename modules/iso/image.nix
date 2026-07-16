@@ -1,9 +1,8 @@
-{ ... }:
+{ inputs, self, ... }:
 {
   config.flake.modules.nixos.iso-image =
     {
       lib,
-      inputs,
       pkgs,
       config,
       ...
@@ -11,7 +10,6 @@
     let
       inherit (lib.modules) mkImageMediaOverride;
       inherit (lib.sources) cleanSource;
-      self = inputs.self;
       hostname = config.networking.hostName or "nixos";
       rev = self.shortRev or "dirty";
       name = "${hostname}-${config.system.nixos.release}-${rev}-${pkgs.stdenv.hostPlatform.uname.processor}";

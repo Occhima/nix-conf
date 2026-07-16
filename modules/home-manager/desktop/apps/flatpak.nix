@@ -1,11 +1,10 @@
-{ ... }:
+{ inputs, ... }:
 {
   config.flake.modules.homeManager.flatpak = (
     {
       config,
       lib,
       pkgs,
-      inputs,
       osConfig ? { },
       ...
     }:

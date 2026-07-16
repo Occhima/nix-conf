@@ -1,11 +1,10 @@
-{ ... }:
+{ inputs, ... }:
 {
   config.flake.modules.nixos.boot-secure-boot =
     {
       lib,
       pkgs,
       config,
-      inputs,
       ...
     }:
     let

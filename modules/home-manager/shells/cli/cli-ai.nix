@@ -1,7 +1,7 @@
-{ inputs, ... }:
+{ config, ... }:
 {
   config.flake.modules.homeManager.cli-ai = {
-    imports = with inputs.self.modules.homeManager; [
+    imports = with config.flake.modules.homeManager; [
       claude-code
       opencode
       aider

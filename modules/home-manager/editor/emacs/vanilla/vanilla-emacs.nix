@@ -1,16 +1,18 @@
-{ ... }:
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) isWayland;
+in
 {
   config.flake.modules.homeManager.emacs = (
     {
       config,
-      osConfig,
+      osConfig ? { },
       lib,
       pkgs,
       ...
     }:
     let
       inherit (lib) mkIf;
-      inherit (lib.custom) isWayland;
       cfg = config.modules.editor.emacs;
 
       emacsBase = if isWayland osConfig then pkgs.emacs-git-pgtk else pkgs.emacs-git;

@@ -1,15 +1,16 @@
-{ ... }:
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) isWayland;
+in
 {
   config.flake.modules.nixos.login-sddm =
     {
       config,
-      lib,
       pkgs,
       ...
     }:
 
     let
-      inherit (lib.custom) isWayland;
 
       theme = pkgs.elegant-sddm.override {
         themeConfig.General = {

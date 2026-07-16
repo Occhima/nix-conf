@@ -1,14 +1,15 @@
-{ ... }:
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) themeLib;
+in
 {
   config.flake.modules.homeManager.themes-guernica =
     {
       pkgs,
       config,
-      lib,
       ...
     }:
     let
-      inherit (lib.custom) themeLib;
       wallpaperPath = ./assets/wallpapers/guernica.jpg;
     in
     {

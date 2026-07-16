@@ -3,7 +3,7 @@
   config.flake.modules.homeManager.hyprland =
     {
       lib,
-      osConfig,
+      osConfig ? { },
       ...
     }:
     let

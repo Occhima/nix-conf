@@ -1,4 +1,7 @@
-{ ... }:
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) isWayland;
+in
 {
   config.flake.modules.nixos.steam =
     {
@@ -9,7 +12,6 @@
     }:
     let
       inherit (lib.modules) mkIf;
-      inherit (lib.custom) isWayland;
 
     in
     {

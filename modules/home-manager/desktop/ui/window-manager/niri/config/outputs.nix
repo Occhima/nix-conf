@@ -2,7 +2,7 @@
 {
   config.flake.modules.homeManager.niri =
     {
-      osConfig,
+      osConfig ? { },
       lib,
       ...
     }:

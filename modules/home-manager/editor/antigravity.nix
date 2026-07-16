@@ -1,16 +1,18 @@
-{ ... }:
+{ config, ... }:
+let
+  flakePkgs = config.flake.packages;
+in
 {
   config.flake.modules.homeManager.antigravity = (
     {
       config,
-      self,
       pkgs,
       ...
     }:
     {
       config = {
         home = {
-          packages = [ self.packages.${pkgs.stdenv.hostPlatform.system}.antigravity ];
+          packages = [ flakePkgs.${pkgs.stdenv.hostPlatform.system}.antigravity ];
         };
       };
     }

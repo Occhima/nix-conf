@@ -6,7 +6,5 @@
     ./tests.nix
     ./vanilla-devshell.nix
     ./just.nix
-    ./actions.nix
   ];
-
 }

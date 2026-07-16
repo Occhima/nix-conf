@@ -1,11 +1,13 @@
-{ ... }:
+{ config, ... }:
+let
+  flakePkgs = config.flake.packages;
+in
 {
   config.flake.modules.homeManager.browser-nyxt = (
     {
       config,
       lib,
       pkgs,
-      self,
       ...
     }:
     let
@@ -14,7 +16,7 @@
     {
       config = mkIf (pkgs.stdenv.isLinux) {
         home = {
-          packages = [ self.packages.${pkgs.stdenv.hostPlatform.system}.nyxt-source ];
+          packages = [ flakePkgs.${pkgs.stdenv.hostPlatform.system}.nyxt-source ];
           sessionVariables = {
             WEBKIT_DISABLE_COMPOSITING_MODE = 1;
           };

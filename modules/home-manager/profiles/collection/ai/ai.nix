@@ -1,4 +1,7 @@
-{ inputs, ... }:
+{ config, ... }:
+let
+  cli-ai = config.flake.modules.homeManager.cli-ai;
+in
 {
   config.flake.modules.homeManager.ai = (
     # NOTE: Stolen from: https://github.com/s3igo/dotfiles/blob/82929b20af8f66acfbbc41a614fbfbb9de1385e6/home/aider.nix#L4
@@ -7,12 +10,12 @@
       pkgs,
       lib,
       config,
-      osConfig,
+      osConfig ? { },
       ...
     }:
     let
       inherit (lib) mkIf getExe getExe';
-      hasAgeKeys = osConfig.modules.secrets.agenix.enable or false;
+      hasAgeKeys = (osConfig.age.secrets or { }) ? openrouter-api-key;
 
       abTop = (
         pkgs.rustPlatform.buildRustPackage rec {
@@ -42,7 +45,7 @@
       );
     in
     {
-      imports = with inputs.self.modules.homeManager; [ cli-ai ];
+      imports = [ cli-ai ];
 
       config = {
         home = {

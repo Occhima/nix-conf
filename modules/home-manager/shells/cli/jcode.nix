@@ -1,14 +1,16 @@
-{ ... }:
+{ config, ... }:
+let
+  flakePkgs = config.flake.packages;
+in
 {
   config.flake.modules.homeManager.jcode = (
     {
       config,
       pkgs,
-      self,
       ...
     }:
     let
-      pkg = self.packages.${pkgs.stdenv.hostPlatform.system}.jcode;
+      pkg = flakePkgs.${pkgs.stdenv.hostPlatform.system}.jcode;
 
       tomlFormat = pkgs.formats.toml { };
 
@@ -181,8 +183,8 @@
 
         home.file = {
           ".jcode/config.toml".source = configFile;
-          ".config/agents/skills".source = "${self}/modules/home-manager/profiles/collection/ai/skills";
-          ".config/AGENTS.md".source = "${self}/modules/home-manager/profiles/collection/ai/AGENTS.md";
+          ".config/agents/skills".source = ../../profiles/collection/ai/skills;
+          ".config/AGENTS.md".source = ../../profiles/collection/ai/AGENTS.md;
         };
       };
     }

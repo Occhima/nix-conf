@@ -1,11 +1,10 @@
-{ ... }:
+{ inputs, ... }:
 {
   config.flake.modules.homeManager.browser-zen-beta = (
     # NOTE: another feature stolen from the isabelroses/dotfiles repo
     {
       pkgs,
       config,
-      inputs,
       ...
     }:
     {

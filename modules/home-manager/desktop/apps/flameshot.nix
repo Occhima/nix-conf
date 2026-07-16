@@ -1,15 +1,16 @@
-{ ... }:
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) isWayland;
+in
 {
   config.flake.modules.homeManager.flameshot = (
     {
-      lib,
       config,
-      osConfig,
+      osConfig ? { },
       pkgs,
       ...
     }:
     let
-      inherit (lib.custom) isWayland;
 
       usingWayland = isWayland osConfig;
 

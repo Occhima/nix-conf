@@ -67,7 +67,7 @@
             [group('dev')]
             lock:
                 nix flake lock
-                nix flake lock ./flake/dev
+                nix flake lock ./dev
             alias lo := lock
 
             # <- Inspects flake output

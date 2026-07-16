@@ -1,8 +1,7 @@
-{ ... }:
+{ inputs, ... }:
 {
   config.flake.modules.homeManager.spotify = (
     {
-      inputs,
       config,
       pkgs,
       ...

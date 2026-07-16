@@ -1,8 +1,7 @@
-{ ... }:
+{ inputs, ... }:
 {
   config.flake.modules.homeManager.caelestia-dock =
     {
-      inputs,
       pkgs,
       ...
     }:
@@ -11,8 +10,8 @@
       shellPkg = inputs.caelestia-shell.packages.${system}.default;
     in
     {
-      # ponytail: caelestia target (_caelestia.nix) excluded from import-tree;
-      # theme settings for caelestia are only applied when caelestia-dock is active
+      # Guernica styling for caelestia contributes to this same aspect from
+      # the theme's targets/caelestia.nix, so it only applies when the dock is imported.
       imports = [ inputs.caelestia-shell.homeManagerModules.default ];
 
       programs.caelestia = {

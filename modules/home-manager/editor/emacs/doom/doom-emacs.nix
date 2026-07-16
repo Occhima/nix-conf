@@ -1,16 +1,18 @@
-{ ... }:
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) ifPackageNotEnabled isWayland;
+in
 {
   config.flake.modules.homeManager.emacs = (
     {
       config,
-      osConfig,
+      osConfig ? { },
       lib,
       pkgs,
       ...
     }:
     let
       inherit (lib) mkIf;
-      inherit (lib.custom) ifPackageNotEnabled isWayland;
       inherit (builtins) getAttr;
 
       cfg = config.modules.editor.emacs;

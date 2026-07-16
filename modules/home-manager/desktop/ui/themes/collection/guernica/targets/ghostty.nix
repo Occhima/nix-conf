@@ -1,0 +1,23 @@
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) themeLib;
+in
+{
+  config.flake.modules.homeManager.themes-guernica =
+    {
+      config,
+      ...
+    }:
+    {
+      stylix.targets.kitty.enable = themeLib.whenTheme config "guernica" false;
+
+      programs.ghostty = themeLib.whenTheme config "guernica" {
+        settings = {
+          font-family = config.stylix.fonts.monospace.name;
+          cursor-style-blink = true;
+          cursor-style = "block";
+          font-feature = "+liga";
+        };
+      };
+    };
+}

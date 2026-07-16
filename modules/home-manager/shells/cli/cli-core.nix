@@ -1,7 +1,7 @@
-{ inputs, ... }:
+{ config, ... }:
 {
   config.flake.modules.homeManager.cli-core = {
-    imports = with inputs.self.modules.homeManager; [
+    imports = with config.flake.modules.homeManager; [
       bat
       eza
       fzf

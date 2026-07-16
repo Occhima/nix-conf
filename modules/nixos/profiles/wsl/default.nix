@@ -1,10 +1,9 @@
-{ ... }:
+{ inputs, ... }:
 {
   config.flake.modules.nixos.wsl =
     {
       lib,
       pkgs,
-      inputs,
       ...
     }:
     let

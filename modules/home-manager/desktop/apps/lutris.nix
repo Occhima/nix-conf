@@ -6,7 +6,7 @@
     {
       config,
       pkgs,
-      osConfig,
+      osConfig ? { },
       ...
     }:
     {
@@ -21,7 +21,8 @@
         programs.lutris = {
           enable = true;
           defaultWinePackage = pkgs.proton-ge-bin;
-          steamPackage = osConfig.programs.steam.package;
+          # Under NixOS reuse the system Steam; standalone falls back to pkgs.
+          steamPackage = osConfig.programs.steam.package or pkgs.steam;
           protonPackages = [ pkgs.proton-ge-bin ];
           winePackages = with pkgs; [
             wineWow64Packages.waylandFull

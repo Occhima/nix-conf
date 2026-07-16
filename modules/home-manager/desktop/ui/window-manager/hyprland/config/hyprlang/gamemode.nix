@@ -2,7 +2,7 @@
 {
   config.flake.modules.homeManager.hyprland =
     {
-      osConfig,
+      osConfig ? { },
       pkgs,
       lib,
       ...

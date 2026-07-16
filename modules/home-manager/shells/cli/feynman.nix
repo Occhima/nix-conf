@@ -1,14 +1,16 @@
-{ ... }:
+{ config, ... }:
+let
+  flakePkgs = config.flake.packages;
+in
 {
   config.flake.modules.homeManager.feynman = (
     {
       config,
       pkgs,
-      self,
       ...
     }:
     let
-      pkg = self.packages.${pkgs.stdenv.hostPlatform.system}.feynman;
+      pkg = flakePkgs.${pkgs.stdenv.hostPlatform.system}.feynman;
     in
     {
       config = {

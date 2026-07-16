@@ -9,7 +9,7 @@ Use for: adding packages, writing modules, updating configurations in this flake
 
 ## Repository conventions
 
-- Packages: `flake/packages/<name>/package.nix`, exposed via `flake/packages/flake-module.nix`
+- Packages: `packages/<name>/package.nix`, exposed via `modules/packages/<name>.nix` (`perSystem.packages`)
 - Home Manager modules: `modules/home-manager/shells/cli/<tool>.nix`
 - AI profile: `modules/home-manager/profiles/collection/ai/ai.nix`
 - Skills: `modules/home-manager/profiles/collection/ai/skills/<name>/SKILL.md`

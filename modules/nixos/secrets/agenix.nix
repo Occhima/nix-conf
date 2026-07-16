@@ -1,11 +1,18 @@
-{ ... }:
+# agenix + agenix-rekey NixOS aspect. Secrets in secrets/vault are exposed
+# to every host importing this aspect; each host contributes its own
+# `age.rekey.hostPubkey` from a `host.pub` next to its host module.
+{ inputs, ... }:
+let
+  # Non-Nix assets referenced lexically.
+  secretsDir = ../../../secrets/vault;
+  identityDir = ../../../secrets/identity;
+  rekeyedDir = ../../../secrets/rekeyed;
+in
 {
   config.flake.modules.nixos.agenix =
     {
       config,
       lib,
-      self,
-      inputs,
       ...
     }:
 
@@ -19,7 +26,6 @@
 
       cfg = config.modules.secrets.agenix;
       persist = config.environment.persistence ? "/persist";
-      secretsDir = self + /secrets/vault;
       ageSecrets = lib.mapAttrs'
         (name: _: {
           name = lib.removeSuffix ".age" name;
@@ -44,7 +50,7 @@
           description = "Paths to master SSH public keys (e.g., YubiKey identities)";
           example = [ "../secrets/identity/yubi-identity.pub" ];
           default = [
-            (self.outPath + "/secrets/identity/yubi-id.pub")
+            (identityDir + "/yubi-id.pub")
           ];
         };
         extraPub = mkOption {
@@ -63,10 +69,7 @@
 
             rekey = {
               storageMode = mkDefault "local";
-              hostPubkey = builtins.readFile (
-                self.outPath + "/hosts/${config.networking.hostName}/assets/host.pub"
-              );
-              localStorageDir = self.outPath + "/secrets/rekeyed/${config.networking.hostName}";
+              localStorageDir = rekeyedDir + "/${config.networking.hostName}";
               extraEncryptionPubkeys = cfg.extraPub;
             };
 

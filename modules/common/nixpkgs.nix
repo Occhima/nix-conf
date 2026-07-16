@@ -1,4 +1,4 @@
-{ self, ... }:
+{ config, ... }:
 {
   config.flake.modules.nixos.nixpkgs-config = {
     # system specific overrides,
@@ -8,6 +8,6 @@
       permittedInsecurePackages = [ ];
       allowUnsupportedSystem = false;
     };
-    nixpkgs.overlays = builtins.attrValues self.overlays;
+    nixpkgs.overlays = builtins.attrValues config.flake.overlays;
   };
 }

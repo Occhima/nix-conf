@@ -12,8 +12,7 @@ let
     ) { } suite;
 
   testSuiteFiles = {
-    "custom" = ./testCustom.nix;
-    "nixos" = ./testNixos.nix;
+    "helpers" = ./testHelpers.nix;
     "themeLib" = ./testThemeLib.nix;
   };
 in

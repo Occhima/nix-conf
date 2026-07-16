@@ -1,16 +1,18 @@
-{ ... }:
+{ config, ... }:
+let
+  flakePkgs = config.flake.packages;
+in
 {
   config.flake.modules.homeManager.codegraph = (
     {
       lib,
       config,
       pkgs,
-      self,
       ...
     }:
     let
       inherit (lib) getExe;
-      pkg = self.packages.${pkgs.stdenv.hostPlatform.system}.codegraph;
+      pkg = flakePkgs.${pkgs.stdenv.hostPlatform.system}.codegraph;
     in
     {
       config = {

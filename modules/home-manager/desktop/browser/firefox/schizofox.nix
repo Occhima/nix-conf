@@ -1,9 +1,8 @@
-{ ... }:
+{ inputs, ... }:
 {
   config.flake.modules.homeManager.browser-firefox = (
     {
       config,
-      inputs,
       ...
     }:
     {

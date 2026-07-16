@@ -1,10 +1,9 @@
-{ ... }:
+{ inputs, ... }:
 {
   config.flake.modules.homeManager.themes-stylix =
     {
       config,
       lib,
-      inputs,
       ...
     }:
     let
