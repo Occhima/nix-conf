@@ -1,6 +1,8 @@
 # NixOS Configuration
 
-A modular, reproducible NixOS configuration built with **Flakes** and **Home Manager**.
+A fully **dendritic** NixOS + Home Manager configuration built on
+[flake-parts](https://flake.parts), `flake.modules` (deferred modules), and
+[import-tree](https://github.com/vic/import-tree).
 
 <p align="center">
   <img alt="NixOS" src="https://raw.githubusercontent.com/NixOS/nixos-artwork/master/logo/nixos-white.png" width="100"/>
@@ -8,232 +10,186 @@ A modular, reproducible NixOS configuration built with **Flakes** and **Home Man
 
 [![NixOS](https://img.shields.io/badge/NixOS-flakes-blue?logo=NixOS&logoColor=white)](https://nixos.org)
 [![Home Manager](https://img.shields.io/badge/home--manager-integrated-blueviolet?logo=nixos&logoColor=white)](https://github.com/nix-community/home-manager)
-[![CI](https://img.shields.io/badge/CI-none-lightgrey)](#)
 
-## Table of Contents
+## The pattern in one paragraph
 
-- [Overview](#overview)
-- [Directory Structure](#directory-structure)
-- [Quick Start](#quick-start)
-  - [Installation](#installation)
-  - [Available Commands](#available-commands)
-  - [Adding a New Host](#adding-a-new-host)
-  - [Adding a New User](#adding-a-new-user)
-- [Architecture](#architecture)
-  - [Flake Structure](#flake-structure)
-  - [Host Configuration](#host-configuration)
-  - [Home Manager Integration](#home-manager-integration)
-  - [Modules System](#modules-system)
-  - [Secrets Management](#secrets-management)
-  - [State Persistence](#state-persistence)
-- [Development](#development)
-  - [Development Environment](#development-environment)
-  - [Testing](#testing)
-  - [Code Formatting](#code-formatting)
-  - [Pre-commit Hooks](#pre-commit-hooks)
-- [Documentation](#documentation)
-- [Roadmap](#roadmap)
-- [References](#references)
-
-## Overview
-
-This repository contains a complete NixOS system configuration that follows modern best practices:
-
-- **Modular Design** – system configuration split into logical, reusable components.
-- **Multi-Host Support** – define multiple systems with shared configurations.
-- **Home Manager Integration** – user configurations managed alongside system configs.
-- **Impermanence** – support for ephemeral root with persistent state.
-- **Secret Management** – secure secrets handling with Agenix.
-- **Deployment Tools** – remote deployment with deploy-rs.
-- **Development Environment** – comprehensive dev tools and testing framework.
-
-## Directory Structure
+Every `.nix` file under `modules/` is a **top-level flake-parts module**,
+discovered automatically by import-tree — there are no manual import lists,
+no recursive collectors, and no `default.nix` files whose job is to
+enumerate siblings. A file contributes one coherent *feature* (an
+"aspect") to one or more module classes via
+`flake.modules.<class>.<aspect>`. Independent files may contribute to the
+*same* aspect and their definitions merge. Composition happens by
+importing aspects from the fixed point (`config.flake.modules.*`) —
+**importing an aspect is what activates it**. There are no
+`modules.<x>.enable` switches, profile string lists, or implementation
+selector enums; options exist only for genuine data (monitor layouts,
+usernames, ports, device paths).
 
 ```text
-flake.nix          # Main flake entry point
-flake-module.nix   # Root flake module imported by flake.nix
-hosts/             # Host-specific configurations
-home/              # User home configurations via home-manager
-modules/           # Shared NixOS and home-manager modules
-packages/          # Custom packages
-overlays/          # Nixpkgs overlays
-lib/               # Custom library functions
-dev/               # Development tools and tests
+flake.nix        # inputs + two imports: flakeModules.modules, import-tree ./modules
+modules/         # THE root configuration tree — every file is a flake-parts module
+├── flake/       #   systems, per-system nixpkgs, dev partition, compat outputs
+├── lib/         #   helpers merged into `flake.lib.custom` (an option, not a file import)
+├── hosts/       #   one dir per host: aspect + its own nixosConfigurations output
+├── users/       #   account aspects (NixOS) + home aspects (HM) + standalone HM output
+├── nixos/       #   NixOS feature aspects (hardware, network, security, …)
+├── home-manager/#   Home Manager feature aspects (shells, desktop, editors, …)
+├── common/      #   cross-host NixOS base aspects (nix, nixpkgs, environment)
+├── iso/         #   installer image aspects
+├── nixvim/      #   fragments merging into flake.modules.nixvim.default
+├── disko/       #   per-host disko layouts + diskoConfigurations outputs
+├── overlays/    #   one overlay contribution per file
+├── packages/    #   perSystem package wiring (sources live in ../packages)
+├── templates/   #   template outputs (sources live in ../templates)
+└── integrations/#   agenix-rekey, deploy-rs, nixvim glue
+packages/        # callPackage source expressions (not modules)
+templates/       # independent flakes (not modules)
+dev/             # development partition: its own flake.lock, never in host eval
+secrets/         # agenix vault, identities, per-host rekeyed secrets
 ```
 
-## Quick Start
+## How things compose
 
-### Installation
+### A feature (aspect)
 
-```bash
-# Clone the repository
-git clone https://github.com/occhima/nixos.git ~/.config/nixos
-
-# Build and switch to the configuration for your host
-cd ~/.config/nixos
-just switch
+```nix
+# modules/nixos/hardware/bluetooth.nix
+{ ... }:
+{
+  config.flake.modules.nixos.bluetooth =
+    { pkgs, ... }:
+    {
+      hardware.bluetooth.enable = true;
+      environment.systemPackages = [ pkgs.bluetui ];
+    };
+}
 ```
 
-### Available Commands
+No `enable` option: a host that imports `bluetooth` has bluetooth.
 
-This repository uses [just](https://github.com/casey/just) as a command runner. Some key commands:
+### Split files, one aspect
 
-```bash
-just             # List all available commands
-just switch      # Switch to the new system configuration
-just home-switch # Apply home-manager configuration
-just test-switch # Test configuration without applying
-just update      # Update flake lock file
-just fmt         # Format code
-just test        # Run tests
-just clean       # Clean the nix store
+All Hyprland fragments (`modules/home-manager/desktop/ui/window-manager/hyprland/config/…`)
+independently contribute to `flake.modules.homeManager.hyprland`; the
+module system merges them. The same goes for the Nixvim fragments under
+`modules/nixvim/` (→ `flake.modules.nixvim.default`) and the Guernica
+theme targets (→ `flake.modules.homeManager.themes-guernica`).
+
+### A host
+
+```nix
+# modules/hosts/steammachine/host.nix
+{ config, inputs, ... }:
+{
+  flake.modules.nixos.steammachine = {
+    imports = with config.flake.modules.nixos; [
+      system-base accounts user-occhima user-root
+      cpu-amd gpu-nvidia login-ly disko-steammachine steam # …
+    ];
+    config = {
+      modules.network.hostName = "steammachine";  # genuine data
+      age.rekey.hostPubkey = builtins.readFile ./host.pub;
+    };
+  };
+
+  # The host contributes its own flake output — no central host registry.
+  flake.nixosConfigurations.steammachine = inputs.nixpkgs.lib.nixosSystem {
+    system = "x86_64-linux";
+    modules = [ config.flake.modules.nixos.steammachine ];
+  };
+}
 ```
 
-### Adding a New Host
+Variant choices are named aspects (`cpu-amd`/`cpu-intel`, `gpu-nvidia`,
+`login-ly`/`login-greetd`, `browser-zen-beta`, `terminal-kitty`), and
+profiles are aggregate aspects that just import other aspects
+(`desktop`, `graphical`, `laptop`; HM: `ai`, `data`, `science`,
+`pentesting`, `cli-core`, `cli-git`, …).
 
-1. Create a new directory under `hosts/` for your host.
-2. Add a `default.nix` file with the host-specific configuration.
-3. Update `hosts/flake-module.nix` to include the new host in `hosts` attribute.
-4. Configure deployment settings in `hosts/deploy.nix` if needed.
+### A user
 
-### Adding a New User
+- `modules/users/occhima/account.nix` — NixOS aspect `user-occhima`:
+  creates the account and wires `home-manager.users.occhima` to the HM
+  aspect.
+- `modules/users/occhima/home.nix` — HM aspect `occhima`: the user
+  environment, composed of named HM aspects.
+- `modules/users/occhima/standalone.nix` — `homeConfigurations.occhima`
+  for non-NixOS machines. There is **no fabricated `osConfig`**: modules
+  that want host facts declare `osConfig ? { }` and degrade gracefully.
 
-1. Create a user config file in `modules/nixos/accounts/users/`.
-2. Add the user to `allUsers` in `modules/nixos/accounts/accounts.nix`.
-3. Create a home-manager configuration in `home/username/`.
-4. Enable the user by adding to `enabledUsers` in your host configuration.
+### Helpers
 
-## Architecture
+Shared functions merge into an option, not a file you import by relative
+path:
 
-### Flake Structure
-
-This configuration uses [flake-parts](https://flake.parts/) to organize the flake into modular components:
-
-- **flake.nix** – entry point with input definitions.
-- **flake-module.nix** – root module that composes all components.
-- Component flake modules:
-  - `hosts/flake-module.nix`
-  - `home/flake-module.nix`
-  - `modules/flake-module.nix`
-  - `overlays/flake-module.nix`
-  - `packages/flake-module.nix`
-
-### Host Configuration
-
-Hosts are defined in `hosts/` with a structure that follows:
-
-```text
-hosts/
-├── hostname/
-│   ├── default.nix    # Main system configuration
-│   ├── hardware.nix   # Hardware-specific settings
-│   └── disko.nix      # Optional disk partitioning config
-├── flake-module.nix   # Exports nixosConfigurations
-├── deploy.nix         # Deployment configuration
-└── profiles/          # Shared profiles for similar systems
-    ├── common/        # Configurations shared by all hosts
-    ├── desktop/       # Desktop-specific configurations
-    ├── headless/      # Server configurations
-    ├── iso/           # ISO image configurations
-    └── wsl/           # Windows Subsystem for Linux configs
+```nix
+# contribute:  flake.lib.custom.isWayland = …;   (modules/lib/predicates.nix)
+# consume:
+{ config, ... }:
+let inherit (config.flake.lib.custom) isWayland; in …
 ```
 
-### Home Manager Integration
+## Recipes
 
-Home Manager is integrated in two ways:
+- **Add a NixOS feature**: create `modules/nixos/<area>/<thing>.nix`
+  contributing `flake.modules.nixos.<thing>`; import it from a host or an
+  aggregate aspect. Done — import-tree discovers the file.
+- **Add a Home Manager feature**: same shape under
+  `modules/home-manager/`, class `homeManager`.
+- **Cross-context feature**: define both classes in *one* file
+  (`flake.modules.nixos.foo` + `flake.modules.homeManager.foo`).
+- **Add a host**: `modules/hosts/<name>/host.nix` defining the host
+  aspect *and* its `flake.nixosConfigurations.<name>` output (plus
+  `host.pub` + a `perSystem.agenix-rekey` registration if it uses
+  secrets).
+- **Add a user**: `modules/users/<name>/{account,home}.nix` following the
+  occhima files.
+- **Add a package**: expression in `packages/<name>/package.nix`, wired by
+  `modules/packages/<name>.nix` via `perSystem.packages.<name>`.
+- **Add a disko layout**: `modules/disko/<host>.nix` contributing
+  `flake.diskoConfigurations.<host>` and the `disko-<host>` aspect.
+- **Add a Nixvim tweak**: drop a file in `modules/nixvim/` contributing to
+  `flake.modules.nixvim.default`.
 
-1. **NixOS Module** – for users on NixOS systems via `modules/nixos/accounts/accounts.nix`.
-2. **Standalone** – for users on non-NixOS systems via `home/flake-module.nix`.
+Files prefixed with `_` are **not** discovered by import-tree — that
+prefix is reserved for non-module data files referenced lexically (e.g.
+`_pentest-pkgs.nix`); never hide real configuration there.
 
-Each user's configuration is stored in `home/username/`.
+## Hosts
 
-### Modules System
-
-The `modules/` directory contains reusable configuration modules:
-
-```text
-modules/
-├── flake-module.nix
-├── nixos/                # System-level modules
-│   ├── accounts/         # User account management
-│   ├── hardware/         # Hardware-specific configs
-│   ├── network/          # Networking configurations
-│   ├── system/           # Core system settings
-│   └── ...
-└── home-manager/         # User-level modules
-    ├── data/             # XDG and persistence
-    ├── desktop/          # Desktop environment
-    ├── shells/           # Shell configurations
-    └── ...
-```
-
-### Secrets Management
-
-This configuration uses [agenix](https://github.com/ryantm/agenix) for secrets management:
-
-- Keys are stored in `hosts/secrets/identity/`.
-- Encrypted secrets are in `hosts/secrets/vault/`.
-- Rekey functionality via `agenix-rekey` facilitates key rotation.
-
-### State Persistence
-
-The configuration supports ephemeral root with persistent state via the [impermanence](https://github.com/nix-community/impermanence) module:
-
-- System-level persistence in `modules/nixos/system/file-system/impermanence.nix`.
-- User-level persistence in `modules/home-manager/data/persistence.nix`.
+| Host | Role |
+| --- | --- |
+| `aerodynamic` | laptop — Intel CPU, NVIDIA GPU, Greetd, disko + impermanence |
+| `beyond` | desktop — AMD CPU, NVIDIA GPU, Ly, Steam, disko + impermanence |
+| `steammachine` | desktop — AMD CPU, NVIDIA GPU, Ly, Steam, pentesting container |
+| `crescendoll` | WSL |
+| `voyager` | installer ISO |
 
 ## Development
 
-### Development Environment
-
 ```bash
-# Enter development shell with all tools
-nix develop
-
-# Reload development environment
-just reload
+just             # list commands
+just fmt         # format (treefmt via the dev partition)
+just unit-tests  # nix-unit tests
+just check       # nix flake check
+nix flake show   # inspect outputs
 ```
 
-### Testing
+Development tooling (formatters, pre-commit, tests, CI workflow
+generation) lives in the `dev/` flake-parts **partition** with its own
+lock file, so dev-only inputs never enter host evaluation.
 
-```bash
-just test         # Run all tests
-nix run ./dev#test # Run Nix unit tests
-```
+## Secrets
 
-### Code Formatting
-
-```bash
-just fmt
-```
-
-### Pre-commit Hooks
-
-```bash
-just pre-commit
-```
-
-## Documentation
-
-Full documentation is available in the [docs directory](./flake/docs). The documentation covers installation, adding new hosts or users, module descriptions, and the development workflow. It can be built with MkDocs—see [flake/docs/README.md](./flake/docs/README.md) for instructions.
-
-## Roadmap
-
-- [ ] Nixos microVM pentesting container
-- [ ] Create nix on droid configs
-- [ ] Add feynman CLI
-- [ ] Use unfree predicates instead of allowing a global unfree
-- [ ] Dendritic patterna dn import-tree (https://github.com/vic/import-tree) ( https://github.com/Doc-Steve/dendritic-design-with-flake-parts )
+Secrets live in `secrets/vault` (agenix), are rekeyed per host with
+[agenix-rekey](https://github.com/oddlama/agenix-rekey) into
+`secrets/rekeyed/<host>`, and each host carries its own public key at
+`modules/hosts/<host>/host.pub`.
 
 ## References
 
-This configuration was inspired by several excellent NixOS setups:
-
-- [EmergentMind's nix-config](https://github.com/EmergentMind/nix-config/)
-- [Edmund Miller's dotfiles](https://github.com/edmundmiller/dotfiles)
-- [Remi Gelinas' rosetta](https://github.com/remi-gelinas/rosetta/)
-- [Isabel Roses' dotfiles](https://github.com/isabelroses/dotfiles)
-- [Montchr's dotfield](https://github.com/montchr/dotfield)
-- [Henrik Lissner's dotfiles](https://github.com/hlissner/dotfiles)
-- [MStream's nix-chad](https://github.com/mstream/nix-chad)
-- [Misterio77's nix-config](https://github.com/Misterio77/nix-config)
+- [Dendritic pattern](https://github.com/mightyiam/dendritic)
+- [flake-parts `modules` option](https://flake.parts/options/flake-parts-modules.html)
+- [import-tree](https://github.com/vic/import-tree)
+- [flake-parts partitions](https://flake.parts/options/flake-parts-partitions.html)
