@@ -1,6 +1,8 @@
+# Guernica styling for the Zen browser. Contributed to the
+# browser-zen-beta aspect (the sole importer of the zen-browser module).
 { ... }:
 {
-  config.flake.modules.homeManager.themes-guernica =
+  config.flake.modules.homeManager.browser-zen-beta =
     {
       config,
       ...

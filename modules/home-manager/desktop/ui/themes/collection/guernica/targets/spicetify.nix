@@ -1,6 +1,8 @@
+# Guernica styling for spicetify. Contributed to the spotify aspect (the
+# sole importer of the spicetify module).
 { inputs, ... }:
 {
-  config.flake.modules.homeManager.themes-guernica =
+  config.flake.modules.homeManager.spotify =
     {
       pkgs,
       ...

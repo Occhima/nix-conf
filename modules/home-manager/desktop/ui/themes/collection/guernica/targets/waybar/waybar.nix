@@ -17,7 +17,7 @@ in
     let
       # The window manager in use is a fact of the composed configuration,
       # not a selector option.
-      windowManager = if config.programs.niri.enable then "niri" else "hyprland";
+      windowManager = if config.programs.niri.enable or false then "niri" else "hyprland";
       uiCfg = { inherit windowManager; };
     in
     {

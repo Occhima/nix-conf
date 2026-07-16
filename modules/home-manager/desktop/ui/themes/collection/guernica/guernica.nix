@@ -14,7 +14,7 @@ in
     }:
     let
       isCompact = themeLib.isVariant config "compact";
-      usingNiri = config.programs.niri.enable;
+      usingNiri = config.programs.niri.enable or false;
     in
     {
       imports = [ themes-stylix ];

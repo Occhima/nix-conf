@@ -1,9 +1,11 @@
+# Guernica styling for schizofox. Contributed to the browser-firefox
+# aspect (the sole importer of the schizofox module) so the options only
+# exist when that browser is actually composed.
 { ... }:
 {
-  config.flake.modules.homeManager.themes-guernica =
+  config.flake.modules.homeManager.browser-firefox =
     {
       config,
-      lib,
       ...
     }:
     let

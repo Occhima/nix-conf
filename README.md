@@ -72,7 +72,11 @@ All Hyprland fragments (`modules/home-manager/desktop/ui/window-manager/hyprland
 independently contribute to `flake.modules.homeManager.hyprland`; the
 module system merges them. The same goes for the Nixvim fragments under
 `modules/nixvim/` (→ `flake.modules.nixvim.default`) and the Guernica
-theme targets (→ `flake.modules.homeManager.themes-guernica`).
+theme targets (→ `flake.modules.homeManager.themes-guernica`). Theme
+styling for optional WMs/browsers (niri, schizofox, zen, spicetify,
+caelestia) contributes to the aspect that owns the module instead, so the
+theme never references options that are not composed — and each upstream
+home module keeps exactly one importer.
 
 ### A host
 

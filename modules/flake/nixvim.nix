@@ -1,6 +1,7 @@
-# Nixvim integration: evaluates the merged `flake.modules.nixvim.default`
-# aspect (contributed by the files under modules/nixvim/) into the `nvim`
-# configuration and its packages, and republishes it for compatibility.
+# Nixvim flake plumbing: evaluates the merged `flake.modules.nixvim.default`
+# aspect (contributed by the fragment files under modules/nixvim/) into the
+# `nvim` configuration and its packages, and republishes it as
+# `nixvimModules.default` for compatibility.
 { config, inputs, ... }:
 {
   imports = [ inputs.nixvim.flakeModules.default ];
