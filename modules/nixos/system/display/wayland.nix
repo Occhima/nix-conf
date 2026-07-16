@@ -1,4 +1,7 @@
-{ ... }:
+{ config, ... }:
+let
+  display-base = config.flake.modules.nixos.display-base;
+in
 {
   config.flake.modules.nixos.display-wayland =
     {
@@ -19,8 +22,12 @@
       options.modules.system.display.enableHyprlandEssentials =
         mkEnableOption "Enables hyprland nixosModules";
 
+      imports = [ display-base ];
+
       config = mkMerge [
         {
+          modules.system.display.type = "wayland";
+
           environment = {
             variables = {
               NIXOS_OZONE_WL = "1";

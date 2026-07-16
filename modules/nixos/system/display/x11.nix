@@ -1,4 +1,7 @@
-{ ... }:
+{ config, ... }:
+let
+  display-base = config.flake.modules.nixos.display-base;
+in
 {
   config.flake.modules.nixos.display-x11 =
     {
@@ -7,7 +10,10 @@
       ...
     }:
     {
+      imports = [ display-base ];
+
       config = {
+        modules.system.display.type = "x11";
 
         services.xserver.enable = true;
         environment.sessionVariables.QT_QPA_PLATFORMTHEME = "gnome";

@@ -29,7 +29,7 @@ usernames, ports, device paths).
 ```text
 flake.nix        # inputs + two imports: flakeModules.modules, import-tree ./modules
 modules/         # THE root configuration tree — every file is a flake-parts module
-├── flake/       #   systems, per-system nixpkgs, compat outputs
+├── flake/       #   systems, per-system nixpkgs, per-aspect module exports
 │   └── _dev/    #   development partition: own flake + lock, skipped by import-tree
 ├── lib/         #   helpers merged into `flake.lib.custom` (an option, not a file import)
 ├── hosts/       #   one dir per host: aspect + its own nixosConfigurations output
@@ -184,6 +184,15 @@ Development tooling (formatters, pre-commit, tests, CI workflow
 generation) lives in the `modules/flake/_dev/` flake-parts **partition**
 with its own lock file — the underscore keeps it out of import-tree, and
 dev-only inputs never enter host evaluation.
+
+`just unit-tests` runs two kinds of nix-unit suites: pure helper tests,
+and **evaluation contract tests** that force the public outputs (every
+host's toplevel, the standalone home, merged Hyprland/Nixvim fragments,
+disko layouts, per-aspect exports) to prove the composition still holds.
+
+Every aspect is also exported individually as `nixosModules.<aspect>` /
+`homeModules.<aspect>` for external consumers — there is no kitchen-sink
+module export.
 
 ## Secrets
 
