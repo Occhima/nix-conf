@@ -1,7 +1,6 @@
 # NixOS Aspects
 
-Every file under `modules/nixos/` (plus `modules/common/` and
-`modules/iso/`) contributes a named aspect to
+Every file under `modules/nixos/` (plus `modules/iso/`) contributes a named aspect to
 `flake.modules.nixos.<aspect>`. Importing an aspect activates it — none of
 them carry an `enable` switch. Options that remain hold genuine data
 (monitor layout, boot device, main user, secrets metadata).

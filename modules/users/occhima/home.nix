@@ -1,54 +1,20 @@
 # occhima — Home Manager environment aspect.
-# Composed from named feature and aggregate aspects; importing this aspect
-# (integrated via `user-occhima`, or standalone via standalone.nix) is what
-# activates it.
+# Composed from aggregates (see modules/home-manager/profiles/); importing
+# this aspect (integrated via `user-occhima`, or standalone) activates it.
 { config, ... }:
 {
   config.flake.modules.homeManager.occhima = {
     imports = with config.flake.modules.homeManager; [
-      # Base
       home-base
-      # Shell
-      shell-zsh
-      prompt-starship
-      cli-core
-      cli-git
-      cli-shell
-      cli-tui
-      cli-security
-      cli-dev
-      password-store
-      # Data
-      xdg
-      persistence
-      maestral
-      email
-      # Editor
-      neovim
-      emacs
+      shell
+      data-core
+      editors
+      languages
+      desktop
       # Services
       espanso
       podman
-      # Dev
-      python
-      c
-      julia
-      # Desktop
-      browser-zen-beta
-      terminal-kitty
-      hyprland
-      quickshell-dock
-      anyrun
-      hyprlock
-      themes-guernica
-      # Apps
-      flatpak
-      spotify
-      discord
-      grimblast
-      wlogout
-      calibre
-      # Profiles
+      # Topic profiles
       web
       data
       ai

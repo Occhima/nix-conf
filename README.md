@@ -34,12 +34,12 @@ modules/         # THE root configuration tree — every file is a flake-parts m
 ├── lib/         #   helpers merged into `flake.lib.custom` (an option, not a file import)
 ├── hosts/       #   one dir per host: aspect + its own nixosConfigurations output
 ├── users/       #   account aspects (NixOS) + home aspects (HM) + standalone HM output
-├── nixos/       #   NixOS feature aspects (hardware, network, security, …)
-│   └── secrets/ #   agenix aspect + vault/identity/rekeyed assets, colocated
+├── nixos/       #   NixOS feature aspects (base, hardware, network, security, …)
+│   └── secrets/ #   agenix feature (flake glue + aspect) with its assets colocated
 ├── home-manager/#   Home Manager feature aspects (shells, desktop, editors, …)
-├── common/      #   cross-host NixOS base aspects (nix, nixpkgs, environment)
+│   └── profiles/#   aggregates: shell, desktop, editors, languages, data-core, topic profiles
 ├── iso/         #   installer image aspects
-├── nixvim/      #   fragments merging into flake.modules.nixvim.default
+├── nixvim/      #   fragments merging into flake.modules.nixvim.default + its flake glue
 ├── disko/       #   per-host disko layouts + diskoConfigurations outputs
 ├── overlays/    #   one overlay contribution per file
 ├── packages/    #   package wiring; sources next door in _<name>/ (not discovered)
@@ -104,8 +104,10 @@ Variant choices are named aspects (`cpu-amd`/`cpu-intel`, `gpu-nvidia`,
 profiles are aggregate aspects that just import other aspects: the
 `workstation` aggregate carries everything the physical machines share,
 so a host lists only its identity (CPU/GPU, login manager, disko layout,
-machine-specific services). HM aggregates: `ai`, `data`, `science`,
-`pentesting`, `cli-core`, `cli-git`, ….
+machine-specific services). Home Manager mirrors this: `shell`,
+`desktop`, `editors`, `languages` and `data-core` aggregates keep the
+user environment short, next to the topic profiles (`ai`, `data`,
+`science`, `pentesting`, …).
 
 ### A user
 
@@ -113,7 +115,7 @@ machine-specific services). HM aggregates: `ai`, `data`, `science`,
   creates the account and wires `home-manager.users.occhima` to the HM
   aspect.
 - `modules/users/occhima/home.nix` — HM aspect `occhima`: the user
-  environment, composed of named HM aspects.
+  environment, a short list of aggregates plus topic profiles.
 - `modules/users/occhima/standalone.nix` — `homeConfigurations.occhima`
   for non-NixOS machines. There is **no fabricated `osConfig`**: modules
   that want host facts declare `osConfig ? { }` and degrade gracefully.
