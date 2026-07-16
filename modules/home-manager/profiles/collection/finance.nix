@@ -1,46 +1,39 @@
+{ ... }:
 {
-  config,
-  pkgs,
-  lib,
-  ...
+  config.flake.modules.homeManager.finance = (
+    {
+      config,
+      pkgs,
+      ...
+    }:
+    {
+      config = {
+        home.packages = with pkgs; [
+          beancount
+          beancount-language-server
 
-}:
-let
-  inherit (lib) mkIf;
-  inherit (lib.custom) hasProfile;
-in
-# podmanEnabled = config.modules.services.podman.enable;
-# add maybe finance if podman enabled
-# arion/maybe/default.nix <- from doot/nixos-config
-{
+          #NOTE: Broken
+          # fava
 
-  config = mkIf (hasProfile config [ "finance" ]) {
-    home.packages = with pkgs; [
-      beancount
-      beancount-language-server
+          hledger-ui
+          hledger-web
+        ];
+        programs.ledger.enable = true;
 
-      #NOTE: Broken
-      # fava
+        # services.podman = mkIf podmanEnabled {
 
-      hledger-ui
-      hledger-web
-    ];
-    programs.ledger.enable = true;
+        #   containers = {
 
-    # services.podman = mkIf podmanEnabled {
+        #     maybeFinanceRedis = { };
+        #     maybeFinanceDb = { };
+        #     autoStart = true;
+        #     image = "postgres:latest";
+        #   };
+        #   maybeFinanceWorker = { };
+        #   maybeFinanceWeb = { };
 
-    #   containers = {
-
-    #     maybeFinanceRedis = { };
-    #     maybeFinanceDb = { };
-    #     autoStart = true;
-    #     image = "postgres:latest";
-    #   };
-    #   maybeFinanceWorker = { };
-    #   maybeFinanceWeb = { };
-
-    # };
-
-  };
-
+        # };
+      };
+    }
+  );
 }

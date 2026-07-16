@@ -1,32 +1,29 @@
+{ ... }:
 {
-  config,
-  lib,
-  inputs,
-  pkgs,
-  ...
-}:
+  config.flake.modules.homeManager.caelestia-dock =
+    {
+      inputs,
+      pkgs,
+      ...
+    }:
+    let
+      system = pkgs.stdenv.hostPlatform.system;
+      shellPkg = inputs.caelestia-shell.packages.${system}.default;
+    in
+    {
+      # ponytail: caelestia target (_caelestia.nix) excluded from import-tree;
+      # theme settings for caelestia are only applied when caelestia-dock is active
+      imports = [ inputs.caelestia-shell.homeManagerModules.default ];
 
-let
-  inherit (lib) mkIf;
-  cfg = config.modules.desktop.ui;
-  system = pkgs.stdenv.hostPlatform.system;
-  shellPkg = inputs.caelestia-shell.packages.${system}.default;
-in
-{
-  imports = [
-    inputs.caelestia-shell.homeManagerModules.default
-  ];
-
-  config = mkIf (cfg.dock == "caelestia") {
-    programs.caelestia = {
-      enable = true;
-      package = shellPkg;
-      systemd = {
+      programs.caelestia = {
         enable = true;
-        target = "graphical-session.target";
-      };
+        package = shellPkg;
+        systemd = {
+          enable = true;
+          target = "graphical-session.target";
+        };
 
-      cli.enable = true;
+        cli.enable = true;
+      };
     };
-  };
 }

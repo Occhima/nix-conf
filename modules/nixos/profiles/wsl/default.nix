@@ -1,45 +1,45 @@
+{ ... }:
 {
-  lib,
-  pkgs,
-  inputs,
-  config,
-  ...
-}:
-let
-  inherit (lib.modules) mkForce mkIf;
-  inherit (lib.custom) hasProfile;
-in
+  config.flake.modules.nixos.wsl =
+    {
+      lib,
+      pkgs,
+      inputs,
+      ...
+    }:
+    let
+      inherit (lib.modules) mkForce;
+    in
+    {
+      imports = [
+        inputs.nixos-wsl.nixosModules.wsl
+      ];
 
-{
-  imports = [
-    inputs.nixos-wsl.nixosModules.wsl
-  ];
+      config = {
+        # WSL-specific settings.
+        wsl = {
+          enable = true;
+          defaultUser = "occhima";
+          startMenuLaunchers = true;
+          interop = {
 
-  config = mkIf (hasProfile config [ "wsl" ]) {
+            includePath = false;
+            register = true;
+          };
+        };
 
-    # WSL-specific settings.
-    wsl = {
-      enable = true;
-      defaultUser = "occhima";
-      startMenuLaunchers = true;
-      interop = {
+        # Disable services and features that don't work or aren't needed in WSL.
+        services.smartd.enable = mkForce false;
+        services.xserver.enable = mkForce false;
+        networking.tcpcrypt.enable = mkForce false;
+        services.resolved.enable = mkForce false;
+        security.apparmor.enable = mkForce false;
 
-        includePath = false;
-        register = true;
+        # Setup environment variables and packages for Windows interoperability.
+        environment = {
+          variables.BROWSER = mkForce "wsl-open";
+          systemPackages = [ pkgs.wsl-open ];
+        };
       };
     };
-
-    # Disable services and features that don't work or aren't needed in WSL.
-    services.smartd.enable = mkForce false;
-    services.xserver.enable = mkForce false;
-    networking.tcpcrypt.enable = mkForce false;
-    services.resolved.enable = mkForce false;
-    security.apparmor.enable = mkForce false;
-
-    # Setup environment variables and packages for Windows interoperability.
-    environment = {
-      variables.BROWSER = mkForce "wsl-open";
-      systemPackages = [ pkgs.wsl-open ];
-    };
-  };
 }

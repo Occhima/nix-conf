@@ -1,27 +1,18 @@
+{ ... }:
 {
-  config,
-  lib,
-  ...
-}:
-let
-  inherit (lib) mkEnableOption mkIf;
+  config.flake.modules.homeManager.clipboard =
+    { config, lib, ... }:
+    {
+      config = {
+        services.clipcat = {
+          enable = true;
+          enableSystemdUnit = true;
+        };
 
-  cfg = config.modules.services.clipboard;
-  uiCfg = config.modules.desktop.ui;
-in
-{
-  options.modules.services.clipboard = {
-    enable = mkEnableOption "CopyQ clipboard manager";
-  };
-
-  config = mkIf cfg.enable {
-    services.clipcat = {
-      enable = true;
-      enableSystemdUnit = true;
+        # ponytail: check rofi program instead of old selector enum
+        wayland.windowManager.hyprland.settings.bind = lib.optional (config.programs.rofi.enable or false) [
+          "$mainMod, X, exec, clipcat-menu --rofi-menu-length 10"
+        ];
+      };
     };
-
-    wayland.windowManager.hyprland.settings.bind = mkIf (uiCfg.launcher == "rofi") [
-      "$mainMod, X, exec, clipcat-menu --rofi-menu-length 10"
-    ];
-  };
 }

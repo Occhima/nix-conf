@@ -1,26 +1,21 @@
+{ ... }:
 {
-  lib,
-  config,
-  pkgs,
-  ...
-}:
+  config.flake.modules.homeManager.beancount = (
+    {
+      config,
+      pkgs,
+      ...
+    }:
+    {
+      config = {
+        home.packages = with pkgs; [
+          beancount
+          beancount-language-server
 
-let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.modules.dev.beancount;
-in
-{
-  options.modules.dev.beancount = {
-    enable = mkEnableOption "Enable beancount ( Ledger alternative ) development tools";
-  };
-
-  config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      beancount
-      beancount-language-server
-
-      #NOTE: broken
-      # fava
-    ];
-  };
+          #NOTE: broken
+          # fava
+        ];
+      };
+    }
+  );
 }

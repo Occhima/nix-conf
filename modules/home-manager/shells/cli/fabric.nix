@@ -1,18 +1,17 @@
+{ ... }:
 {
-  lib,
-  config,
-  ...
-}:
-
-let
-  inherit (lib) mkIf;
-  cfg = config.modules.shell.cli;
-in
-{
-  config = mkIf (cfg.enable && builtins.elem "fabric" cfg.tools) {
-    programs.fabric-ai = {
-      enable = true;
-      enableYtAlias = true;
-    };
-  };
+  config.flake.modules.homeManager.fabric = (
+    {
+      config,
+      ...
+    }:
+    {
+      config = {
+        programs.fabric-ai = {
+          enable = true;
+          enableYtAlias = true;
+        };
+      };
+    }
+  );
 }

@@ -1,19 +1,6 @@
+{ ... }:
 {
-  config,
-  lib,
-  ...
-}:
-
-let
-  cfg = config.modules.desktop.ui;
-in
-{
-
-  imports = [
-    ./config/hyprlang
-  ];
-  config = lib.mkIf (cfg.windowManager == "hyprland") {
-
+  config.flake.modules.homeManager.hyprland = {
     wayland.windowManager.hyprland = {
       enable = true;
       xwayland.enable = true;
@@ -34,7 +21,6 @@ in
           "systemctl --user start hyprland-session.target"
         ];
       };
-
     };
   };
 }

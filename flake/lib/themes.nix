@@ -1,5 +1,4 @@
 { lib }:
-
 {
   themeLib =
     let
@@ -11,7 +10,7 @@
         let
           cfg = getCfg config;
         in
-        lib.mkIf (cfg.enable && cfg.name == themeName) targetConfig;
+        lib.mkIf ((cfg.enable or true) && cfg.name == themeName) targetConfig;
 
       whenThemeAfter =
         config: themeName: targetConfig:
@@ -21,7 +20,7 @@
         config: themeName: variantConfigs:
         let
           cfg = getCfg config;
-          isActive = cfg.enable && cfg.name == themeName;
+          isActive = (cfg.enable or true) && cfg.name == themeName;
           selectedConfig = variantConfigs.${cfg.variant} or variantConfigs.default;
         in
         lib.mkIf isActive selectedConfig;
@@ -35,7 +34,7 @@
         let
           cfg = getCfg config;
         in
-        cfg.enable && cfg.name == themeName;
+        (cfg.enable or true) && cfg.name == themeName;
 
       isVariant =
         config: variantName:

@@ -1,37 +1,37 @@
+{ ... }:
 {
-  lib,
-  pkgs,
-  config,
-  ...
-}:
-let
-  inherit (lib.modules) mkIf mkForce;
-  inherit (lib) mkEnableOption;
+  config.flake.modules.nixos.firewall =
+    {
+      lib,
+      pkgs,
+      config,
+      ...
+    }:
+    let
+      inherit (lib.modules) mkForce;
+    in
+    {
+      options.modules.network.firewall = {
+      };
 
-  cfg = config.modules.network.firewall;
-in
-{
-  options.modules.network.firewall = {
-    enable = mkEnableOption "firewall configuration";
-  };
+      config = {
+        networking.firewall = {
+          enable = true;
+          package = pkgs.iptables;
 
-  config = mkIf cfg.enable {
-    networking.firewall = {
-      enable = true;
-      package = pkgs.iptables;
+          allowedTCPPorts = [
+            443
+            8080
+          ];
+          allowedUDPPorts = [ ];
 
-      allowedTCPPorts = [
-        443
-        8080
-      ];
-      allowedUDPPorts = [ ];
+          allowPing = false;
 
-      allowPing = false;
+          logReversePathDrops = true;
+          logRefusedConnections = false;
 
-      logReversePathDrops = true;
-      logRefusedConnections = false;
-
-      checkReversePath = mkForce false;
+          checkReversePath = mkForce false;
+        };
+      };
     };
-  };
 }

@@ -1,15 +1,6 @@
+{ ... }:
 {
-  config,
-  lib,
-  ...
-}:
-
-let
-  inherit (lib) mkIf;
-  cfg = config.modules.hardware.cpu;
-in
-{
-  config = mkIf (cfg.type == "amd") {
+  config.flake.modules.nixos.cpu-amd = {
     hardware.cpu.amd.updateMicrocode = true;
     hardware.enableRedistributableFirmware = true;
     boot = {

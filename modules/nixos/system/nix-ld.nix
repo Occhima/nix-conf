@@ -1,22 +1,19 @@
+{ ... }:
 {
-  config,
-  lib,
-  ...
-}:
+  config.flake.modules.nixos.nix-ld =
+    {
+      config,
+      ...
+    }:
 
-let
-  inherit (lib) mkIf mkEnableOption;
+    {
+      options.modules.system.nix-ld = {
+      };
 
-  cfg = config.modules.system.nix-ld;
-in
-{
-  options.modules.system.nix-ld = {
-    enable = mkEnableOption "Enable Nix-ld support";
-  };
-
-  config = mkIf cfg.enable {
-    programs.nix-ld = {
-      enable = true;
+      config = {
+        programs.nix-ld = {
+          enable = true;
+        };
+      };
     };
-  };
 }

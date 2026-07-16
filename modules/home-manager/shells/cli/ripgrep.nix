@@ -1,28 +1,27 @@
+{ ... }:
 {
-  lib,
-  config,
-  ...
-}:
+  config.flake.modules.homeManager.ripgrep = (
+    {
+      config,
+      ...
+    }:
+    {
+      config = {
+        programs.ripgrep = {
+          enable = true;
+          arguments = [
+            "--smart-case"
+            "--hidden"
+            "--glob=!.git/*"
+          ];
+        };
 
-let
-  inherit (lib) mkIf;
-  cfg = config.modules.shell.cli;
-in
-{
-  config = mkIf (cfg.enable && builtins.elem "ripgrep" cfg.tools) {
-    programs.ripgrep = {
-      enable = true;
-      arguments = [
-        "--smart-case"
-        "--hidden"
-        "--glob=!.git/*"
-      ];
-    };
-
-    # Additional aliases
-    home.shellAliases = {
-      rg = "rg --pretty";
-      rgf = "rg --files | rg";
-    };
-  };
+        # Additional aliases
+        home.shellAliases = {
+          rg = "rg --pretty";
+          rgf = "rg --files | rg";
+        };
+      };
+    }
+  );
 }

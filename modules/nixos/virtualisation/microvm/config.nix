@@ -1,25 +1,19 @@
+{ ... }:
 {
-  lib,
-  config,
-  inputs,
-  ...
-}:
-let
-  inherit (lib)
-    mkEnableOption
-    mkIf
-    ;
-  cfg = config.modules.virtualisation.microvm;
+  config.flake.modules.nixos.microvm-config =
+    {
+      config,
+      inputs,
+      ...
+    }:
+    {
+      options.modules.virtualisation.microvm = {
+      };
 
-in
-{
-  options.modules.virtualisation.microvm = {
-    enable = mkEnableOption "microvm configs";
-  };
+      imports = [ inputs.microvm.nixosModules.host ];
 
-  imports = [ inputs.microvm.nixosModules.host ];
+      config = {
 
-  config = mkIf cfg.enable {
-
-  };
+      };
+    };
 }

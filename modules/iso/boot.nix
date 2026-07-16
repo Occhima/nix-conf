@@ -1,23 +1,27 @@
-{ lib, ... }:
-let
-  inherit (lib.modules) mkForce mkAfter;
-in
+{ ... }:
 {
+  config.flake.modules.nixos.iso-boot =
+    { lib, ... }:
+    let
+      inherit (lib.modules) mkForce mkAfter;
+    in
+    {
 
-  boot = {
-    kernelParams = mkAfter [
-      "noquiet"
-      "toram"
-    ];
+      boot = {
+        kernelParams = mkAfter [
+          "noquiet"
+          "toram"
+        ];
 
-    swraid.enable = mkForce false;
-    supportedFilesystems = mkForce [
-      "btrfs"
-      "vfat"
-      "f2fs"
-      "xfs"
-      "ntfs"
-      "cifs"
-    ];
-  };
+        swraid.enable = mkForce false;
+        supportedFilesystems = mkForce [
+          "btrfs"
+          "vfat"
+          "f2fs"
+          "xfs"
+          "ntfs"
+          "cifs"
+        ];
+      };
+    };
 }

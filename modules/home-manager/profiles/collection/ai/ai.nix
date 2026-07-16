@@ -1,183 +1,182 @@
-# NOTE: Stolen from: https://github.com/s3igo/dotfiles/blob/82929b20af8f66acfbbc41a614fbfbb9de1385e6/home/aider.nix#L4
-# MCP servers config stolen from: https://github.com/ViZiD/dotfiles/blob/master/modules/cli/vibecoding.nix
+{ inputs, ... }:
 {
-  pkgs,
-  lib,
-  config,
-  osConfig,
-  ...
-}:
+  config.flake.modules.homeManager.ai = (
+    # NOTE: Stolen from: https://github.com/s3igo/dotfiles/blob/82929b20af8f66acfbbc41a614fbfbb9de1385e6/home/aider.nix#L4
+    # MCP servers config stolen from: https://github.com/ViZiD/dotfiles/blob/master/modules/cli/vibecoding.nix
+    {
+      pkgs,
+      lib,
+      config,
+      osConfig,
+      ...
+    }:
+    let
+      inherit (lib) mkIf getExe getExe';
+      hasAgeKeys = osConfig.modules.secrets.agenix.enable or false;
 
-let
-  inherit (lib) mkIf getExe getExe';
-  inherit (lib.custom) hasProfile;
-  hasAgeKeys = osConfig.modules.secrets.agenix.enable or false;
+      abTop = (
+        pkgs.rustPlatform.buildRustPackage rec {
+          pname = "abtop";
+          version = "0.2.14";
 
-  abTop = (
-    pkgs.rustPlatform.buildRustPackage rec {
-      pname = "abtop";
-      version = "0.2.14";
+          src = pkgs.fetchFromGitHub {
+            owner = "graykode";
+            repo = "abtop";
+            rev = "v${version}";
+            hash = "sha256-9gIBRWNek7588d/t/EV4Yv1dRoop2ZuHxZVCeSA9vIk=";
+          };
 
-      src = pkgs.fetchFromGitHub {
-        owner = "graykode";
-        repo = "abtop";
-        rev = "v${version}";
-        hash = "sha256-9gIBRWNek7588d/t/EV4Yv1dRoop2ZuHxZVCeSA9vIk=";
-      };
+          cargoLock = {
+            lockFile = "${src}/Cargo.lock";
+          };
 
-      cargoLock = {
-        lockFile = "${src}/Cargo.lock";
-      };
+          doCheck = true;
 
-      doCheck = true;
+          meta = with pkgs.lib; {
+            description = "";
+            homepage = "https://github.com/graycode/abtop";
+            license = licenses.mit;
+            platforms = platforms.all;
+          };
+        }
+      );
+    in
+    {
+      imports = with inputs.self.modules.homeManager; [ cli-ai ];
 
-      meta = with pkgs.lib; {
-        description = "";
-        homepage = "https://github.com/graycode/abtop";
-        license = licenses.mit;
-        platforms = platforms.all;
+      config = {
+        home = {
+          # TODO: add codeburn
+          packages = [
+            # pkgs.python313Packages.google-generativeai
+            pkgs.rtk
+            abTop
+          ];
+
+          sessionVariables = mkIf hasAgeKeys {
+            OPENROUTER_API_KEY = "$( cat ${osConfig.age.secrets.openrouter-api-key.path} )";
+          };
+        };
+
+        services.ollama.enable = false;
+
+        programs.claude-code = {
+          agentsDir = ./agents;
+          skills = ./skills;
+        };
+        programs.opencode = {
+          agents = ./agents;
+          skills = ./skills;
+        };
+
+        programs.mcp = {
+          enable = true;
+          servers = {
+            nixos = {
+              command = "nix";
+              args = [
+                "run"
+                "github:utensils/mcp-nixos"
+                "--"
+              ];
+              type = "stdio";
+            };
+
+            # devenv = {
+            #   command = getExe pkgs.devenv;
+            #   args = [ "mcp" ];
+            #   type = "stdio";
+            # };
+
+            deepwiki = {
+              type = "http";
+              url = "https://mcp.deepwiki.com/mcp";
+            };
+
+            context7 = {
+              type = "http";
+              url = "https://mcp.context7.com/mcp";
+              headers = {
+                CONTEXT7_API_KEY = "{env:CONTEXT7_API_KEY}";
+              };
+            };
+
+            # time = {
+            #   command = getExe pkgs.mcp-server-time;
+            #   type = "stdio";
+            # };
+
+            github = {
+              command = getExe pkgs.github-mcp-server;
+              args = [ "stdio" ];
+              type = "stdio";
+              env = {
+                GITHUB_PERSONAL_ACCESS_TOKEN = "{{env:GITHUB_TOKEN}}";
+              };
+            };
+
+            # filesystem = {
+            #   command = getExe pkgs.mcp-server-filesystem;
+            #   args = [
+            #     homeDir
+            #     "/tmp"
+            #   ];
+            #   type = "stdio";
+            # };
+
+            memory = {
+              command = getExe pkgs.mcp-server-memory;
+              args = [ ];
+              type = "stdio";
+            };
+            agentmemory = {
+              enable = false;
+              command = "${pkgs.bun}/bin/bunx";
+              args = [
+                "-y"
+                "@agentmemory/mcp"
+              ];
+              env = {
+                AGENTMEMORY_URL = "http://localhost:3111";
+              };
+            };
+
+            # NOTE: Taking tooo long to build
+            # playwright-mcp = {
+            #   command = getExe pkgs.playwright-mcp;
+            #   args = [ ];
+            #   type = "stdio";
+            # };
+
+            # perplexity = {
+            #   command = getExe pkgs.perplexity-mcp;
+            #   args = [ ];
+            #   type = "stdio";
+            # };
+
+            # sequential-thinking = {
+            #   command = getExe pkgs.mcp-server-sequential-thinking;
+            #   args = [ ];
+            #   type = "stdio";
+            # };
+
+            paper-search = {
+              command = getExe' pkgs.uv "uvx";
+              args = [
+                "--from"
+                "paper-search-mcp"
+                "python"
+                "-m"
+                "paper_search_mcp.server"
+              ];
+              type = "stdio";
+              env = {
+                PAPER_SEARCH_MCP_UNPAYWALL_EMAIL = config.accounts.email.accounts.usp.address;
+              };
+            };
+          };
+        };
       };
     }
   );
-
-in
-
-{
-  config = mkIf (hasProfile config [ "ai" ]) {
-    modules.shell.cli.toolSets = lib.mkAfter [ "ai" ];
-
-    home = {
-
-      # TODO: add codeburn
-      packages = [
-        # pkgs.python313Packages.google-generativeai
-        pkgs.rtk
-        abTop
-      ];
-
-      sessionVariables = mkIf hasAgeKeys {
-        OPENROUTER_API_KEY = "$( cat ${osConfig.age.secrets.openrouter-api-key.path} )";
-      };
-    };
-
-    services.ollama.enable = false;
-
-    programs.claude-code = {
-      agentsDir = ./agents;
-      skills = ./skills;
-    };
-    programs.opencode = {
-      agents = ./agents;
-      skills = ./skills;
-    };
-
-    programs.mcp = {
-      enable = true;
-      servers = {
-        nixos = {
-          command = "nix";
-          args = [
-            "run"
-            "github:utensils/mcp-nixos"
-            "--"
-          ];
-          type = "stdio";
-        };
-
-        # devenv = {
-        #   command = getExe pkgs.devenv;
-        #   args = [ "mcp" ];
-        #   type = "stdio";
-        # };
-
-        deepwiki = {
-          type = "http";
-          url = "https://mcp.deepwiki.com/mcp";
-        };
-
-        context7 = {
-          type = "http";
-          url = "https://mcp.context7.com/mcp";
-          headers = {
-            CONTEXT7_API_KEY = "{env:CONTEXT7_API_KEY}";
-          };
-        };
-
-        # time = {
-        #   command = getExe pkgs.mcp-server-time;
-        #   type = "stdio";
-        # };
-
-        github = {
-          command = getExe pkgs.github-mcp-server;
-          args = [ "stdio" ];
-          type = "stdio";
-          env = {
-            GITHUB_PERSONAL_ACCESS_TOKEN = "{{env:GITHUB_TOKEN}}";
-          };
-        };
-
-        # filesystem = {
-        #   command = getExe pkgs.mcp-server-filesystem;
-        #   args = [
-        #     homeDir
-        #     "/tmp"
-        #   ];
-        #   type = "stdio";
-        # };
-
-        memory = {
-          command = getExe pkgs.mcp-server-memory;
-          args = [ ];
-          type = "stdio";
-
-        };
-        agentmemory = {
-          enable = false;
-          command = "${pkgs.bun}/bin/bunx";
-          args = [
-            "-y"
-            "@agentmemory/mcp"
-          ];
-          env = {
-            AGENTMEMORY_URL = "http://localhost:3111";
-          };
-        };
-
-        # NOTE: Taking tooo long to build
-        # playwright-mcp = {
-        #   command = getExe pkgs.playwright-mcp;
-        #   args = [ ];
-        #   type = "stdio";
-        # };
-
-        # perplexity = {
-        #   command = getExe pkgs.perplexity-mcp;
-        #   args = [ ];
-        #   type = "stdio";
-        # };
-
-        # sequential-thinking = {
-        #   command = getExe pkgs.mcp-server-sequential-thinking;
-        #   args = [ ];
-        #   type = "stdio";
-        # };
-
-        paper-search = {
-          command = getExe' pkgs.uv "uvx";
-          args = [
-            "--from"
-            "paper-search-mcp"
-            "python"
-            "-m"
-            "paper_search_mcp.server"
-          ];
-          type = "stdio";
-          env = {
-            PAPER_SEARCH_MCP_UNPAYWALL_EMAIL = config.accounts.email.accounts.usp.address;
-          };
-        };
-      };
-    };
-  };
 }

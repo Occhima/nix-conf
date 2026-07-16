@@ -1,28 +1,22 @@
-# XXX: Is this supposed to be here?
-# TODO: find a better place for this module
+{ ... }:
 {
-  config,
-  lib,
-  ...
-}:
-let
-  inherit (lib) mkEnableOption;
-  inherit (lib.modules) mkIf;
-  desktopCfg = config.modules.desktop;
-in
-{
+  config.flake.modules.homeManager.wlogout = (
+    # XXX: Is this supposed to be here?
+    # TODO: find a better place for this module
+    {
+      config,
+      ...
+    }:
+    {
+      config = {
+        programs.wlogout = {
+          enable = true;
+        };
 
-  options.modules.desktop.apps.wlogout = {
-    enable = mkEnableOption "wlogout";
-  };
-
-  config = mkIf (desktopCfg.apps.wlogout.enable) {
-    programs.wlogout = {
-      enable = true;
-    };
-
-    wayland.windowManager.hyprland.settings.bind = [
-      "$mainMod, W, exec, wlogout"
-    ];
-  };
+        wayland.windowManager.hyprland.settings.bind = [
+          "$mainMod, W, exec, wlogout"
+        ];
+      };
+    }
+  );
 }

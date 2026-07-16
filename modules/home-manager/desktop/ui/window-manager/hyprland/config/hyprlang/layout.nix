@@ -1,5 +1,8 @@
+{ ... }:
 {
-  wayland.windowManager.hyprland.settings.dwindle = {
-    preserve_split = true;
+  config.flake.modules.homeManager.hyprland = {
+    wayland.windowManager.hyprland.settings.dwindle = {
+      preserve_split = true;
+    };
   };
 }

@@ -1,19 +1,15 @@
+{ ... }:
 {
-  pkgs,
-  lib,
-  config,
-  ...
-}:
-let
-  inherit (lib) mkIf getExe;
-  hyprCfg = config.modules.desktop.ui.windowManagerOpts.hyprland;
-in
-{
-  config = mkIf hyprCfg.enable {
-    home.packages = [ pkgs.hyprpicker ];
-
-    wayland.windowManager.hyprland.settings.bind = [
-      "$mainMod, C, exec, ${getExe pkgs.hyprpicker}"
-    ];
-  };
+  config.flake.modules.homeManager.hyprland =
+    {
+      lib,
+      pkgs,
+      ...
+    }:
+    {
+      home.packages = [ pkgs.hyprpicker ];
+      wayland.windowManager.hyprland.settings.bind = [
+        "$mainMod, C, exec, ${lib.getExe pkgs.hyprpicker}"
+      ];
+    };
 }

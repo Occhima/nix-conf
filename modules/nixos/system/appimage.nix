@@ -1,24 +1,21 @@
+{ ... }:
 {
-  config,
-  lib,
-  ...
-}:
+  config.flake.modules.nixos.appimage =
+    {
+      config,
+      ...
+    }:
 
-let
-  inherit (lib) mkIf mkEnableOption;
+    {
+      options.modules.system.appimage = {
+      };
 
-  cfg = config.modules.system.appimage;
-in
-{
-  options.modules.system.appimage = {
-    enable = mkEnableOption "Enable AppImage support";
-  };
-
-  config = mkIf cfg.enable {
-    programs.appimage = {
-      enable = true;
-      binfmt = true;
+      config = {
+        programs.appimage = {
+          enable = true;
+          binfmt = true;
+        };
+        programs.fuse.userAllowOther = true;
+      };
     };
-    programs.fuse.userAllowOther = true;
-  };
 }

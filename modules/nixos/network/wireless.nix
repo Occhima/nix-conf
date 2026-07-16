@@ -1,57 +1,59 @@
+{ ... }:
 {
-  lib,
-  config,
-  ...
-}:
-let
-  inherit (lib.modules) mkIf;
-  inherit (lib) mkEnableOption mkOption types;
+  config.flake.modules.nixos.wireless =
+    {
+      lib,
+      config,
+      ...
+    }:
+    let
+      inherit (lib) mkOption types;
 
-  cfg = config.modules.network.wireless;
-in
-{
-  options.modules.network.wireless = {
-    enable = mkEnableOption "wireless networking";
+      cfg = config.modules.network.wireless;
+    in
+    {
+      options.modules.network.wireless = {
 
-    backend = mkOption {
-      type = types.enum [
-        "iwd"
-        "wpa_supplicant"
-      ];
-      default = "wpa_supplicant";
-      description = "Backend for wireless networking";
-    };
-  };
+        backend = mkOption {
+          type = types.enum [
+            "iwd"
+            "wpa_supplicant"
+          ];
+          default = "wpa_supplicant";
+          description = "Backend for wireless networking";
+        };
+      };
 
-  config = mkIf cfg.enable {
-    hardware.wirelessRegulatoryDatabase = true;
+      config = {
+        hardware.wirelessRegulatoryDatabase = true;
 
-    networking.wireless = {
-      enable = cfg.backend == "wpa_supplicant";
-      userControlled = true;
-      allowAuxiliaryImperativeNetworks = true;
+        networking.wireless = {
+          enable = cfg.backend == "wpa_supplicant";
+          userControlled = true;
+          allowAuxiliaryImperativeNetworks = true;
 
-      extraConfig = ''
-        update_config=1
-      '';
+          extraConfig = ''
+            update_config=1
+          '';
 
-      iwd = {
-        enable = cfg.backend == "iwd";
+          iwd = {
+            enable = cfg.backend == "iwd";
 
-        settings = {
-          Settings.AutoConnect = true;
+            settings = {
+              Settings.AutoConnect = true;
 
-          General = {
-            EnableNetworkConfiguration = true;
-            RoamRetryInterval = 15;
-          };
+              General = {
+                EnableNetworkConfiguration = true;
+                RoamRetryInterval = 15;
+              };
 
-          Network = {
-            EnableIPv6 = true;
-            RoutePriorityOffset = 300;
+              Network = {
+                EnableIPv6 = true;
+                RoutePriorityOffset = 300;
+              };
+            };
           };
         };
       };
     };
-  };
 }
