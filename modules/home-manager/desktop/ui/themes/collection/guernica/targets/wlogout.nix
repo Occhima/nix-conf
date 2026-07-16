@@ -1,7 +1,4 @@
-{ config, ... }:
-let
-  inherit (config.flake.lib.custom) themeLib;
-in
+{ ... }:
 {
   config.flake.modules.homeManager.themes-guernica =
     # NOTE: stole from: https://gitlab.com/saibhargav/arch-hypr-mini/-/blob/main/wlogout/style.css?ref_type=heads
@@ -15,7 +12,7 @@ in
       stylixColors = config.lib.stylix.colors;
     in
     {
-      programs.wlogout = themeLib.whenTheme config "guernica" {
+      programs.wlogout = {
         layout = [
           {
             label = "lock";

@@ -1,7 +1,4 @@
-{ config, ... }:
-let
-  inherit (config.flake.lib.custom) themeLib;
-in
+{ ... }:
 {
   config.flake.modules.homeManager.themes-guernica =
     {
@@ -9,7 +6,7 @@ in
       ...
     }:
     {
-      stylix.targets.gtk = themeLib.whenTheme config "guernica" {
+      stylix.targets.gtk = {
         enable = true;
         flatpakSupport.enable = true;
       };

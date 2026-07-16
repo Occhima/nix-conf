@@ -1,7 +1,4 @@
-{ config, ... }:
-let
-  inherit (config.flake.lib.custom) themeLib;
-in
+{ ... }:
 {
   config.flake.modules.homeManager.themes-guernica =
     {
@@ -13,7 +10,7 @@ in
       stylixColors = config.lib.stylix.colors;
     in
     {
-      programs.anyrun = themeLib.whenTheme config "guernica" {
+      programs.anyrun = {
         config = {
           x.fraction = 0.5; # at the middle of the screen
           y.fraction = 0.05; # at the top of the screen

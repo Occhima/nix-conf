@@ -1,7 +1,4 @@
-{ config, ... }:
-let
-  inherit (config.flake.lib.custom) themeLib;
-in
+{ ... }:
 {
   config.flake.modules.homeManager.themes-guernica =
     # config stolen from : https://github.com/OrynVail/OrynOS
@@ -10,7 +7,7 @@ in
       ...
     }:
     {
-      programs.hyprlock = themeLib.whenTheme config "guernica" {
+      programs.hyprlock = {
         settings = {
           background = {
             monitor = "";

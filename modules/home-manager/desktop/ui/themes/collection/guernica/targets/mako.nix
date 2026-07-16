@@ -1,7 +1,4 @@
-{ config, ... }:
-let
-  inherit (config.flake.lib.custom) themeLib;
-in
+{ ... }:
 {
   config.flake.modules.homeManager.themes-guernica =
     {
@@ -9,9 +6,9 @@ in
       ...
     }:
     {
-      stylix.targets.mako.enable = themeLib.whenTheme config "guernica" false;
+      stylix.targets.mako.enable = false;
 
-      services.mako = themeLib.whenTheme config "guernica" {
+      services.mako = {
         settings = {
           font = config.stylix.fonts.monospace.name;
           anchor = "top-right";

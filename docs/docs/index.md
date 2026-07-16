@@ -28,7 +28,8 @@ A fully **dendritic** NixOS + Home Manager configuration built on
 - **Impermanence** + per-host **disko** layouts
 - **Secrets** with agenix + agenix-rekey (per-host `host.pub`)
 - **Dev partition**: formatters, pre-commit, tests, CI generation in
-  `dev/` with a separate lock file
+  `modules/flake/_dev/` with a separate lock file (underscore paths are
+  skipped by import-tree)
 
 See the guides for recipes, and the repository README for the full
 architecture walkthrough.

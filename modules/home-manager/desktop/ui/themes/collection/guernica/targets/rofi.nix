@@ -1,7 +1,4 @@
-{ config, ... }:
-let
-  inherit (config.flake.lib.custom) themeLib;
-in
+{ ... }:
 {
   config.flake.modules.homeManager.themes-guernica =
     {
@@ -13,8 +10,8 @@ in
       inherit (config.lib.formats.rasi) mkLiteral;
     in
     {
-      stylix.targets.rofi.enable = themeLib.whenTheme config "guernica" false;
-      programs.rofi = themeLib.whenTheme config "guernica" {
+      stylix.targets.rofi.enable = false;
+      programs.rofi = {
         font = "Iosevka Nerd Font";
         extraConfig = {
           modi = "drun";

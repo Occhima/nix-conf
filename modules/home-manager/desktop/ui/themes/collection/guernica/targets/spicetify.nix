@@ -1,26 +1,20 @@
-{ config, inputs, ... }:
-let
-  inherit (config.flake.lib.custom) themeLib;
-in
+{ inputs, ... }:
 {
   config.flake.modules.homeManager.themes-guernica =
     {
-      config,
       pkgs,
       ...
     }:
     let
       inherit (inputs) spicetify-nix;
       spicePkgs = spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-      cond = themeLib.isThemeActive config "guernica";
     in
     {
-      # Disable stylix integration for kitty conditionally
+      # Guernica ships its own spicetify theme; keep stylix's target off.
       # NOTE: Stole from https://github.com/Gerg-L/nixos/blob/beeb8b6d907309d3ff10acc6c17a2aa0a2c235ad/nixosConfigurations/gerg-desktop/spicetify.nix#L4
-      stylix.targets.spicetify.enable = !cond;
+      stylix.targets.spicetify.enable = false;
 
-      # Override font and theme settings conditionally
-      programs.spicetify = themeLib.whenTheme config "guernica" {
+      programs.spicetify = {
         theme = spicePkgs.themes.text;
       };
     };

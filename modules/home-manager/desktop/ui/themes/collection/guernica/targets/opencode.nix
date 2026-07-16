@@ -1,7 +1,4 @@
-{ config, ... }:
-let
-  inherit (config.flake.lib.custom) themeLib;
-in
+{ ... }:
 {
   config.flake.modules.homeManager.themes-guernica =
     {
@@ -57,7 +54,7 @@ in
       };
     in
     {
-      programs.opencode = themeLib.whenTheme config "guernica" {
+      programs.opencode = {
         themes.guernica = guernicaTheme;
         settings.theme = "guernica";
       };

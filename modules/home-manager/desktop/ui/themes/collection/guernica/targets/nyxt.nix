@@ -1,7 +1,4 @@
-{ config, ... }:
-let
-  inherit (config.flake.lib.custom) themeLib;
-in
+{ ... }:
 {
   config.flake.modules.homeManager.themes-guernica =
     {
@@ -13,7 +10,7 @@ in
       colors = config.lib.stylix.colors;
     in
     {
-      xdg.configFile."flake-themes/nyxt/theme.lisp" = themeLib.whenTheme config "guernica" {
+      xdg.configFile."flake-themes/nyxt/theme.lisp" = {
         enable = true;
         text = with colors; ''
           (defvar guernica-theme

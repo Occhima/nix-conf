@@ -1,7 +1,4 @@
-{ config, ... }:
-let
-  inherit (config.flake.lib.custom) themeLib;
-in
+{ ... }:
 {
   config.flake.modules.homeManager.themes-guernica =
     {
@@ -13,7 +10,7 @@ in
       inherit (config.lib.stylix) colors;
     in
     {
-      programs.schizofox = themeLib.whenTheme config "guernica" {
+      programs.schizofox = {
         extensions.simplefox.enable = true;
         theme = {
           colors = {

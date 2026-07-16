@@ -29,24 +29,22 @@ usernames, ports, device paths).
 ```text
 flake.nix        # inputs + two imports: flakeModules.modules, import-tree ./modules
 modules/         # THE root configuration tree — every file is a flake-parts module
-├── flake/       #   systems, per-system nixpkgs, dev partition, compat outputs
+├── flake/       #   systems, per-system nixpkgs, compat outputs
+│   └── _dev/    #   development partition: own flake + lock, skipped by import-tree
 ├── lib/         #   helpers merged into `flake.lib.custom` (an option, not a file import)
 ├── hosts/       #   one dir per host: aspect + its own nixosConfigurations output
 ├── users/       #   account aspects (NixOS) + home aspects (HM) + standalone HM output
 ├── nixos/       #   NixOS feature aspects (hardware, network, security, …)
+│   └── secrets/ #   agenix aspect + vault/identity/rekeyed assets, colocated
 ├── home-manager/#   Home Manager feature aspects (shells, desktop, editors, …)
 ├── common/      #   cross-host NixOS base aspects (nix, nixpkgs, environment)
 ├── iso/         #   installer image aspects
 ├── nixvim/      #   fragments merging into flake.modules.nixvim.default
 ├── disko/       #   per-host disko layouts + diskoConfigurations outputs
 ├── overlays/    #   one overlay contribution per file
-├── packages/    #   perSystem package wiring (sources live in ../packages)
-├── templates/   #   template outputs (sources live in ../templates)
+├── packages/    #   package wiring; sources next door in _<name>/ (not discovered)
+├── templates/   #   template outputs; the flakes live in _<name>/ subdirs
 └── integrations/#   agenix-rekey, deploy-rs, nixvim glue
-packages/        # callPackage source expressions (not modules)
-templates/       # independent flakes (not modules)
-dev/             # development partition: its own flake.lock, never in host eval
-secrets/         # agenix vault, identities, per-host rekeyed secrets
 ```
 
 ## How things compose
@@ -84,7 +82,7 @@ theme targets (→ `flake.modules.homeManager.themes-guernica`).
 {
   flake.modules.nixos.steammachine = {
     imports = with config.flake.modules.nixos; [
-      system-base accounts user-occhima user-root
+      workstation # aggregate: everything the physical machines share
       cpu-amd gpu-nvidia login-ly disko-steammachine steam # …
     ];
     config = {
@@ -103,9 +101,11 @@ theme targets (→ `flake.modules.homeManager.themes-guernica`).
 
 Variant choices are named aspects (`cpu-amd`/`cpu-intel`, `gpu-nvidia`,
 `login-ly`/`login-greetd`, `browser-zen-beta`, `terminal-kitty`), and
-profiles are aggregate aspects that just import other aspects
-(`desktop`, `graphical`, `laptop`; HM: `ai`, `data`, `science`,
-`pentesting`, `cli-core`, `cli-git`, …).
+profiles are aggregate aspects that just import other aspects: the
+`workstation` aggregate carries everything the physical machines share,
+so a host lists only its identity (CPU/GPU, login manager, disko layout,
+machine-specific services). HM aggregates: `ai`, `data`, `science`,
+`pentesting`, `cli-core`, `cli-git`, ….
 
 ### A user
 
@@ -145,8 +145,10 @@ let inherit (config.flake.lib.custom) isWayland; in …
   secrets).
 - **Add a user**: `modules/users/<name>/{account,home}.nix` following the
   occhima files.
-- **Add a package**: expression in `packages/<name>/package.nix`, wired by
-  `modules/packages/<name>.nix` via `perSystem.packages.<name>`.
+- **Add a package**: expression in `modules/packages/_<name>/package.nix`
+  (underscore = not discovered), wired by the sibling
+  `modules/packages/<name>.nix` via `perSystem.packages.<name>` — the
+  reference is a local `./_<name>/package.nix`, never a `../..` chain.
 - **Add a disko layout**: `modules/disko/<host>.nix` contributing
   `flake.diskoConfigurations.<host>` and the `disko-<host>` aspect.
 - **Add a Nixvim tweak**: drop a file in `modules/nixvim/` contributing to
@@ -177,15 +179,17 @@ nix flake show   # inspect outputs
 ```
 
 Development tooling (formatters, pre-commit, tests, CI workflow
-generation) lives in the `dev/` flake-parts **partition** with its own
-lock file, so dev-only inputs never enter host evaluation.
+generation) lives in the `modules/flake/_dev/` flake-parts **partition**
+with its own lock file — the underscore keeps it out of import-tree, and
+dev-only inputs never enter host evaluation.
 
 ## Secrets
 
-Secrets live in `secrets/vault` (agenix), are rekeyed per host with
+Secrets live next to the agenix aspect that consumes them
+(`modules/nixos/secrets/vault`), are rekeyed per host with
 [agenix-rekey](https://github.com/oddlama/agenix-rekey) into
-`secrets/rekeyed/<host>`, and each host carries its own public key at
-`modules/hosts/<host>/host.pub`.
+`modules/nixos/secrets/rekeyed/<host>`, and each host carries its own
+public key at `modules/hosts/<host>/host.pub`.
 
 ## References
 

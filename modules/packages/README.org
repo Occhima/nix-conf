@@ -1,0 +1,15 @@
+#+TITLE: Custom Packages
+#+AUTHOR: occhima
+#+DESCRIPTION: Custom Nix packages and their flake wiring
+
+* Overview
+
+Each package has two parts, side by side:
+
+- ~<name>.nix~ — a discovered flake-parts module contributing
+  ~perSystem.packages.<name>~ (and apps/overlays when the feature has them).
+- ~_<name>/~ — the implementation (~package.nix~, sources, assets). The
+  underscore prefix keeps it out of import-tree discovery, so the wiring
+  module references it locally as ~./_<name>/package.nix~.
+
+Unwired sources (e.g. ~_neurico~, ~_whatscli~) are inactive future work.

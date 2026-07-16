@@ -1,23 +1,16 @@
-{ config, inputs, ... }:
-let
-  inherit (config.flake.lib.custom) themeLib;
-in
+{ inputs, ... }:
 {
   config.flake.modules.homeManager.themes-guernica =
     {
-      config,
       ...
     }:
-    let
-      themeEnabled = themeLib.isThemeActive config "guernica";
-    in
     {
       imports = [
         inputs.niri.homeModules.stylix
       ];
-      stylix.targets.niri.enable = themeEnabled;
+      stylix.targets.niri.enable = true;
 
-      programs.niri = themeLib.whenTheme config "guernica" {
+      programs.niri = {
         settings = {
           overview = {
             workspace-shadow.enable = false;

@@ -254,7 +254,7 @@
     in
     {
       files = {
-        gitTopLevel = ../../.;
+        gitTopLevel = ../../../.;
         files = [
           {
             path = ".devcontainer/devcontainer.json";

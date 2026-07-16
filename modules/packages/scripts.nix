@@ -5,7 +5,7 @@
     { pkgs, ... }:
     {
       packages = {
-        inherit (pkgs.callPackage ../../packages/scripts/package.nix { })
+        inherit (pkgs.callPackage ./_scripts/package.nix { })
           run-vm
           scripts
           ;

@@ -1,19 +1,18 @@
 { config, ... }:
 let
-  inherit (config.flake.lib.custom) themeLib;
+  guernicaAssets = config.flake.lib.guernica.assets;
 in
 {
   config.flake.modules.homeManager.themes-guernica =
     {
       pkgs,
-      config,
       ...
     }:
     let
-      wallpaperPath = ./assets/wallpapers/guernica.jpg;
+      wallpaperPath = guernicaAssets.wallpaper;
     in
     {
-      stylix = themeLib.whenTheme config "guernica" {
+      stylix = {
         image = wallpaperPath;
 
         opacity = {

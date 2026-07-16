@@ -1,6 +1,7 @@
 { config, ... }:
 let
   flakePkgs = config.flake.packages;
+  inherit (config.flake.lib.custom) aiAssets;
 in
 {
   config.flake.modules.homeManager.jcode = (
@@ -183,8 +184,8 @@ in
 
         home.file = {
           ".jcode/config.toml".source = configFile;
-          ".config/agents/skills".source = ../../profiles/collection/ai/skills;
-          ".config/AGENTS.md".source = ../../profiles/collection/ai/AGENTS.md;
+          ".config/agents/skills".source = aiAssets.skills;
+          ".config/AGENTS.md".source = aiAssets.agentsMd;
         };
       };
     }

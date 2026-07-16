@@ -1,10 +1,10 @@
 # update-packages: flake output wiring; the package expression lives in
-# packages/update-packages/package.nix.
+# ./_update-packages/package.nix.
 { ... }:
 {
   perSystem =
     { pkgs, ... }:
     {
-      packages.update-packages = pkgs.callPackage ../../packages/update-packages/package.nix { };
+      packages.update-packages = pkgs.callPackage ./_update-packages/package.nix { };
     };
 }

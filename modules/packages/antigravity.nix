@@ -1,10 +1,10 @@
 # antigravity: flake output wiring; the package expression lives in
-# packages/antigravity/package.nix.
+# ./_antigravity/package.nix.
 { ... }:
 {
   perSystem =
     { pkgs, ... }:
     {
-      packages.antigravity = pkgs.callPackage ../../packages/antigravity/package.nix { };
+      packages.antigravity = pkgs.callPackage ./_antigravity/package.nix { };
     };
 }

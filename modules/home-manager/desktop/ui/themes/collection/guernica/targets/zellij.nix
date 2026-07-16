@@ -1,17 +1,13 @@
-{ config, ... }:
-let
-  inherit (config.flake.lib.custom) themeLib;
-in
+{ ... }:
 {
   config.flake.modules.homeManager.themes-guernica =
     {
-      config,
       ...
     }:
     {
-      stylix.targets.zellij.enable = themeLib.whenTheme config "guernica" true;
+      stylix.targets.zellij.enable = true;
 
-      programs.zellij = themeLib.whenTheme config "guernica" {
+      programs.zellij = {
         settings = {
           simplified_ui = true;
           pane_frames = true;

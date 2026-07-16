@@ -5,7 +5,7 @@
   perSystem =
     { pkgs, self', ... }:
     {
-      packages.nyxt-source = pkgs.callPackage ../../packages/nyxt/package.nix { };
+      packages.nyxt-source = pkgs.callPackage ./_nyxt/package.nix { };
 
       apps.nyxt-source = {
         type = "app";
@@ -14,5 +14,5 @@
       };
     };
 
-  flake.overlays.nyxt-overlay = import ../../packages/nyxt/electron-overlay.nix;
+  flake.overlays.nyxt-overlay = import ./_nyxt/electron-overlay.nix;
 }

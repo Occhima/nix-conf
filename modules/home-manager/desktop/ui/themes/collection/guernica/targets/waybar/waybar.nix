@@ -21,7 +21,7 @@ in
       uiCfg = { inherit windowManager; };
     in
     {
-      stylix.targets.waybar = themeLib.whenTheme config "guernica" {
+      stylix.targets.waybar = {
         enable = false;
         addCss = false;
         enableCenterBackColors = false;
@@ -29,7 +29,7 @@ in
         enableRightBackColors = false;
       };
 
-      programs.waybar = themeLib.withVariant config "guernica" {
+      programs.waybar = themeLib.forVariant config {
         default = mkWaybarDefault {
           inherit lib config uiCfg waybarModules;
         };

@@ -174,6 +174,6 @@ in
       settings = recursiveUpdate baseSettings (optionalAttrs isCompact compactOverrides);
     in
     {
-      wayland.windowManager.hyprland.settings = themeLib.whenTheme config "guernica" (mkAfter settings);
+      wayland.windowManager.hyprland.settings = (mkAfter settings);
     };
 }

@@ -1,10 +1,10 @@
 # jcode: flake output wiring; the package expression lives in
-# packages/jcode/package.nix.
+# ./_jcode/package.nix.
 { ... }:
 {
   perSystem =
     { pkgs, ... }:
     {
-      packages.jcode = pkgs.callPackage ../../packages/jcode/package.nix { };
+      packages.jcode = pkgs.callPackage ./_jcode/package.nix { };
     };
 }

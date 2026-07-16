@@ -3,48 +3,16 @@
 {
   flake.modules.nixos.steammachine = {
     imports = with config.flake.modules.nixos; [
-      system-base
-      accounts
-      user-occhima
-      user-root
+      workstation
       cpu-amd
       gpu-nvidia
-      ssd
-      bluetooth
-      yubikey
-      input-devices
-      media-sound-pipewire
-      media-video
-      monitors
-      network
-      networkmanager
-      firewall
-      blocker
-      wireless
-      vpn-openvpn
-      boot-grub
-      boot-kernel
-      boot-plymouth
-      display-wayland
-      display-portals
       login-ly
-      impermanence
       disko-steammachine
-      podman
-      pentesting-container
-      agenix
-      systemd
-      oom
-      firmware
-      flatpak
       steam
-      ssh
-      appimage
+      vpn-openvpn
+      oom
       nix-ld
-      security-auth
-      security-kernel
-      graphical
-      desktop
+      pentesting-container
     ];
     config = {
       modules.network.hostName = "steammachine";

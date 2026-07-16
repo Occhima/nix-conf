@@ -1,7 +1,4 @@
-{ config, ... }:
-let
-  inherit (config.flake.lib.custom) themeLib;
-in
+{ ... }:
 {
   config.flake.modules.homeManager.themes-guernica =
     {
@@ -9,9 +6,9 @@ in
       ...
     }:
     {
-      stylix.targets.kitty.enable = themeLib.whenTheme config "guernica" false;
+      stylix.targets.kitty.enable = false;
 
-      programs.ghostty = themeLib.whenTheme config "guernica" {
+      programs.ghostty = {
         settings = {
           font-family = config.stylix.fonts.monospace.name;
           cursor-style-blink = true;

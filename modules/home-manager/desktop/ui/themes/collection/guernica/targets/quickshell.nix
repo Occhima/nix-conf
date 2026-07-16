@@ -1,7 +1,4 @@
-{ config, ... }:
-let
-  inherit (config.flake.lib.custom) themeLib;
-in
+{ ... }:
 {
   config.flake.modules.homeManager.themes-guernica =
     {
@@ -16,7 +13,7 @@ in
     in
     {
       xdg.configFile."quickshell/data/Settings.qml" = mkIf config.programs.quickshell.enable (
-        themeLib.whenTheme config "guernica" {
+        {
           text = ''
             pragma Singleton
 

@@ -1,5 +1,6 @@
 # Development partition: dev-only inputs (formatters, test runners, CI
-# tooling) live in dev/flake.nix and never enter host evaluation.
+# tooling) live in ./_dev (its own flake + lock, skipped by import-tree)
+# and never enter host evaluation.
 {
   config,
   inputs,
@@ -11,8 +12,8 @@
   imports = [ inputs.flake-parts.flakeModules.partitions ];
 
   partitions.dev = {
-    extraInputsFlake = ../../dev;
-    module.imports = [ ../../dev/flake-module.nix ];
+    extraInputsFlake = ./_dev;
+    module.imports = [ ./_dev/flake-module.nix ];
   };
 
   partitionedAttrs = {

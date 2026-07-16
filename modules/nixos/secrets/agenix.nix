@@ -1,12 +1,12 @@
-# agenix + agenix-rekey NixOS aspect. Secrets in secrets/vault are exposed
-# to every host importing this aspect; each host contributes its own
-# `age.rekey.hostPubkey` from a `host.pub` next to its host module.
+# agenix + agenix-rekey NixOS aspect. The secret assets live right here
+# (./vault, ./identity, ./rekeyed) so every reference is local; each host
+# contributes its own `age.rekey.hostPubkey` from a `host.pub` next to its
+# host module.
 { inputs, ... }:
 let
-  # Non-Nix assets referenced lexically.
-  secretsDir = ../../../secrets/vault;
-  identityDir = ../../../secrets/identity;
-  rekeyedDir = ../../../secrets/rekeyed;
+  secretsDir = ./vault;
+  identityDir = ./identity;
+  rekeyedDir = ./rekeyed;
 in
 {
   config.flake.modules.nixos.agenix =
@@ -48,7 +48,7 @@ in
 
         masterKeys = mkOption {
           description = "Paths to master SSH public keys (e.g., YubiKey identities)";
-          example = [ "../secrets/identity/yubi-identity.pub" ];
+          example = [ "./identity/yubi-identity.pub" ];
           default = [
             (identityDir + "/yubi-id.pub")
           ];

@@ -1,10 +1,10 @@
 # codegraph: flake output wiring; the package expression lives in
-# packages/codegraph/package.nix.
+# ./_codegraph/package.nix.
 { ... }:
 {
   perSystem =
     { pkgs, ... }:
     {
-      packages.codegraph = pkgs.callPackage ../../packages/codegraph/package.nix { };
+      packages.codegraph = pkgs.callPackage ./_codegraph/package.nix { };
     };
 }

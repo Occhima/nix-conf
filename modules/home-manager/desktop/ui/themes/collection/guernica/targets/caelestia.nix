@@ -1,6 +1,6 @@
 { config, ... }:
 let
-  inherit (config.flake.lib.custom) themeLib;
+  guernicaAssets = config.flake.lib.guernica.assets;
 in
 {
   # Contributed to the caelestia-dock aspect (not themes-guernica) so the
@@ -14,7 +14,7 @@ in
       stylixFonts = config.stylix.fonts;
     in
     {
-      programs.caelestia.settings = themeLib.whenTheme config "guernica" {
+      programs.caelestia.settings = {
         appearance = {
           anim.durations.scale = 1;
           font.family = {
@@ -130,7 +130,7 @@ in
         };
 
         paths.wallpaperDir = builtins.path {
-          path = ../assets/wallpapers;
+          path = guernicaAssets.wallpapers;
           name = "wallpaper";
         };
 

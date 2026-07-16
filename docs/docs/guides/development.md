@@ -140,11 +140,11 @@ This will:
 
 ### Writing Tests
 
-Unit tests live in `dev/tests/unit/`; suites are plain nix-unit
-attribute sets registered in `dev/tests/unit/default.nix`:
+Unit tests live in `modules/flake/_dev/tests/unit/`; suites are plain nix-unit
+attribute sets registered in `modules/flake/_dev/tests/unit/default.nix`:
 
 ```nix
-# dev/tests/unit/testSomething.nix
+# modules/flake/_dev/tests/unit/testSomething.nix
 { lib, ... }:
 {
   "my helper does the thing" = {
@@ -165,7 +165,7 @@ Format all code with:
 just fmt
 ```
 
-This uses treefmt to format Nix code according to the configuration in `dev/treefmt.nix`.
+This uses treefmt to format Nix code according to the configuration in `modules/flake/_dev/treefmt.nix`.
 
 ### Linting
 
@@ -255,7 +255,7 @@ just build package-name
 
 This configuration uses agenix for secrets management:
 
-1. Add public keys to `hosts/secrets/identity/`
+1. Add public keys to `modules/nixos/secrets/identity/`
 2. Create encrypted secrets with `agenix -e path/to/secret.age`
 3. Rekey secrets when needed with `just rekey`
 

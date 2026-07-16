@@ -1,23 +1,19 @@
-{ config, ... }:
-let
-  inherit (config.flake.lib.custom) themeLib;
-in
+{ ... }:
 {
   config.flake.modules.homeManager.themes-guernica =
     {
       pkgs,
-      config,
       ...
     }:
     {
-      home.packages = themeLib.whenTheme config "guernica" [
+      home.packages = [
         pkgs.nerd-fonts._0xproto
         pkgs.aporetic
         pkgs.nerd-fonts.jetbrains-mono
         pkgs.iosevka-comfy.comfy
       ];
 
-      stylix.fonts = themeLib.whenTheme config "guernica" {
+      stylix.fonts = {
         # for programs
         serif = {
           package = pkgs.noto-fonts;

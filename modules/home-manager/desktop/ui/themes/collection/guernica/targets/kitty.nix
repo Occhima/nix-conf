@@ -1,7 +1,4 @@
-{ config, ... }:
-let
-  inherit (config.flake.lib.custom) themeLib;
-in
+{ ... }:
 {
   config.flake.modules.homeManager.themes-guernica =
     {
@@ -10,10 +7,10 @@ in
     }:
     {
       # Disable stylix integration for kitty conditionally
-      stylix.targets.kitty.enable = themeLib.whenTheme config "guernica" false;
+      stylix.targets.kitty.enable = false;
 
       # Override font and theme settings conditionally
-      programs.kitty = themeLib.whenTheme config "guernica" {
+      programs.kitty = {
         font.name = config.stylix.fonts.monospace.name;
         themeFile = "Monokai_Soda";
       };

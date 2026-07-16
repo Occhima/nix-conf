@@ -1,75 +1,26 @@
+# Stylix base aspect. A theme (e.g. themes-guernica) imports this and
+# provides its palette, fonts and targets. Activation is composition:
+# there is no theme registry or name selector — only the variant remains
+# as genuine data.
 { inputs, ... }:
 {
   config.flake.modules.homeManager.themes-stylix =
-    {
-      config,
-      lib,
-      ...
-    }:
-    let
-      inherit (lib.types)
-        enum
-        nullOr
-        attrsOf
-        attrs
-        ;
-      inherit (lib) mkOption;
-      cfg = config.modules.desktop.ui.themes;
-      availableThemes = builtins.attrNames cfg.registry;
-    in
+    { lib, ... }:
     {
       options.modules.desktop.ui.themes = {
-        registry = mkOption {
-          type = attrsOf attrs;
-          default = { };
-          internal = true;
-          description = "Registry of available themes with their metadata";
-        };
-
-        name = mkOption {
-          type = nullOr (enum availableThemes);
-          description = "The active theme to use. Available: ${builtins.concatStringsSep ", " availableThemes}";
-          default = null;
-        };
-
-        variant = mkOption {
-          type = enum [
+        variant = lib.mkOption {
+          type = lib.types.enum [
             "default"
             "compact"
           ];
           default = "default";
-          description = "Optional specialization for the selected theme (e.g. a compact layout)";
+          description = "Layout specialization of the active theme (e.g. a compact layout)";
         };
       };
 
       imports = [ inputs.stylix.homeModules.stylix ];
 
       config = {
-        assertions = [
-          {
-            assertion = cfg.name != null;
-            message = "When themes-stylix is imported, you must select a theme name.";
-          }
-          {
-            assertion = cfg.name != null -> builtins.hasAttr cfg.name cfg.registry;
-            message = "Theme '${cfg.name}' is not registered. Available themes: ${builtins.concatStringsSep ", " availableThemes}";
-          }
-          {
-            assertion =
-              let
-                themeMeta = cfg.registry.${cfg.name}.meta or { };
-                supportedVariants = themeMeta.variants or [ "default" ];
-              in
-              cfg.name != null -> builtins.elem cfg.variant supportedVariants;
-            message =
-              let
-                themeMeta = cfg.registry.${cfg.name}.meta or { };
-                supportedVariants = themeMeta.variants or [ "default" ];
-              in
-              "Variant '${cfg.variant}' is not supported by theme '${cfg.name}'. Supported variants: ${builtins.concatStringsSep ", " supportedVariants}";
-          }
-        ];
-
         stylix = {
           enable = true;
           enableReleaseChecks = true;

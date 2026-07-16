@@ -9,7 +9,7 @@ Use for: adding packages, writing modules, updating configurations in this flake
 
 ## Repository conventions
 
-- Packages: `packages/<name>/package.nix`, exposed via `modules/packages/<name>.nix` (`perSystem.packages`)
+- Packages: `modules/packages/_<name>/package.nix` (underscore = not discovered), exposed via the sibling `modules/packages/<name>.nix` (`perSystem.packages`)
 - Home Manager modules: `modules/home-manager/shells/cli/<tool>.nix`
 - AI profile: `modules/home-manager/profiles/collection/ai/ai.nix`
 - Skills: `modules/home-manager/profiles/collection/ai/skills/<name>/SKILL.md`
