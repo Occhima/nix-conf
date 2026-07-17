@@ -6,6 +6,11 @@
 # All hosts are currently non-deployable, so `nodes` is empty.
 { config, lib, inputs, ... }:
 {
+  flake-file.inputs.deploy-rs = {
+    url = "github:serokell/deploy-rs";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
   flake = {
     deploy = {
       remoteBuild = false;

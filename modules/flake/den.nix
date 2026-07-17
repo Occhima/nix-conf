@@ -4,6 +4,8 @@
 # stay plain NixOS/Home Manager modules, so Den remains replaceable.
 { inputs, ... }:
 {
+  flake-file.inputs.den.url = "github:denful/den";
+
   imports = [
     inputs.den.flakeModule
     (inputs.den.namespace "occhima" true)

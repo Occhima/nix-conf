@@ -6,6 +6,11 @@ let
   face2face = config.flake.diskoConfigurations.face2face;
 in
 {
+  flake-file.inputs.disko = {
+    url = "github:nix-community/disko";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
   imports = [ inputs.disko.flakeModule ];
 
   occhima.disko-base.nixos =

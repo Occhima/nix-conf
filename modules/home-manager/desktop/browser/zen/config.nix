@@ -1,5 +1,11 @@
 { inputs, ... }:
 {
+  flake-file.inputs.zen-browser = {
+    url = "github:0xc000022070/zen-browser-flake";
+    inputs.nixpkgs.follows = "nixpkgs";
+    inputs.home-manager.follows = "home-manager";
+  };
+
   occhima.browser-zen-beta.homeManager = (
     # NOTE: another feature stolen from the isabelroses/dotfiles repo
     {

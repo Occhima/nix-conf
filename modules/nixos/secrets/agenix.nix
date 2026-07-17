@@ -11,6 +11,18 @@ let
   rekeyedDir = ./rekeyed;
 in
 {
+  flake-file.inputs = {
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "nixpkgs";
+    };
+    agenix-rekey = {
+      url = "github:oddlama/agenix-rekey";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
   imports = [ inputs.agenix-rekey.flakeModule ];
 
   perSystem = _: {

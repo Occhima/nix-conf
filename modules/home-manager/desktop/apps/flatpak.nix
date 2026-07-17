@@ -1,5 +1,7 @@
 { inputs, ... }:
 {
+  flake-file.inputs.flatpaks.url = "github:gmodena/nix-flatpak";
+
   occhima.flatpak.homeManager = (
     {
       config,

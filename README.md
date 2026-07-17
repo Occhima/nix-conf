@@ -150,8 +150,11 @@ let inherit (config.flake.lib.custom) isWayland; in …
 - **Add a Home Manager feature**: same shape, `occhima.<thing>.homeManager`.
 - **Cross-context feature**: define both classes on *one* aspect in one
   file (`occhima.foo.nixos` + `occhima.foo.homeManager`).
-- **Add an input**: declare it in `modules/flake/flake-file.nix`, then
-  `nix run .#write-flake` regenerates flake.nix.
+- **Add an input**: declare it via `flake-file.inputs.<name>` in the
+  module that consumes it (only evaluation plumbing lives in
+  `modules/flake/flake-file.nix`), then `nix run .#write-flake`
+  regenerates flake.nix. Deleting the module drops its input on the next
+  write-flake.
 - **Add a host**: `modules/hosts/<name>/host.nix` with the
   `den.hosts.<system>.<name>` entry and a `den.aspects.<name>` carrying
   identity + a short includes list (plus `host.pub` + a

@@ -1,5 +1,10 @@
 { inputs, ... }:
 {
+  flake-file.inputs.schizofox = {
+    url = "github:schizofox/schizofox";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
   occhima.browser-firefox.homeManager = (
     {
       config,

@@ -1,5 +1,7 @@
 { inputs, ... }:
 {
+  flake-file.inputs.impermanence.url = "github:nix-community/impermanence";
+
   occhima.impermanence.nixos =
     {
       config,
