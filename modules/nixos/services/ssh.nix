@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.ssh =
+  config.occhima.ssh.nixos =
     { lib, config, ... }:
 
     # Based on https://github.com/isabelroses/dotfiles/blob/566638959f71566a5837f68c5754534776174242/modules/nixos/networking/ssh.nix#L11

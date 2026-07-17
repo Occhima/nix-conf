@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.flake.modules.nixos.wsl =
+  config.occhima.wsl.nixos =
     {
       lib,
       pkgs,

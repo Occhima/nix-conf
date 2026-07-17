@@ -1,13 +1,14 @@
 # Guernica theme root: importing `themes-guernica` activates the theme.
 # The aspect is assembled from this file plus colors/config/fonts and every
 # file under targets/ — all merging into the same deferred module.
-{ config, ... }:
+{ occhima, config, ... }:
 let
   inherit (config.flake.lib.custom) themeLib;
-  themes-stylix = config.flake.modules.homeManager.themes-stylix;
 in
 {
-  config.flake.modules.homeManager.themes-guernica =
+  config.occhima.themes-guernica.includes = [ occhima.themes-stylix ];
+
+  config.occhima.themes-guernica.homeManager =
     {
       config,
       ...
@@ -17,8 +18,6 @@ in
       usingNiri = config.programs.niri.enable or false;
     in
     {
-      imports = [ themes-stylix ];
-
       config = {
         assertions = [
           {

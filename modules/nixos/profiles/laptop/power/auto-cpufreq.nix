@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.laptop =
+  config.occhima.laptop.nixos =
     { lib, ... }:
     let
       inherit (lib.modules) mkDefault;

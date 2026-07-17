@@ -19,7 +19,7 @@ in
     };
   };
 
-  config.flake.modules.nixos.agenix =
+  config.occhima.agenix.nixos =
     {
       config,
       lib,

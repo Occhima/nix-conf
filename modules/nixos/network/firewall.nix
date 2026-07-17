@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.firewall =
+  config.occhima.firewall.nixos =
     {
       lib,
       pkgs,

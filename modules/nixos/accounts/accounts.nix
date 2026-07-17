@@ -1,10 +1,9 @@
-# Account policy + integrated Home Manager wiring.
-# Users are aspects: hosts import `user-occhima` / `user-root` (defined
-# under modules/users/) next to this base aspect. Importing a user aspect
-# creates the account — there is no enabled-users list.
+# Account policy + Home Manager plumbing for NixOS hosts.
+# Accounts are aspects (occhima.user-*); Den attaches each declared host
+# user's Home Manager environment. There is no enabled-users list.
 { inputs, ... }:
 {
-  config.flake.modules.nixos.accounts =
+  config.occhima.accounts.nixos =
     { lib, ... }:
     {
       imports = [

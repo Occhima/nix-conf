@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.email = (
+  config.occhima.email.homeManager = (
     {
       config,
       ...

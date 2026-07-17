@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.atuin = (
+  config.occhima.atuin.homeManager = (
     {
       config,
       ...

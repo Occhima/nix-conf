@@ -3,7 +3,7 @@ let
   flakePkgs = config.flake.packages;
 in
 {
-  config.flake.modules.homeManager.antigravity = (
+  config.occhima.antigravity.homeManager = (
     {
       config,
       pkgs,

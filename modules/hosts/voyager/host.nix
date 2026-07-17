@@ -1,18 +1,15 @@
-# Host: voyager — ISO/installer.
-# ponytail: minimal aspect, voyager is an ISO image builder not a real host.
-{ config, inputs, ... }:
+# Host: voyager — installer ISO image builder, not a real machine.
+{ occhima, ... }:
 {
-  flake.modules.nixos.voyager = {
-    imports = with config.flake.modules.nixos; [
+  den.hosts.x86_64-linux.voyager = { };
+
+  den.aspects.voyager = {
+    includes = with occhima; [
       iso-base
     ];
-    config = {
+
+    nixos = {
       networking.hostName = "voyager";
     };
-  };
-
-  flake.nixosConfigurations.voyager = inputs.nixpkgs.lib.nixosSystem {
-    system = "x86_64-linux";
-    modules = [ config.flake.modules.nixos.voyager ];
   };
 }

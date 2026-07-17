@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.waybar-dock =
+  config.occhima.waybar-dock.homeManager =
     { pkgs, ... }:
     {
       home.packages = [ pkgs.pavucontrol ];

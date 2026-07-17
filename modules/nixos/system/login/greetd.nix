@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.login-greetd =
+  config.occhima.login-greetd.nixos =
     {
       config,
       lib,

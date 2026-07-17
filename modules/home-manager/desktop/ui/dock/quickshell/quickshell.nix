@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.quickshell-dock =
+  config.occhima.quickshell-dock.homeManager =
     {
       config,
       pkgs,

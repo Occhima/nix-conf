@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.blocker =
+  config.occhima.blocker.nixos =
     {
       config,
       ...

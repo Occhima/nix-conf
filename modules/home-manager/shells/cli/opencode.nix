@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.opencode = (
+  config.occhima.opencode.homeManager = (
     {
       config,
       ...

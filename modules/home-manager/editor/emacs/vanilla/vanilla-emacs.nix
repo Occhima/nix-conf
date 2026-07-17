@@ -3,7 +3,7 @@ let
   inherit (config.flake.lib.custom) isWayland;
 in
 {
-  config.flake.modules.homeManager.emacs = (
+  config.occhima.emacs.homeManager = (
     {
       config,
       osConfig ? { },

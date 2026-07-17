@@ -1,7 +1,7 @@
 { ... }:
 # hasZfs = any (x: x ? fsType && x.fsType == "zfs") (attrValues config.fileSystems);
 {
-  config.flake.modules.nixos.ssd = {
+  config.occhima.ssd.nixos = {
     zramSwap.enable = true;
     boot.initrd.availableKernelModules = [ "nvme" ];
   };

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.gpu-intel =
+  config.occhima.gpu-intel.nixos =
     {
       config,
       lib,

@@ -1,7 +1,4 @@
-{ config, ... }:
-let
-  cli-ai = config.flake.modules.homeManager.cli-ai;
-in
+{ occhima, ... }:
 {
   # Agent instructions/skills live in this directory; other features
   # (e.g. jcode) consume them through the fixed point instead of
@@ -11,7 +8,9 @@ in
     agentsMd = ./AGENTS.md;
   };
 
-  config.flake.modules.homeManager.ai = (
+  config.occhima.ai.includes = [ occhima.cli-ai ];
+
+  config.occhima.ai.homeManager = (
     # NOTE: Stolen from: https://github.com/s3igo/dotfiles/blob/82929b20af8f66acfbbc41a614fbfbb9de1385e6/home/aider.nix#L4
     # MCP servers config stolen from: https://github.com/ViZiD/dotfiles/blob/master/modules/cli/vibecoding.nix
     {
@@ -53,8 +52,6 @@ in
       );
     in
     {
-      imports = [ cli-ai ];
-
       config = {
         home = {
           # TODO: add codeburn

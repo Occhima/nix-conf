@@ -3,7 +3,7 @@
 }:
 
 {
-  config.flake.modules.nixos.monitors =
+  config.occhima.monitors.nixos =
     { lib, ... }:
     let
       inherit (lib) mkOption types literalExpression;

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.podman = (
+  config.occhima.podman.homeManager = (
     {
       config,
       ...

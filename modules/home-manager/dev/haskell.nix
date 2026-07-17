@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.haskell = (
+  config.occhima.haskell.homeManager = (
     {
       config,
       pkgs,

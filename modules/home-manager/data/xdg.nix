@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.xdg = (
+  config.occhima.xdg.homeManager = (
     {
       config,
       lib,

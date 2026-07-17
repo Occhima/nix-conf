@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.fabric = (
+  config.occhima.fabric.homeManager = (
     {
       config,
       ...

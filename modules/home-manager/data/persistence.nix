@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.persistence = (
+  config.occhima.persistence.homeManager = (
     {
       config,
       lib,

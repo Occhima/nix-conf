@@ -1,7 +1,7 @@
 # stolen from: github.com/linuxmobile/kaku
 { inputs, ... }:
 {
-  config.flake.modules.homeManager.niri =
+  config.occhima.niri.homeManager =
     {
       pkgs,
       ...

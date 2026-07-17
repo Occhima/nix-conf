@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.julia = (
+  config.occhima.julia.homeManager = (
     {
       config,
       pkgs,

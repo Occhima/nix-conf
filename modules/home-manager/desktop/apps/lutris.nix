@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.lutris = (
+  config.occhima.lutris.homeManager = (
     # XXX: Is this supposed to be here?
     # TODO: find a better place for this module
     {

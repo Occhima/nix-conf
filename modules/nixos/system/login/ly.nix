@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.login-ly =
+  config.occhima.login-ly.nixos =
     {
       config,
       ...

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.distrobox =
+  config.occhima.distrobox.nixos =
     {
       config,
       lib,

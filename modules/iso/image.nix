@@ -1,6 +1,6 @@
 { inputs, self, ... }:
 {
-  config.flake.modules.nixos.iso-image =
+  config.occhima.iso-image.nixos =
     {
       lib,
       pkgs,

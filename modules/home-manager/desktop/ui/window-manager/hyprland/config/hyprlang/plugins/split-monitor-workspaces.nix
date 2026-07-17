@@ -1,4 +1,4 @@
 { ... }:
 {
-  config.flake.modules.homeManager.hyprland = { };
+  config.occhima.hyprland.homeManager = { };
 }

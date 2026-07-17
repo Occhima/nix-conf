@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.navi = (
+  config.occhima.navi.homeManager = (
     {
       config,
       ...

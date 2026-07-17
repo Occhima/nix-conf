@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.direnv = (
+  config.occhima.direnv.homeManager = (
     {
       config,
       ...

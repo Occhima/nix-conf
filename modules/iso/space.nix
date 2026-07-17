@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.iso-space =
+  config.occhima.iso-space.nixos =
     { lib, ... }:
     let
       inherit (lib.modules) mkForce mkDefault;

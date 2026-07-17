@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.flake.modules.nixos.boot-secure-boot =
+  config.occhima.boot-secure-boot.nixos =
     {
       lib,
       pkgs,

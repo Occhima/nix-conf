@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.pandoc = (
+  config.occhima.pandoc.homeManager = (
     {
       config,
       ...

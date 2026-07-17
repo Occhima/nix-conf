@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.git = (
+  config.occhima.git.homeManager = (
     {
       pkgs,
       config,

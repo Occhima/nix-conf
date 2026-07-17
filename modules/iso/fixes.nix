@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.flake.modules.nixos.iso-fixes =
+  config.occhima.iso-fixes.nixos =
     {
       # We don't want to alter the iso image itself so we prevent rebuilds
       system.switch.enable = false;

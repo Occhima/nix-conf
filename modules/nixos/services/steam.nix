@@ -3,7 +3,7 @@ let
   inherit (config.flake.lib.custom) isWayland;
 in
 {
-  config.flake.modules.nixos.steam =
+  config.occhima.steam.nixos =
     {
       config,
       lib,

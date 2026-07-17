@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.laptop =
+  config.occhima.laptop.nixos =
     { pkgs, config, ... }:
     {
       hardware.acpilight.enable = false;

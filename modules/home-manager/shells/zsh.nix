@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.shell-zsh = (
+  config.occhima.shell-zsh.homeManager = (
     {
       config,
       lib,

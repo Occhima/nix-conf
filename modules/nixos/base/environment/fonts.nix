@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.environment-fonts =
+  config.occhima.environment-fonts.nixos =
     { pkgs, ... }:
     {
       fonts = {

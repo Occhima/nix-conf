@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.environment-console =
+  config.occhima.environment-console.nixos =
     { lib, pkgs, ... }:
     {
       console = {

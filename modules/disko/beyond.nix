@@ -1,7 +1,7 @@
 # Disko layout for beyond: standalone `diskoConfigurations.beyond` output
 # (for `disko --flake .#beyond`) and the `disko-beyond` NixOS aspect the
 # host imports.
-{ config, ... }:
+{ occhima, ... }:
 let
   layout =
     {
@@ -48,8 +48,8 @@ in
 {
   flake.diskoConfigurations.beyond = layout;
 
-  flake.modules.nixos.disko-beyond = {
-    imports = [ config.flake.modules.nixos.disko-base ];
-    disko.devices = layout.devices;
+  occhima.disko-beyond = {
+    includes = [ occhima.disko-base ];
+    nixos.disko.devices = layout.devices;
   };
 }

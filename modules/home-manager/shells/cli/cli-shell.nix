@@ -1,7 +1,6 @@
-{ config, ... }:
+{ occhima, ... }:
 {
-  config.flake.modules.homeManager.cli-shell = {
-    imports = with config.flake.modules.homeManager; [
+  config.occhima.cli-shell.includes = with occhima; [
       atuin
       zoxide
       direnv
@@ -9,5 +8,4 @@
       navi
       pay-respects
     ];
-  };
 }

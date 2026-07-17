@@ -1,8 +1,9 @@
 # NixOS Configuration
 
 A fully **dendritic** NixOS + Home Manager configuration built on
-[flake-parts](https://flake.parts), `flake.modules` (deferred modules), and
-[import-tree](https://github.com/vic/import-tree).
+[flake-parts](https://flake.parts), [Den](https://den.denful.dev) aspects,
+[import-tree](https://github.com/vic/import-tree) and
+[flake-file](https://github.com/vic/flake-file).
 
 <p align="center">
   <img alt="NixOS" src="https://raw.githubusercontent.com/NixOS/nixos-artwork/master/logo/nixos-white.png" width="100"/>
@@ -14,17 +15,19 @@ A fully **dendritic** NixOS + Home Manager configuration built on
 ## The pattern in one paragraph
 
 Every `.nix` file under `modules/` is a **top-level flake-parts module**,
-discovered automatically by import-tree — there are no manual import lists,
-no recursive collectors, and no `default.nix` files whose job is to
-enumerate siblings. A file contributes one coherent *feature* (an
-"aspect") to one or more module classes via
-`flake.modules.<class>.<aspect>`. Independent files may contribute to the
-*same* aspect and their definitions merge. Composition happens by
-importing aspects from the fixed point (`config.flake.modules.*`) —
-**importing an aspect is what activates it**. There are no
-`modules.<x>.enable` switches, profile string lists, or implementation
-selector enums; options exist only for genuine data (monitor layouts,
-usernames, ports, device paths).
+discovered automatically by import-tree — no manual import lists, no
+collectors, no aggregating `default.nix` files. Reusable features are
+**Den aspects** in the local `occhima` namespace: a file contributes one
+coherent feature to one or more classes (`occhima.<name>.nixos`,
+`occhima.<name>.homeManager`), independent files contributing to the same
+aspect merge, and composition happens exclusively through aspect
+`includes` — **including an aspect is what activates it**. Hosts and
+users are Den entities (`den.hosts`, `den.homes`); Den generates
+`nixosConfigurations`/`homeConfigurations` — nobody calls `nixosSystem`
+by hand, and nothing reads a modules fixpoint. Inputs are declared in a
+module too ([flake-file](https://github.com/vic/flake-file)); `flake.nix`
+is generated with `nix run .#write-flake`. Options exist only for genuine
+data (monitor layouts, usernames, ports, device paths).
 
 ```text
 flake.nix        # inputs + two imports: flakeModules.modules, import-tree ./modules
@@ -55,7 +58,7 @@ modules/         # THE root configuration tree — every file is a flake-parts m
 # modules/nixos/hardware/bluetooth.nix
 { ... }:
 {
-  config.flake.modules.nixos.bluetooth =
+  config.occhima.bluetooth.nixos =
     { pkgs, ... }:
     {
       hardware.bluetooth.enable = true;
@@ -64,44 +67,46 @@ modules/         # THE root configuration tree — every file is a flake-parts m
 }
 ```
 
-No `enable` option: a host that imports `bluetooth` has bluetooth.
+No `enable` option: a host whose aspect includes `bluetooth` has
+bluetooth. The module body is a plain NixOS module — Den only carries it,
+so the framework stays replaceable.
 
 ### Split files, one aspect
 
 All Hyprland fragments (`modules/home-manager/desktop/ui/window-manager/hyprland/config/…`)
-independently contribute to `flake.modules.homeManager.hyprland`; the
-module system merges them. The same goes for the Nixvim fragments under
-`modules/nixvim/` (→ `flake.modules.nixvim.default`) and the Guernica
-theme targets (→ `flake.modules.homeManager.themes-guernica`). Theme
-styling for optional WMs/browsers (niri, schizofox, zen, spicetify,
-caelestia) contributes to the aspect that owns the module instead, so the
-theme never references options that are not composed — and each upstream
-home module keeps exactly one importer.
+independently contribute to `occhima.hyprland.homeManager`; the module
+system merges them. The same goes for the Nixvim fragments under
+`modules/nixvim/` (→ `flake.nixvimModules.default`) and the Guernica
+theme targets (→ `occhima.themes-guernica.homeManager`). Theme styling
+for optional WMs/browsers (niri, schizofox, zen, spicetify, caelestia)
+contributes to the aspect that owns the module instead, so the theme
+never references options that are not composed — and each upstream home
+module keeps exactly one importer.
 
 ### A host
 
 ```nix
 # modules/hosts/steammachine/host.nix
-{ config, inputs, ... }:
+{ config, occhima, ... }:
 {
-  flake.modules.nixos.steammachine = {
-    imports = with config.flake.modules.nixos; [
-      workstation # aggregate: everything the physical machines share
-      cpu-amd gpu-nvidia login-ly disko-steammachine steam # …
+  den.hosts.x86_64-linux.steammachine.users.occhima = { };
+
+  den.aspects.steammachine = {
+    includes = with occhima; [
+      gaming-workstation # workstation + steam + oom + nix-ld
+      cpu-amd gpu-nvidia login-ly disko-steammachine vpn-openvpn # identity
     ];
-    config = {
-      modules.network.hostName = "steammachine";  # genuine data
+    nixos = {
+      modules.network.hostName = "steammachine"; # genuine data
       age.rekey.hostPubkey = builtins.readFile ./host.pub;
     };
   };
-
-  # The host contributes its own flake output — no central host registry.
-  flake.nixosConfigurations.steammachine = inputs.nixpkgs.lib.nixosSystem {
-    system = "x86_64-linux";
-    modules = [ config.flake.modules.nixos.steammachine ];
-  };
 }
 ```
+
+Den generates `nixosConfigurations.steammachine` from this — no manual
+`nixosSystem` call, no registry. Host files contain only identity,
+users, machine data and a short list of high-level aspects.
 
 Variant choices are named aspects (`cpu-amd`/`cpu-intel`, `gpu-nvidia`,
 `login-ly`/`login-greetd`, `browser-zen-beta`, `terminal-kitty`), and
@@ -115,14 +120,16 @@ user environment short, next to the topic profiles (`ai`, `data`,
 
 ### A user
 
-- `modules/users/occhima/account.nix` — NixOS aspect `user-occhima`:
-  creates the account and wires `home-manager.users.occhima` to the HM
-  aspect.
-- `modules/users/occhima/home.nix` — HM aspect `occhima`: the user
-  environment, a short list of aggregates plus topic profiles.
-- `modules/users/occhima/standalone.nix` — `homeConfigurations.occhima`
-  for non-NixOS machines. There is **no fabricated `osConfig`**: modules
-  that want host facts declare `osConfig ? { }` and degrade gracefully.
+- `modules/users/occhima/home.nix` — the Den user aspect
+  (`den.aspects.occhima`): a short list of aggregate includes plus the
+  homeManager identity. Hosts declaring `users.occhima` get the
+  environment wired by Den.
+- `modules/users/occhima/account.nix` — `occhima.user-occhima`: the plain
+  NixOS account (framework-independent; no Den batteries).
+- `modules/users/occhima/standalone.nix` — `den.homes.x86_64-linux.occhima`
+  generates `homeConfigurations.occhima` for non-NixOS machines from the
+  same user aspect. **No fabricated `osConfig`**: modules that want host
+  facts declare `osConfig ? { }` and degrade gracefully.
 
 ### Helpers
 
@@ -139,18 +146,19 @@ let inherit (config.flake.lib.custom) isWayland; in …
 ## Recipes
 
 - **Add a NixOS feature**: create `modules/nixos/<area>/<thing>.nix`
-  contributing `flake.modules.nixos.<thing>`; import it from a host or an
-  aggregate aspect. Done — import-tree discovers the file.
-- **Add a Home Manager feature**: same shape under
-  `modules/home-manager/`, class `homeManager`.
-- **Cross-context feature**: define both classes in *one* file
-  (`flake.modules.nixos.foo` + `flake.modules.homeManager.foo`).
-- **Add a host**: `modules/hosts/<name>/host.nix` defining the host
-  aspect *and* its `flake.nixosConfigurations.<name>` output (plus
-  `host.pub` + a `perSystem.agenix-rekey` registration if it uses
-  secrets).
-- **Add a user**: `modules/users/<name>/{account,home}.nix` following the
-  occhima files.
+  contributing `occhima.<thing>.nixos`; include it from a host aspect or
+  an aggregate. Done — import-tree discovers the file.
+- **Add a Home Manager feature**: same shape, `occhima.<thing>.homeManager`.
+- **Cross-context feature**: define both classes on *one* aspect in one
+  file (`occhima.foo.nixos` + `occhima.foo.homeManager`).
+- **Add an input**: declare it in `modules/flake/flake-file.nix`, then
+  `nix run .#write-flake` regenerates flake.nix.
+- **Add a host**: `modules/hosts/<name>/host.nix` with the
+  `den.hosts.<system>.<name>` entry and a `den.aspects.<name>` carrying
+  identity + a short includes list (plus `host.pub` + a
+  `perSystem.agenix-rekey` registration if it uses secrets).
+- **Add a user**: `modules/users/<name>/` following the occhima files
+  (Den user aspect + plain account aspect + optional den.homes entry).
 - **Add a package**: expression in `modules/packages/_<name>/package.nix`
   (underscore = not discovered), wired by the sibling
   `modules/packages/<name>.nix` via `perSystem.packages.<name>` — the

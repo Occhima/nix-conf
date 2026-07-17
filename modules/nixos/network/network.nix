@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.network =
+  config.occhima.network.nixos =
     {
       lib,
       config,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.auto-update = {
+  config.occhima.auto-update.nixos = {
     system.autoUpgrade = {
       enable = false;
       dates = "*-*-* 03:00:00";

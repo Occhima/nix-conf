@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  config.flake.modules.nixos.nixpkgs-config = {
+  config.occhima.nixpkgs-config.nixos = {
     # system specific overrides,
     nixpkgs.config = {
       allowUnfree = true;

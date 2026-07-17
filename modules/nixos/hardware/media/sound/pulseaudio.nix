@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.media-sound-pulseaudio =
+  config.occhima.media-sound-pulseaudio.nixos =
     { pkgs, ... }:
     {
       # Enable PulseAudio

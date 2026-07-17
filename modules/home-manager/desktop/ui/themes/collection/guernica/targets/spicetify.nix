@@ -2,7 +2,7 @@
 # sole importer of the spicetify module).
 { inputs, ... }:
 {
-  config.flake.modules.homeManager.spotify =
+  config.occhima.spotify.homeManager =
     {
       pkgs,
       ...

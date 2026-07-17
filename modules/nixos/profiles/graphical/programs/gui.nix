@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.graphical = {
+  config.occhima.graphical.nixos = {
     programs = {
       # we need dconf to interact with gtk
       dconf.enable = true;

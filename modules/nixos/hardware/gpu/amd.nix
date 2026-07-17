@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.gpu-amd =
+  config.occhima.gpu-amd.nixos =
     { pkgs, ... }:
     {
       # Enable AMD GPU Xorg drivers

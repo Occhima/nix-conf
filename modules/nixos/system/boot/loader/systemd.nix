@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.boot-systemd =
+  config.occhima.boot-systemd.nixos =
     {
       lib,
       pkgs,

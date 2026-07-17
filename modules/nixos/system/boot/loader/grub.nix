@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.boot-grub =
+  config.occhima.boot-grub.nixos =
     {
       lib,
       config,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.headless =
+  config.occhima.headless.nixos =
     { lib, ... }:
     let
       inherit (lib.modules) mkForce;

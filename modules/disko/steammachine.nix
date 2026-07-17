@@ -1,7 +1,7 @@
 # Disko layout for steammachine: standalone `diskoConfigurations.steammachine` output
 # (for `disko --flake .#steammachine`) and the `disko-steammachine` NixOS aspect the
 # host imports.
-{ config, ... }:
+{ occhima, ... }:
 let
   layout =
     {
@@ -65,8 +65,8 @@ in
 {
   flake.diskoConfigurations.steammachine = layout;
 
-  flake.modules.nixos.disko-steammachine = {
-    imports = [ config.flake.modules.nixos.disko-base ];
-    disko.devices = layout.devices;
+  occhima.disko-steammachine = {
+    includes = [ occhima.disko-base ];
+    nixos.disko.devices = layout.devices;
   };
 }

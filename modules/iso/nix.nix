@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.iso-nix =
+  config.occhima.iso-nix.nixos =
     { config, ... }:
     {
       nix = {

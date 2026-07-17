@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.cpu-intel = {
+  config.occhima.cpu-intel.nixos = {
     hardware.cpu.intel.updateMicrocode = true;
     hardware.enableRedistributableFirmware = true;
     # hardware.enableAllFirmware = true;

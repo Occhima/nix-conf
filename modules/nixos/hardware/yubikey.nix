@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.yubikey =
+  config.occhima.yubikey.nixos =
     { lib, pkgs, ... }:
     let
       inherit (lib.modules) mkDefault;

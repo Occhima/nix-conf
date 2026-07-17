@@ -1,18 +1,18 @@
-# DO-NOT-EDIT. This file was auto-generated using github:vic/flake-file.
-# Use `nix run .#write-flake` to regenerate it.
-# Inputs are declared in modules/flake/flake-file.nix.
+# flake-file: inputs are declared HERE (real Nix, mergeable across
+# modules); the root flake.nix is generated with `nix run .#write-flake`.
+# The dendritic flake module also wires flake-parts' `modules` option and
+# the import-tree outputs form.
+{ inputs, ... }:
 {
-  description = "My dendritic NixOS config";
+  imports = [ inputs.flake-file.flakeModules.dendritic ];
 
-  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
+  flake-file.description = "My dendritic NixOS config";
 
-  inputs = {
+  flake-file.inputs = {
     agenix = {
       url = "github:ryantm/agenix";
-      inputs = {
-        home-manager.follows = "nixpkgs";
-        nixpkgs.follows = "nixpkgs";
-      };
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "nixpkgs";
     };
     agenix-rekey = {
       url = "github:oddlama/agenix-rekey";
@@ -95,10 +95,8 @@
     systems.url = "github:nix-systems/default";
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
-      inputs = {
-        home-manager.follows = "home-manager";
-        nixpkgs.follows = "nixpkgs";
-      };
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
   };
 }

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.science = (
+  config.occhima.science.homeManager = (
     {
       config,
       pkgs,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.vpn-tailscale = # NOTE: Yet another module stolen from isabelroses dotfiles ...
+  config.occhima.vpn-tailscale.nixos = # NOTE: Yet another module stolen from isabelroses dotfiles ...
     # https://github.com/isabelroses/dotfiles/blob/b097aa7c6d028f65d997e26d4b94e5175e07b0f2/modules/nixos/networking/tailscale.nix#L23
     {
       lib,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.wireless =
+  config.occhima.wireless.nixos =
     {
       lib,
       config,

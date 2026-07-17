@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.security-clamav =
+  config.occhima.security-clamav.nixos =
     {
       lib,
       pkgs,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.maestral = (
+  config.occhima.maestral.homeManager = (
     {
       config,
       lib,

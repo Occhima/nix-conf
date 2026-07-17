@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.password-store = (
+  config.occhima.password-store.homeManager = (
     {
       config,
       pkgs,

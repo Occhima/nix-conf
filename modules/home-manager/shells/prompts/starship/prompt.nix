@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.prompt-starship = (
+  config.occhima.prompt-starship.homeManager = (
     {
       config,
       lib,

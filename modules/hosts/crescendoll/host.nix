@@ -1,8 +1,10 @@
 # Host: crescendoll — WSL.
-{ config, inputs, ... }:
+{ occhima, ... }:
 {
-  flake.modules.nixos.crescendoll = {
-    imports = with config.flake.modules.nixos; [
+  den.hosts.x86_64-linux.crescendoll.users.occhima = { };
+
+  den.aspects.crescendoll = {
+    includes = with occhima; [
       system-base
       accounts
       user-occhima
@@ -10,13 +12,9 @@
       security-auth
       wsl
     ];
-    config = {
+
+    nixos = {
       modules.network.hostName = "crescendoll";
     };
-  };
-
-  flake.nixosConfigurations.crescendoll = inputs.nixpkgs.lib.nixosSystem {
-    system = "x86_64-linux";
-    modules = [ config.flake.modules.nixos.crescendoll ];
   };
 }

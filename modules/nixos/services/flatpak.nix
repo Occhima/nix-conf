@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.flatpak = {
+  config.occhima.flatpak.nixos = {
     config = {
       services.flatpak.enable = true;
     };

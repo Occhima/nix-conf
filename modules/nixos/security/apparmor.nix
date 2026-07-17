@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.security-apparmor =
+  config.occhima.security-apparmor.nixos =
     {
       lib,
       pkgs,

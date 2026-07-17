@@ -1,9 +1,8 @@
-{ config, ... }:
-let
-  display-base = config.flake.modules.nixos.display-base;
-in
+{ occhima, ... }:
 {
-  config.flake.modules.nixos.display-wayland =
+  config.occhima.display-wayland.includes = [ occhima.display-base ];
+
+  config.occhima.display-wayland.nixos =
     {
       lib,
       pkgs,
@@ -21,8 +20,6 @@ in
     {
       options.modules.system.display.enableHyprlandEssentials =
         mkEnableOption "Enables hyprland nixosModules";
-
-      imports = [ display-base ];
 
       config = mkMerge [
         {

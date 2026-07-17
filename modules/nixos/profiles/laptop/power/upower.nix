@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.laptop = {
+  config.occhima.laptop.nixos = {
     services.upower = {
       enable = true;
       percentageLow = 15;

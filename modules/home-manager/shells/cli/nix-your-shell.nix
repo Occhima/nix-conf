@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.nix-your-shell = (
+  config.occhima.nix-your-shell.homeManager = (
     {
       config,
       ...

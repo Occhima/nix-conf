@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.emacs = (
+  config.occhima.emacs.homeManager = (
     {
       config,
       lib,

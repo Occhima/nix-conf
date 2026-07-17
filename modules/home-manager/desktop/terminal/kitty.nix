@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.terminal-kitty = {
+  config.occhima.terminal-kitty.homeManager = {
     config = {
       programs.kitty = {
         enable = true;

@@ -1,8 +1,7 @@
 # Aggregate: the complete interactive shell environment.
-{ config, ... }:
+{ occhima, ... }:
 {
-  config.flake.modules.homeManager.shell = {
-    imports = with config.flake.modules.homeManager; [
+  config.occhima.shell.includes = with occhima; [
       shell-zsh
       prompt-starship
       cli-core
@@ -13,5 +12,4 @@
       cli-dev
       password-store
     ];
-  };
 }

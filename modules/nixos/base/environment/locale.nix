@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.environment-locale =
+  config.occhima.environment-locale.nixos =
     { lib, ... }:
     {
       time = {

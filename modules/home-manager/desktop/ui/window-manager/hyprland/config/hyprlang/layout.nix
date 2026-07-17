@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.hyprland = {
+  config.occhima.hyprland.homeManager = {
     wayland.windowManager.hyprland.settings.dwindle = {
       preserve_split = true;
     };

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.fzf = (
+  config.occhima.fzf.homeManager = (
     {
       config,
       pkgs,

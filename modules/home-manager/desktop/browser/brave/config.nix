@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.browser-brave = (
+  config.occhima.browser-brave.homeManager = (
     {
       pkgs,
       config,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.boot-plymouth =
+  config.occhima.boot-plymouth.nixos =
     {
       lib,
       pkgs,

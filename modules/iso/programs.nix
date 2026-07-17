@@ -3,7 +3,7 @@ let
   flakePkgs = config.flake.packages;
 in
 {
-  config.flake.modules.nixos.iso-programs =
+  config.occhima.iso-programs.nixos =
     { pkgs, ... }:
     {
       system = {

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.anyrun =
+  config.occhima.anyrun.homeManager =
     {
       config,
       pkgs,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.mako-notifier =
+  config.occhima.mako-notifier.homeManager =
     {
       config,
       lib,

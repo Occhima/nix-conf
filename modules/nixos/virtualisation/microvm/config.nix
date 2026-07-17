@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.flake.modules.nixos.microvm-config =
+  config.occhima.microvm-config.nixos =
     {
       config,
       ...

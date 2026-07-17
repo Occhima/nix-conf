@@ -1,11 +1,9 @@
-{ config, ... }:
+{ occhima, ... }:
 {
-  config.flake.modules.homeManager.cli-git = {
-    imports = with config.flake.modules.homeManager; [
+  config.occhima.cli-git.includes = with occhima; [
       gh
       lazygit
       jujutsu
       git
     ];
-  };
 }

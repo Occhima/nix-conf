@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.eza = (
+  config.occhima.eza.homeManager = (
     {
       config,
       ...

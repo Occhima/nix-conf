@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.themes-guernica =
+  config.occhima.themes-guernica.homeManager =
     {
       ...
     }:

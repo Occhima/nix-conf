@@ -1,8 +1,8 @@
 # Nixvim: AI keymaps — one of several top-level contributors merging
-# into `flake.modules.nixvim.default`.
+# into `flake.nixvimModules.default`.
 { ... }:
 {
-  flake.modules.nixvim.default =
+  flake.nixvimModules.default =
     {
       # Avante keymaps are configured via plugins.avante.settings.mappings in ai.nix.
       # This file registers the which-key group so <leader>a shows in the popup.

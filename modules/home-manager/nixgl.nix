@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.flake.modules.homeManager.nixgl = (
+  config.occhima.nixgl.homeManager = (
     {
       config,
       ...

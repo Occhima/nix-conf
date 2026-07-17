@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.pay-respects = (
+  config.occhima.pay-respects.homeManager = (
     {
       config,
       ...

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.nh =
+  config.occhima.nh.nixos =
     { config, ... }:
     {
       programs.nh = {

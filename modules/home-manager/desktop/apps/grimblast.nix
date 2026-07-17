@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.grimblast = (
+  config.occhima.grimblast.homeManager = (
     {
       config,
       pkgs,

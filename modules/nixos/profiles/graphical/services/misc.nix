@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.graphical =
+  config.occhima.graphical.nixos =
     { lib, ... }:
     let
       inherit (lib.modules) mkDefault;

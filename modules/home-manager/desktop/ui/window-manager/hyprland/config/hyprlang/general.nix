@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.hyprland = {
+  config.occhima.hyprland.homeManager = {
     wayland.windowManager.hyprland.settings.general = {
       # gaps_in = 10;
       # gaps_out = 30;

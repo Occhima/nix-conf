@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.python = (
+  config.occhima.python.homeManager = (
     {
       config,
       ...

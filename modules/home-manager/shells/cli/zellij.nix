@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.zellij = (
+  config.occhima.zellij.homeManager = (
     {
       config,
       ...

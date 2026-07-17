@@ -3,7 +3,7 @@ let
   inherit (config.flake.lib.custom) isWayland;
 in
 {
-  config.flake.modules.nixos.login-sddm =
+  config.occhima.login-sddm.nixos =
     {
       config,
       pkgs,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.zoxide = (
+  config.occhima.zoxide.homeManager = (
     {
       config,
       ...

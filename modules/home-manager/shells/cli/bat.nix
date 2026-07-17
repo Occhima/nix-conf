@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.bat = (
+  config.occhima.bat.homeManager = (
     {
       config,
       ...

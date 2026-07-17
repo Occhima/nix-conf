@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.bluetooth =
+  config.occhima.bluetooth.nixos =
     {
       config,
       lib,

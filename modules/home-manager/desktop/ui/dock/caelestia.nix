@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.flake.modules.homeManager.caelestia-dock =
+  config.occhima.caelestia-dock.homeManager =
     {
       pkgs,
       ...

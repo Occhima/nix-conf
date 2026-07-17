@@ -1,7 +1,6 @@
-{ config, ... }:
+{ occhima, ... }:
 {
-  config.flake.modules.homeManager.cli-core = {
-    imports = with config.flake.modules.homeManager; [
+  config.occhima.cli-core.includes = with occhima; [
       bat
       eza
       fzf
@@ -9,5 +8,4 @@
       jq
       pandoc
     ];
-  };
 }

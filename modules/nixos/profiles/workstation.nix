@@ -1,11 +1,10 @@
-# Aggregate: the full stack shared by every physical workstation
-# (aerodynamic, beyond, steammachine). Hosts import this and add only
-# what identifies the machine: CPU/GPU, login manager, disko layout and
-# machine-specific services.
-{ config, ... }:
+# Aspect: the full stack shared by every physical workstation
+# (aerodynamic, beyond, steammachine). Host aspects include this and add
+# only what identifies the machine: CPU/GPU, login manager, disko layout
+# and machine-specific services. gaming-workstation builds on top.
+{ occhima, ... }:
 {
-  config.flake.modules.nixos.workstation = {
-    imports = with config.flake.modules.nixos; [
+  config.occhima.workstation.includes = with occhima; [
       system-base
       accounts
       user-occhima
@@ -40,5 +39,4 @@
       graphical
       desktop
     ];
-  };
 }

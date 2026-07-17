@@ -1,17 +1,14 @@
-{ config, ... }:
-let
-  display-base = config.flake.modules.nixos.display-base;
-in
+{ occhima, ... }:
 {
-  config.flake.modules.nixos.display-x11 =
+  config.occhima.display-x11.includes = [ occhima.display-base ];
+
+  config.occhima.display-x11.nixos =
     {
       pkgs,
       config,
       ...
     }:
     {
-      imports = [ display-base ];
-
       config = {
         modules.system.display.type = "x11";
 

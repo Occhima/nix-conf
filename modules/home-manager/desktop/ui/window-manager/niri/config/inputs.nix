@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.niri =
+  config.occhima.niri.homeManager =
     { config, ... }:
     let
       inherit (builtins) concatStringsSep;

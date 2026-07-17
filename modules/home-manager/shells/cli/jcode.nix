@@ -4,7 +4,7 @@ let
   inherit (config.flake.lib.custom) aiAssets;
 in
 {
-  config.flake.modules.homeManager.jcode = (
+  config.occhima.jcode.homeManager = (
     {
       config,
       pkgs,

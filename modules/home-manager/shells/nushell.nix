@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.shell-nushell = (
+  config.occhima.shell-nushell.homeManager = (
     {
       config,
       pkgs,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.jq = (
+  config.occhima.jq.homeManager = (
     {
       config,
       pkgs,

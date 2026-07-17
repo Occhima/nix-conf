@@ -1,26 +1,40 @@
-# Nixvim flake plumbing: evaluates the merged `flake.modules.nixvim.default`
-# aspect (contributed by the fragment files under modules/nixvim/) into the
-# `nvim` configuration and its packages, and republishes it as
-# `nixvimModules.default` for compatibility.
-{ config, inputs, ... }:
+# Nixvim flake plumbing. `flake.nixvimModules` is declared here as a
+# mergeable option so every fragment under modules/nixvim/ contributes to
+# `flake.nixvimModules.default` independently; the merged module is
+# evaluated into the `nvim` configuration and its packages.
+{
+  config,
+  inputs,
+  lib,
+  flake-parts-lib,
+  ...
+}:
 {
   imports = [ inputs.nixvim.flakeModules.default ];
 
-  nixvim = {
-    packages.enable = true;
-    checks.enable = false;
+  options.flake = flake-parts-lib.mkSubmoduleOptions {
+    nixvimModules = lib.mkOption {
+      type = lib.types.lazyAttrsOf lib.types.deferredModule;
+      default = { };
+      description = "Nixvim modules assembled from independent fragment files.";
+    };
   };
 
-  flake.nixvimModules.default = config.flake.modules.nixvim.default;
+  config = {
+    nixvim = {
+      packages.enable = true;
+      checks.enable = false;
+    };
 
-  perSystem =
-    { system, ... }:
-    {
-      nixvimConfigurations = {
-        nvim = inputs.nixvim.lib.evalNixvim {
-          inherit system;
-          modules = [ config.flake.modules.nixvim.default ];
+    perSystem =
+      { system, ... }:
+      {
+        nixvimConfigurations = {
+          nvim = inputs.nixvim.lib.evalNixvim {
+            inherit system;
+            modules = [ config.flake.nixvimModules.default ];
+          };
         };
       };
-    };
+  };
 }

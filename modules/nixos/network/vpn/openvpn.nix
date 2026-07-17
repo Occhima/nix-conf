@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.vpn-openvpn =
+  config.occhima.vpn-openvpn.nixos =
     {
       config,
       pkgs,

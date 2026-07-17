@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.flake.modules.homeManager.spotify = (
+  config.occhima.spotify.homeManager = (
     {
       config,
       pkgs,

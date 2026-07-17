@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.terminal-ghostty = {
+  config.occhima.terminal-ghostty.homeManager = {
     config = {
       programs.ghostty.enable = true;
       home.sessionVariables.TERMINAL = "ghostty";

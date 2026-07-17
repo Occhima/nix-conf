@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.firmware =
+  config.occhima.firmware.nixos =
     {
       config,
       ...

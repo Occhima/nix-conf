@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.laptop = {
+  config.occhima.laptop.nixos = {
     # Input settings for libinput
     services.libinput = {
       enable = true;

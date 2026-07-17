@@ -2,7 +2,7 @@
 # browser-zen-beta aspect (the sole importer of the zen-browser module).
 { ... }:
 {
-  config.flake.modules.homeManager.browser-zen-beta =
+  config.occhima.browser-zen-beta.homeManager =
     {
       config,
       ...

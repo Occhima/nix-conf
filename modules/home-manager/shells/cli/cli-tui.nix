@@ -1,10 +1,8 @@
-{ config, ... }:
+{ occhima, ... }:
 {
-  config.flake.modules.homeManager.cli-tui = {
-    imports = with config.flake.modules.homeManager; [
+  config.occhima.cli-tui.includes = with occhima; [
       yazi
       zellij
       fastfetch
     ];
-  };
 }

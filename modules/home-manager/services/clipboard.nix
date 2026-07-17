@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.clipboard =
+  config.occhima.clipboard.homeManager =
     { config, lib, ... }:
     {
       config = {

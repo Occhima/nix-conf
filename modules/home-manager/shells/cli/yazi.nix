@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.yazi = (
+  config.occhima.yazi.homeManager = (
     # NOTE: Stolen from https://discourse.nixos.org/t/yazi-plugin-eza-preview-not-working/64474
     {
       config,

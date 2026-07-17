@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.jujutsu = (
+  config.occhima.jujutsu.homeManager = (
     { config, ... }:
     {
       config = {

@@ -4,7 +4,7 @@
 # exists when niri is actually composed.
 { inputs, ... }:
 {
-  config.flake.modules.homeManager.niri =
+  config.occhima.niri.homeManager =
     {
       ...
     }:

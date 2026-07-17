@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.headless =
+  config.occhima.headless.nixos =
     { lib, ... }:
     {
       # a headless system should not mount any removable media

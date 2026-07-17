@@ -1,10 +1,10 @@
-# occhima — Home Manager environment aspect.
-# Composed from aggregates (see modules/home-manager/profiles/); importing
-# this aspect (integrated via `user-occhima`, or standalone) activates it.
-{ config, ... }:
+# occhima — Den user aspect. Hosts declaring `users.occhima` get this
+# environment wired through Den; `den.homes` (standalone.nix) reuses the
+# very same aspect for non-NixOS machines.
+{ occhima, ... }:
 {
-  config.flake.modules.homeManager.occhima = {
-    imports = with config.flake.modules.homeManager; [
+  den.aspects.occhima = {
+    includes = with occhima; [
       home-base
       shell
       data-core
@@ -23,7 +23,8 @@
       finance
       pentesting
     ];
-    config = {
+
+    homeManager = {
       home.username = "occhima";
       home.homeDirectory = "/home/occhima";
       modules.editor.emacs = {

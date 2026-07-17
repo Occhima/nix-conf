@@ -1,7 +1,7 @@
 # stolen from: https://github.com/isabelroses/dotfiles/blob/main/modules/base/nix/nix.nix
 { ... }:
 {
-  config.flake.modules.nixos.nix =
+  config.occhima.nix.nixos =
     {
       pkgs,
       lib,

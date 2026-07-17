@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.beancount = (
+  config.occhima.beancount.homeManager = (
     {
       config,
       pkgs,

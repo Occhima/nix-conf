@@ -1,8 +1,8 @@
 # Nixvim: treesitter — one of several top-level contributors merging
-# into `flake.modules.nixvim.default`.
+# into `flake.nixvimModules.default`.
 { ... }:
 {
-  flake.modules.nixvim.default =
+  flake.nixvimModules.default =
     {
       plugins.treesitter = {
         enable = true;

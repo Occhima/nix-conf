@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.fastfetch = (
+  config.occhima.fastfetch.homeManager = (
     {
       config,
       ...

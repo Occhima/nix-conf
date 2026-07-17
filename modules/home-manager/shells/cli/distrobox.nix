@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.distrobox = (
+  config.occhima.distrobox.homeManager = (
     {
       config,
       pkgs,

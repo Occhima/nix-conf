@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.flake.modules.homeManager.browser-firefox = (
+  config.occhima.browser-firefox.homeManager = (
     {
       config,
       ...

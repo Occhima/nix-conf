@@ -1,12 +1,11 @@
-# occhima — NixOS account aspect. Importing `user-occhima` on a host
-# creates the account and wires the integrated Home Manager environment.
+# occhima — NixOS account. Den attaches the Home Manager environment for
+# hosts that declare `users.occhima`; this aspect only creates the account.
 { config, ... }:
 let
   inherit (config.flake.lib.custom) ifTheyExist;
-  occhimaHome = config.flake.modules.homeManager.occhima;
 in
 {
-  flake.modules.nixos.user-occhima =
+  occhima.user-occhima.nixos =
     { config, lib, pkgs, ... }:
     {
       modules.accounts.mainUser = lib.mkDefault "occhima";
@@ -33,7 +32,5 @@ in
           "kvm"
         ];
       };
-
-      home-manager.users.occhima.imports = [ occhimaHome ];
     };
 }

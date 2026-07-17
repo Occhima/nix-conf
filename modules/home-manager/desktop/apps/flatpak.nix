@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.flake.modules.homeManager.flatpak = (
+  config.occhima.flatpak.homeManager = (
     {
       config,
       lib,

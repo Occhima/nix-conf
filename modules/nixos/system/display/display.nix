@@ -5,7 +5,7 @@
 # conflict.
 { ... }:
 {
-  config.flake.modules.nixos.display-base =
+  config.occhima.display-base.nixos =
     { lib, ... }:
     {
       options.modules.system.display.type = lib.mkOption {

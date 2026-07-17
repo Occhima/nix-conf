@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.boot-none =
+  config.occhima.boot-none.nixos =
     { lib, config, ... }:
     let
       inherit (lib.modules) mkForce;

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.security-selinux =
+  config.occhima.security-selinux.nixos =
     {
       lib,
       pkgs,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.security-kernel =
+  config.occhima.security-kernel.nixos =
     {
       lib,
       config,

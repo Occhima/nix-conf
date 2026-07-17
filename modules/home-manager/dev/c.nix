@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.c = (
+  config.occhima.c.homeManager = (
     {
       config,
       pkgs,

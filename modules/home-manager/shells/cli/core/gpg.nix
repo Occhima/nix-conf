@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.gpg = (
+  config.occhima.gpg.homeManager = (
     {
       lib,
       pkgs,

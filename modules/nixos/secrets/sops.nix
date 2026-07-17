@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.sops = # TODO...
+  config.occhima.sops.nixos = # TODO...
     {
     };
 }

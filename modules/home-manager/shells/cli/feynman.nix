@@ -3,7 +3,7 @@ let
   flakePkgs = config.flake.packages;
 in
 {
-  config.flake.modules.homeManager.feynman = (
+  config.occhima.feynman.homeManager = (
     {
       config,
       pkgs,

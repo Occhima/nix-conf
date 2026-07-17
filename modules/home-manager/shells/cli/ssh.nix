@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.ssh = (
+  config.occhima.ssh.homeManager = (
     {
       config,
       ...

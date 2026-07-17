@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.flake.modules.nixos.impermanence =
+  config.occhima.impermanence.nixos =
     {
       config,
       ...

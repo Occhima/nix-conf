@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.gpu-nvidia =
+  config.occhima.gpu-nvidia.nixos =
     {
       config,
       lib,

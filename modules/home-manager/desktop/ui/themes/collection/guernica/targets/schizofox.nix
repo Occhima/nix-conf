@@ -3,7 +3,7 @@
 # exist when that browser is actually composed.
 { ... }:
 {
-  config.flake.modules.homeManager.browser-firefox =
+  config.occhima.browser-firefox.homeManager =
     {
       config,
       ...

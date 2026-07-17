@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.hyprlock = {
+  config.occhima.hyprlock.homeManager = {
     programs.hyprlock = {
       enable = true;
       settings.general = {

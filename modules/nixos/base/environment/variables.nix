@@ -1,4 +1,4 @@
 { ... }:
 {
-  config.flake.modules.nixos.environment-variables = { };
+  config.occhima.environment-variables.nixos = { };
 }

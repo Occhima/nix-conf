@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.docker =
+  config.occhima.docker.nixos =
     {
       config,
       lib,

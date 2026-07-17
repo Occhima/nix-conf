@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.finance = (
+  config.occhima.finance.homeManager = (
     {
       config,
       pkgs,

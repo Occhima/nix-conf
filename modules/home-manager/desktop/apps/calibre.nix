@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.calibre = (
+  config.occhima.calibre.homeManager = (
     {
       config,
       pkgs,

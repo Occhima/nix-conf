@@ -76,12 +76,16 @@ in
     expected = true;
   };
 
-  "aspects are exported individually" = {
+  "the occhima aspect library is exported through den" = {
     expr =
-      self.nixosModules ? workstation
-      && self.nixosModules ? bluetooth
-      && self.homeModules ? shell
-      && !(self.nixosModules ? steammachine);
+      self.denful ? occhima
+      && self.denful.occhima ? workstation
+      && self.denful.occhima ? gaming-workstation;
+    expected = true;
+  };
+
+  "hosts wire the occhima home through den" = {
+    expr = self.nixosConfigurations.steammachine.config.home-manager.users ? occhima;
     expected = true;
   };
 }

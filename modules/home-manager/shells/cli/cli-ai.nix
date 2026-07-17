@@ -1,7 +1,6 @@
-{ config, ... }:
+{ occhima, ... }:
 {
-  config.flake.modules.homeManager.cli-ai = {
-    imports = with config.flake.modules.homeManager; [
+  config.occhima.cli-ai.includes = with occhima; [
       claude-code
       opencode
       aider
@@ -10,5 +9,4 @@
       codegraph
       feynman
     ];
-  };
 }

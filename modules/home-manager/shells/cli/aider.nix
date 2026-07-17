@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.aider = (
+  config.occhima.aider.homeManager = (
     {
       config,
       pkgs,

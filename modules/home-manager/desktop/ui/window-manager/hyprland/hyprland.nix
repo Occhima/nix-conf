@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.hyprland = {
+  config.occhima.hyprland.homeManager = {
     wayland.windowManager.hyprland = {
       enable = true;
       xwayland.enable = true;

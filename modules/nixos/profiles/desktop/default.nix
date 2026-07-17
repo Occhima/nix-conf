@@ -1,4 +1,4 @@
 { ... }:
 {
-  config.flake.modules.nixos.desktop = { };
+  config.occhima.desktop.nixos = { };
 }

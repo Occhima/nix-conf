@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.podman =
+  config.occhima.podman.nixos =
     {
       config,
       lib,

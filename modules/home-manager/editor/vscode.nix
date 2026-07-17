@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.vscode = (
+  config.occhima.vscode.homeManager = (
     {
       config,
       lib,

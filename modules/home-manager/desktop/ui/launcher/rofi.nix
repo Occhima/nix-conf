@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.rofi =
+  config.occhima.rofi.homeManager =
     { pkgs, ... }:
     {
       home.packages = [

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.lazygit = (
+  config.occhima.lazygit.homeManager = (
     {
       config,
       ...

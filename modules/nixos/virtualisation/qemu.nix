@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.qemu =
+  config.occhima.qemu.nixos =
     {
       config,
       pkgs,

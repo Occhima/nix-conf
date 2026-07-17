@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.appimage =
+  config.occhima.appimage.nixos =
     {
       config,
       ...

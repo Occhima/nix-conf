@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.boot-kernel =
+  config.occhima.boot-kernel.nixos =
     {
       lib,
       pkgs,

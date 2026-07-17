@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.media-video =
+  config.occhima.media-video.nixos =
     {
       lib,
       pkgs,

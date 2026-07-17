@@ -4,7 +4,7 @@
 # as genuine data.
 { inputs, ... }:
 {
-  config.flake.modules.homeManager.themes-stylix =
+  config.occhima.themes-stylix.homeManager =
     { lib, ... }:
     {
       options.modules.desktop.ui.themes = {

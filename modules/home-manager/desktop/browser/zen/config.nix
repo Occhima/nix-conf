@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.flake.modules.homeManager.browser-zen-beta = (
+  config.occhima.browser-zen-beta.homeManager = (
     # NOTE: another feature stolen from the isabelroses/dotfiles repo
     {
       pkgs,

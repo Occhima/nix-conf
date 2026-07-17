@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.claude-code = (
+  config.occhima.claude-code.homeManager = (
     {
       config,
       ...

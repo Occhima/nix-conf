@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.security-auditd =
+  config.occhima.security-auditd.nixos =
     {
       lib,
       config,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.cachix = (
+  config.occhima.cachix.homeManager = (
     {
       config,
       lib,

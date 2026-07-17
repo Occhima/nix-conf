@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.laptop =
+  config.occhima.laptop.nixos =
     { pkgs, config, ... }:
     {
       # ponytail: check cpu-intel's flag instead of old selector enum

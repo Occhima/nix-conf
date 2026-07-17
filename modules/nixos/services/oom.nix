@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.oom =
+  config.occhima.oom.nixos =
     {
       config,
       lib,

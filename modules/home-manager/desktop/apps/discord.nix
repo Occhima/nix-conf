@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.discord = (
+  config.occhima.discord.homeManager = (
     {
       config,
       ...

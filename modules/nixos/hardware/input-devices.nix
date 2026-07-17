@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.input-devices =
+  config.occhima.input-devices.nixos =
     { lib, config, ... }:
     let
       inherit (lib) mkOption mkIf types;

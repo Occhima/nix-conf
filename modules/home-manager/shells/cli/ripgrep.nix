@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.homeManager.ripgrep = (
+  config.occhima.ripgrep.homeManager = (
     {
       config,
       ...

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.flake.modules.nixos.media-sound-pipewire =
+  config.occhima.media-sound-pipewire.nixos =
     {
       lib,
       pkgs,
