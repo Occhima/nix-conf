@@ -33,7 +33,9 @@ data (monitor layouts, usernames, ports, device paths).
 flake.nix        # inputs + two imports: flakeModules.modules, import-tree ./modules
 modules/         # THE root configuration tree — every file is a flake-parts module
 ├── flake/       #   systems, per-system nixpkgs, per-aspect module exports
-│   └── _dev/    #   development partition: own flake + lock, skipped by import-tree
+│   ├── _dev/    #   development partition: own flake + lock, skipped by import-tree
+│   ├── disko/   #   disko glue + per-host layouts → diskoConfigurations outputs
+│   └── nixvim/  #   nixvim glue + fragments merging into flake.nixvimModules.default
 ├── lib/         #   helpers merged into `flake.lib.custom` (an option, not a file import)
 ├── hosts/       #   one dir per host: aspect + its own nixosConfigurations output
 ├── users/       #   account aspects (NixOS) + home aspects (HM) + standalone HM output
@@ -42,12 +44,9 @@ modules/         # THE root configuration tree — every file is a flake-parts m
 ├── home-manager/#   Home Manager feature aspects (shells, desktop, editors, …)
 │   └── profiles/#   aggregates: shell, desktop, editors, languages, data-core, topic profiles
 ├── iso/         #   installer image aspects
-├── nixvim/      #   fragments merging into flake.modules.nixvim.default + its flake glue
-├── disko/       #   per-host disko layouts + diskoConfigurations outputs
 ├── overlays/    #   one overlay contribution per file
 ├── packages/    #   package wiring; sources next door in _<name>/ (not discovered)
-├── templates/   #   template outputs; the flakes live in _<name>/ subdirs
-└── integrations/#   agenix-rekey, deploy-rs, nixvim glue
+└── templates/   #   template outputs; the flakes live in _<name>/ subdirs
 ```
 
 ## How things compose
@@ -76,7 +75,7 @@ so the framework stays replaceable.
 All Hyprland fragments (`modules/home-manager/desktop/ui/window-manager/hyprland/config/…`)
 independently contribute to `occhima.hyprland.homeManager`; the module
 system merges them. The same goes for the Nixvim fragments under
-`modules/nixvim/` (→ `flake.nixvimModules.default`) and the Guernica
+`modules/flake/nixvim/` (→ `flake.nixvimModules.default`) and the Guernica
 theme targets (→ `occhima.themes-guernica.homeManager`). Theme styling
 for optional WMs/browsers (niri, schizofox, zen, spicetify, caelestia)
 contributes to the aspect that owns the module instead, so the theme
@@ -163,9 +162,9 @@ let inherit (config.flake.lib.custom) isWayland; in …
   (underscore = not discovered), wired by the sibling
   `modules/packages/<name>.nix` via `perSystem.packages.<name>` — the
   reference is a local `./_<name>/package.nix`, never a `../..` chain.
-- **Add a disko layout**: `modules/disko/<host>.nix` contributing
+- **Add a disko layout**: `modules/flake/disko/<host>.nix` contributing
   `flake.diskoConfigurations.<host>` and the `disko-<host>` aspect.
-- **Add a Nixvim tweak**: drop a file in `modules/nixvim/` contributing to
+- **Add a Nixvim tweak**: drop a file in `modules/flake/nixvim/` contributing to
   `flake.modules.nixvim.default`.
 
 Files prefixed with `_` are **not** discovered by import-tree — that

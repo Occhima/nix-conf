@@ -41,7 +41,7 @@ That's it — import-tree discovers the file; no registry to update.
 
 ## 2. Disko (optional)
 
-Add `modules/disko/myhost.nix` following the existing layouts. It
+Add `modules/flake/disko/myhost.nix` following the existing layouts. It
 contributes `flake.diskoConfigurations.myhost` (for
 `disko --flake .#myhost`) and the `disko-myhost` aspect the host imports.
 
