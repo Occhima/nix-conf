@@ -1,6 +1,9 @@
+# OpenSSH *server* for hosts. The Home Manager `ssh` aspect (client
+# config) is a different feature — the names are distinct on purpose so
+# a user environment can never drag sshd onto a host.
 { ... }:
 {
-  config.occhima.ssh.nixos =
+  config.occhima.sshd.nixos =
     { lib, config, ... }:
 
     # Based on https://github.com/isabelroses/dotfiles/blob/566638959f71566a5837f68c5754534776174242/modules/nixos/networking/ssh.nix#L11

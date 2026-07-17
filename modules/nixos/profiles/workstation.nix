@@ -27,12 +27,12 @@
       display-wayland
       display-portals
       impermanence
-      podman
+      podman-host
       agenix
       systemd
       firmware
-      flatpak
-      ssh
+      flatpak-daemon
+      sshd
       appimage
       security-auth
       security-kernel

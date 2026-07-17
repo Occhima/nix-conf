@@ -1,6 +1,8 @@
+# System podman engine for hosts. The Home Manager `podman` aspect
+# (user containers) is deliberately a separate feature.
 { ... }:
 {
-  config.occhima.podman.nixos =
+  config.occhima.podman-host.nixos =
     {
       config,
       lib,

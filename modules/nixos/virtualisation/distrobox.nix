@@ -1,6 +1,8 @@
+# System distrobox for hosts. The Home Manager `distrobox` aspect is a
+# separate feature.
 { ... }:
 {
-  config.occhima.distrobox.nixos =
+  config.occhima.distrobox-host.nixos =
     {
       config,
       lib,
