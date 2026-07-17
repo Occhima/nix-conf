@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.media-sound-pipewire.nixos =
+  occhima.media-sound-pipewire.nixos =
     {
       lib,
       pkgs,

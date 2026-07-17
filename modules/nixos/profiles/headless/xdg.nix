@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.headless.nixos =
+  occhima.headless.nixos =
     { lib, ... }:
     let
       inherit (lib.attrsets) mapAttrs;

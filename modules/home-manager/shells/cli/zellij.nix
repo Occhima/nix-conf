@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.zellij.homeManager = (
+  occhima.zellij.homeManager = (
     {
       config,
       ...

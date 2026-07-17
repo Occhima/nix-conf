@@ -4,7 +4,7 @@
 # and machine-specific services. gaming-workstation builds on top.
 { occhima, ... }:
 {
-  config.occhima.workstation.includes = with occhima; [
+  occhima.workstation.includes = with occhima; [
       system-base
       accounts
       user-occhima

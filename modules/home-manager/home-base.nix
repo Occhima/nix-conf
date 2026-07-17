@@ -3,7 +3,7 @@
 # ponytail: add nixgl back when nixgl input is added to flake.nix.
 { occhima, ... }:
 {
-  config.occhima.home-base.includes = with occhima; [
+  occhima.home-base.includes = with occhima; [
       home
     ];
 }

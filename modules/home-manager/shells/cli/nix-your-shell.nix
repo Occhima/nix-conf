@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.nix-your-shell.homeManager = (
+  occhima.nix-your-shell.homeManager = (
     {
       config,
       ...

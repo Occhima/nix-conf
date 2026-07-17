@@ -1,6 +1,6 @@
 { occhima, ... }:
 {
-  config.occhima.cli-shell.includes = with occhima; [
+  occhima.cli-shell.includes = with occhima; [
       atuin
       zoxide
       direnv

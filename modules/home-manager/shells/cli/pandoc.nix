@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.pandoc.homeManager = (
+  occhima.pandoc.homeManager = (
     {
       config,
       ...

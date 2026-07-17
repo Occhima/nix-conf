@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.discord.homeManager = (
+  occhima.discord.homeManager = (
     {
       config,
       ...

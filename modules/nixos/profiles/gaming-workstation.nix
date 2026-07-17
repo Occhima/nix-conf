@@ -2,7 +2,7 @@
 # nix-ld on top of the shared workstation stack.
 { occhima, ... }:
 {
-  config.occhima.gaming-workstation.includes = with occhima; [
+  occhima.gaming-workstation.includes = with occhima; [
     workstation
     steam
     oom

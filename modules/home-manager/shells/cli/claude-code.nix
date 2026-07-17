@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.claude-code.homeManager = (
+  occhima.claude-code.homeManager = (
     {
       config,
       ...

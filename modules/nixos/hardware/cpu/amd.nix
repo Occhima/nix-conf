@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.cpu-amd.nixos = {
+  occhima.cpu-amd.nixos = {
     hardware.cpu.amd.updateMicrocode = true;
     hardware.enableRedistributableFirmware = true;
     boot = {

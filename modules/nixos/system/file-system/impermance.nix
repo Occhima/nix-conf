@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.occhima.impermanence.nixos =
+  occhima.impermanence.nixos =
     {
       config,
       ...

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.laptop.nixos =
+  occhima.laptop.nixos =
     { pkgs, config, ... }:
     {
       # ponytail: check cpu-intel's flag instead of old selector enum

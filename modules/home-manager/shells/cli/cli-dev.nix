@@ -1,4 +1,4 @@
 { occhima, ... }:
 {
-  config.occhima.cli-dev.includes = with occhima; [ distrobox ];
+  occhima.cli-dev.includes = with occhima; [ distrobox ];
 }

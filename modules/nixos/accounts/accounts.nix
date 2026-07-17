@@ -3,7 +3,7 @@
 # user's Home Manager environment. There is no enabled-users list.
 { inputs, ... }:
 {
-  config.occhima.accounts.nixos =
+  occhima.accounts.nixos =
     { lib, ... }:
     {
       imports = [

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.xdg.homeManager = (
+  occhima.xdg.homeManager = (
     {
       config,
       lib,

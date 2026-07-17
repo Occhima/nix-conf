@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.bluetooth.nixos =
+  occhima.bluetooth.nixos =
     {
       config,
       lib,

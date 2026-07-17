@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.security-kernel.nixos =
+  occhima.security-kernel.nixos =
     {
       lib,
       config,

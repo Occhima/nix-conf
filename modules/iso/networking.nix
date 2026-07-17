@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.iso-networking.nixos =
+  occhima.iso-networking.nixos =
     { lib, pkgs, ... }:
     let
       inherit (lib.modules) mkForce;

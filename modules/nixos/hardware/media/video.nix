@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.media-video.nixos =
+  occhima.media-video.nixos =
     {
       lib,
       pkgs,

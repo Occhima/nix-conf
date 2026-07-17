@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.terminal-ghostty.homeManager = {
+  occhima.terminal-ghostty.homeManager = {
     config = {
       programs.ghostty.enable = true;
       home.sessionVariables.TERMINAL = "ghostty";

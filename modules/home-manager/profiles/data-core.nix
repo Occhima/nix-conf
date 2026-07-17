@@ -2,7 +2,7 @@
 # Dropbox (maestral) and mail accounts.
 { occhima, ... }:
 {
-  config.occhima.data-core.includes = with occhima; [
+  occhima.data-core.includes = with occhima; [
       xdg
       persistence
       maestral

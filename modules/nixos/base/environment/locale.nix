@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.environment-locale.nixos =
+  occhima.environment-locale.nixos =
     { lib, ... }:
     {
       time = {

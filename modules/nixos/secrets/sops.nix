@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.sops.nixos = # TODO...
+  occhima.sops.nixos = # TODO...
     {
     };
 }

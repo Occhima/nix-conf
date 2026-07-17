@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.beancount.homeManager = (
+  occhima.beancount.homeManager = (
     {
       config,
       pkgs,

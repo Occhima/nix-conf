@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.emacs.homeManager = (
+  occhima.emacs.homeManager = (
     {
       config,
       lib,

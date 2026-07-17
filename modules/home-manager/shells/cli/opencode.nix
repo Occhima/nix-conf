@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.opencode.homeManager = (
+  occhima.opencode.homeManager = (
     {
       config,
       ...

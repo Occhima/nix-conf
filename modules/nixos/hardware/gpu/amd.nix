@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.gpu-amd.nixos =
+  occhima.gpu-amd.nixos =
     { pkgs, ... }:
     {
       # Enable AMD GPU Xorg drivers

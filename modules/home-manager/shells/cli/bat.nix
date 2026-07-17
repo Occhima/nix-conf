@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.bat.homeManager = (
+  occhima.bat.homeManager = (
     {
       config,
       ...

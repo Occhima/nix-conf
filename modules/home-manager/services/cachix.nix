@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.cachix.homeManager = (
+  occhima.cachix.homeManager = (
     {
       config,
       lib,

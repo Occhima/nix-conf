@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.systemd.nixos =
+  occhima.systemd.nixos =
     {
       config,
       lib,

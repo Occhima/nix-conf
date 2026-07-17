@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.fzf.homeManager = (
+  occhima.fzf.homeManager = (
     {
       config,
       pkgs,

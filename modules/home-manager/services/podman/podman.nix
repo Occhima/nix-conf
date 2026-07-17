@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.podman.homeManager = (
+  occhima.podman.homeManager = (
     {
       config,
       ...

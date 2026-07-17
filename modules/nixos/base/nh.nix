@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.nh.nixos =
+  occhima.nh.nixos =
     { config, ... }:
     {
       programs.nh = {

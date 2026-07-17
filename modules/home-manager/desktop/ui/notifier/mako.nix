@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.mako-notifier.homeManager =
+  occhima.mako-notifier.homeManager =
     {
       config,
       lib,

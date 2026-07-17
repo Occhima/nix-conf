@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.finance.homeManager = (
+  occhima.finance.homeManager = (
     {
       config,
       pkgs,

@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.occhima.spotify.homeManager = (
+  occhima.spotify.homeManager = (
     {
       config,
       pkgs,

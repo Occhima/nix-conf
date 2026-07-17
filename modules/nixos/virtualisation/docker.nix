@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.docker.nixos =
+  occhima.docker.nixos =
     {
       config,
       lib,

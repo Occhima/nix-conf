@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.networkmanager.nixos =
+  occhima.networkmanager.nixos =
     {
       config,
       lib,

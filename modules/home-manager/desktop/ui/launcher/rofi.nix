@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.rofi.homeManager =
+  occhima.rofi.homeManager =
     { pkgs, ... }:
     {
       home.packages = [

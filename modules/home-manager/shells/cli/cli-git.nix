@@ -1,6 +1,6 @@
 { occhima, ... }:
 {
-  config.occhima.cli-git.includes = with occhima; [
+  occhima.cli-git.includes = with occhima; [
       gh
       lazygit
       jujutsu

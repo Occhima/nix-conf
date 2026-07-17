@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.fabric.homeManager = (
+  occhima.fabric.homeManager = (
     {
       config,
       ...

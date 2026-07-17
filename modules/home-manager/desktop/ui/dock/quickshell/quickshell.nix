@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.quickshell-dock.homeManager =
+  occhima.quickshell-dock.homeManager =
     {
       config,
       pkgs,

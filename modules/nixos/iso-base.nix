@@ -3,7 +3,7 @@
 # recreate those options locally; our iso-* fragments only customize them.
 { occhima, ... }:
 {
-  config.occhima.iso-base = {
+  occhima.iso-base = {
     includes = with occhima; [
       iso-boot
       iso-fixes

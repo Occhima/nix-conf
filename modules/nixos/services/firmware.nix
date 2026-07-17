@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.firmware.nixos =
+  occhima.firmware.nixos =
     {
       config,
       ...

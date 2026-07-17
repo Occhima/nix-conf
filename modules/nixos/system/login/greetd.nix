@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.login-greetd.nixos =
+  occhima.login-greetd.nixos =
     {
       config,
       lib,

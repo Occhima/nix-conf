@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.password-store.homeManager = (
+  occhima.password-store.homeManager = (
     {
       config,
       pkgs,

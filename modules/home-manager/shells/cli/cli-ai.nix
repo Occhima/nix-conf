@@ -1,6 +1,6 @@
 { occhima, ... }:
 {
-  config.occhima.cli-ai.includes = with occhima; [
+  occhima.cli-ai.includes = with occhima; [
       claude-code
       opencode
       aider

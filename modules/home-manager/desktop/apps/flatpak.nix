@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.occhima.flatpak.homeManager = (
+  occhima.flatpak.homeManager = (
     {
       config,
       lib,

@@ -4,7 +4,7 @@
 # as genuine data.
 { inputs, ... }:
 {
-  config.occhima.themes-stylix.homeManager =
+  occhima.themes-stylix.homeManager =
     { lib, ... }:
     {
       options.modules.desktop.ui.themes = {

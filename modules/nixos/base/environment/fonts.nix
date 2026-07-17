@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.environment-fonts.nixos =
+  occhima.environment-fonts.nixos =
     { pkgs, ... }:
     {
       fonts = {

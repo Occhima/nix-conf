@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.shell-zsh.homeManager = (
+  occhima.shell-zsh.homeManager = (
     {
       config,
       lib,

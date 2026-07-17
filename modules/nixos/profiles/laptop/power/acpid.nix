@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.laptop.nixos =
+  occhima.laptop.nixos =
     { pkgs, config, ... }:
     {
       hardware.acpilight.enable = false;

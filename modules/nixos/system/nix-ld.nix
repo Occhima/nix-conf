@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.nix-ld.nixos =
+  occhima.nix-ld.nixos =
     {
       config,
       ...

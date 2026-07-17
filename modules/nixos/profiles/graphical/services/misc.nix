@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.graphical.nixos =
+  occhima.graphical.nixos =
     { lib, ... }:
     let
       inherit (lib.modules) mkDefault;

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.haskell.homeManager = (
+  occhima.haskell.homeManager = (
     {
       config,
       pkgs,

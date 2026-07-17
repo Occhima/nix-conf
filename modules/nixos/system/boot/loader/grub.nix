@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.boot-grub.nixos =
+  occhima.boot-grub.nixos =
     {
       lib,
       config,

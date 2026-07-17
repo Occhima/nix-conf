@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.waybar-dock.homeManager =
+  occhima.waybar-dock.homeManager =
     { pkgs, ... }:
     {
       home.packages = [ pkgs.pavucontrol ];

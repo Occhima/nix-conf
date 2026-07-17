@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.occhima.browser-firefox.homeManager = (
+  occhima.browser-firefox.homeManager = (
     {
       config,
       ...

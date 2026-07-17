@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.python.homeManager = (
+  occhima.python.homeManager = (
     {
       config,
       ...

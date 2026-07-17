@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.firewall.nixos =
+  occhima.firewall.nixos =
     {
       lib,
       pkgs,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.input-devices.nixos =
+  occhima.input-devices.nixos =
     { lib, config, ... }:
     let
       inherit (lib) mkOption mkIf types;

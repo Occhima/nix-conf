@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.laptop.nixos = {
+  occhima.laptop.nixos = {
     # Input settings for libinput
     services.libinput = {
       enable = true;

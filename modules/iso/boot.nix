@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.iso-boot.nixos =
+  occhima.iso-boot.nixos =
     { lib, ... }:
     let
       inherit (lib.modules) mkForce mkAfter;

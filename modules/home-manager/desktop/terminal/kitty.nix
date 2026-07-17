@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.terminal-kitty.homeManager = {
+  occhima.terminal-kitty.homeManager = {
     config = {
       programs.kitty = {
         enable = true;

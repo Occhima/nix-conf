@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.security-selinux.nixos =
+  occhima.security-selinux.nixos =
     {
       lib,
       pkgs,

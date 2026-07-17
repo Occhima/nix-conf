@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.boot-kernel.nixos =
+  occhima.boot-kernel.nixos =
     {
       lib,
       pkgs,

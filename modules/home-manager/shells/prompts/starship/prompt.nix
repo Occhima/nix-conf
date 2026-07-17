@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.prompt-starship.homeManager = (
+  occhima.prompt-starship.homeManager = (
     {
       config,
       lib,

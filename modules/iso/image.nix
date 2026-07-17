@@ -1,6 +1,6 @@
 { inputs, self, ... }:
 {
-  config.occhima.iso-image.nixos =
+  occhima.iso-image.nixos =
     {
       lib,
       pkgs,

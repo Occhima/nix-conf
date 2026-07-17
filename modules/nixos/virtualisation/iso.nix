@@ -1,4 +1,4 @@
 { ... }:
 {
-  config.occhima.iso.nixos = { };
+  occhima.iso.nixos = { };
 }

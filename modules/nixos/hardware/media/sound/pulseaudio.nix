@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.media-sound-pulseaudio.nixos =
+  occhima.media-sound-pulseaudio.nixos =
     { pkgs, ... }:
     {
       # Enable PulseAudio

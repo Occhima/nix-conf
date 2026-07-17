@@ -1,7 +1,7 @@
 # stolen from: github.com/linuxmobile/kaku
 { inputs, ... }:
 {
-  config.occhima.niri.homeManager =
+  occhima.niri.homeManager =
     {
       pkgs,
       ...

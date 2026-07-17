@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.occhima.boot-secure-boot.nixos =
+  occhima.boot-secure-boot.nixos =
     {
       lib,
       pkgs,

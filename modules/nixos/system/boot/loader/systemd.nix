@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.boot-systemd.nixos =
+  occhima.boot-systemd.nixos =
     {
       lib,
       pkgs,

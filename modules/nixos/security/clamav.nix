@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.security-clamav.nixos =
+  occhima.security-clamav.nixos =
     {
       lib,
       pkgs,

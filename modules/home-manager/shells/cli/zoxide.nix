@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.zoxide.homeManager = (
+  occhima.zoxide.homeManager = (
     {
       config,
       ...

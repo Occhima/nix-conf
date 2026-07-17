@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.hyprlock.homeManager = {
+  occhima.hyprlock.homeManager = {
     programs.hyprlock = {
       enable = true;
       settings.general = {

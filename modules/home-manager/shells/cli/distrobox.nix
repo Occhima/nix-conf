@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.distrobox.homeManager = (
+  occhima.distrobox.homeManager = (
     {
       config,
       pkgs,

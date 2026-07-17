@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.hyprland.homeManager =
+  occhima.hyprland.homeManager =
     {
       lib,
       config,

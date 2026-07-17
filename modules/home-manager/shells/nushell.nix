@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.shell-nushell.homeManager = (
+  occhima.shell-nushell.homeManager = (
     {
       config,
       pkgs,

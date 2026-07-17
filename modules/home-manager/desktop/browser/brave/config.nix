@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.browser-brave.homeManager = (
+  occhima.browser-brave.homeManager = (
     {
       pkgs,
       config,

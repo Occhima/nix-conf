@@ -3,7 +3,7 @@ let
   flakePkgs = config.flake.packages;
 in
 {
-  config.occhima.browser-nyxt.homeManager = (
+  occhima.browser-nyxt.homeManager = (
     {
       config,
       lib,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.grimblast.homeManager = (
+  occhima.grimblast.homeManager = (
     {
       config,
       pkgs,

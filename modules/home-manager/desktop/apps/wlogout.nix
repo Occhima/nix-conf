@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.wlogout.homeManager = (
+  occhima.wlogout.homeManager = (
     # XXX: Is this supposed to be here?
     # TODO: find a better place for this module
     {

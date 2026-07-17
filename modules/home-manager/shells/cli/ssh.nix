@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.ssh.homeManager = (
+  occhima.ssh.homeManager = (
     {
       config,
       ...

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.persistence.homeManager = (
+  occhima.persistence.homeManager = (
     {
       config,
       lib,

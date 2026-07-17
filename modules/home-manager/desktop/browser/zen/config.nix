@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.occhima.browser-zen-beta.homeManager = (
+  occhima.browser-zen-beta.homeManager = (
     # NOTE: another feature stolen from the isabelroses/dotfiles repo
     {
       pkgs,

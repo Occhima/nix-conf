@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.jujutsu.homeManager = (
+  occhima.jujutsu.homeManager = (
     { config, ... }:
     {
       config = {

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.headless.nixos =
+  occhima.headless.nixos =
     { lib, ... }:
     {
       # a headless system should not mount any removable media

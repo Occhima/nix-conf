@@ -3,7 +3,7 @@
 # exist when that browser is actually composed.
 { ... }:
 {
-  config.occhima.browser-firefox.homeManager =
+  occhima.browser-firefox.homeManager =
     {
       config,
       ...

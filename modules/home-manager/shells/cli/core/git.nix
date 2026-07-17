@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.git.homeManager = (
+  occhima.git.homeManager = (
     {
       pkgs,
       config,

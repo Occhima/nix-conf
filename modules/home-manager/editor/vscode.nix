@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.vscode.homeManager = (
+  occhima.vscode.homeManager = (
     {
       config,
       lib,

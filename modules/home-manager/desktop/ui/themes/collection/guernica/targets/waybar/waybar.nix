@@ -8,7 +8,7 @@ let
   inherit (config.flake.lib.guernica) waybarModules mkWaybarDefault mkWaybarCompact;
 in
 {
-  config.occhima.themes-guernica.homeManager =
+  occhima.themes-guernica.homeManager =
     {
       config,
       lib,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.aider.homeManager = (
+  occhima.aider.homeManager = (
     {
       config,
       pkgs,

@@ -1,7 +1,7 @@
 # Aggregate: the complete interactive shell environment.
 { occhima, ... }:
 {
-  config.occhima.shell.includes = with occhima; [
+  occhima.shell.includes = with occhima; [
       shell-zsh
       prompt-starship
       cli-core

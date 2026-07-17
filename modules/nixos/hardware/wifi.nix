@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.wifi.nixos =
+  occhima.wifi.nixos =
     {
       config,
       lib,

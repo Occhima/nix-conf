@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.boot-none.nixos =
+  occhima.boot-none.nixos =
     { lib, config, ... }:
     let
       inherit (lib.modules) mkForce;

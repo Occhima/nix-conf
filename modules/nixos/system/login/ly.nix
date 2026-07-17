@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.login-ly.nixos =
+  occhima.login-ly.nixos =
     {
       config,
       ...

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.eza.homeManager = (
+  occhima.eza.homeManager = (
     {
       config,
       ...

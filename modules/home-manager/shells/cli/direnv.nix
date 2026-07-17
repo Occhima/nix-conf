@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.direnv.homeManager = (
+  occhima.direnv.homeManager = (
     {
       config,
       ...

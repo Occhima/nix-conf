@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.cpu-intel.nixos = {
+  occhima.cpu-intel.nixos = {
     hardware.cpu.intel.updateMicrocode = true;
     hardware.enableRedistributableFirmware = true;
     # hardware.enableAllFirmware = true;

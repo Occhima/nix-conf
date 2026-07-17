@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.julia.homeManager = (
+  occhima.julia.homeManager = (
     {
       config,
       pkgs,

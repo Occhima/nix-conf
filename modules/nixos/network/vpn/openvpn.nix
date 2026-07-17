@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.vpn-openvpn.nixos =
+  occhima.vpn-openvpn.nixos =
     {
       config,
       pkgs,

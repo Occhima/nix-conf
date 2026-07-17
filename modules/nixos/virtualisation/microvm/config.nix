@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.occhima.microvm-config.nixos =
+  occhima.microvm-config.nixos =
     {
       config,
       ...

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.security-auth.nixos =
+  occhima.security-auth.nixos =
     {
       lib,
       config,

@@ -1,4 +1,4 @@
 { ... }:
 {
-  config.occhima.environment-variables.nixos = { };
+  occhima.environment-variables.nixos = { };
 }

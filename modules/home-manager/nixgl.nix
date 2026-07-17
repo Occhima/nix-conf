@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.occhima.nixgl.homeManager = (
+  occhima.nixgl.homeManager = (
     {
       config,
       ...

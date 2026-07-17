@@ -4,7 +4,7 @@
 # exists when niri is actually composed.
 { inputs, ... }:
 {
-  config.occhima.niri.homeManager =
+  occhima.niri.homeManager =
     {
       ...
     }:

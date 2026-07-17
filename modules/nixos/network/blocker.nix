@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.blocker.nixos =
+  occhima.blocker.nixos =
     {
       config,
       ...

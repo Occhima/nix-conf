@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.navi.homeManager = (
+  occhima.navi.homeManager = (
     {
       config,
       ...

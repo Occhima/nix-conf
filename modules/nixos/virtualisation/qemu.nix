@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.qemu.nixos =
+  occhima.qemu.nixos =
     {
       config,
       pkgs,

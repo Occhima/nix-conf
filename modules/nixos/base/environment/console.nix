@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.environment-console.nixos =
+  occhima.environment-console.nixos =
     { lib, pkgs, ... }:
     {
       console = {

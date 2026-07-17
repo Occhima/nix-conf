@@ -3,7 +3,7 @@
 }:
 
 {
-  config.occhima.monitors.nixos =
+  occhima.monitors.nixos =
     { lib, ... }:
     let
       inherit (lib) mkOption types literalExpression;

@@ -1,6 +1,6 @@
 { occhima, ... }:
 {
-  config.occhima.cli-security.includes = with occhima; [
+  occhima.cli-security.includes = with occhima; [
       ssh
       gpg
     ];

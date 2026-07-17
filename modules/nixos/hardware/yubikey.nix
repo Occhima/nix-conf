@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.yubikey.nixos =
+  occhima.yubikey.nixos =
     { lib, pkgs, ... }:
     let
       inherit (lib.modules) mkDefault;

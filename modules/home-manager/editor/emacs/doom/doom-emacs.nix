@@ -3,7 +3,7 @@ let
   inherit (config.flake.lib.custom) ifPackageNotEnabled isWayland;
 in
 {
-  config.occhima.emacs.homeManager = (
+  occhima.emacs.homeManager = (
     {
       config,
       osConfig ? { },

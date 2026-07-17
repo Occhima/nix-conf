@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.occhima.wsl.nixos =
+  occhima.wsl.nixos =
     {
       lib,
       pkgs,

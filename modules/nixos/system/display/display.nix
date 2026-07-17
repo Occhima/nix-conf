@@ -5,7 +5,7 @@
 # conflict.
 { ... }:
 {
-  config.occhima.display-base.nixos =
+  occhima.display-base.nixos =
     { lib, ... }:
     {
       options.modules.system.display.type = lib.mkOption {

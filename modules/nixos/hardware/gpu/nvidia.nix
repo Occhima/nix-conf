@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.gpu-nvidia.nixos =
+  occhima.gpu-nvidia.nixos =
     {
       config,
       lib,

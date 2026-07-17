@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.themes-guernica.homeManager =
+  occhima.themes-guernica.homeManager =
     # config stolen from : https://github.com/OrynVail/OrynOS
     {
       config,

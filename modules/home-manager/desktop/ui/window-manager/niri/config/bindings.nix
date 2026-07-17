@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.niri.homeManager =
+  occhima.niri.homeManager =
     {
       config,
       lib,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.laptop.nixos =
+  occhima.laptop.nixos =
     { lib, ... }:
     let
       inherit (lib.modules) mkDefault;

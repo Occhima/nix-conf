@@ -2,7 +2,7 @@
 # with its UI pieces, the Guernica theme and the desktop applications.
 { occhima, ... }:
 {
-  config.occhima.desktop.includes = with occhima; [
+  occhima.desktop.includes = with occhima; [
       browser-zen-beta
       terminal-kitty
       hyprland

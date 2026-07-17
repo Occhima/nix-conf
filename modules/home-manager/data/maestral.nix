@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.maestral.homeManager = (
+  occhima.maestral.homeManager = (
     {
       config,
       lib,

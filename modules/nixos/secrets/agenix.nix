@@ -13,13 +13,13 @@ in
 {
   imports = [ inputs.agenix-rekey.flakeModule ];
 
-  config.perSystem = _: {
+  perSystem = _: {
     agenix-rekey = {
       collectHomeManagerConfigurations = false;
     };
   };
 
-  config.occhima.agenix.nixos =
+  occhima.agenix.nixos =
     {
       config,
       lib,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.graphical.nixos = {
+  occhima.graphical.nixos = {
     programs = {
       # we need dconf to interact with gtk
       dconf.enable = true;

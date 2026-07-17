@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.security-apparmor.nixos =
+  occhima.security-apparmor.nixos =
     {
       lib,
       pkgs,

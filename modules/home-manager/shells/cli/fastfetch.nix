@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.fastfetch.homeManager = (
+  occhima.fastfetch.homeManager = (
     {
       config,
       ...

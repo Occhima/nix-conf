@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.hyprland.homeManager = {
+  occhima.hyprland.homeManager = {
     wayland.windowManager.hyprland = {
       enable = true;
       xwayland.enable = true;

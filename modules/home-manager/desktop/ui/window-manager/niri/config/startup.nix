@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.niri.homeManager = {
+  occhima.niri.homeManager = {
     programs.niri.settings = {
       spawn-at-startup = [
         {

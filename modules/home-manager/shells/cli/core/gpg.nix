@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.gpg.homeManager = (
+  occhima.gpg.homeManager = (
     {
       lib,
       pkgs,

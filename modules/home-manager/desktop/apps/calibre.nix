@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.calibre.homeManager = (
+  occhima.calibre.homeManager = (
     {
       config,
       pkgs,

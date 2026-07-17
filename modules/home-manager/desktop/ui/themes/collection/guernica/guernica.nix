@@ -6,9 +6,9 @@ let
   inherit (config.flake.lib.custom) themeLib;
 in
 {
-  config.occhima.themes-guernica.includes = [ occhima.themes-stylix ];
+  occhima.themes-guernica.includes = [ occhima.themes-stylix ];
 
-  config.occhima.themes-guernica.homeManager =
+  occhima.themes-guernica.homeManager =
     {
       config,
       ...

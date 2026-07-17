@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.atuin.homeManager = (
+  occhima.atuin.homeManager = (
     {
       config,
       ...

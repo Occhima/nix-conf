@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.security-auditd.nixos =
+  occhima.security-auditd.nixos =
     {
       lib,
       config,

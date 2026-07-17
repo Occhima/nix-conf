@@ -2,7 +2,7 @@
 # sole importer of the spicetify module).
 { inputs, ... }:
 {
-  config.occhima.spotify.homeManager =
+  occhima.spotify.homeManager =
     {
       pkgs,
       ...

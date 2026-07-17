@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.gh.homeManager = (
+  occhima.gh.homeManager = (
     {
       config,
       pkgs,

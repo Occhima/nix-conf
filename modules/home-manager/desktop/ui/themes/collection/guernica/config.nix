@@ -3,7 +3,7 @@ let
   guernicaAssets = config.flake.lib.guernica.assets;
 in
 {
-  config.occhima.themes-guernica.homeManager =
+  occhima.themes-guernica.homeManager =
     {
       pkgs,
       ...

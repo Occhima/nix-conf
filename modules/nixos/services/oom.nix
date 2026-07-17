@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.oom.nixos =
+  occhima.oom.nixos =
     {
       config,
       lib,

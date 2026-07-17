@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.email.homeManager = (
+  occhima.email.homeManager = (
     {
       config,
       ...

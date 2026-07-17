@@ -2,7 +2,7 @@
 # separate feature.
 { ... }:
 {
-  config.occhima.distrobox-host.nixos =
+  occhima.distrobox-host.nixos =
     {
       config,
       lib,

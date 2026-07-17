@@ -1,4 +1,4 @@
 { ... }:
 {
-  config.occhima.desktop.nixos = { };
+  occhima.desktop.nixos = { };
 }

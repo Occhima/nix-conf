@@ -1,8 +1,8 @@
 { occhima, ... }:
 {
-  config.occhima.display-wayland.includes = [ occhima.display-base ];
+  occhima.display-wayland.includes = [ occhima.display-base ];
 
-  config.occhima.display-wayland.nixos =
+  occhima.display-wayland.nixos =
     {
       lib,
       pkgs,

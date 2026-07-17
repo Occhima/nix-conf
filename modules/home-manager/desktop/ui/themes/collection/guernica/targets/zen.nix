@@ -2,7 +2,7 @@
 # browser-zen-beta aspect (the sole importer of the zen-browser module).
 { ... }:
 {
-  config.occhima.browser-zen-beta.homeManager =
+  occhima.browser-zen-beta.homeManager =
     {
       config,
       ...

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.lazygit.homeManager = (
+  occhima.lazygit.homeManager = (
     {
       config,
       ...

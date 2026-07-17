@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.clipboard.homeManager =
+  occhima.clipboard.homeManager =
     { config, lib, ... }:
     {
       config = {

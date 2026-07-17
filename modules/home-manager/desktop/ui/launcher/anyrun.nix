@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.anyrun.homeManager =
+  occhima.anyrun.homeManager =
     {
       config,
       pkgs,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.appimage.nixos =
+  occhima.appimage.nixos =
     {
       config,
       ...

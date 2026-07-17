@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.hyprland.homeManager = {
+  occhima.hyprland.homeManager = {
     wayland.windowManager.hyprland.settings = {
       exec-once = [
         "wl-paste --type text --watch cliphist store" # Stores only text data

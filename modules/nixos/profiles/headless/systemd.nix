@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.headless.nixos = {
+  occhima.headless.nixos = {
     systemd = {
       enableEmergencyMode = false;
 

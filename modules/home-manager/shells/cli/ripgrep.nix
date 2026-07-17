@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.ripgrep.homeManager = (
+  occhima.ripgrep.homeManager = (
     {
       config,
       ...

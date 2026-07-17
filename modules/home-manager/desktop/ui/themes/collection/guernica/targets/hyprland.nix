@@ -3,7 +3,7 @@ let
   inherit (config.flake.lib.custom) themeLib;
 in
 {
-  config.occhima.themes-guernica.homeManager =
+  occhima.themes-guernica.homeManager =
     {
       lib,
       config,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.iso-space.nixos =
+  occhima.iso-space.nixos =
     { lib, ... }:
     let
       inherit (lib.modules) mkForce mkDefault;

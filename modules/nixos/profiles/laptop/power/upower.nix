@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.laptop.nixos = {
+  occhima.laptop.nixos = {
     services.upower = {
       enable = true;
       percentageLow = 15;

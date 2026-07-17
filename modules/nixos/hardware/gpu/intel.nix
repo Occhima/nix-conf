@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.gpu-intel.nixos =
+  occhima.gpu-intel.nixos =
     {
       config,
       lib,

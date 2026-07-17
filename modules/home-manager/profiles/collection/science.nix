@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.science.homeManager = (
+  occhima.science.homeManager = (
     {
       config,
       pkgs,

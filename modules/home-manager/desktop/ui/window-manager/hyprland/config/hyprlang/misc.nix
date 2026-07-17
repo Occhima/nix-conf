@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.hyprland.homeManager = {
+  occhima.hyprland.homeManager = {
     wayland.windowManager.hyprland.settings.misc = {
       enable_swallow = true;
       mouse_move_enables_dpms = true;

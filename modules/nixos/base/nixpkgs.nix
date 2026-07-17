@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  config.occhima.nixpkgs-config.nixos = {
+  occhima.nixpkgs-config.nixos = {
     # system specific overrides,
     nixpkgs.config = {
       allowUnfree = true;

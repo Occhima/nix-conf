@@ -3,7 +3,7 @@
 # ponytail: single aggregate aspect, split if hosts diverge on which common modules they need.
 { occhima, ... }:
 {
-  config.occhima.system-base.includes = with occhima; [
+  occhima.system-base.includes = with occhima; [
       nix
       nixpkgs-config
       nh

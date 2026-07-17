@@ -3,7 +3,7 @@ let
   flakePkgs = config.flake.packages;
 in
 {
-  config.occhima.codegraph.homeManager = (
+  occhima.codegraph.homeManager = (
     {
       lib,
       config,

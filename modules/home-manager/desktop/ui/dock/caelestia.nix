@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  config.occhima.caelestia-dock.homeManager =
+  occhima.caelestia-dock.homeManager =
     {
       pkgs,
       ...

@@ -2,7 +2,7 @@
 # (user containers) is deliberately a separate feature.
 { ... }:
 {
-  config.occhima.podman-host.nixos =
+  occhima.podman-host.nixos =
     {
       config,
       lib,

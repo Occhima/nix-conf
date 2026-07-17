@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.boot-plymouth.nixos =
+  occhima.boot-plymouth.nixos =
     {
       lib,
       pkgs,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.themes-guernica.homeManager =
+  occhima.themes-guernica.homeManager =
     {
       pkgs,
       ...

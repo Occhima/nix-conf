@@ -1,6 +1,6 @@
 { ... }:
 {
-  config.occhima.pay-respects.homeManager = (
+  occhima.pay-respects.homeManager = (
     {
       config,
       ...

@@ -1,8 +1,8 @@
 { occhima, ... }:
 {
-  config.occhima.display-x11.includes = [ occhima.display-base ];
+  occhima.display-x11.includes = [ occhima.display-base ];
 
-  config.occhima.display-x11.nixos =
+  occhima.display-x11.nixos =
     {
       pkgs,
       config,
