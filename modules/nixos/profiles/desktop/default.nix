@@ -1,4 +1,4 @@
 { ... }:
 {
-  occhima.desktop.nixos = { };
+  flake.modules.nixos.desktop = { };
 }

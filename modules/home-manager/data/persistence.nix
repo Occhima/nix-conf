@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.persistence.homeManager = (
+  flake.modules.homeManager.persistence = (
     {
       config,
       lib,

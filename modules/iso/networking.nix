@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.iso-networking.nixos =
+  flake.modules.nixos.iso-networking =
     { lib, pkgs, ... }:
     let
       inherit (lib.modules) mkForce;

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.bluetooth.nixos =
+  flake.modules.nixos.bluetooth =
     {
       config,
       lib,

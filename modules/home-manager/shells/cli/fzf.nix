@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.fzf.homeManager = (
+  flake.modules.homeManager.fzf = (
     {
       config,
       pkgs,

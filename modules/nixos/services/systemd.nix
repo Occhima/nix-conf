@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.systemd.nixos =
+  flake.modules.nixos.systemd =
     {
       config,
       lib,

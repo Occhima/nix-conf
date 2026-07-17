@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.environment-fonts.nixos =
+  flake.modules.nixos.environment-fonts =
     { pkgs, ... }:
     {
       fonts = {

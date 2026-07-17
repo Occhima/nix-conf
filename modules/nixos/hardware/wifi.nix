@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.wifi.nixos =
+  flake.modules.nixos.wifi =
     {
       config,
       lib,

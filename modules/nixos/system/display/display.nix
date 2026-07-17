@@ -5,7 +5,7 @@
 # conflict.
 { ... }:
 {
-  occhima.display-base.nixos =
+  flake.modules.nixos.display-base =
     { lib, ... }:
     {
       options.modules.system.display.type = lib.mkOption {

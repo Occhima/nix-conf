@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.nix-your-shell.homeManager = (
+  flake.modules.homeManager.nix-your-shell = (
     {
       config,
       ...

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.nh.nixos =
+  flake.modules.nixos.nh =
     { config, ... }:
     {
       programs.nh = {

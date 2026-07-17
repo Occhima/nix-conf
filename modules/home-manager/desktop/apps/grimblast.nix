@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.grimblast.homeManager = (
+  flake.modules.homeManager.grimblast = (
     {
       config,
       pkgs,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.oom.nixos =
+  flake.modules.nixos.oom =
     {
       config,
       lib,

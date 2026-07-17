@@ -1,21 +1,21 @@
 # Host: steammachine — gaming desktop, AMD/NVIDIA, Ly, 2 monitors, Disko,
 # pentesting container, VPN.
-{ config, occhima, ... }:
+{ config, ... }:
 {
   den.hosts.x86_64-linux.steammachine.users.occhima = { };
 
   den.aspects.steammachine = {
-    includes = with occhima; [
-      gaming-workstation
-      cpu-amd
-      gpu-nvidia
-      login-ly
-      disko-steammachine
-      vpn-openvpn
-      pentesting-container
-    ];
-
     nixos = {
+      imports = with config.flake.modules.nixos; [
+        gaming-workstation
+        cpu-amd
+        gpu-nvidia
+        login-ly
+        disko-steammachine
+        vpn-openvpn
+        pentesting-container
+      ];
+
       modules.network.hostName = "steammachine";
 
       # agenix-rekey host identity lives next to the host, not in a registry.

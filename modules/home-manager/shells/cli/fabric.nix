@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.fabric.homeManager = (
+  flake.modules.homeManager.fabric = (
     {
       config,
       ...

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.clipboard.homeManager =
+  flake.modules.homeManager.clipboard =
     { config, lib, ... }:
     {
       config = {

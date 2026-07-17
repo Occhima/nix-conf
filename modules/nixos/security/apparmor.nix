@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.security-apparmor.nixos =
+  flake.modules.nixos.security-apparmor =
     {
       lib,
       pkgs,

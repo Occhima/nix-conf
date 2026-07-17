@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.security-auditd.nixos =
+  flake.modules.nixos.security-auditd =
     {
       lib,
       config,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.vpn-openvpn.nixos =
+  flake.modules.nixos.vpn-openvpn =
     {
       config,
       pkgs,

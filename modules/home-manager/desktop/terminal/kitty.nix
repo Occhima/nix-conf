@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.terminal-kitty.homeManager = {
+  flake.modules.homeManager.terminal-kitty = {
     config = {
       programs.kitty = {
         enable = true;

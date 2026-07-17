@@ -9,7 +9,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  occhima.themes-stylix.homeManager =
+  flake.modules.homeManager.themes-stylix =
     { lib, ... }:
     {
       options.modules.desktop.ui.themes = {

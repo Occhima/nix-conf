@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.headless.nixos =
+  flake.modules.nixos.headless =
     { lib, ... }:
     {
       # a headless system should not mount any removable media

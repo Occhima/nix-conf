@@ -6,7 +6,7 @@
     inputs.home-manager.follows = "home-manager";
   };
 
-  occhima.browser-zen-beta.homeManager = (
+  flake.modules.homeManager.browser-zen-beta = (
     # NOTE: another feature stolen from the isabelroses/dotfiles repo
     {
       pkgs,

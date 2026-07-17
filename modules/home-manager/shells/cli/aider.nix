@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.aider.homeManager = (
+  flake.modules.homeManager.aider = (
     {
       config,
       pkgs,

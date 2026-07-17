@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.home.homeManager = (
+  flake.modules.homeManager.home = (
     {
       config,
       lib,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.laptop.nixos = {
+  flake.modules.nixos.laptop = {
     services.upower = {
       enable = true;
       percentageLow = 15;

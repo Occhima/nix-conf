@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.cachix.homeManager = (
+  flake.modules.homeManager.cachix = (
     {
       config,
       lib,

@@ -1,7 +1,7 @@
 # Aggregate: the complete interactive shell environment.
-{ occhima, ... }:
+{ config, ... }:
 {
-  occhima.shell.includes = with occhima; [
+  flake.modules.homeManager.shell.imports = with config.flake.modules.homeManager; [
       shell-zsh
       prompt-starship
       cli-core

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.iso-space.nixos =
+  flake.modules.nixos.iso-space =
     { lib, ... }:
     let
       inherit (lib.modules) mkForce mkDefault;

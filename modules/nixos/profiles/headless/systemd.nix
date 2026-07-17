@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.headless.nixos = {
+  flake.modules.nixos.headless = {
     systemd = {
       enableEmergencyMode = false;
 

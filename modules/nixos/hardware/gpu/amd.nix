@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.gpu-amd.nixos =
+  flake.modules.nixos.gpu-amd =
     { pkgs, ... }:
     {
       # Enable AMD GPU Xorg drivers

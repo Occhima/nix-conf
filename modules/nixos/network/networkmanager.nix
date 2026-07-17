@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.networkmanager.nixos =
+  flake.modules.nixos.networkmanager =
     {
       config,
       lib,

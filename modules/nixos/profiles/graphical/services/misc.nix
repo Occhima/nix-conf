@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.graphical.nixos =
+  flake.modules.nixos.graphical =
     { lib, ... }:
     let
       inherit (lib.modules) mkDefault;

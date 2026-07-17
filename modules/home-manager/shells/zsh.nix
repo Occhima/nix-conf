@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.shell-zsh.homeManager = (
+  flake.modules.homeManager.shell-zsh = (
     {
       config,
       lib,

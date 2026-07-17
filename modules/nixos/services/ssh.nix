@@ -3,7 +3,7 @@
 # a user environment can never drag sshd onto a host.
 { ... }:
 {
-  occhima.sshd.nixos =
+  flake.modules.nixos.sshd =
     { lib, config, ... }:
 
     # Based on https://github.com/isabelroses/dotfiles/blob/566638959f71566a5837f68c5754534776174242/modules/nixos/networking/ssh.nix#L11

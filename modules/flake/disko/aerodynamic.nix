@@ -1,7 +1,7 @@
 # Disko layout for aerodynamic: standalone `diskoConfigurations.aerodynamic` output
 # (for `disko --flake .#aerodynamic`) and the `disko-aerodynamic` NixOS aspect the
 # host imports.
-{ occhima, ... }:
+{ config, ... }:
 let
   layout =
     {
@@ -43,8 +43,8 @@ in
 {
   flake.diskoConfigurations.aerodynamic = layout;
 
-  occhima.disko-aerodynamic = {
-    includes = [ occhima.disko-base ];
-    nixos.disko.devices = layout.devices;
+  flake.modules.nixos.disko-aerodynamic = {
+    imports = [ config.flake.modules.nixos.disko-base ];
+    disko.devices = layout.devices;
   };
 }

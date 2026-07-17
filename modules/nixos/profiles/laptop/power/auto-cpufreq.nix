@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.laptop.nixos =
+  flake.modules.nixos.laptop =
     { lib, ... }:
     let
       inherit (lib.modules) mkDefault;

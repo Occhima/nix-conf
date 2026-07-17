@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.direnv.homeManager = (
+  flake.modules.homeManager.direnv = (
     {
       config,
       ...

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.hyprland.homeManager =
+  flake.modules.homeManager.hyprland =
     {
       osConfig ? { },
       lib,

@@ -1,6 +1,6 @@
-{ occhima, ... }:
+{ config, ... }:
 {
-  occhima.cli-core.includes = with occhima; [
+  flake.modules.homeManager.cli-core.imports = with config.flake.modules.homeManager; [
       bat
       eza
       fzf

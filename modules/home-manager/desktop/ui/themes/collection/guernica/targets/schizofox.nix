@@ -3,7 +3,7 @@
 # exist when that browser is actually composed.
 { ... }:
 {
-  occhima.browser-firefox.homeManager =
+  flake.modules.homeManager.browser-firefox =
     {
       config,
       ...

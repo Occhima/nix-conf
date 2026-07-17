@@ -2,7 +2,7 @@
 # browser-zen-beta aspect (the sole importer of the zen-browser module).
 { ... }:
 {
-  occhima.browser-zen-beta.homeManager =
+  flake.modules.homeManager.browser-zen-beta =
     {
       config,
       ...

@@ -3,7 +3,7 @@
 }:
 
 {
-  occhima.monitors.nixos =
+  flake.modules.nixos.monitors =
     { lib, ... }:
     let
       inherit (lib) mkOption types literalExpression;

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.anyrun.homeManager =
+  flake.modules.homeManager.anyrun =
     {
       config,
       pkgs,

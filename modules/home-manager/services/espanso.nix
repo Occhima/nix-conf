@@ -3,7 +3,7 @@ let
   inherit (config.flake.lib.custom) isWayland;
 in
 {
-  occhima.espanso.homeManager = (
+  flake.modules.homeManager.espanso = (
     {
       config,
       osConfig ? { },

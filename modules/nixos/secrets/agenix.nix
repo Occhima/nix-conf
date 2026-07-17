@@ -31,7 +31,7 @@ in
     };
   };
 
-  occhima.agenix.nixos =
+  flake.modules.nixos.agenix =
     {
       config,
       lib,

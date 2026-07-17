@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.vm.nixos =
+  flake.modules.nixos.vm =
     {
       config,
       lib,

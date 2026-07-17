@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.cpu-intel.nixos = {
+  flake.modules.nixos.cpu-intel = {
     hardware.cpu.intel.updateMicrocode = true;
     hardware.enableRedistributableFirmware = true;
     # hardware.enableAllFirmware = true;

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.login-greetd.nixos =
+  flake.modules.nixos.login-greetd =
     {
       config,
       lib,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.ripgrep.homeManager = (
+  flake.modules.homeManager.ripgrep = (
     {
       config,
       ...

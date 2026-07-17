@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.email.homeManager = (
+  flake.modules.homeManager.email = (
     {
       config,
       ...

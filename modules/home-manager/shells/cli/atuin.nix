@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.atuin.homeManager = (
+  flake.modules.homeManager.atuin = (
     {
       config,
       ...

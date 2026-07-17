@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.media-video.nixos =
+  flake.modules.nixos.media-video =
     {
       lib,
       pkgs,

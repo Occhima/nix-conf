@@ -1,8 +1,8 @@
 # Aggregate: personal data management — XDG layout, persistence,
 # Dropbox (maestral) and mail accounts.
-{ occhima, ... }:
+{ config, ... }:
 {
-  occhima.data-core.includes = with occhima; [
+  flake.modules.homeManager.data-core.imports = with config.flake.modules.homeManager; [
       xdg
       persistence
       maestral

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.vscode.homeManager = (
+  flake.modules.homeManager.vscode = (
     {
       config,
       lib,

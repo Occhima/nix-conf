@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.hyprlock.homeManager = {
+  flake.modules.homeManager.hyprlock = {
     programs.hyprlock = {
       enable = true;
       settings.general = {

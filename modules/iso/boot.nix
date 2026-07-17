@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.iso-boot.nixos =
+  flake.modules.nixos.iso-boot =
     { lib, ... }:
     let
       inherit (lib.modules) mkForce mkAfter;

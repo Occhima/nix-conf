@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.boot-kernel.nixos =
+  flake.modules.nixos.boot-kernel =
     {
       lib,
       pkgs,

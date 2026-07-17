@@ -2,7 +2,7 @@
 # separate feature.
 { ... }:
 {
-  occhima.distrobox-host.nixos =
+  flake.modules.nixos.distrobox-host =
     {
       config,
       lib,

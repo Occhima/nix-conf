@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.media-sound-pipewire.nixos =
+  flake.modules.nixos.media-sound-pipewire =
     {
       lib,
       pkgs,

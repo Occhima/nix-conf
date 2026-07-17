@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.eza.homeManager = (
+  flake.modules.homeManager.eza = (
     {
       config,
       ...

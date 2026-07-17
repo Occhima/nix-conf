@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  occhima.nixgl.homeManager = (
+  flake.modules.homeManager.nixgl = (
     {
       config,
       ...

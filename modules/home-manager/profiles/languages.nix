@@ -1,7 +1,7 @@
 # Aggregate: development language toolchains in daily use.
-{ occhima, ... }:
+{ config, ... }:
 {
-  occhima.languages.includes = with occhima; [
+  flake.modules.homeManager.languages.imports = with config.flake.modules.homeManager; [
       python
       c
       julia

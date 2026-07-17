@@ -1,7 +1,7 @@
 # Evaluation-level contract tests: these force the public outputs far
 # enough to prove the dendritic composition actually merges — hosts,
 # standalone Home Manager, split Hyprland/Nixvim fragments, disko,
-# per-aspect exports. Eval-only: nothing is built.
+# per-feature module exports. Eval-only: nothing is built.
 { lib, self, ... }:
 let
   hosts = [
@@ -76,11 +76,11 @@ in
     expected = true;
   };
 
-  "the occhima aspect library is exported through den" = {
+  "feature modules are exported through flake.modules" = {
     expr =
-      self.denful ? occhima
-      && self.denful.occhima ? workstation
-      && self.denful.occhima ? gaming-workstation;
+      self.modules.nixos ? workstation
+      && self.modules.nixos ? gaming-workstation
+      && self.modules.homeManager ? home-base;
     expected = true;
   };
 

@@ -1,7 +1,7 @@
 # root — NixOS account aspect.
 { ... }:
 {
-  occhima.user-root.nixos = {
+  flake.modules.nixos.user-root = {
     users.users.root = {
       initialPassword = "changeme";
       openssh.authorizedKeys.keys = [

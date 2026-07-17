@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.bat.homeManager = (
+  flake.modules.homeManager.bat = (
     {
       config,
       ...

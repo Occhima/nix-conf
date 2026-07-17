@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.beancount.homeManager = (
+  flake.modules.homeManager.beancount = (
     {
       config,
       pkgs,

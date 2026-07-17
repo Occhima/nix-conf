@@ -3,7 +3,7 @@ let
   inherit (config.flake.lib.custom) isWayland;
 in
 {
-  occhima.display-portals.nixos =
+  flake.modules.nixos.display-portals =
     {
       lib,
       pkgs,

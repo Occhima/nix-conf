@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.firewall.nixos =
+  flake.modules.nixos.firewall =
     {
       lib,
       pkgs,

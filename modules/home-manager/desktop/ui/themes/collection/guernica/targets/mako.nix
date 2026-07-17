@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.themes-guernica.homeManager =
+  flake.modules.homeManager.themes-guernica =
     {
       config,
       ...

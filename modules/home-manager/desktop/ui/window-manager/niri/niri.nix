@@ -6,7 +6,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  occhima.niri.homeManager =
+  flake.modules.homeManager.niri =
     {
       pkgs,
       ...

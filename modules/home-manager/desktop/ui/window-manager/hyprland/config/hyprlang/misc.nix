@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.hyprland.homeManager = {
+  flake.modules.homeManager.hyprland = {
     wayland.windowManager.hyprland.settings.misc = {
       enable_swallow = true;
       mouse_move_enables_dpms = true;

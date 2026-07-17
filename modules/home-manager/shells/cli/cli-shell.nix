@@ -1,6 +1,6 @@
-{ occhima, ... }:
+{ config, ... }:
 {
-  occhima.cli-shell.includes = with occhima; [
+  flake.modules.homeManager.cli-shell.imports = with config.flake.modules.homeManager; [
       atuin
       zoxide
       direnv

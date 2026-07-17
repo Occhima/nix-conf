@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.zellij.homeManager = (
+  flake.modules.homeManager.zellij = (
     {
       config,
       ...

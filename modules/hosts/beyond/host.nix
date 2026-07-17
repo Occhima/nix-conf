@@ -1,19 +1,19 @@
 # Host: beyond — gaming desktop, AMD/NVIDIA, Ly, 2 monitors, Disko, VPN.
-{ config, occhima, ... }:
+{ config, ... }:
 {
   den.hosts.x86_64-linux.beyond.users.occhima = { };
 
   den.aspects.beyond = {
-    includes = with occhima; [
-      gaming-workstation
-      cpu-amd
-      gpu-nvidia
-      login-ly
-      disko-beyond
-      vpn-openvpn
-    ];
-
     nixos = {
+      imports = with config.flake.modules.nixos; [
+        gaming-workstation
+        cpu-amd
+        gpu-nvidia
+        login-ly
+        disko-beyond
+        vpn-openvpn
+      ];
+
       modules.network.hostName = "beyond";
 
       # agenix-rekey host identity lives next to the host, not in a registry.

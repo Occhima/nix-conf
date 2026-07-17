@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.xdg.homeManager = (
+  flake.modules.homeManager.xdg = (
     {
       config,
       lib,

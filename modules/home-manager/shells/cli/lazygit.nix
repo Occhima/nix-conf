@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.lazygit.homeManager = (
+  flake.modules.homeManager.lazygit = (
     {
       config,
       ...

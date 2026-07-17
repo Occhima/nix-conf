@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.python.homeManager = (
+  flake.modules.homeManager.python = (
     {
       config,
       ...

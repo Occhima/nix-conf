@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  occhima.iso-fixes.nixos =
+  flake.modules.nixos.iso-fixes =
     {
       # We don't want to alter the iso image itself so we prevent rebuilds
       system.switch.enable = false;

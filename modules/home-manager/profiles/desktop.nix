@@ -1,8 +1,8 @@
 # Aggregate: the full graphical desktop — browser, terminal, Hyprland
 # with its UI pieces, the Guernica theme and the desktop applications.
-{ occhima, ... }:
+{ config, ... }:
 {
-  occhima.desktop.includes = with occhima; [
+  flake.modules.homeManager.desktop.imports = with config.flake.modules.homeManager; [
       browser-zen-beta
       terminal-kitty
       hyprland

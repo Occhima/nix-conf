@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.boot-plymouth.nixos =
+  flake.modules.nixos.boot-plymouth =
     {
       lib,
       pkgs,

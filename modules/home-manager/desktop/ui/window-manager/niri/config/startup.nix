@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.niri.homeManager = {
+  flake.modules.homeManager.niri = {
     programs.niri.settings = {
       spawn-at-startup = [
         {

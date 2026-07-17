@@ -1,6 +1,6 @@
 { config, ... }:
 {
-  occhima.nixpkgs-config.nixos = {
+  flake.modules.nixos.nixpkgs-config = {
     # system specific overrides,
     nixpkgs.config = {
       allowUnfree = true;

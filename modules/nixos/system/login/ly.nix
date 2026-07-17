@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.login-ly.nixos =
+  flake.modules.nixos.login-ly =
     {
       config,
       ...

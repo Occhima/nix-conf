@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.rofi.homeManager =
+  flake.modules.homeManager.rofi =
     { pkgs, ... }:
     {
       home.packages = [

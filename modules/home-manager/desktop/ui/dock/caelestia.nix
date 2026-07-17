@@ -5,7 +5,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  occhima.caelestia-dock.homeManager =
+  flake.modules.homeManager.caelestia-dock =
     {
       pkgs,
       ...

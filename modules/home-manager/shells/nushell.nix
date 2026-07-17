@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.shell-nushell.homeManager = (
+  flake.modules.homeManager.shell-nushell = (
     {
       config,
       pkgs,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.sops.nixos = # TODO...
+  flake.modules.nixos.sops = # TODO...
     {
     };
 }

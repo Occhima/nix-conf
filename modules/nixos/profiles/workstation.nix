@@ -2,9 +2,9 @@
 # (aerodynamic, beyond, steammachine). Host aspects include this and add
 # only what identifies the machine: CPU/GPU, login manager, disko layout
 # and machine-specific services. gaming-workstation builds on top.
-{ occhima, ... }:
+{ config, ... }:
 {
-  occhima.workstation.includes = with occhima; [
+  flake.modules.nixos.workstation.imports = with config.flake.modules.nixos; [
       system-base
       accounts
       user-occhima

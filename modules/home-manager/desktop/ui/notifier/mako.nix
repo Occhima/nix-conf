@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.mako-notifier.homeManager =
+  flake.modules.homeManager.mako-notifier =
     {
       config,
       lib,

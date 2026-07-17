@@ -1,4 +1,4 @@
 { ... }:
 {
-  occhima.hyprland.homeManager = { };
+  flake.modules.homeManager.hyprland = { };
 }

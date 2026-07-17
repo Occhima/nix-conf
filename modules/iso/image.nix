@@ -1,6 +1,6 @@
 { inputs, self, ... }:
 {
-  occhima.iso-image.nixos =
+  flake.modules.nixos.iso-image =
     {
       lib,
       pkgs,

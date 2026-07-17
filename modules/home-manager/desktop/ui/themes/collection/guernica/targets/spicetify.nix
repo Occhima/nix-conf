@@ -2,7 +2,7 @@
 # sole importer of the spicetify module).
 { inputs, ... }:
 {
-  occhima.spotify.homeManager =
+  flake.modules.homeManager.spotify =
     {
       pkgs,
       ...

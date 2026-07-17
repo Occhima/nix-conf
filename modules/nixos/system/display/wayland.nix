@@ -1,8 +1,9 @@
-{ occhima, ... }:
+{ config, ... }:
+let
+  displayBase = config.flake.modules.nixos.display-base;
+in
 {
-  occhima.display-wayland.includes = [ occhima.display-base ];
-
-  occhima.display-wayland.nixos =
+  flake.modules.nixos.display-wayland =
     {
       lib,
       pkgs,
@@ -18,6 +19,8 @@
 
     in
     {
+      imports = [ displayBase ];
+
       options.modules.system.display.enableHyprlandEssentials =
         mkEnableOption "Enables hyprland nixosModules";
 

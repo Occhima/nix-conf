@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.emacs.homeManager = (
+  flake.modules.homeManager.emacs = (
     {
       config,
       lib,

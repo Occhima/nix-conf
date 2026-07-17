@@ -5,7 +5,7 @@ in
 {
   # Contributed to the caelestia-dock aspect (not themes-guernica) so the
   # settings only exist when the caelestia module is actually imported.
-  occhima.caelestia-dock.homeManager =
+  flake.modules.homeManager.caelestia-dock =
     {
       config,
       ...

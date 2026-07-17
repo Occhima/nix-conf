@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.science.homeManager = (
+  flake.modules.homeManager.science = (
     {
       config,
       pkgs,

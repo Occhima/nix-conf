@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.claude-code.homeManager = (
+  flake.modules.homeManager.claude-code = (
     {
       config,
       ...

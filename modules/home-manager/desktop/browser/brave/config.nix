@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.browser-brave.homeManager = (
+  flake.modules.homeManager.browser-brave = (
     {
       pkgs,
       config,

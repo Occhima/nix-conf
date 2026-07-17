@@ -4,7 +4,7 @@
 # exists when niri is actually composed.
 { inputs, ... }:
 {
-  occhima.niri.homeManager =
+  flake.modules.homeManager.niri =
     {
       ...
     }:

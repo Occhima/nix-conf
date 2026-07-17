@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.appimage.nixos =
+  flake.modules.nixos.appimage =
     {
       config,
       ...

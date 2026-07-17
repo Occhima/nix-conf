@@ -1,7 +1,7 @@
 # Aggregate: editors in daily use.
-{ occhima, ... }:
+{ config, ... }:
 {
-  occhima.editors.includes = with occhima; [
+  flake.modules.homeManager.editors.imports = with config.flake.modules.homeManager; [
       neovim
       emacs
     ];

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.boot-none.nixos =
+  flake.modules.nixos.boot-none =
     { lib, config, ... }:
     let
       inherit (lib.modules) mkForce;

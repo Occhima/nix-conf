@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.haskell.homeManager = (
+  flake.modules.homeManager.haskell = (
     {
       config,
       pkgs,

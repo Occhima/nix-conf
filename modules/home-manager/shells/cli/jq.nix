@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.jq.homeManager = (
+  flake.modules.homeManager.jq = (
     {
       config,
       pkgs,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.cpu-amd.nixos = {
+  flake.modules.nixos.cpu-amd = {
     hardware.cpu.amd.updateMicrocode = true;
     hardware.enableRedistributableFirmware = true;
     boot = {

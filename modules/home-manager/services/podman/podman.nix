@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.podman.homeManager = (
+  flake.modules.homeManager.podman = (
     {
       config,
       ...

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.auto-update.nixos = {
+  flake.modules.nixos.auto-update = {
     system.autoUpgrade = {
       enable = false;
       dates = "*-*-* 03:00:00";

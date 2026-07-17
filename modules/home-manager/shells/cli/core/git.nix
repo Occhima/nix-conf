@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.git.homeManager = (
+  flake.modules.homeManager.git = (
     {
       pkgs,
       config,

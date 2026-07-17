@@ -5,7 +5,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  occhima.microvm-config.nixos =
+  flake.modules.nixos.microvm-config =
     {
       config,
       ...

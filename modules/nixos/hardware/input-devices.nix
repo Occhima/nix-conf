@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.input-devices.nixos =
+  flake.modules.nixos.input-devices =
     { lib, config, ... }:
     let
       inherit (lib) mkOption mkIf types;

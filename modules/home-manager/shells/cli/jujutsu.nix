@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.jujutsu.homeManager = (
+  flake.modules.homeManager.jujutsu = (
     { config, ... }:
     {
       config = {

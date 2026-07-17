@@ -1,4 +1,4 @@
 { ... }:
 {
-  occhima.iso.nixos = { };
+  flake.modules.nixos.iso = { };
 }

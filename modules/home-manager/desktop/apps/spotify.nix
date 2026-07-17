@@ -5,7 +5,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  occhima.spotify.homeManager = (
+  flake.modules.homeManager.spotify = (
     {
       config,
       pkgs,

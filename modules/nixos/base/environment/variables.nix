@@ -1,4 +1,4 @@
 { ... }:
 {
-  occhima.environment-variables.nixos = { };
+  flake.modules.nixos.environment-variables = { };
 }

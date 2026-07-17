@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.navi.homeManager = (
+  flake.modules.homeManager.navi = (
     {
       config,
       ...

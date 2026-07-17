@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.opencode.homeManager = (
+  flake.modules.homeManager.opencode = (
     {
       config,
       ...

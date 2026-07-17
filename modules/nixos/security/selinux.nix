@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.security-selinux.nixos =
+  flake.modules.nixos.security-selinux =
     {
       lib,
       pkgs,

@@ -1,7 +1,7 @@
 # stolen from: https://github.com/isabelroses/dotfiles/blob/main/modules/base/nix/nix.nix
 { ... }:
 {
-  occhima.nix.nixos =
+  flake.modules.nixos.nix =
     {
       pkgs,
       lib,

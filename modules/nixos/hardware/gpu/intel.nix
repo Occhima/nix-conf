@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.gpu-intel.nixos =
+  flake.modules.nixos.gpu-intel =
     {
       config,
       lib,

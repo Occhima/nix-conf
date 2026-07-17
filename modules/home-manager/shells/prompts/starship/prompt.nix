@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.prompt-starship.homeManager = (
+  flake.modules.homeManager.prompt-starship = (
     {
       config,
       lib,

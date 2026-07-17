@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.security-auth.nixos =
+  flake.modules.nixos.security-auth =
     {
       lib,
       config,

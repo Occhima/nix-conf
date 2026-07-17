@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.maestral.homeManager = (
+  flake.modules.homeManager.maestral = (
     {
       config,
       lib,

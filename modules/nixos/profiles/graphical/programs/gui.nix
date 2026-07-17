@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.graphical.nixos = {
+  flake.modules.nixos.graphical = {
     programs = {
       # we need dconf to interact with gtk
       dconf.enable = true;

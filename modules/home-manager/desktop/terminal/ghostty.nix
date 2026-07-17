@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.terminal-ghostty.homeManager = {
+  flake.modules.homeManager.terminal-ghostty = {
     config = {
       programs.ghostty.enable = true;
       home.sessionVariables.TERMINAL = "ghostty";

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.gpu-nvidia.nixos =
+  flake.modules.nixos.gpu-nvidia =
     {
       config,
       lib,

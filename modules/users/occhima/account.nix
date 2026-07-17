@@ -5,7 +5,7 @@ let
   inherit (config.flake.lib.custom) ifTheyExist;
 in
 {
-  occhima.user-occhima.nixos =
+  flake.modules.nixos.user-occhima =
     { config, lib, pkgs, ... }:
     {
       modules.accounts.mainUser = lib.mkDefault "occhima";

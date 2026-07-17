@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.blocker.nixos =
+  flake.modules.nixos.blocker =
     {
       config,
       ...

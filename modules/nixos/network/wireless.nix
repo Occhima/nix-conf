@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.wireless.nixos =
+  flake.modules.nixos.wireless =
     {
       lib,
       config,

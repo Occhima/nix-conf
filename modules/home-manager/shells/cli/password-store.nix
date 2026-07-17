@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.password-store.homeManager = (
+  flake.modules.homeManager.password-store = (
     {
       config,
       pkgs,

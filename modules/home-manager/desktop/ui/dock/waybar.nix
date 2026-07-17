@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.waybar-dock.homeManager =
+  flake.modules.homeManager.waybar-dock =
     { pkgs, ... }:
     {
       home.packages = [ pkgs.pavucontrol ];

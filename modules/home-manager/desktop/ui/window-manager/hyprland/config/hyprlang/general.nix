@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.hyprland.homeManager = {
+  flake.modules.homeManager.hyprland = {
     wayland.windowManager.hyprland.settings.general = {
       # gaps_in = 10;
       # gaps_out = 30;

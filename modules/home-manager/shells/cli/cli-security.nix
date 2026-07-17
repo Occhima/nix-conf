@@ -1,6 +1,6 @@
-{ occhima, ... }:
+{ config, ... }:
 {
-  occhima.cli-security.includes = with occhima; [
+  flake.modules.homeManager.cli-security.imports = with config.flake.modules.homeManager; [
       ssh
       gpg
     ];

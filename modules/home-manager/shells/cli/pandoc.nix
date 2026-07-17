@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.pandoc.homeManager = (
+  flake.modules.homeManager.pandoc = (
     {
       config,
       ...

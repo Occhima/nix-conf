@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.laptop.nixos = {
+  flake.modules.nixos.laptop = {
     # Input settings for libinput
     services.libinput = {
       enable = true;

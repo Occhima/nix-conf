@@ -5,7 +5,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  occhima.boot-secure-boot.nixos =
+  flake.modules.nixos.boot-secure-boot =
     {
       lib,
       pkgs,

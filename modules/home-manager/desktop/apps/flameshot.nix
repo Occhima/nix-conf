@@ -3,7 +3,7 @@ let
   inherit (config.flake.lib.custom) isWayland;
 in
 {
-  occhima.flameshot.homeManager = (
+  flake.modules.homeManager.flameshot = (
     {
       config,
       osConfig ? { },

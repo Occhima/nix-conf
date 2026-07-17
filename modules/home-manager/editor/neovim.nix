@@ -3,7 +3,7 @@ let
   flakePkgs = config.flake.packages;
 in
 {
-  occhima.neovim.homeManager = (
+  flake.modules.homeManager.neovim = (
     {
       config,
       lib,

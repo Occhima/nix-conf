@@ -1,6 +1,6 @@
-{ occhima, ... }:
+{ config, ... }:
 {
-  occhima.cli-git.includes = with occhima; [
+  flake.modules.homeManager.cli-git.imports = with config.flake.modules.homeManager; [
       gh
       lazygit
       jujutsu

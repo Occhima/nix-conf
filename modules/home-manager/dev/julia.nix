@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.julia.homeManager = (
+  flake.modules.homeManager.julia = (
     {
       config,
       pkgs,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.qemu.nixos =
+  flake.modules.nixos.qemu =
     {
       config,
       pkgs,

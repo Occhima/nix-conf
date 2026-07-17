@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.fastfetch.homeManager = (
+  flake.modules.homeManager.fastfetch = (
     {
       config,
       ...

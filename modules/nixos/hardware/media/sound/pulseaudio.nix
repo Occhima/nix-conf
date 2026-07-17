@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.media-sound-pulseaudio.nixos =
+  flake.modules.nixos.media-sound-pulseaudio =
     { pkgs, ... }:
     {
       # Enable PulseAudio

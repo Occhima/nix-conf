@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.network.nixos =
+  flake.modules.nixos.network =
     {
       lib,
       config,

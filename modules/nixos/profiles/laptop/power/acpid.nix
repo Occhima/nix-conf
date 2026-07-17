@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.laptop.nixos =
+  flake.modules.nixos.laptop =
     { pkgs, config, ... }:
     {
       hardware.acpilight.enable = false;

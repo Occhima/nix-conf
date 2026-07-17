@@ -5,7 +5,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  occhima.wsl.nixos =
+  flake.modules.nixos.wsl =
     {
       lib,
       pkgs,

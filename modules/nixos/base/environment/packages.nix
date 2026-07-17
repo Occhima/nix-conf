@@ -3,7 +3,7 @@ let
   flakePkgs = config.flake.packages;
 in
 {
-  occhima.environment-packages.nixos =
+  flake.modules.nixos.environment-packages =
     { pkgs, ... }:
     let
       inherit (flakePkgs.${pkgs.stdenv.hostPlatform.system}) install-tools;

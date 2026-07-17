@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.hyprland.homeManager = {
+  flake.modules.homeManager.hyprland = {
     wayland.windowManager.hyprland = {
       enable = true;
       xwayland.enable = true;

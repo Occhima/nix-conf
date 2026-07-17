@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.environment-locale.nixos =
+  flake.modules.nixos.environment-locale =
     { lib, ... }:
     {
       time = {

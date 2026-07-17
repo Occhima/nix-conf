@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.security-clamav.nixos =
+  flake.modules.nixos.security-clamav =
     {
       lib,
       pkgs,

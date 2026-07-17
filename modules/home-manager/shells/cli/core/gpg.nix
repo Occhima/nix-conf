@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.gpg.homeManager = (
+  flake.modules.homeManager.gpg = (
     {
       lib,
       pkgs,

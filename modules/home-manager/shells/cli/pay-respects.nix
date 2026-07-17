@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.pay-respects.homeManager = (
+  flake.modules.homeManager.pay-respects = (
     {
       config,
       ...

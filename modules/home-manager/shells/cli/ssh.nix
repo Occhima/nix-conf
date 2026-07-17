@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.ssh.homeManager = (
+  flake.modules.homeManager.ssh = (
     {
       config,
       ...

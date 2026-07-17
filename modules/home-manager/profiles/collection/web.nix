@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.web.homeManager = (
+  flake.modules.homeManager.web = (
     {
       config,
       pkgs,

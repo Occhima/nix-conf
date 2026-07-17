@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.distrobox.homeManager = (
+  flake.modules.homeManager.distrobox = (
     {
       config,
       pkgs,

@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.yubikey.nixos =
+  flake.modules.nixos.yubikey =
     { lib, pkgs, ... }:
     let
       inherit (lib.modules) mkDefault;

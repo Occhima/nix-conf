@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.iso-nix.nixos =
+  flake.modules.nixos.iso-nix =
     { config, ... }:
     {
       nix = {

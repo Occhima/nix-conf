@@ -1,9 +1,9 @@
 # Account policy + Home Manager plumbing for NixOS hosts.
-# Accounts are aspects (occhima.user-*); Den attaches each declared host
+# Accounts are feature modules (flake.modules.nixos.user-*); Den attaches each declared host
 # user's Home Manager environment. There is no enabled-users list.
 { inputs, ... }:
 {
-  occhima.accounts.nixos =
+  flake.modules.nixos.accounts =
     { lib, ... }:
     {
       imports = [

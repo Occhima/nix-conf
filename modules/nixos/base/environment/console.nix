@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.environment-console.nixos =
+  flake.modules.nixos.environment-console =
     { lib, pkgs, ... }:
     {
       console = {

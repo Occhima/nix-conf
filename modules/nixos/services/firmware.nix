@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.firmware.nixos =
+  flake.modules.nixos.firmware =
     {
       config,
       ...

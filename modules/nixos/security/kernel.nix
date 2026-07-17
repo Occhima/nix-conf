@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.security-kernel.nixos =
+  flake.modules.nixos.security-kernel =
     {
       lib,
       config,

@@ -5,7 +5,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  occhima.browser-firefox.homeManager = (
+  flake.modules.homeManager.browser-firefox = (
     {
       config,
       ...

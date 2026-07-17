@@ -13,7 +13,7 @@ in
 
   imports = [ inputs.disko.flakeModule ];
 
-  occhima.disko-base.nixos =
+  flake.modules.nixos.disko-base =
     { lib, ... }:
     {
       imports = [ inputs.disko.nixosModules.disko ];

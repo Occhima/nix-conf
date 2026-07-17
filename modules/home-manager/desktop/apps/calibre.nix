@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.calibre.homeManager = (
+  flake.modules.homeManager.calibre = (
     {
       config,
       pkgs,

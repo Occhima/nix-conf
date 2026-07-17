@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.hyprland.homeManager =
+  flake.modules.homeManager.hyprland =
     { config, ... }:
     let
       desktopCfg = config.modules.desktop;

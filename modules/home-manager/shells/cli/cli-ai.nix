@@ -1,6 +1,6 @@
-{ occhima, ... }:
+{ config, ... }:
 {
-  occhima.cli-ai.includes = with occhima; [
+  flake.modules.homeManager.cli-ai.imports = with config.flake.modules.homeManager; [
       claude-code
       opencode
       aider

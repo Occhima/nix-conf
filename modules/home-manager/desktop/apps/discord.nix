@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.discord.homeManager = (
+  flake.modules.homeManager.discord = (
     {
       config,
       ...

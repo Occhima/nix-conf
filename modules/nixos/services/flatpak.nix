@@ -3,7 +3,7 @@
 # the user's apps and is deliberately a separate feature.
 { ... }:
 {
-  occhima.flatpak-daemon.nixos = {
+  flake.modules.nixos.flatpak-daemon = {
     config = {
       services.flatpak.enable = true;
     };

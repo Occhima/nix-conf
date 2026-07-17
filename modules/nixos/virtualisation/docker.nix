@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.docker.nixos =
+  flake.modules.nixos.docker =
     {
       config,
       lib,

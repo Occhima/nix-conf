@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.quickshell-dock.homeManager =
+  flake.modules.homeManager.quickshell-dock =
     {
       config,
       pkgs,

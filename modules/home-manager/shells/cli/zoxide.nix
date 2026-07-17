@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.zoxide.homeManager = (
+  flake.modules.homeManager.zoxide = (
     {
       config,
       ...

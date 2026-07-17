@@ -2,7 +2,7 @@
 # (user containers) is deliberately a separate feature.
 { ... }:
 {
-  occhima.podman-host.nixos =
+  flake.modules.nixos.podman-host =
     {
       config,
       lib,

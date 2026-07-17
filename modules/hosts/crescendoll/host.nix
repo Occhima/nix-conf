@@ -1,19 +1,19 @@
 # Host: crescendoll — WSL.
-{ occhima, ... }:
+{ config, ... }:
 {
   den.hosts.x86_64-linux.crescendoll.users.occhima = { };
 
   den.aspects.crescendoll = {
-    includes = with occhima; [
-      system-base
-      accounts
-      user-occhima
-      network
-      security-auth
-      wsl
-    ];
-
     nixos = {
+      imports = with config.flake.modules.nixos; [
+        system-base
+        accounts
+        user-occhima
+        network
+        security-auth
+        wsl
+      ];
+
       modules.network.hostName = "crescendoll";
     };
   };

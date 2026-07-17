@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.boot-grub.nixos =
+  flake.modules.nixos.boot-grub =
     {
       lib,
       config,

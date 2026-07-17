@@ -1,6 +1,6 @@
 { ... }:
 {
-  occhima.niri.homeManager =
+  flake.modules.homeManager.niri =
     {
       config,
       lib,
