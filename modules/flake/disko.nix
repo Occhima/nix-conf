@@ -1,6 +1,6 @@
-# Disko integration: brings in the flake-parts module that declares the
-# mergeable `flake.diskoConfigurations` output, plus the shared NixOS
-# aspect every per-host disko aspect builds on.
+# Disko flake plumbing: the flake-parts module declaring the mergeable
+# `flake.diskoConfigurations` output, plus the shared disko-base aspect
+# every per-host layout (modules/disko/) builds on.
 { config, inputs, ... }:
 let
   face2face = config.flake.diskoConfigurations.face2face;
