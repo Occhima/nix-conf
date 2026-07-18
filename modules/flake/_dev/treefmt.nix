@@ -23,7 +23,7 @@
           # Nix
           nixfmt = {
             enable = true;
-            package = pkgs.nixfmt-rfc-style;
+            package = pkgs.nixfmt-classic;
           };
 
           alejandra = {

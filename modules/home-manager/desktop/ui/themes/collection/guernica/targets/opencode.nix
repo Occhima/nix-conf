@@ -54,7 +54,7 @@
       };
     in
     {
-      programs.opencode = {
+      programs.opencode.tui = {
         themes.guernica = guernicaTheme;
         settings.theme = "guernica";
       };
