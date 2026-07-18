@@ -31,10 +31,20 @@ in
 
       programs.waybar = themeLib.forVariant config {
         default = mkWaybarDefault {
-          inherit lib config uiCfg waybarModules;
+          inherit
+            lib
+            config
+            uiCfg
+            waybarModules
+            ;
         };
         compact = mkWaybarCompact {
-          inherit lib config uiCfg waybarModules;
+          inherit
+            lib
+            config
+            uiCfg
+            waybarModules
+            ;
         };
       };
     };

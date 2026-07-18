@@ -4,14 +4,14 @@
 { config, ... }:
 {
   flake.modules.nixos.system-base.imports = with config.flake.modules.nixos; [
-      nix
-      nixpkgs-config
-      nh
-      system-config
-      environment-console
-      environment-fonts
-      environment-locale
-      environment-packages
-      environment-variables
-    ];
+    nix
+    nixpkgs-config
+    nh
+    system-config
+    environment-console
+    environment-fonts
+    environment-locale
+    environment-packages
+    environment-variables
+  ];
 }

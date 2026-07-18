@@ -162,7 +162,7 @@ let inherit (config.flake.lib.custom) isWayland; in …
 - **Add a host**: `modules/hosts/<name>/host.nix` with the
   `den.hosts.<system>.<name>` entry and a `den.aspects.<name>` whose
   nixos side imports identity + a short aggregate list (plus `host.pub`
-  + a `perSystem.agenix-rekey` registration if it uses secrets).
+  - a `perSystem.agenix-rekey` registration if it uses secrets).
 - **Add a user**: `modules/users/<name>/` following the occhima files
   (Den user aspect + plain account module + optional den.homes entry).
 - **Add a package**: expression in `modules/packages/_<name>/package.nix`
@@ -180,13 +180,13 @@ prefix is reserved for non-module data files referenced lexically (e.g.
 
 ## Hosts
 
-| Host | Role |
-| --- | --- |
-| `aerodynamic` | laptop — Intel CPU, NVIDIA GPU, Greetd, disko + impermanence |
-| `beyond` | desktop — AMD CPU, NVIDIA GPU, Ly, Steam, disko + impermanence |
+| Host           | Role                                                           |
+| -------------- | -------------------------------------------------------------- |
+| `aerodynamic`  | laptop — Intel CPU, NVIDIA GPU, Greetd, disko + impermanence   |
+| `beyond`       | desktop — AMD CPU, NVIDIA GPU, Ly, Steam, disko + impermanence |
 | `steammachine` | desktop — AMD CPU, NVIDIA GPU, Ly, Steam, pentesting container |
-| `crescendoll` | WSL |
-| `voyager` | installer ISO |
+| `crescendoll`  | WSL                                                            |
+| `voyager`      | installer ISO                                                  |
 
 ## Development
 

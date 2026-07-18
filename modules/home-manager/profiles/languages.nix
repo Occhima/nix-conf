@@ -2,8 +2,8 @@
 { config, ... }:
 {
   flake.modules.homeManager.languages.imports = with config.flake.modules.homeManager; [
-      python
-      c
-      julia
-    ];
+    python
+    c
+    julia
+  ];
 }

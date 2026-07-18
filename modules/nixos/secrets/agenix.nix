@@ -48,16 +48,13 @@ in
 
       cfg = config.modules.secrets.agenix;
       persist = config.environment.persistence ? "/persist";
-      ageSecrets = lib.mapAttrs'
-        (name: _: {
-          name = lib.removeSuffix ".age" name;
-          value = {
-            rekeyFile = secretsDir + "/${name}";
-            owner = "occhima";
-          };
-        })
-        (lib.filterAttrs (name: _: lib.hasSuffix ".age" name)
-          (builtins.readDir secretsDir));
+      ageSecrets = lib.mapAttrs' (name: _: {
+        name = lib.removeSuffix ".age" name;
+        value = {
+          rekeyFile = secretsDir + "/${name}";
+          owner = "occhima";
+        };
+      }) (lib.filterAttrs (name: _: lib.hasSuffix ".age" name) (builtins.readDir secretsDir));
 
     in
     {

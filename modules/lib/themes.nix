@@ -7,7 +7,6 @@
 
     # Pick a value per variant, falling back to `default`.
     forVariant =
-      config: variants:
-      variants.${config.modules.desktop.ui.themes.variant} or variants.default;
+      config: variants: variants.${config.modules.desktop.ui.themes.variant} or variants.default;
   };
 }

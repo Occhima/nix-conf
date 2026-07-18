@@ -22,12 +22,19 @@ in
   };
 
   "ifTheyExist keeps only existing groups" = {
-    expr = ifTheyExist {
-      users.groups = {
-        wheel = { };
-        audio = { };
-      };
-    } [ "wheel" "docker" "audio" ];
+    expr =
+      ifTheyExist
+        {
+          users.groups = {
+            wheel = { };
+            audio = { };
+          };
+        }
+        [
+          "wheel"
+          "docker"
+          "audio"
+        ];
     expected = [
       "wheel"
       "audio"

@@ -4,6 +4,6 @@
 { config, ... }:
 {
   flake.modules.homeManager.home-base.imports = with config.flake.modules.homeManager; [
-      home
-    ];
+    home
+  ];
 }

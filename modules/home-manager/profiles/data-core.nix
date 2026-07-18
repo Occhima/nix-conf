@@ -3,9 +3,9 @@
 { config, ... }:
 {
   flake.modules.homeManager.data-core.imports = with config.flake.modules.homeManager; [
-      xdg
-      persistence
-      maestral
-      email
-    ];
+    xdg
+    persistence
+    maestral
+    email
+  ];
 }

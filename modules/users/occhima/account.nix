@@ -6,7 +6,12 @@ let
 in
 {
   flake.modules.nixos.user-occhima =
-    { config, lib, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     {
       modules.accounts.mainUser = lib.mkDefault "occhima";
 

@@ -154,7 +154,6 @@ attribute sets registered in `modules/flake/_dev/tests/unit/default.nix`:
 }
 ```
 
-
 ## Formatting and Linting
 
 ### Code Formatting

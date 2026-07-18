@@ -4,7 +4,12 @@
 #   flake.deploy.nodes.<host> = { hostname = ...; profiles.system = ...; };
 #
 # All hosts are currently non-deployable, so `nodes` is empty.
-{ config, lib, inputs, ... }:
+{
+  config,
+  lib,
+  inputs,
+  ...
+}:
 {
   flake-file.inputs.deploy-rs = {
     url = "github:serokell/deploy-rs";
@@ -17,6 +22,8 @@
       magicRollback = true;
       nodes = { };
     };
-    checks = lib.mapAttrs (_: deployLib: deployLib.deployChecks config.flake.deploy) inputs.deploy-rs.lib;
+    checks = lib.mapAttrs (
+      _: deployLib: deployLib.deployChecks config.flake.deploy
+    ) inputs.deploy-rs.lib;
   };
 }

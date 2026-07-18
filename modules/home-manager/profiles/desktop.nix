@@ -3,18 +3,18 @@
 { config, ... }:
 {
   flake.modules.homeManager.desktop.imports = with config.flake.modules.homeManager; [
-      browser-zen-beta
-      terminal-kitty
-      hyprland
-      quickshell-dock
-      anyrun
-      hyprlock
-      themes-guernica
-      flatpak
-      spotify
-      discord
-      grimblast
-      wlogout
-      calibre
-    ];
+    browser-zen-beta
+    terminal-kitty
+    hyprland
+    quickshell-dock
+    anyrun
+    hyprlock
+    themes-guernica
+    flatpak
+    spotify
+    discord
+    grimblast
+    wlogout
+    calibre
+  ];
 }

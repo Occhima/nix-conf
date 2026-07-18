@@ -410,6 +410,5 @@
           color: @subtle-accent;
         }
       '';
-    }
-;
+    };
 }

@@ -15,7 +15,9 @@ let
 in
 {
   "every host evaluates to a system derivation" = {
-    expr = lib.all (h: isDrvPath self.nixosConfigurations.${h}.config.system.build.toplevel.drvPath) hosts;
+    expr = lib.all (
+      h: isDrvPath self.nixosConfigurations.${h}.config.system.build.toplevel.drvPath
+    ) hosts;
     expected = true;
   };
 

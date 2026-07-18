@@ -2,7 +2,7 @@
 { config, ... }:
 {
   flake.modules.homeManager.editors.imports = with config.flake.modules.homeManager; [
-      neovim
-      emacs
-    ];
+    neovim
+    emacs
+  ];
 }
