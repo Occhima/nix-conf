@@ -2,7 +2,6 @@
 {
   flake.modules.nixos.oom =
     {
-      config,
       lib,
       pkgs,
       ...
@@ -10,11 +9,9 @@
     let
       inherit (lib)
         concatStringsSep
-        mkIf
         mkDefault
         ;
 
-      cfg = config.modules.services.oom;
       # another idea stolen from https://github.com/isabelroses/dotfiles/blob/60b78b2eff0eb86b0c8306b12927e419055d48b3/modules/nixos/system/earlyoom.nix#L53
       avoid = concatStringsSep "|" [
         "(h|H)yprland"

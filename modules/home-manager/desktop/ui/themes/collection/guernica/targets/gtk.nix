@@ -1,10 +1,7 @@
 { ... }:
 {
   flake.modules.homeManager.themes-guernica =
-    {
-      config,
-      ...
-    }:
+    { ... }:
     {
       stylix.targets.gtk = {
         enable = true;

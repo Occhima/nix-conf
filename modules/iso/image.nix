@@ -1,4 +1,4 @@
-{ inputs, self, ... }:
+{ self, ... }:
 {
   flake.modules.nixos.iso-image =
     {
