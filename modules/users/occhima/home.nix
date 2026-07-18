@@ -18,7 +18,7 @@ in
       imports = [
         hm.home-base
         hm.shell
-        hm.data-core
+        hm.personal-data
         hm.editors
         hm.languages
         hm.desktop

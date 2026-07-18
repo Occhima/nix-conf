@@ -19,7 +19,7 @@ Every file under `modules/home-manager/` contributes to
 | Themes         | `themes-stylix`, `themes-guernica` (targets merge from `targets/`)                                                                                   |
 | Apps           | `flatpak`, `spotify`, `discord`, `calibre`, `grimblast`, `flameshot`, `lutris`                                                                       |
 | Services       | `espanso`, `podman`, `maestral`, `cachix`, `clipboard`                                                                                               |
-| Aggregates     | `shell`, `desktop`, `editors`, `languages`, `data-core`                                                                                              |
+| Aggregates     | `shell`, `desktop`, `editors`, `languages`, `personal-data`                                                                                          |
 | Topic profiles | `web`, `data`, `ai`, `dev`, `science`, `finance`, `pentesting`                                                                                       |
 
 ## Standalone vs integrated

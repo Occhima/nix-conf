@@ -5,7 +5,7 @@ let
   hm = config.flake.modules.homeManager;
 in
 {
-  flake.modules.homeManager.data-core.imports = [
+  flake.modules.homeManager.personal-data.imports = [
     hm.xdg
     hm.persistence
     hm.maestral

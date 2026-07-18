@@ -45,7 +45,7 @@ modules/         # THE root configuration tree — every file is a flake-parts m
 ├── nixos/       #   NixOS feature modules (base, hardware, network, security, …)
 │   └── secrets/ #   agenix feature (flake glue + module) with its assets colocated
 ├── home-manager/#   Home Manager feature modules (shells, desktop, editors, …)
-│   └── profiles/#   aggregates: shell, desktop, editors, languages, data-core, topic profiles
+│   └── profiles/#   aggregates: shell, desktop, editors, languages, personal-data, topic profiles
 ├── iso/         #   installer image modules
 ├── overlays/    #   one overlay contribution per file
 ├── packages/    #   package wiring; sources next door in _<name>/ (not discovered)
@@ -116,7 +116,7 @@ profiles are aggregate modules that just import other modules: the
 `workstation` aggregate carries everything the physical machines share,
 so a host lists only its identity (CPU/GPU, login manager, disko layout,
 machine-specific services). Home Manager mirrors this: `shell`,
-`desktop`, `editors`, `languages` and `data-core` aggregates keep the
+`desktop`, `editors`, `languages` and `personal-data` aggregates keep the
 user environment short, next to the topic profiles (`ai`, `data`,
 `science`, `pentesting`, …).
 
