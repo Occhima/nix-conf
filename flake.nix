@@ -1,10 +1,11 @@
 # DO-NOT-EDIT. This file was auto-generated using github:vic/flake-file.
 # Use `nix run .#write-flake` to regenerate it.
-# Inputs are declared next to the modules that consume them (flake-file.inputs).
 {
   description = "My dendritic NixOS config";
 
-  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; }
+    (inputs.import-tree ./modules);
 
   inputs = {
     agenix = {
