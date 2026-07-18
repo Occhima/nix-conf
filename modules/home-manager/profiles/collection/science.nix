@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.science = (
+  flake.modules.homeManager.science =
     {
       config,
       pkgs,
@@ -55,6 +55,5 @@
           pkgs.rnote
         ];
       };
-    }
-  );
+    };
 }

@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.email = (
+  flake.modules.homeManager.email =
     {
       config,
       ...
@@ -182,6 +182,5 @@
         # Install password-store for password retrieval
         # programs.password-store.enable = true;
       };
-    }
-  );
+    };
 }

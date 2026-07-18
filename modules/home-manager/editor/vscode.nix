@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.vscode = (
+  flake.modules.homeManager.vscode =
     {
       config,
       lib,
@@ -46,6 +46,5 @@
           };
         };
       };
-    }
-  );
+    };
 }

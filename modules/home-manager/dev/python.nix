@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.python = (
+  flake.modules.homeManager.python =
     {
       config,
       ...
@@ -21,6 +21,5 @@
           rootDirectory = "${config.xdg.configHome}/pyenv";
         };
       };
-    }
-  );
+    };
 }

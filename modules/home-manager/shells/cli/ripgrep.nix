@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.ripgrep = (
+  flake.modules.homeManager.ripgrep =
     {
       config,
       ...
@@ -22,6 +22,5 @@
           rgf = "rg --files | rg";
         };
       };
-    }
-  );
+    };
 }

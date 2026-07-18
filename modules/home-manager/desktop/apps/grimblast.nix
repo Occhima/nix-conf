@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.grimblast = (
+  flake.modules.homeManager.grimblast =
     {
       config,
       pkgs,
@@ -27,6 +27,5 @@
           "$mainMod, S, exec, grimblast save area - | satty --filename -"
         ];
       };
-    }
-  );
+    };
 }

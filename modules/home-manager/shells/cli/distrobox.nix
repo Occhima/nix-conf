@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.distrobox = (
+  flake.modules.homeManager.distrobox =
     {
       config,
       pkgs,
@@ -53,6 +53,5 @@
 
         home.packages = [ pkgs.distrobox-tui ];
       };
-    }
-  );
+    };
 }

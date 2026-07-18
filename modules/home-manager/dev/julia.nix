@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.julia = (
+  flake.modules.homeManager.julia =
     {
       config,
       pkgs,
@@ -20,6 +20,5 @@
           juliaEnv
         ];
       };
-    }
-  );
+    };
 }

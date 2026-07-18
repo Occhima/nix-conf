@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.haskell = (
+  flake.modules.homeManager.haskell =
     {
       config,
       pkgs,
@@ -40,6 +40,5 @@
           in
           haskellPack;
       };
-    }
-  );
+    };
 }

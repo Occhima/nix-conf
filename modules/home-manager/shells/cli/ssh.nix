@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.ssh = (
+  flake.modules.homeManager.ssh =
     {
       config,
       ...
@@ -23,6 +23,5 @@
           # };
         };
       };
-    }
-  );
+    };
 }

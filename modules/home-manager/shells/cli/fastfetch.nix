@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.fastfetch = (
+  flake.modules.homeManager.fastfetch =
     {
       config,
       ...
@@ -127,6 +127,5 @@
           ff = "fastfetch";
         };
       };
-    }
-  );
+    };
 }

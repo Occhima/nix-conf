@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.direnv = (
+  flake.modules.homeManager.direnv =
     {
       config,
       ...
@@ -40,6 +40,5 @@
           };
         };
       };
-    }
-  );
+    };
 }

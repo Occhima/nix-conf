@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.zoxide = (
+  flake.modules.homeManager.zoxide =
     {
       config,
       ...
@@ -11,6 +11,5 @@
           enable = true;
         };
       };
-    }
-  );
+    };
 }

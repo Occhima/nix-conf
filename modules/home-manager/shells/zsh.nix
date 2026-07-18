@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.shell-zsh = (
+  flake.modules.homeManager.shell-zsh =
     {
       config,
       lib,
@@ -56,6 +56,5 @@
           };
         };
       };
-    }
-  );
+    };
 }

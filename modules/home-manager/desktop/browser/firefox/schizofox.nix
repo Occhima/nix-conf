@@ -5,7 +5,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  flake.modules.homeManager.browser-firefox = (
+  flake.modules.homeManager.browser-firefox =
     {
       config,
       ...
@@ -84,6 +84,5 @@
           # ];
         };
       };
-    }
-  );
+    };
 }

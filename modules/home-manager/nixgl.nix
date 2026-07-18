@@ -1,6 +1,6 @@
 { inputs, ... }:
 {
-  flake.modules.homeManager.nixgl = (
+  flake.modules.homeManager.nixgl =
     {
       config,
       ...
@@ -15,6 +15,5 @@
           ];
         };
       };
-    }
-  );
+    };
 }

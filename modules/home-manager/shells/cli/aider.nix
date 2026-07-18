@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.aider = (
+  flake.modules.homeManager.aider =
     {
       config,
       pkgs,
@@ -28,6 +28,5 @@
         };
         programs.git.ignores = [ ".aider*" ];
       };
-    }
-  );
+    };
 }

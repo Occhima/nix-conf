@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.discord = (
+  flake.modules.homeManager.discord =
     {
       config,
       ...
@@ -37,6 +37,5 @@
           };
         };
       };
-    }
-  );
+    };
 }

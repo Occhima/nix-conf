@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.zellij = (
+  flake.modules.homeManager.zellij =
     {
       config,
       ...
@@ -14,6 +14,5 @@
           };
         };
       };
-    }
-  );
+    };
 }

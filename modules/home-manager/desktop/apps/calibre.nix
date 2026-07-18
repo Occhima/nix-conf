@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.calibre = (
+  flake.modules.homeManager.calibre =
     {
       config,
       pkgs,
@@ -12,6 +12,5 @@
           pkgs.calibre
         ];
       };
-    }
-  );
+    };
 }

@@ -3,7 +3,7 @@ let
   inherit (config.flake.lib.custom) ifPackageNotEnabled isWayland;
 in
 {
-  flake.modules.homeManager.emacs = (
+  flake.modules.homeManager.emacs =
     {
       config,
       osConfig ? { },
@@ -82,6 +82,5 @@ in
           '')
         ];
       };
-    }
-  );
+    };
 }

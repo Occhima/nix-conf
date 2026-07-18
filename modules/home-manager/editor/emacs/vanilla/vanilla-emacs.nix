@@ -3,7 +3,7 @@ let
   inherit (config.flake.lib.custom) isWayland;
 in
 {
-  flake.modules.homeManager.emacs = (
+  flake.modules.homeManager.emacs =
     {
       config,
       osConfig ? { },
@@ -55,6 +55,5 @@ in
           package = emacsPackageWithPkgs;
         };
       };
-    }
-  );
+    };
 }

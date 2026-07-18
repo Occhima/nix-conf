@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.fabric = (
+  flake.modules.homeManager.fabric =
     {
       config,
       ...
@@ -12,6 +12,5 @@
           enableYtAlias = true;
         };
       };
-    }
-  );
+    };
 }

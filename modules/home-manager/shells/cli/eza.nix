@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.eza = (
+  flake.modules.homeManager.eza =
     {
       config,
       ...
@@ -28,6 +28,5 @@
           ll = "eza -la --git";
         };
       };
-    }
-  );
+    };
 }

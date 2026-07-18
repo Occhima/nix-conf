@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.cachix = (
+  flake.modules.homeManager.cachix =
     {
       config,
       lib,
@@ -17,6 +17,5 @@
           credentialsFile = lib.mkIf ((osConfig.age.secrets or { }) ? cachix-key) osConfig.age.secrets.cachix-key.path;
         };
       };
-    }
-  );
+    };
 }

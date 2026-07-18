@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.beancount = (
+  flake.modules.homeManager.beancount =
     {
       config,
       pkgs,
@@ -16,6 +16,5 @@
           # fava
         ];
       };
-    }
-  );
+    };
 }

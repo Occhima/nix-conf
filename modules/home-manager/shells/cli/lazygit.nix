@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.lazygit = (
+  flake.modules.homeManager.lazygit =
     {
       config,
       ...
@@ -17,6 +17,5 @@
           };
         };
       };
-    }
-  );
+    };
 }

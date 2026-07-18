@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.pay-respects = (
+  flake.modules.homeManager.pay-respects =
     {
       config,
       ...
@@ -13,6 +13,5 @@
           # aiIntegration = configuredAiSupport;
         };
       };
-    }
-  );
+    };
 }

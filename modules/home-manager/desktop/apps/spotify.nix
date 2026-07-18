@@ -5,7 +5,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  flake.modules.homeManager.spotify = (
+  flake.modules.homeManager.spotify =
     {
       config,
       pkgs,
@@ -37,6 +37,5 @@
           # TODO: Change to theme targets ...
         };
       };
-    }
-  );
+    };
 }

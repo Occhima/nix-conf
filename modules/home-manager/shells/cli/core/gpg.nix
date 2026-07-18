@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.gpg = (
+  flake.modules.homeManager.gpg =
     {
       lib,
       pkgs,
@@ -59,6 +59,5 @@
           extraConfig = "allow-preset-passphrase";
         };
       };
-    }
-  );
+    };
 }

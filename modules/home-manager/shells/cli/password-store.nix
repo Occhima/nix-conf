@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.password-store = (
+  flake.modules.homeManager.password-store =
     {
       config,
       pkgs,
@@ -77,6 +77,5 @@
           ];
         };
       };
-    }
-  );
+    };
 }

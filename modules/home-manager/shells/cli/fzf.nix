@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.fzf = (
+  flake.modules.homeManager.fzf =
     {
       config,
       pkgs,
@@ -30,6 +30,5 @@
           ];
         };
       };
-    }
-  );
+    };
 }

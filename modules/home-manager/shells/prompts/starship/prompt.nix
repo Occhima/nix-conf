@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.prompt-starship = (
+  flake.modules.homeManager.prompt-starship =
     {
       config,
       lib,
@@ -20,6 +20,5 @@
           settings = importTOML ./starship.toml;
         };
       };
-    }
-  );
+    };
 }

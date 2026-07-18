@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.nix-your-shell = (
+  flake.modules.homeManager.nix-your-shell =
     {
       config,
       ...
@@ -11,6 +11,5 @@
           enable = true;
         };
       };
-    }
-  );
+    };
 }

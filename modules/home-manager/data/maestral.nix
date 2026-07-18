@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.maestral = (
+  flake.modules.homeManager.maestral =
     {
       config,
       lib,
@@ -81,6 +81,5 @@
           Install.WantedBy = [ "graphical-session.target" ];
         };
       };
-    }
-  );
+    };
 }

@@ -2,7 +2,7 @@
 {
   flake-file.inputs.flatpaks.url = "github:gmodena/nix-flatpak";
 
-  flake.modules.homeManager.flatpak = (
+  flake.modules.homeManager.flatpak =
     {
       config,
       lib,
@@ -47,6 +47,5 @@
           update.onActivation = false;
         };
       };
-    }
-  );
+    };
 }

@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.jq = (
+  flake.modules.homeManager.jq =
     {
       config,
       pkgs,
@@ -19,6 +19,5 @@
           enable = true;
         };
       };
-    }
-  );
+    };
 }

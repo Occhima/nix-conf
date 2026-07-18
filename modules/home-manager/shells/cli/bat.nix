@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.bat = (
+  flake.modules.homeManager.bat =
     {
       config,
       ...
@@ -26,6 +26,5 @@
           cat = "bat";
         };
       };
-    }
-  );
+    };
 }

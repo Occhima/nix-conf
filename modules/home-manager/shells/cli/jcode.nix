@@ -4,7 +4,7 @@ let
   inherit (config.flake.lib.custom) aiAssets;
 in
 {
-  flake.modules.homeManager.jcode = (
+  flake.modules.homeManager.jcode =
     {
       config,
       pkgs,
@@ -188,6 +188,5 @@ in
           ".config/AGENTS.md".source = aiAssets.agentsMd;
         };
       };
-    }
-  );
+    };
 }

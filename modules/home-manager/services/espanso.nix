@@ -3,7 +3,7 @@ let
   inherit (config.flake.lib.custom) isWayland;
 in
 {
-  flake.modules.homeManager.espanso = (
+  flake.modules.homeManager.espanso =
     {
       config,
       osConfig ? { },
@@ -46,6 +46,5 @@ in
             };
           };
       };
-    }
-  );
+    };
 }

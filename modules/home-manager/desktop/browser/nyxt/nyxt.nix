@@ -3,7 +3,7 @@ let
   flakePkgs = config.flake.packages;
 in
 {
-  flake.modules.homeManager.browser-nyxt = (
+  flake.modules.homeManager.browser-nyxt =
     {
       config,
       lib,
@@ -23,6 +23,5 @@ in
         };
         xdg.configFile."nyxt".source = ./config;
       };
-    }
-  );
+    };
 }

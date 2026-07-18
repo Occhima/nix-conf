@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.c = (
+  flake.modules.homeManager.c =
     {
       config,
       pkgs,
@@ -12,6 +12,5 @@
           gcc
         ];
       };
-    }
-  );
+    };
 }

@@ -3,7 +3,7 @@ let
   flakePkgs = config.flake.packages;
 in
 {
-  flake.modules.homeManager.codegraph = (
+  flake.modules.homeManager.codegraph =
     {
       lib,
       config,
@@ -27,6 +27,5 @@ in
           type = "stdio";
         };
       };
-    }
-  );
+    };
 }

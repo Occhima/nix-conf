@@ -3,7 +3,7 @@ let
   flakePkgs = config.flake.packages;
 in
 {
-  flake.modules.homeManager.feynman = (
+  flake.modules.homeManager.feynman =
     {
       config,
       pkgs,
@@ -16,6 +16,5 @@ in
       config = {
         home.packages = [ pkg ];
       };
-    }
-  );
+    };
 }

@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.git = (
+  flake.modules.homeManager.git =
     {
       pkgs,
       config,
@@ -49,6 +49,5 @@
           };
         };
       };
-    }
-  );
+    };
 }

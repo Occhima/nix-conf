@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.podman = (
+  flake.modules.homeManager.podman =
     {
       config,
       ...
@@ -12,6 +12,5 @@
           enableTypeChecks = true;
         };
       };
-    }
-  );
+    };
 }

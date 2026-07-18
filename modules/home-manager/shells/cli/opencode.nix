@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.opencode = (
+  flake.modules.homeManager.opencode =
     {
       config,
       ...
@@ -38,6 +38,5 @@
           };
         };
       };
-    }
-  );
+    };
 }

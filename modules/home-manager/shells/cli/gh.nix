@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.gh = (
+  flake.modules.homeManager.gh =
     {
       config,
       pkgs,
@@ -23,6 +23,5 @@
           };
         };
       };
-    }
-  );
+    };
 }

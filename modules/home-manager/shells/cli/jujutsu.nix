@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.jujutsu = (
+  flake.modules.homeManager.jujutsu =
     { config, ... }:
     {
       config = {
@@ -136,6 +136,5 @@
         # Uncomment when update flake.lock
         # programs.jjui.enable = true;
       };
-    }
-  );
+    };
 }

@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.navi = (
+  flake.modules.homeManager.navi =
     {
       config,
       ...
@@ -11,6 +11,5 @@
           enable = true;
         };
       };
-    }
-  );
+    };
 }

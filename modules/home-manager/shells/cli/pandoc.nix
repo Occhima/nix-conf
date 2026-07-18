@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.pandoc = (
+  flake.modules.homeManager.pandoc =
     {
       config,
       ...
@@ -17,6 +17,5 @@
           };
         };
       };
-    }
-  );
+    };
 }

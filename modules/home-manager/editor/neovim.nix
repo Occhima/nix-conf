@@ -3,7 +3,7 @@ let
   flakePkgs = config.flake.packages;
 in
 {
-  flake.modules.homeManager.neovim = (
+  flake.modules.homeManager.neovim =
     {
       config,
       lib,
@@ -32,6 +32,5 @@ in
           };
         };
       };
-    }
-  );
+    };
 }

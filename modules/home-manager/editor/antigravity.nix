@@ -3,7 +3,7 @@ let
   flakePkgs = config.flake.packages;
 in
 {
-  flake.modules.homeManager.antigravity = (
+  flake.modules.homeManager.antigravity =
     {
       config,
       pkgs,
@@ -15,6 +15,5 @@ in
           packages = [ flakePkgs.${pkgs.stdenv.hostPlatform.system}.antigravity ];
         };
       };
-    }
-  );
+    };
 }

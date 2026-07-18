@@ -3,7 +3,7 @@ let
   inherit (config.flake.lib.custom) isWayland;
 in
 {
-  flake.modules.homeManager.flameshot = (
+  flake.modules.homeManager.flameshot =
     {
       config,
       osConfig ? { },
@@ -41,6 +41,5 @@ in
           "$mainMod, S, exec, flameshot gui"
         ];
       };
-    }
-  );
+    };
 }

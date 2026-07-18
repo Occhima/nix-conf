@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.persistence = (
+  flake.modules.homeManager.persistence =
     {
       config,
       lib,
@@ -36,6 +36,5 @@
           }
         ];
       };
-    }
-  );
+    };
 }

@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.r = (
+  flake.modules.homeManager.r =
     {
       config,
       pkgs,
@@ -34,6 +34,5 @@
         ];
         home.sessionVariables.R_PROFILE = "${config.xdg.configHome}/R/Rprofile";
       };
-    }
-  );
+    };
 }

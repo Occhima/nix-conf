@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.home = (
+  flake.modules.homeManager.home =
     {
       config,
       lib,
@@ -62,6 +62,5 @@
         programs.home-manager.enable = true;
         systemd.user.startServices = "sd-switch";
       };
-    }
-  );
+    };
 }

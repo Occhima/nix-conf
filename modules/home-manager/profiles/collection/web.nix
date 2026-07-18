@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.web = (
+  flake.modules.homeManager.web =
     {
       config,
       pkgs,
@@ -13,6 +13,5 @@
           postman
         ];
       };
-    }
-  );
+    };
 }

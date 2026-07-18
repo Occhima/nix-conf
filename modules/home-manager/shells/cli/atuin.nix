@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.atuin = (
+  flake.modules.homeManager.atuin =
     {
       config,
       ...
@@ -24,6 +24,5 @@
           };
         };
       };
-    }
-  );
+    };
 }

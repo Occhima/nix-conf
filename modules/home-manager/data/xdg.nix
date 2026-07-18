@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.xdg = (
+  flake.modules.homeManager.xdg =
     {
       config,
       lib,
@@ -37,6 +37,5 @@
           };
         };
       };
-    }
-  );
+    };
 }

@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.emacs = (
+  flake.modules.homeManager.emacs =
     {
       config,
       lib,
@@ -58,6 +58,5 @@
           "$mainMod, E, exec, emacsclient -c"
         ];
       };
-    }
-  );
+    };
 }

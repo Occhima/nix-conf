@@ -1,6 +1,6 @@
 { ... }:
 {
-  flake.modules.homeManager.finance = (
+  flake.modules.homeManager.finance =
     {
       config,
       pkgs,
@@ -34,6 +34,5 @@
 
         # };
       };
-    }
-  );
+    };
 }
