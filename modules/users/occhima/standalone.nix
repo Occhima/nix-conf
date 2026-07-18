@@ -7,11 +7,7 @@
   den.homes.x86_64-linux.occhima = {
     pkgs = import inputs.nixpkgs {
       system = "x86_64-linux";
-      config = {
-        allowUnfree = true;
-        allowBroken = false;
-        allowUnsupportedSystem = false;
-      };
+      config = config.flake.lib.custom.nixpkgsConfig;
       overlays = builtins.attrValues config.flake.overlays;
     };
   };

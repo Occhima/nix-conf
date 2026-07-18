@@ -1,4 +1,4 @@
-# Stylix base aspect. A theme (e.g. themes-guernica) imports this and
+# Stylix base module. A theme (e.g. themes-guernica) imports this and
 # provides its palette, fonts and targets. Activation is composition:
 # there is no theme registry or name selector — only the variant remains
 # as genuine data.

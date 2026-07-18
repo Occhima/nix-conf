@@ -37,6 +37,11 @@
         services.xserver.enable = mkForce false;
         networking.tcpcrypt.enable = mkForce false;
         services.resolved.enable = mkForce false;
+
+        # WSL generates resolv.conf itself (mirrors Windows DNS, VPN-aware);
+        # the network aspect's custom nameservers would be ignored and only
+        # trigger the NixOS-WSL warning.
+        networking.nameservers = mkForce [ ];
         security.apparmor.enable = mkForce false;
 
         # Setup environment variables and packages for Windows interoperability.

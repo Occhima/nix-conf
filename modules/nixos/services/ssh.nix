@@ -1,7 +1,6 @@
-# OpenSSH *server* for hosts. The Home Manager `ssh` aspect (client
+# OpenSSH *server* for hosts. The Home Manager `ssh` module (client
 # config) is a different feature — the names are distinct on purpose so
 # a user environment can never drag sshd onto a host.
-{ ... }:
 {
   flake.modules.nixos.sshd =
     { lib, config, ... }:

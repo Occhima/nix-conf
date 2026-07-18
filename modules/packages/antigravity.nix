@@ -1,6 +1,5 @@
 # antigravity: flake output wiring; the package expression lives in
 # ./_antigravity/package.nix.
-{ ... }:
 {
   perSystem =
     { pkgs, ... }:

@@ -1,5 +1,5 @@
 # Disko layout for aerodynamic: standalone `diskoConfigurations.aerodynamic` output
-# (for `disko --flake .#aerodynamic`) and the `disko-aerodynamic` NixOS aspect the
+# (for `disko --flake .#aerodynamic`) and the `disko-aerodynamic` NixOS module the
 # host imports.
 { config, ... }:
 let

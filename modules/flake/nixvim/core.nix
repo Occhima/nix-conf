@@ -1,6 +1,5 @@
 # Nixvim: core options and plugins — one of several top-level contributors merging
 # into `flake.nixvimModules.default`.
-{ ... }:
 {
   flake.nixvimModules.default = {
     viAlias = true;

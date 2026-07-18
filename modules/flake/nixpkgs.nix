@@ -8,10 +8,7 @@
     {
       _module.args.pkgs = import inputs.nixpkgs {
         inherit system;
-        config = {
-          allowUnfree = true;
-          allowUnsupportedSystem = false;
-        };
+        config = config.flake.lib.custom.nixpkgsConfig;
         overlays = builtins.attrValues config.flake.overlays;
       };
     };

@@ -22,7 +22,7 @@
         programs = {
           # Nix
           nixfmt = {
-            enable = true;
+            enable = false;
             package = pkgs.nixfmt-classic;
           };
 

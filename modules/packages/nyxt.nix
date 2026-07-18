@@ -1,6 +1,5 @@
 # Nyxt: source build package, runnable app, and the nyxt-electron overlay
 # — one feature, several outputs.
-{ ... }:
 {
   perSystem =
     { pkgs, self', ... }:

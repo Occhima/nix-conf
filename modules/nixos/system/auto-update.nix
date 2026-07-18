@@ -1,4 +1,3 @@
-{ ... }:
 {
   flake.modules.nixos.auto-update = {
     system.autoUpgrade = {

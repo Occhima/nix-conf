@@ -1,6 +1,6 @@
 # Guernica styling for niri. Contributed to the `niri` aspect (not
 # themes-guernica): the niri home module is a keyless lambda, so it must
-# have exactly one importer — the aspect that owns it. The styling only
+# have exactly one importer — the module that owns it. The styling only
 # exists when niri is actually composed.
 { inputs, ... }:
 {

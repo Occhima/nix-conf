@@ -10,15 +10,16 @@
 
   flake-file.description = "My dendritic NixOS config";
 
+  # flake-file defaults to `pkgs.nixfmt`, which nixpkgs renamed to
+  # nixfmt-classic and now warns about on every eval. Same formatter,
+  # explicit name, no reformat of the generated flake.nix.
+  flake-file.formatter = pkgs: pkgs.nixfmt-classic;
+
   flake-file.inputs = {
     flake-file.url = "github:vic/flake-file";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
-    };
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     import-tree.url = "github:denful/import-tree";
     nixpkgs.url = "github:nixos/nixpkgs";

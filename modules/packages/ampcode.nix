@@ -1,6 +1,5 @@
 # ampcode: flake output wiring; the package expression lives in
 # ./_ampcode/package.nix.
-{ ... }:
 {
   perSystem =
     { pkgs, ... }:

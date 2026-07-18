@@ -1,5 +1,4 @@
-# root — NixOS account aspect.
-{ ... }:
+# root — NixOS account module.
 {
   flake.modules.nixos.user-root = {
     users.users.root = {

@@ -1,6 +1,5 @@
 # Nixvim: editor options — one of several top-level contributors merging
 # into `flake.nixvimModules.default`.
-{ ... }:
 {
   flake.nixvimModules.default = {
     clipboard.providers.wl-copy.enable = true;

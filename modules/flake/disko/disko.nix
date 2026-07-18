@@ -1,5 +1,5 @@
 # Disko flake plumbing: the flake-parts module declaring the mergeable
-# `flake.diskoConfigurations` output, plus the shared disko-base aspect
+# `flake.diskoConfigurations` output, plus the shared disko-base module
 # every per-host layout (modules/flake/disko/) builds on.
 { config, inputs, ... }:
 let

@@ -1,6 +1,5 @@
 # update-packages: flake output wiring; the package expression lives in
 # ./_update-packages/package.nix.
-{ ... }:
 {
   perSystem =
     { pkgs, ... }:

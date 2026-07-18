@@ -1,5 +1,5 @@
 # occhima — NixOS account. Den attaches the Home Manager environment for
-# hosts that declare `users.occhima`; this aspect only creates the account.
+# hosts that declare `users.occhima`; this module only creates the account.
 { config, ... }:
 let
   inherit (config.flake.lib.custom) ifTheyExist;

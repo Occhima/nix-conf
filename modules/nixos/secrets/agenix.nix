@@ -1,5 +1,5 @@
 # agenix + agenix-rekey: one feature, several contexts. This file carries
-# the flake-level rekey integration AND the NixOS aspect. The secret
+# the flake-level rekey integration AND the NixOS module. The secret
 # assets live right here (./vault, ./identity, ./rekeyed) so every
 # reference is local; each host contributes its own `age.rekey.hostPubkey`
 # from a `host.pub` next to its host module and registers itself via
@@ -25,7 +25,7 @@ in
 
   imports = [ inputs.agenix-rekey.flakeModule ];
 
-  perSystem = _: {
+  perSystem = {
     agenix-rekey = {
       collectHomeManagerConfigurations = false;
     };

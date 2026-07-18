@@ -2,15 +2,18 @@
 # the whole installer/ISO option surface (isoImage.*, image.*) — never
 # recreate those options locally; our iso-* fragments only customize them.
 { config, ... }:
+let
+  nixos = config.flake.modules.nixos;
+in
 {
-  flake.modules.nixos.iso-base.imports = with config.flake.modules.nixos; [
-    iso-boot
-    iso-fixes
-    iso-image
-    iso-networking
-    iso-nix
-    iso-programs
-    iso-space
+  flake.modules.nixos.iso-base.imports = [
+    nixos.iso-boot
+    nixos.iso-fixes
+    nixos.iso-image
+    nixos.iso-networking
+    nixos.iso-nix
+    nixos.iso-programs
+    nixos.iso-space
     (
       { modulesPath, ... }:
       {

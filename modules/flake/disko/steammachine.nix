@@ -1,5 +1,5 @@
 # Disko layout for steammachine: standalone `diskoConfigurations.steammachine` output
-# (for `disko --flake .#steammachine`) and the `disko-steammachine` NixOS aspect the
+# (for `disko --flake .#steammachine`) and the `disko-steammachine` NixOS module the
 # host imports.
 { config, ... }:
 let

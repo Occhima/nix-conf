@@ -1,9 +1,8 @@
 # Small predicates shared between NixOS and Home Manager features.
 # Only helpers with real consumers live here — new helpers earn their
 # place by having one.
-{ ... }:
 let
-  # True when the selected display stack is Wayland. The display aspects
+  # True when the selected display stack is Wayland. The display modules
   # (display-wayland / display-x11) publish this fact through
   # `modules.system.display.type`; features read it to adapt values.
   isWayland = config: (config.modules.system.display.type or "") == "wayland";

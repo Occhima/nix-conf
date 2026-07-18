@@ -1,6 +1,5 @@
 # Disko layout used by VM variants (`run-vm`): every disko host swaps
-# to this layout inside `vmVariantWithDisko` (see the disko-base aspect).
-{ ... }:
+# to this layout inside `vmVariantWithDisko` (see the disko-base module).
 let
   layout = {
     devices = {

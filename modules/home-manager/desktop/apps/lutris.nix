@@ -1,4 +1,3 @@
-{ ... }:
 {
   flake.modules.homeManager.lutris =
     # XXX: Is this supposed to be here?

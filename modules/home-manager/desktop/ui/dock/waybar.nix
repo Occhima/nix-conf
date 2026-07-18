@@ -1,4 +1,3 @@
-{ ... }:
 {
   flake.modules.homeManager.waybar-dock =
     { pkgs, ... }:

@@ -1,6 +1,5 @@
-# System distrobox for hosts. The Home Manager `distrobox` aspect is a
+# System distrobox for hosts. The Home Manager `distrobox` module is a
 # separate feature.
-{ ... }:
 {
   flake.modules.nixos.distrobox-host =
     {

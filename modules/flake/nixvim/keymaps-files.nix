@@ -1,6 +1,5 @@
 # Nixvim: file keymaps — one of several top-level contributors merging
 # into `flake.nixvimModules.default`.
-{ ... }:
 {
   flake.nixvimModules.default = {
     plugins.telescope.keymaps = {

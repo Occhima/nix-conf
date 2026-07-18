@@ -1,6 +1,5 @@
 # Nixvim: completion — one of several top-level contributors merging
 # into `flake.nixvimModules.default`.
-{ ... }:
 {
   flake.nixvimModules.default = {
     plugins.blink-cmp = {

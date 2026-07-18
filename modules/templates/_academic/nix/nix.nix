@@ -1,4 +1,3 @@
-{ ... }:
 {
   config.flake.nixConfig = {
     experimental-features = [

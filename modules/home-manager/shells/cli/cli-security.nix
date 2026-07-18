@@ -1,7 +1,10 @@
 { config, ... }:
+let
+  hm = config.flake.modules.homeManager;
+in
 {
-  flake.modules.homeManager.cli-security.imports = with config.flake.modules.homeManager; [
-    ssh
-    gpg
+  flake.modules.homeManager.cli-security.imports = [
+    hm.ssh
+    hm.gpg
   ];
 }

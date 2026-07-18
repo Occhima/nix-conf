@@ -1,7 +1,6 @@
 # Guernica styling for schizofox. Contributed to the browser-firefox
 # aspect (the sole importer of the schizofox module) so the options only
 # exist when that browser is actually composed.
-{ ... }:
 {
   flake.modules.homeManager.browser-firefox =
     {

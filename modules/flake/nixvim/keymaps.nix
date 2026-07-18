@@ -1,6 +1,5 @@
 # Nixvim: which-key groups and global keymaps — one of several top-level contributors merging
 # into `flake.nixvimModules.default`.
-{ ... }:
 {
   flake.nixvimModules.default = {
     plugins.which-key = {

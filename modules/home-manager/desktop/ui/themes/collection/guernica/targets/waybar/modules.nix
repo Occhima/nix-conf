@@ -1,7 +1,6 @@
 # Shared waybar module definitions for the guernica theme.
 # Contributed to the helper namespace so the variant files can compose
 # them through the fixed point instead of relative imports.
-{ ... }:
 {
   flake.lib.guernica.waybarModules = {
 

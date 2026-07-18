@@ -1,4 +1,3 @@
-{ ... }:
 {
   imports = [
     ./fmt.nix

@@ -4,10 +4,12 @@
   den.hosts.x86_64-linux.voyager = { };
 
   den.aspects.voyager = {
-    nixos = {
-      imports = [ config.flake.modules.nixos.iso-base ];
+    nixos =
+      { host, ... }:
+      {
+        imports = [ config.flake.modules.nixos.iso-base ];
 
-      networking.hostName = "voyager";
-    };
+        networking.hostName = host.hostName;
+      };
   };
 }

@@ -1,5 +1,5 @@
 # Disko layout for beyond: standalone `diskoConfigurations.beyond` output
-# (for `disko --flake .#beyond`) and the `disko-beyond` NixOS aspect the
+# (for `disko --flake .#beyond`) and the `disko-beyond` NixOS module the
 # host imports.
 { config, ... }:
 let

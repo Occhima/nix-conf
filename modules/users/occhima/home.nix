@@ -3,34 +3,45 @@
 # very same aspect for non-NixOS machines. The environment itself is
 # composed from plain `flake.modules.homeManager.*` feature modules.
 { config, ... }:
+let
+  hm = config.flake.modules.homeManager;
+in
 {
-  den.aspects.occhima.homeManager = {
-    imports = with config.flake.modules.homeManager; [
-      home-base
-      shell
-      data-core
-      editors
-      languages
-      desktop
-      # Services
-      espanso
-      podman
-      # Topic profiles
-      web
-      data
-      ai
-      dev
-      science
-      finance
-      pentesting
-    ];
+  den.aspects.occhima = {
+    nixos =
+      { ... }:
+      {
+        imports = [ config.flake.modules.nixos.user-occhima ];
+      };
 
-    home.username = "occhima";
-    home.homeDirectory = "/home/occhima";
-    modules.editor.emacs = {
-      flavor = "doom";
-      service = true;
-      default = true;
+    homeManager = {
+      imports = [
+        hm.home-base
+        hm.shell
+        hm.data-core
+        hm.editors
+        hm.languages
+        hm.desktop
+        # Services
+        hm.espanso
+        hm.podman
+        # Topic profiles
+        hm.web
+        hm.data
+        hm.ai
+        hm.dev
+        hm.science
+        hm.finance
+        hm.pentesting
+      ];
+
+      home.username = "occhima";
+      home.homeDirectory = "/home/occhima";
+      modules.editor.emacs = {
+        flavor = "doom";
+        service = true;
+        default = true;
+      };
     };
   };
 }

@@ -1,4 +1,3 @@
-{ ... }:
 {
   flake.modules.homeManager.shell-nushell =
     {

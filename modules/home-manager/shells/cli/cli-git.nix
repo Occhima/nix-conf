@@ -1,9 +1,12 @@
 { config, ... }:
+let
+  hm = config.flake.modules.homeManager;
+in
 {
-  flake.modules.homeManager.cli-git.imports = with config.flake.modules.homeManager; [
-    gh
-    lazygit
-    jujutsu
-    git
+  flake.modules.homeManager.cli-git.imports = [
+    hm.gh
+    hm.lazygit
+    hm.jujutsu
+    hm.git
   ];
 }

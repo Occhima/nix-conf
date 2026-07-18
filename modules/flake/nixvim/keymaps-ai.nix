@@ -1,6 +1,5 @@
 # Nixvim: AI keymaps — one of several top-level contributors merging
 # into `flake.nixvimModules.default`.
-{ ... }:
 {
   flake.nixvimModules.default = {
     # Avante keymaps are configured via plugins.avante.settings.mappings in ai.nix.

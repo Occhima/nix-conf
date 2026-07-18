@@ -1,6 +1,5 @@
 # Guernica waybar variant, exposed as a helper so the waybar target
 # can select it per theme variant through the fixed point.
-{ ... }:
 {
   flake.lib.guernica.mkWaybarCompact =
     {

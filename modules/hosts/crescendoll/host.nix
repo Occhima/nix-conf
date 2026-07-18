@@ -1,20 +1,24 @@
 # Host: crescendoll — WSL.
 { config, ... }:
+let
+  nixos = config.flake.modules.nixos;
+in
 {
   den.hosts.x86_64-linux.crescendoll.users.occhima = { };
 
   den.aspects.crescendoll = {
-    nixos = {
-      imports = with config.flake.modules.nixos; [
-        system-base
-        accounts
-        user-occhima
-        network
-        security-auth
-        wsl
-      ];
+    nixos =
+      { host, ... }:
+      {
+        imports = [
+          nixos.system-base
+          nixos.accounts
+          nixos.network
+          nixos.security-auth
+          nixos.wsl
+        ];
 
-      modules.network.hostName = "crescendoll";
-    };
+        modules.network.hostName = host.hostName;
+      };
   };
 }

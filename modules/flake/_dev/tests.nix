@@ -7,7 +7,7 @@ in
 {
   imports = [ inputs.nix-unit.modules.flake.default ];
 
-  perSystem = _: {
+  perSystem = {
     nix-unit = {
       allowNetwork = true;
       tests = import ./tests/unit { inherit lib self; };

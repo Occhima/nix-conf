@@ -1,4 +1,3 @@
-{ ... }:
 {
   flake.modules.nixos.input-devices =
     { lib, config, ... }:

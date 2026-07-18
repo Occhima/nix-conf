@@ -1,6 +1,5 @@
 # Nixvim: AI plugins — one of several top-level contributors merging
 # into `flake.nixvimModules.default`.
-{ ... }:
 {
   flake.nixvimModules.default = {
     plugins.avante = {

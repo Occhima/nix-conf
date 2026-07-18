@@ -1,4 +1,3 @@
-{ ... }:
 # hasZfs = any (x: x ? fsType && x.fsType == "zfs") (attrValues config.fileSystems);
 {
   flake.modules.nixos.ssd = {

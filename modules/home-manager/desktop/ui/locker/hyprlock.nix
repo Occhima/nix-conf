@@ -1,4 +1,3 @@
-{ ... }:
 {
   flake.modules.homeManager.hyprlock = {
     programs.hyprlock = {

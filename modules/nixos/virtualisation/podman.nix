@@ -1,6 +1,5 @@
-# System podman engine for hosts. The Home Manager `podman` aspect
+# System podman engine for hosts. The Home Manager `podman` module
 # (user containers) is deliberately a separate feature.
-{ ... }:
 {
   flake.modules.nixos.podman-host =
     {

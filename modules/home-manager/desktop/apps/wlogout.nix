@@ -1,4 +1,3 @@
-{ ... }:
 {
   flake.modules.homeManager.wlogout =
     # XXX: Is this supposed to be here?

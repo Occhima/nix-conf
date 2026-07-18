@@ -1,4 +1,7 @@
 { config, ... }:
+let
+  hm = config.flake.modules.homeManager;
+in
 {
-  flake.modules.homeManager.cli-dev.imports = with config.flake.modules.homeManager; [ distrobox ];
+  flake.modules.homeManager.cli-dev.imports = [ hm.distrobox ];
 }

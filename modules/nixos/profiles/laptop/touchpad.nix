@@ -1,4 +1,3 @@
-{ ... }:
 {
   flake.modules.nixos.laptop = {
     # Input settings for libinput

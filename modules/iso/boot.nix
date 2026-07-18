@@ -1,4 +1,3 @@
-{ ... }:
 {
   flake.modules.nixos.iso-boot =
     { lib, ... }:

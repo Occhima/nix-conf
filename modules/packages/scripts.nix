@@ -1,5 +1,4 @@
 # Repo helper scripts (run-vm + the aggregated scripts bundle).
-{ ... }:
 {
   perSystem =
     { pkgs, ... }:
