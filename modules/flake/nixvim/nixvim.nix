@@ -5,7 +5,10 @@
 # evaluated into the `nvim` configuration and its packages.
 { config, inputs, ... }:
 {
-  flake-file.inputs.nixvim.url = "github:nix-community/nixvim";
+  flake-file.inputs.nixvim = {
+    url = "github:nix-community/nixvim";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
 
   imports = [ inputs.nixvim.flakeModules.default ];
 
