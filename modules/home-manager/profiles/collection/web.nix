@@ -1,4 +1,6 @@
 {
+  flake.allowedUnfreePackages = [ "postman" ];
+
   flake.modules.homeManager.web =
     {
       pkgs,

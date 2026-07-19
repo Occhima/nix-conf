@@ -1,4 +1,6 @@
 {
+  flake.allowedUnfreePackages = [ "claude-code" ];
+
   flake.modules.homeManager.claude-code =
     {
       ...

@@ -3,6 +3,12 @@ let
   inherit (config.flake.lib.custom) isWayland;
 in
 {
+  flake.allowedUnfreePackages = [
+    "steam"
+    "steam-unwrapped"
+    "steam-run"
+  ];
+
   flake.modules.nixos.steam =
     {
       config,

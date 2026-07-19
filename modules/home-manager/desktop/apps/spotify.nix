@@ -5,6 +5,8 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
+  flake.allowedUnfreePackages = [ "spotify" ];
+
   flake.modules.homeManager.spotify =
     {
       pkgs,

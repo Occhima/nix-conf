@@ -15,7 +15,7 @@ in
     hm.themes-guernica
     hm.flatpak
     hm.spotify
-    hm.discord
+    # hm.discord # vesktop wraps EOL electron; re-enable once nixpkgs bumps electron
     hm.grimblast
     hm.wlogout
     hm.calibre

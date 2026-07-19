@@ -1,4 +1,17 @@
+{ lib, ... }:
 {
+  flake.allowedUnfreePackages = [
+    "nvidia-x11"
+    "nvidia-settings"
+    "nvidia-persistenced"
+  ];
+
+  # cudaPackages ship dozens of components (cuda-merged, cuda_cuobjdump,
+  # libcublas, libnpp, ...) — match the family instead of listing each.
+  flake.allowedUnfreePredicates = [
+    (pkg: builtins.match "^(cuda.*|cudnn.*|libcu.*|libnpp.*|libnv.*)$" (lib.getName pkg) != null)
+  ];
+
   flake.modules.nixos.gpu-nvidia =
     {
       config,
@@ -9,31 +22,11 @@
     let
       inherit (lib)
         mkDefault
-        getName
         optionals
         ;
     in
     {
-      nixpkgs.config = {
-        cudaSupport = true;
-        allowUnfreePredicate =
-          pkg:
-          builtins.elem (getName pkg) [
-            "cudatoolkit"
-            "cuda_cudart"
-            "cuda_cccl"
-            "cuda_nvcc"
-            "libcublas"
-            "libcufft"
-            "libcurand"
-            "libcusolver"
-            "libcusparse"
-            "libnpp"
-            "nvidia-persistenced"
-            "nvidia-settings"
-            "nvidia-x11"
-          ];
-      };
+      nixpkgs.config.cudaSupport = true;
 
       services.xserver.videoDrivers = [ "nvidia" ];
       hardware = {
