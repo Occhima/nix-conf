@@ -1,7 +1,6 @@
 {
   flake.modules.nixos.nix-ld =
     {
-      config,
       ...
     }:
 

@@ -1,6 +1,6 @@
 {
   flake.modules.nixos.boot-none =
-    { lib, config, ... }:
+    { lib, ... }:
     let
       inherit (lib.modules) mkForce;
     in

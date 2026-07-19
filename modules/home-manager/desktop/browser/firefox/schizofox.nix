@@ -7,7 +7,6 @@
 
   flake.modules.homeManager.browser-firefox =
     {
-      config,
       ...
     }:
     {

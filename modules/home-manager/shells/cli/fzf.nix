@@ -1,7 +1,6 @@
 {
   flake.modules.homeManager.fzf =
     {
-      config,
       pkgs,
       ...
     }:
@@ -20,11 +19,14 @@
             "--color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
           ];
 
-          fileWidgetOptions = [
+          # Atuin (sourced after fzf) owns Ctrl-R; disable fzf's history widget.
+          historyWidget.command = "";
+
+          fileWidget.options = [
             "--preview '${pkgs.bat}/bin/bat --color=always --style=numbers --line-range=:500 {}'"
           ];
 
-          changeDirWidgetOptions = [
+          changeDirWidget.options = [
             "--preview '${pkgs.eza}/bin/eza --tree --level=2 --color=always {}'"
           ];
         };

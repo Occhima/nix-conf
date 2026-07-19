@@ -1,3 +1,5 @@
+-- hypr/autostart.lua — mirrors hyprlang/exec.nix (exec-once).
+
 local M = {}
 
 local once = {

@@ -1,7 +1,6 @@
 {
   flake.modules.homeManager.fastfetch =
     {
-      config,
       ...
     }:
     {

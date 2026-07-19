@@ -23,7 +23,11 @@
       nixvimConfigurations = {
         nvim = inputs.nixvim.lib.evalNixvim {
           inherit system;
-          modules = [ config.flake.nixvimModules.default ];
+          modules = [
+            config.flake.nixvimModules.default
+            # Explicit since nixpkgs.follows alters the default; silences the warning.
+            { nixpkgs.source = inputs.nixpkgs; }
+          ];
         };
       };
     };

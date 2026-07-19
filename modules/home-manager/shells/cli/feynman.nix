@@ -5,7 +5,6 @@ in
 {
   flake.modules.homeManager.feynman =
     {
-      config,
       pkgs,
       ...
     }:

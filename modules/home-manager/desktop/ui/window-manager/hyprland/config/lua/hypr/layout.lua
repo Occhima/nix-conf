@@ -1,9 +1,10 @@
+-- hypr/layout.lua — mirrors hyprlang/layout.nix (dwindle only).
+
 local M = {}
 
 function M.setup()
   hl.config({
     dwindle = {
-      pseudotile = true,
       preserve_split = true,
     },
   })

@@ -3,15 +3,11 @@
 {
   flake.modules.nixos.distrobox-host =
     {
-      config,
       lib,
       pkgs,
       ...
     }:
 
-    let
-      inherit (lib) meta;
-    in
     {
       options.modules.virtualisation.distrobox = {
       };

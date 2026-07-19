@@ -10,7 +10,6 @@
     # NOTE: another feature stolen from the isabelroses/dotfiles repo
     {
       pkgs,
-      config,
       ...
     }:
     {

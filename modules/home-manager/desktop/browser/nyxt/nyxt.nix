@@ -5,7 +5,6 @@ in
 {
   flake.modules.homeManager.browser-nyxt =
     {
-      config,
       lib,
       pkgs,
       ...

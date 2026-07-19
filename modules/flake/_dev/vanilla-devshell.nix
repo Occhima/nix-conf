@@ -42,7 +42,7 @@
               nix-output-monitor
               nix
               nh
-              gitAndTools.hub
+              hub
               onefetch
               just
               nix-unit

@@ -1,7 +1,6 @@
 {
   flake.modules.homeManager.finance =
     {
-      config,
       pkgs,
       ...
     }:

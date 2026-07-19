@@ -1,7 +1,6 @@
 {
   flake.modules.homeManager.nix-your-shell =
     {
-      config,
       ...
     }:
     {

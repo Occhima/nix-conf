@@ -2,7 +2,6 @@
 {
   flake.modules.homeManager.nixgl =
     {
-      config,
       ...
     }:
     {

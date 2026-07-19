@@ -1,3 +1,5 @@
+-- hypr/input.lua — mirrors hyprlang/inputs.nix.
+
 local options = require("hypr.options")
 
 local M = {}

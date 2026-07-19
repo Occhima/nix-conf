@@ -7,7 +7,6 @@
 
   flake.modules.nixos.microvm-config =
     {
-      config,
       ...
     }:
     {

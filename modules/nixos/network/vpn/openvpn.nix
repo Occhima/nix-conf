@@ -1,7 +1,6 @@
 {
   flake.modules.nixos.vpn-openvpn =
     {
-      config,
       pkgs,
       ...
     }:

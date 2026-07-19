@@ -1,7 +1,6 @@
 {
   flake.modules.homeManager.claude-code =
     {
-      config,
       ...
     }:
     {
@@ -26,13 +25,6 @@
                 source = {
                   source = "github";
                   repo = "thedotmack/claude-mem";
-                };
-              };
-
-              agentmemory = {
-                source = {
-                  source = "github";
-                  repo = "rohitg00/agentmemory";
                 };
               };
 
@@ -84,7 +76,6 @@
               "autoresearch@autoresearch" = true;
               "caveman@caveman" = true;
               "ponytail@ponytail" = true;
-              "agentmemory@agentmemory" = true;
               "feature-dev@claude-plugins-official" = true;
               "claude-md-management@claude-plugins-official" = true;
               "claude-code-setup@claude-plugins-official" = true;

@@ -6,7 +6,6 @@ in
 {
   flake.modules.homeManager.jcode =
     {
-      config,
       pkgs,
       ...
     }:

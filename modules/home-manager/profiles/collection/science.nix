@@ -1,58 +1,46 @@
 {
   flake.modules.homeManager.science =
+    { pkgs, ... }:
     {
-      config,
-      pkgs,
-      ...
-    }:
-    {
-      config = {
-        programs.tex-fmt.enable = true;
-        programs.texlive = {
-          enable = true;
-          extraPackages = tpkgs: {
-            inherit (tpkgs)
-              biblatex
-              biber
-              latexmk
-              scheme-medium
-              latexindent
-              chktex
-              collection-basic
-              amsfonts
-              collection-latexrecommended
-              collection-fontsrecommended
-              fontspec
-              collection-fontsextra
-              scheme-basic
-              enumitem
-              capt-of
-              datetime
-              fancyhdr
-              lipsum
-              varwidth
-              eulervm
-              needspace
-              biblatex-trad
-              biblatex-software
-              xkeyval
-              xurl
-              xifthen
-              wrapfig
-              minted
-              upquote
-              mdframed
-              zref
-              ;
-          };
-        };
+      programs.tex-fmt.enable = true;
 
-        home.packages = [
-          # pkgs.marimo
-          # pkgs.quarto
-          pkgs.typst
-          pkgs.rnote
-        ];
-      };
+      home.packages = [
+        pkgs.typst
+        pkgs.rnote
+        pkgs.biber
+        # HM's programs.texlive calls deprecated texlive.combine; build the env directly.
+        (pkgs.texliveMedium.withPackages (
+          tpkgs: with tpkgs; [
+            biblatex
+            latexmk
+            latexindent
+            chktex
+            collection-basic
+            amsfonts
+            collection-latexrecommended
+            collection-fontsrecommended
+            fontspec
+            collection-fontsextra
+            enumitem
+            capt-of
+            datetime
+            fancyhdr
+            lipsum
+            varwidth
+            eulervm
+            needspace
+            biblatex-trad
+            biblatex-software
+            xkeyval
+            xurl
+            xifthen
+            wrapfig
+            minted
+            upquote
+            mdframed
+            zref
+          ]
+        ))
+      ];
     };
 }

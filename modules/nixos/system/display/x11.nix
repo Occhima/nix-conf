@@ -6,7 +6,6 @@ in
   flake.modules.nixos.display-x11 =
     {
       pkgs,
-      config,
       ...
     }:
     {

@@ -1,3 +1,5 @@
+-- hypr/monitors.lua — mirrors hyprlang/monitors.nix (monitorv2 per display).
+
 local options = require("hypr.options")
 
 local M = {}

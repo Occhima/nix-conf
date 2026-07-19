@@ -45,7 +45,7 @@
             with pkgs;
             [
               direnv
-              gitAndTools.hub
+              hub
               namaka
               just
               nix-unit

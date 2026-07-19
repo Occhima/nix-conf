@@ -5,7 +5,6 @@ in
 {
   flake.modules.homeManager.antigravity =
     {
-      config,
       pkgs,
       ...
     }:

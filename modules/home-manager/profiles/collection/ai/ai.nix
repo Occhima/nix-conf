@@ -51,6 +51,38 @@ in
           };
         }
       );
+
+      engram = pkgs.buildGoModule rec {
+        pname = "engram";
+        version = "1.19.0";
+
+        src = pkgs.fetchFromGitHub {
+          owner = "Gentleman-Programming";
+          repo = "engram";
+          rev = "v${version}";
+          hash = "sha256-EGcxj3GVLP5080oqaNFtK1FFv5gSDDyWXX7H1Pzf5Qs=";
+        };
+
+        vendorHash = "sha256-O+pC4x4DKNUWr7Sx9iZOjK6a64wrQA4/lnjvkNLBX64=";
+
+        subPackages = [ "cmd/engram" ];
+
+        env.CGO_ENABLED = 0;
+        ldflags = [
+          "-s"
+          "-w"
+          "-X main.version=${version}"
+        ];
+
+        doCheck = false;
+
+        meta = {
+          description = "Persistent memory for AI coding agents via MCP";
+          homepage = "https://github.com/Gentleman-Programming/engram";
+          license = pkgs.lib.licenses.mit;
+          mainProgram = "engram";
+        };
+      };
     in
     {
       imports = [ cliAi ];
@@ -140,16 +172,10 @@ in
               args = [ ];
               type = "stdio";
             };
-            agentmemory = {
-              enable = false;
-              command = "${pkgs.bun}/bin/bunx";
-              args = [
-                "-y"
-                "@agentmemory/mcp"
-              ];
-              env = {
-                AGENTMEMORY_URL = "http://localhost:3111";
-              };
+            engram = {
+              command = getExe engram;
+              args = [ "mcp" ];
+              type = "stdio";
             };
 
             # NOTE: Taking tooo long to build

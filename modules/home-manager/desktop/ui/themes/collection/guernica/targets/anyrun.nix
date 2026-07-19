@@ -2,7 +2,6 @@
   flake.modules.homeManager.themes-guernica =
     {
       config,
-      lib,
       ...
     }:
     let

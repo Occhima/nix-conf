@@ -9,12 +9,13 @@
       python = pkgs.python312;
       uv = pkgs.uv;
 
-      texlive = pkgs.texlive.combine {
-        inherit (pkgs.texlive)
-          scheme-medium
+      # scheme-medium base now comes from texliveMedium; biber is a separate package.
+      texlive = pkgs.texliveMedium.withPackages (
+        ps:
+        with ps;
+        [
           # Build tooling
           latexmk
-          biber
           biblatex
           # Fonts
           libertinus-fonts
@@ -81,8 +82,8 @@
           fontaxes
           iflang
           translator
-          ;
-      };
+        ]
+      );
 
       commonPackages = [
         uv
@@ -90,6 +91,7 @@
         pkgs.nil
         pkgs.marimo
         texlive
+        pkgs.biber
       ];
 
       uvSync = ''

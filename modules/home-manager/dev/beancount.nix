@@ -1,7 +1,6 @@
 {
   flake.modules.homeManager.beancount =
     {
-      config,
       pkgs,
       ...
     }:

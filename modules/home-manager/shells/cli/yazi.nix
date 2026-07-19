@@ -2,7 +2,6 @@
   flake.modules.homeManager.yazi =
     # NOTE: Stolen from https://discourse.nixos.org/t/yazi-plugin-eza-preview-not-working/64474
     {
-      config,
       pkgs,
       ...
     }:

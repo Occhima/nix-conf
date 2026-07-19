@@ -9,7 +9,7 @@
 
   flake.actions-nix = {
     pre-commit.enable = false;
-    defaults = {
+      defaultValues = {
       jobs = {
         timeout-minutes = 120;
         runs-on = "ubuntu-latest";

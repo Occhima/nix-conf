@@ -263,12 +263,10 @@ This configuration uses agenix for secrets management:
 ### Common Issues
 
 1. **Flake evaluation errors**:
-
    - Run `nix flake check --show-trace` for detailed error messages
    - Check for syntax errors in recently modified files
 
 2. **Build failures**:
-
    - Look for specific error messages in the build output
    - Check that all dependencies are correctly specified
 

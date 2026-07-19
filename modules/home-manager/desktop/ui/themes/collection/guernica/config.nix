@@ -12,6 +12,9 @@ in
       wallpaperPath = guernicaAssets.wallpaper;
     in
     {
+      # stylix.cursor sets home.pointerCursor; HM now wants an explicit enable.
+      home.pointerCursor.enable = true;
+
       stylix = {
         image = wallpaperPath;
 

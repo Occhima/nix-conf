@@ -85,7 +85,7 @@
               emacs
               emacsPackages.elisp-lint
 
-              gitAndTools.hub
+              hub
               namaka
 
               onefetch

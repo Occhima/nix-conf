@@ -1,7 +1,6 @@
 {
   flake.modules.homeManager.aider =
     {
-      config,
       pkgs,
       ...
     }:

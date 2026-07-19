@@ -1,7 +1,6 @@
 {
   flake.modules.homeManager.prompt-starship =
     {
-      config,
       lib,
       pkgs,
       ...

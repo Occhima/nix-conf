@@ -7,7 +7,6 @@
 
   flake.modules.homeManager.spotify =
     {
-      config,
       pkgs,
       ...
     }:

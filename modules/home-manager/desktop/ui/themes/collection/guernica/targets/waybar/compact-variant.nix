@@ -3,7 +3,6 @@
 {
   flake.lib.guernica.mkWaybarCompact =
     {
-      lib,
       config,
       uiCfg,
       waybarModules,
