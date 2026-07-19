@@ -4,8 +4,7 @@
 # a mergeable option), so deleting a module also drops its input on the
 # next write-flake. The dendritic flake module also wires flake-parts'
 # `modules` option and the import-tree outputs form.
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   imports = [ inputs.flake-file.flakeModules.dendritic ];
 
   flake-file.description = "My dendritic NixOS config";

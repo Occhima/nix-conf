@@ -15,7 +15,15 @@
       "mcp__github__get_file_contents",
       "Bash(curl:*)",
       "mcp__deepwiki__read_wiki_structure",
-      "Skill(brainstorming)"
+      "Skill(brainstorming)",
+      "Bash(rtk grep *)",
+      "Bash(nix flake *)",
+      "Bash(nix eval *)",
+      "mcp__plugin_claude-code-home-manager_nixos__nix",
+      "Bash(nix fmt *)",
+      "Bash(nix build *)",
+      "Bash(git mv *)",
+      "Bash(nix run *)"
     ]
   }
 }
