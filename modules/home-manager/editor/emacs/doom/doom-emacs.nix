@@ -1,5 +1,3 @@
-# emacs-doom: Doom Emacs on the Linux PGTK package (Linux-only homes).
-# Imports emacs-core for the shared session environment.
 { config, ... }:
 let
   inherit (config.flake.lib.custom) ifPackageNotEnabled;
@@ -16,7 +14,6 @@ in
     let
       inherit (builtins) getAttr;
 
-      # Linux-only homes: use the PGTK Emacs package directly.
       emacsBase = pkgs.emacs-git-pgtk;
       mkEmacsHomePackages =
         packages:

@@ -14,7 +14,7 @@
       web-devicons.enable = true;
 
       refactoring = {
-        enable = false;
+        enable = true;
         enableTelescope = true;
       };
 

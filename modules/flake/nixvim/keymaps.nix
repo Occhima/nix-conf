@@ -125,7 +125,7 @@
       {
         mode = "n";
         key = "<leader>rr";
-        action.__raw = ''require("telescope").extensions.refactoring.refactors'';
+        action.__raw = ''function() require("telescope").extensions.refactoring.refactors() end'';
         options.desc = "Select refactor";
       }
       {
