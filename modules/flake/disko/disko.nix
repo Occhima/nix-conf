@@ -20,10 +20,12 @@ in
         disko = {
           type = "app";
           program = "${inputs'.disko.packages.disko}/bin/disko";
+          meta.description = "Declarative disk partitioning tool";
         };
         disko-install = {
           type = "app";
           program = "${inputs'.disko.packages.disko-install}/bin/disko-install";
+          meta.description = "Disko-aware NixOS installer";
         };
       };
     };
