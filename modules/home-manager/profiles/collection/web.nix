@@ -1,5 +1,7 @@
 {
-  flake.allowedUnfreePackages = [ "postman" ];
+  nixpkgs.allowedUnfree = [
+    "postman"
+  ];
 
   flake.modules.homeManager.web =
     {

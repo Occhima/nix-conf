@@ -1,8 +1,9 @@
-# Guernica styling for schizofox. Contributed to the browser-firefox
-# aspect (the sole importer of the schizofox module) so the options only
-# exist when that browser is actually composed.
+# Guernica styling for schizofox. Explicit integration module: importing
+# Requires `themes-guernica` in the same composition (homeManager.desktop provides it).
+# `browser-firefox` alone no longer activates any theme configuration.
+{ ... }:
 {
-  flake.modules.homeManager.browser-firefox =
+  flake.modules.homeManager.themes-guernica-firefox =
     {
       config,
       ...
@@ -11,6 +12,7 @@
       inherit (config.lib.stylix) colors;
     in
     {
+
       programs.schizofox = {
         extensions.simplefox.enable = true;
         theme = {

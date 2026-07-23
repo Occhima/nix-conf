@@ -56,27 +56,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    devenv = {
-      type = "github";
-      owner = "cachix";
-      repo = "devenv";
-    };
-
-    devshell = {
-      type = "github";
-      owner = "numtide";
-      repo = "devshell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # for the dev shell
-    agenix-shell = {
-      type = "github";
-      owner = "aciceri";
-      repo = "agenix-shell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # mkdocs-flake = {
     #   type = "github";
     #   owner = "applicative-systems";
@@ -87,12 +66,6 @@
       type = "github";
       owner = "nialov";
       repo = "actions.nix";
-    };
-
-    files = {
-      type = "github";
-      owner = "mightyiam";
-      repo = "files";
     };
 
   };

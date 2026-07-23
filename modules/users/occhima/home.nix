@@ -1,47 +1,36 @@
-# occhima — Den user aspect. Hosts declaring `users.occhima` get this
-# environment wired through Den; `den.homes` (standalone.nix) reuses the
-# very same aspect for non-NixOS machines. The environment itself is
-# composed from plain `flake.modules.homeManager.*` feature modules.
+# occhima — plain Home Manager module. Hosts and the standalone home get it
+# wired through the Den aspect in modules/den/aspects/users/occhima.nix; the
+# module itself is Den-free and usable on its own.
 { config, ... }:
 let
   hm = config.flake.modules.homeManager;
 in
 {
-  den.aspects.occhima = {
-    nixos =
-      { ... }:
-      {
-        imports = [ config.flake.modules.nixos.user-occhima ];
-      };
+  flake.modules.homeManager.user-occhima = {
+    imports = [
+      hm.home-base
+      hm.shell
+      hm.personal-data
+      hm.editors
+      hm.languages
+      hm.desktop
+      # Emacs: Doom flavor + daemon/default editor (selected by import).
+      hm.emacs-doom
+      hm.emacs-daemon
+      # Services
+      hm.espanso
+      hm.podman
+      # Topic profiles
+      hm.web
+      hm.data
+      hm.ai
+      hm.dev
+      hm.science
+      hm.finance
+      hm.pentesting
+    ];
 
-    homeManager = {
-      imports = [
-        hm.home-base
-        hm.shell
-        hm.personal-data
-        hm.editors
-        hm.languages
-        hm.desktop
-        # Services
-        hm.espanso
-        hm.podman
-        # Topic profiles
-        hm.web
-        hm.data
-        hm.ai
-        hm.dev
-        hm.science
-        hm.finance
-        hm.pentesting
-      ];
-
-      home.username = "occhima";
-      home.homeDirectory = "/home/occhima";
-      modules.editor.emacs = {
-        flavor = "doom";
-        service = true;
-        default = true;
-      };
-    };
+    home.username = "occhima";
+    home.homeDirectory = "/home/occhima";
   };
 }

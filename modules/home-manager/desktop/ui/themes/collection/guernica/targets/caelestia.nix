@@ -14,6 +14,7 @@ in
       stylixFonts = config.stylix.fonts;
     in
     {
+
       programs.caelestia.settings = {
         appearance = {
           anim.durations.scale = 1;

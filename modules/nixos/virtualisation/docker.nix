@@ -1,50 +1,21 @@
+# docker-engine: the real Docker daemon. No host currently imports this —
+# workstations use podman-host's Docker compatibility instead.
 {
-  flake.modules.nixos.docker =
+  flake.modules.nixos.docker-engine =
+    { pkgs, ... }:
     {
-      config,
-      lib,
-      pkgs,
-      ...
-    }:
-
-    let
-      inherit (lib)
-        mkOption
-        mkIf
-        types
-        ;
-      cfg = config.modules.virtualisation.docker;
-    in
-    {
-      options.modules.virtualisation.docker = {
-        usePodman = mkOption {
-          type = types.bool;
-          default = true;
-          description = "Whether to use podman for docker compatibility";
-        };
-      };
-
-      config = {
-        # Use podman as docker implementation if configured
-        modules.virtualisation.podman = mkIf cfg.usePodman {
-          dockerCompat = true;
-        };
-
-        # Use actual docker if podman is not used
-        virtualisation.docker = mkIf (!cfg.usePodman) {
+      virtualisation.docker = {
+        enable = true;
+        autoPrune = {
           enable = true;
-          autoPrune = {
-            enable = true;
-            flags = [ "--all" ];
-            dates = "weekly";
-          };
+          flags = [ "--all" ];
+          dates = "weekly";
         };
-
-        # Add docker CLI
-        environment.systemPackages = with pkgs; [
-          docker-client
-          docker-compose
-        ];
       };
+
+      environment.systemPackages = with pkgs; [
+        docker-client
+        docker-compose
+      ];
     };
 }

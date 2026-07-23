@@ -1,8 +1,6 @@
-# Den: hosts, users and output generation — nothing more. Features live
-# in plain flake-parts `flake.modules.<class>.<name>` (no den vocabulary);
-# only modules/hosts/ and modules/users/ speak den, wiring those modules
-# into hosts, users and standalone homes. No namespace: den stays a thin,
-# replaceable output layer.
+# Den core: input declarations, flakeModule import and the user-class schema.
+# Den is a thin, replaceable output layer — every `den.*` definition lives
+# under modules/den/. Plain modules elsewhere stay Den-free.
 { inputs, lib, ... }:
 {
 

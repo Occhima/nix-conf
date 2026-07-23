@@ -1,10 +1,11 @@
-{
-  ...
-}:
+# Structured monitor data: typed fields only. Renderers (Hyprland, Niri)
+# may turn these into compositor-specific strings; nothing parses structure
+# back out of strings.
+{ ... }:
 
 {
   flake.modules.nixos.monitors =
-    { lib, ... }:
+    { config, lib, ... }:
     let
       inherit (lib) mkOption types literalExpression;
       monitorOptions = {
@@ -15,18 +16,41 @@
             description = "The name/connector of the monitor";
           };
 
-          mode = mkOption {
-            type = types.str;
-            default = "preferred";
-            example = "1920x1080@144";
-            description = "The mode (resolution and refresh rate) to use for the monitor";
+          enable = mkOption {
+            type = types.bool;
+            default = true;
+            description = "Whether the monitor is enabled";
           };
 
-          position = mkOption {
-            type = types.str;
-            default = "auto";
-            example = "1920,0";
-            description = "The position coordinates for the monitor";
+          width = mkOption {
+            type = types.int;
+            example = 2560;
+            description = "Horizontal resolution in pixels";
+          };
+
+          height = mkOption {
+            type = types.int;
+            example = 1080;
+            description = "Vertical resolution in pixels";
+          };
+
+          refreshRate = mkOption {
+            type = types.nullOr types.number;
+            default = null;
+            example = 180;
+            description = "Refresh rate in Hz (null lets the compositor pick)";
+          };
+
+          x = mkOption {
+            type = types.int;
+            default = 0;
+            description = "Horizontal position in the global layout";
+          };
+
+          y = mkOption {
+            type = types.int;
+            default = 0;
+            description = "Vertical position in the global layout";
           };
 
           scale = mkOption {
@@ -36,15 +60,9 @@
           };
 
           transform = mkOption {
-            type = types.bool;
-            default = false;
-            description = "Whether to rotate the monitor";
-          };
-
-          disable = mkOption {
-            type = types.bool;
-            default = false;
-            description = "Whether to disable the monitor";
+            type = types.int;
+            default = 0;
+            description = "Compositor transform value (0 = normal)";
           };
 
           extraConfig = mkOption {
@@ -70,18 +88,36 @@
           example = literalExpression ''
             {
               dp1 = {
-                name = "DP-1";
-                mode = "2560x1440@144";
-                position = "0,0";
+                output = "DP-1";
+                width = 2560;
+                height = 1440;
+                refreshRate = 144;
+                x = 0;
+                y = 0;
               };
               hdmi1 = {
-                name = "HDMI-1";
-                mode = "1920x1080";
-                position = "2560,0";
+                output = "HDMI-1";
+                width = 1920;
+                height = 1080;
+                x = 2560;
+                y = 0;
               };
             }
           '';
         };
+      };
+
+      config = {
+        assertions = [
+          {
+            assertion =
+              let
+                monitors = config.modules.hardware.monitors;
+              in
+              monitors.primaryMonitorName == "" || builtins.hasAttr monitors.primaryMonitorName monitors.displays;
+            message = "modules.hardware.monitors.primaryMonitorName must name a declared display";
+          }
+        ];
       };
     };
 }

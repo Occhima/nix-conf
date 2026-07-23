@@ -9,26 +9,34 @@
       inherit (lib)
         mkIf
         mapAttrsToList
+        filterAttrs
         ;
       monitors = osConfig.modules.hardware.monitors or { };
       displays = monitors.displays or { };
+      enabled = filterAttrs (_: d: d.enable) displays;
+
+      renderMode =
+        d:
+        "${toString d.width}x${toString d.height}"
+        + (if d.refreshRate == null then "" else "@${toString d.refreshRate}");
+      renderPosition = d: "${toString d.x}x${toString d.y}";
 
       mkHyprMonitorsV2 =
-        _monitorConfig:
-        mapAttrsToList (_: monitorCfg: {
-          inherit (monitorCfg)
-            mode
-            position
-            output
-            ;
-        }) _monitorConfig;
+        monitorConfig:
+        mapAttrsToList (
+          _: d:
+          {
+            inherit (d) output scale transform;
+            mode = renderMode d;
+            position = renderPosition d;
+          }
+          // d.extraConfig
+        ) monitorConfig;
     in
     {
       config = mkIf (displays != { }) {
         wayland.windowManager.hyprland.settings = {
-          # monitor = mkHyprMonitors displays;
-          monitorv2 = mkHyprMonitorsV2 displays;
-          # workspace = mkHyprWorkspaces displays primaryMonitor;
+          monitorv2 = mkHyprMonitorsV2 enabled;
         };
       };
     };

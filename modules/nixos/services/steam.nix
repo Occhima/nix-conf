@@ -3,7 +3,7 @@ let
   inherit (config.flake.lib.custom) isWayland;
 in
 {
-  flake.allowedUnfreePackages = [
+  nixpkgs.allowedUnfree = [
     "steam"
     "steam-unwrapped"
     "steam-run"

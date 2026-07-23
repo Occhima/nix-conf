@@ -22,11 +22,13 @@ framework vocabulary): a file contributes one coherent feature to a
 class (`flake.modules.nixos.<name>`, `flake.modules.homeManager.<name>`),
 independent files contributing to the same name merge, and composition
 happens exclusively through `imports` — **importing a module is what
-activates it**. Den appears only in `modules/hosts/` and
-`modules/users/`: hosts and users are Den entities (`den.hosts`,
-`den.homes`) whose aspects just import feature modules, and Den generates
+activates it**. Den appears only in `modules/den/`: hosts and users are
+Den entities (`den.hosts`, `den.homes`) whose aspects import the plain
+feature modules living outside the Den boundary, and Den generates
 `nixosConfigurations`/`homeConfigurations` — nobody calls `nixosSystem`
-by hand, and nothing reads a modules fixpoint. Inputs are declared next
+by hand, and nothing reads a modules fixpoint. A flake check
+(`checks.<system>.den-boundary`) fails if any `den.*` configuration shows
+up outside `modules/den/`. Inputs are declared next
 to the module that consumes them
 ([flake-file](https://github.com/vic/flake-file)); `flake.nix` is
 generated with `nix run .#write-flake`. Options exist only for genuine
@@ -35,13 +37,14 @@ data (monitor layouts, usernames, ports, device paths).
 ```text
 flake.nix        # inputs + two imports: flakeModules.modules, import-tree ./modules
 modules/         # THE root configuration tree — every file is a flake-parts module
-├── flake/       #   systems, per-system nixpkgs, flake-level glue (den, deploy-rs, …)
+├── flake/       #   systems, per-system nixpkgs, flake-level glue (deploy-rs, …)
 │   ├── _dev/    #   development partition: own flake + lock, skipped by import-tree
 │   ├── disko/   #   disko glue + per-host layouts → diskoConfigurations outputs
 │   └── nixvim/  #   nixvim glue + fragments merging into flake.nixvimModules.default
+├── den/         #   THE Den boundary: core, aspects, entities (hosts/homes), integrations
 ├── lib/         #   helpers merged into `flake.lib.custom` (an option, not a file import)
-├── hosts/       #   one dir per host: den wiring + its own nixosConfigurations output
-├── users/       #   account modules (NixOS) + den user aspect (HM) + standalone HM output
+├── hosts/       #   one dir per host: plain `flake.modules.nixos.host-<name>` module
+├── users/       #   plain account (NixOS) and home (HM) user modules, Den-free
 ├── nixos/       #   NixOS feature modules (base, hardware, network, security, …)
 │   └── secrets/ #   agenix feature (flake glue + module) with its assets colocated
 ├── home-manager/#   Home Manager feature modules (shells, desktop, editors, …)
@@ -81,34 +84,34 @@ module system merges them. The same goes for the Nixvim fragments under
 `modules/flake/nixvim/` (→ `flake.nixvimModules.default`) and the Guernica
 theme targets (→ `flake.modules.homeManager.themes-guernica`). Theme
 styling for optional WMs/browsers (niri, schizofox, zen, spicetify,
-caelestia) contributes to the feature that owns the upstream module
-instead, so the theme never references options that are not composed —
-and each upstream home module keeps exactly one importer.
+caelestia) lives in explicit `themes-guernica-<app>` integration modules
+under the same directory: importing an application module never activates
+Guernica, and `homeManager.desktop` imports exactly the integrations it
+needs.
 
 ### A host
 
 ```nix
-# modules/hosts/steammachine/host.nix
+# modules/hosts/steammachine/host.nix — a plain deferred NixOS module
 { config, ... }:
 {
-  den.hosts.x86_64-linux.steammachine.users.occhima = { };
-
-  den.aspects.steammachine = {
-    nixos = {
-      imports = with config.flake.modules.nixos; [
-        gaming-workstation # workstation + steam + oom + nix-ld
-        cpu-amd gpu-nvidia login-ly disko-steammachine vpn-openvpn # identity
-      ];
-      modules.network.hostName = "steammachine"; # genuine data
-      age.rekey.hostPubkey = builtins.readFile ./host.pub;
-    };
+  flake.modules.nixos.host-steammachine = {
+    imports = with config.flake.modules.nixos; [
+      gaming-workstation # workstation + steam + oom + nix-ld
+      cpu-amd gpu-nvidia login-ly disko-steammachine vpn-openvpn # identity
+      pentesting-container
+    ];
+    modules.network.hostName = "steammachine"; # genuine data
+    age.rekey.hostPubkey = builtins.readFile ./host.pub;
   };
 }
 ```
 
-Den generates `nixosConfigurations.steammachine` from this — no manual
-`nixosSystem` call, no registry. Host files contain only identity,
-users, machine data and a short list of high-level imports.
+The Den aspect in `modules/den/aspects/hosts/steammachine.nix` imports
+exactly this module, and `modules/den/entities/hosts.nix` declares the
+host inventory. Den generates `nixosConfigurations.steammachine` — no
+manual `nixosSystem` call, no registry, and the plain host module works
+without Den.
 
 Variant choices are named modules (`cpu-amd`/`cpu-intel`, `gpu-nvidia`,
 `login-ly`/`login-greetd`, `browser-zen-beta`, `terminal-kitty`), and
@@ -122,16 +125,18 @@ user environment short, next to the topic profiles (`ai`, `data`,
 
 ### A user
 
-- `modules/users/occhima/home.nix` — the Den user aspect
-  (`den.aspects.occhima`): a short list of aggregate imports plus the
-  homeManager identity. Hosts declaring `users.occhima` get the
-  environment wired by Den.
+- `modules/users/occhima/home.nix` — `flake.modules.homeManager.user-occhima`:
+  the plain Home Manager module (aggregate imports + home identity).
 - `modules/users/occhima/account.nix` — `flake.modules.nixos.user-occhima`:
-  the plain NixOS account (framework-independent; no Den batteries).
-- `modules/users/occhima/standalone.nix` — `den.homes.x86_64-linux.occhima`
+  the plain NixOS account. Both stay Den-free.
+- `modules/den/aspects/users/occhima.nix` — the Den user aspect: its NixOS
+  class imports `user-occhima` (NixOS), its Home Manager class imports
+  `user-occhima` (HM). Nothing is duplicated.
+- `modules/den/entities/homes.nix` — `den.homes.x86_64-linux.occhima`
   generates `homeConfigurations.occhima` for non-NixOS machines from the
-  same user aspect. **No fabricated `osConfig`**: modules that want host
-  facts declare `osConfig ? { }` and degrade gracefully.
+  same user aspect, using the explicit internal overlay list. **No
+  fabricated `osConfig`**: modules that want host facts declare
+  `osConfig ? { }` and degrade gracefully.
 
 ### Helpers
 
@@ -159,12 +164,14 @@ let inherit (config.flake.lib.custom) isWayland; in …
   `modules/flake/flake-file.nix`), then `nix run .#write-flake`
   regenerates flake.nix. Deleting the module drops its input on the next
   write-flake.
-- **Add a host**: `modules/hosts/<name>/host.nix` with the
-  `den.hosts.<system>.<name>` entry and a `den.aspects.<name>` whose
-  nixos side imports identity + a short aggregate list (plus `host.pub`
-  - a `perSystem.agenix-rekey` registration if it uses secrets).
+- **Add a host**: `modules/hosts/<name>/host.nix` as a plain
+  `flake.modules.nixos.host-<name>` module (identity + short aggregate
+  list + `host.pub`), an aspect in `modules/den/aspects/hosts/<name>.nix`
+  importing it, and an inventory entry in `modules/den/entities/hosts.nix`.
+  agenix-rekey hosts register in `modules/den/integrations/agenix-rekey.nix`.
 - **Add a user**: `modules/users/<name>/` following the occhima files
-  (Den user aspect + plain account module + optional den.homes entry).
+  (plain NixOS account + plain HM module), plus a Den aspect in
+  `modules/den/aspects/users/` and entity entries as needed.
 - **Add a package**: expression in `modules/packages/_<name>/package.nix`
   (underscore = not discovered), wired by the sibling
   `modules/packages/<name>.nix` via `perSystem.packages.<name>` — the
@@ -191,22 +198,33 @@ prefix is reserved for non-module data files referenced lexically (e.g.
 ## Development
 
 ```bash
-just             # list commands
-just fmt         # format (treefmt via the dev partition)
-just unit-tests  # nix-unit tests
+just             # list commands (recipes rendered from modules/flake/_dev/just.nix)
+just fmt         # format (treefmt: nixfmt, deadnix, shellcheck, prettier, …)
+just test        # nix-unit tests
 just check       # nix flake check
+nix flake check --option allow-import-from-derivation false  # no-IFD gate
 nix flake show   # inspect outputs
 ```
+
+Generated files have one authoritative source each: `flake.nix` comes
+from flake-file modules (`nix run .#write-flake`), `just-flake.just` from
+`modules/flake/_dev/just.nix` (`nix build .#render-justfile -o
+just-flake.just`), and `.github/workflows/*.yml` from
+`modules/flake/_dev/actions.nix` (`nix run .#render-workflows`).
+Freshness checks (`check-flake-file`, `justfile-fresh`,
+`workflows-fresh`) fail on drift.
 
 Development tooling (formatters, pre-commit, tests, CI workflow
 generation) lives in the `modules/flake/_dev/` flake-parts **partition**
 with its own lock file — the underscore keeps it out of import-tree, and
 dev-only inputs never enter host evaluation.
 
-`just unit-tests` runs two kinds of nix-unit suites: pure helper tests,
-and **evaluation contract tests** that force the public outputs (every
-host's toplevel, the standalone home, merged Hyprland/Nixvim fragments,
-disko layouts, per-feature exports) to prove the composition still holds.
+`just test` runs two kinds of nix-unit suites: pure helper tests, and
+**evaluation contract tests** that force the public outputs — every
+host's `system.build.toplevel.drvPath` (voyager: ISO image), the
+standalone home's `activationPackage.drvPath`, merged Hyprland/Nixvim
+fragments, disko layouts, per-feature exports — to prove the composition
+still holds. Nothing is built; drvPaths are the regression gate.
 
 Every feature is also exported individually through
 `modules.<class>.<name>` for external consumers — there is no

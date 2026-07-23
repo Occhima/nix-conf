@@ -7,8 +7,8 @@
       # gnome's keyring manager
       seahorse.enable = false;
 
-      # networkmanager tray uility, pretty useful actually
-      # nm-applet.enable = config.programs.waybar.enable;
+      # NetworkManager tray applet: explicitly wanted on graphical desktops.
+      nm-applet.enable = true;
     };
   };
 }

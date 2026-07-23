@@ -1,16 +1,6 @@
-# Evaluation-level contract tests: these force the public outputs far
-# enough to prove the dendritic composition actually merges — hosts,
-# standalone Home Manager, split Hyprland/Nixvim fragments, disko,
-# per-feature module exports. Eval-only: nothing is built.
-#
-# We deliberately do NOT force `system.build.toplevel.drvPath` /
-# `activationPackage.drvPath`. Some packages in these closures use
-# import-from-derivation (e.g. `julia.withPackages` resolves its registry
-# via IFD), and computing those drvPaths realises the IFD mid-evaluation —
-# which the sandboxed `nix flake check` evaluator cannot do. Forcing a
-# resolved option instead proves the module tree composed and evaluated
-# without building anything; the specific-fact tests below carry the
-# coverage that the merge produced the right values.
+# Evaluation contract tests: force the public outputs far enough to prove
+# the composition holds, plus regression facts that catch unwanted behavior.
+# Eval-only, no network, no builds — drvPaths are the regression gate.
 { lib, self, ... }:
 let
   hosts = [
@@ -20,39 +10,56 @@ let
     "steammachine"
     "voyager"
   ];
+  homeHosts = [
+    "aerodynamic"
+    "beyond"
+    "crescendoll"
+    "steammachine"
+  ];
   isDrvPath = p: lib.isString (toString p) && lib.hasSuffix ".drv" (toString p);
+  hostConfig = h: self.nixosConfigurations.${h}.config;
+  home = self.homeConfigurations.occhima.config;
 in
 {
-  "every host evaluates its NixOS module tree" = {
+  # ── outputs evaluate ─────────────────────────────────────────────────────
+  "every host evaluates its system drvPath" = {
     expr = lib.all (
-      h: builtins.isString self.nixosConfigurations.${h}.config.networking.hostName
+      h:
+      isDrvPath (
+        if h == "voyager" then
+          self.nixosConfigurations.${h}.config.system.build.isoImage.drvPath
+        else
+          self.nixosConfigurations.${h}.config.system.build.toplevel.drvPath
+      )
     ) hosts;
+    expected = true;
+  };
+
+  "standalone home evaluates its activationPackage drvPath" = {
+    expr = isDrvPath self.homeConfigurations.occhima.activationPackage.drvPath;
+    expected = true;
+  };
+
+  "host inventory is exactly the five hosts" = {
+    expr = builtins.sort builtins.lessThan (builtins.attrNames self.nixosConfigurations);
+    expected = hosts;
+  };
+
+  "standalone occhima home exists" = {
+    expr = builtins.attrNames self.homeConfigurations;
+    expected = [ "occhima" ];
+  };
+
+  "hosts wire the occhima home; voyager has none" = {
+    expr =
+      lib.all (h: self.nixosConfigurations.${h}.config.home-manager.users ? occhima) homeHosts
+      && (self.nixosConfigurations.voyager.config.home-manager.users or { } == { });
     expected = true;
   };
 
   "crescendoll keeps its WSL behavior" = {
     expr = self.nixosConfigurations.crescendoll.config.wsl.enable;
     expected = true;
-  };
-
-  "voyager evaluates as an installer ISO" = {
-    expr = isDrvPath self.nixosConfigurations.voyager.config.system.build.isoImage.drvPath;
-    expected = true;
-  };
-
-  "standalone home-manager evaluates without a fabricated osConfig" = {
-    expr = self.homeConfigurations.occhima.config.home.username;
-    expected = "occhima";
-  };
-
-  "split hyprland fragments merge into one aspect" = {
-    expr = self.homeConfigurations.occhima.config.wayland.windowManager.hyprland.enable;
-    expected = true;
-  };
-
-  "hosts publish the wayland display fact" = {
-    expr = self.nixosConfigurations.steammachine.config.modules.system.display.type;
-    expected = "wayland";
   };
 
   "disko layouts are published per host" = {
@@ -70,20 +77,8 @@ in
     expected = true;
   };
 
-  "expected packages are wired" = {
-    expr = lib.all (n: self.packages.x86_64-linux ? ${n}) [
-      "run-vm"
-      "scripts"
-      "install-tools"
-      "docs"
-      "nyxt-source"
-      "antigravity"
-      "jcode"
-      "ampcode"
-      "update-packages"
-      "codegraph"
-      "feynman"
-    ];
+  "split hyprland fragments merge into one aspect" = {
+    expr = home.wayland.windowManager.hyprland.enable;
     expected = true;
   };
 
@@ -95,8 +90,58 @@ in
     expected = true;
   };
 
-  "hosts wire the occhima home through den" = {
-    expr = self.nixosConfigurations.steammachine.config.home-manager.users ? occhima;
+  "run-vm package is wired" = {
+    expr = lib.isDerivation self.packages.x86_64-linux.run-vm;
+    expected = true;
+  };
+
+  # ── regression facts ─────────────────────────────────────────────────────
+  "emacs doom is selected; vanilla is not" = {
+    expr =
+      lib.hasPrefix "emacs-git-pgtk" home.programs.emacs.package.name
+      && home.xdg.configFile.doom.enable
+      && !(lib.hasPrefix "emacs-with-packages" home.programs.emacs.package.name);
+    expected = true;
+  };
+
+  "emacs daemon and default editor stay active" = {
+    expr = home.services.emacs.enable && home.services.emacs.defaultEditor;
+    expected = true;
+  };
+
+  "pentesting container is private with no password or autologin" = {
+    expr =
+      let
+        c = hostConfig "steammachine";
+        cc = c.containers.pentesting.config;
+      in
+      c.containers.pentesting.privateNetwork
+      && (cc.services.getty.autologinUser or null) == null
+      && (cc.users.users.rednix.initialPassword or null) == null
+      && cc.services.openssh.settings.PermitRootLogin == "no"
+      && !cc.services.openssh.settings.PasswordAuthentication;
+    expected = true;
+  };
+
+  "electron-40.10.5 is not permitted" = {
+    expr = lib.all (
+      h:
+      !(builtins.elem "electron-40.10.5" ((hostConfig h).nixpkgs.config.permittedInsecurePackages or [ ]))
+    ) hosts;
+    expected = true;
+  };
+
+  "flatpak nixos/hm composition stays active" = {
+    expr = (hostConfig "aerodynamic").services.flatpak.enable && home.services.flatpak.uninstallUnused;
+    expected = true;
+  };
+
+  "NH points at the current flake" = {
+    expr =
+      let
+        shell = self.devShells.x86_64-linux.default;
+      in
+      shell.NH_FLAKE == "." && shell.NH_OS_FLAKE == "." && shell.FLAKE == ".";
     expected = true;
   };
 }

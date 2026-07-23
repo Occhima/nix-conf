@@ -1,47 +1,29 @@
 {
   flake.modules.nixos.networkmanager =
+    { ... }:
     {
-      config,
-      lib,
-      pkgs,
-      ...
-    }:
-    let
-      inherit (lib.modules) mkForce;
-      inherit (lib.lists) optionals;
-      # ponytail: check xserver instead of old display.type selector
-      isGui = config.services.xserver.enable or false;
-    in
-    {
-      options.modules.network.networkmanager = {
-      };
-
-      config = {
-        environment.systemPackages = optionals isGui [
-          pkgs.networkmanagerapplet
+      # NetworkManager owns the Wi-Fi backend. The tray applet lives in the
+      # graphical composition (nixos.graphical); the OpenVPN plugin is
+      # contributed by the vpn-openvpn module.
+      networking.networkmanager = {
+        enable = true;
+        dns = "systemd-resolved";
+        unmanaged = [
+          "interface-name:tailscale*"
+          "interface-name:br-*"
+          "interface-name:rndis*"
+          "interface-name:docker*"
+          "interface-name:virbr*"
+          "interface-name:vboxnet*"
+          "interface-name:waydroid*"
+          "type:bridge"
         ];
-
-        networking.networkmanager = {
-          enable = true;
-          plugins = mkForce (optionals isGui [ pkgs.networkmanager-openvpn ]);
-          dns = "systemd-resolved";
-          unmanaged = [
-            "interface-name:tailscale*"
-            "interface-name:br-*"
-            "interface-name:rndis*"
-            "interface-name:docker*"
-            "interface-name:virbr*"
-            "interface-name:vboxnet*"
-            "interface-name:waydroid*"
-            "type:bridge"
-          ];
-          wifi = {
-            backend = "wpa_supplicant";
-            powersave = false;
-            scanRandMacAddress = true;
-          };
-          ethernet.macAddress = "random";
+        wifi = {
+          backend = "wpa_supplicant";
+          powersave = false;
+          scanRandMacAddress = true;
         };
+        ethernet.macAddress = "random";
       };
     };
 }

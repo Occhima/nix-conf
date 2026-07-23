@@ -2,9 +2,11 @@
 # ./_antigravity/package.nix.
 { ... }:
 {
-  # Unfree upstream binary.
-  flake.allowedUnfreePackages = [ "antigravity" ];
+  nixpkgs.allowedUnfree = [
+    "antigravity"
+  ];
 
+  # Unfree upstream binary.
   perSystem =
     { pkgs, ... }:
     {

@@ -1,15 +1,9 @@
-{ lib, ... }:
+{ ... }:
 {
-  flake.allowedUnfreePackages = [
+  nixpkgs.allowedUnfree = [
     "nvidia-x11"
     "nvidia-settings"
     "nvidia-persistenced"
-  ];
-
-  # cudaPackages ship dozens of components (cuda-merged, cuda_cuobjdump,
-  # libcublas, libnpp, ...) — match the family instead of listing each.
-  flake.allowedUnfreePredicates = [
-    (pkg: builtins.match "^(cuda.*|cudnn.*|libcu.*|libnpp.*|libnv.*)$" (lib.getName pkg) != null)
   ];
 
   flake.modules.nixos.gpu-nvidia =

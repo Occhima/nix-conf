@@ -1,35 +1,19 @@
 {
   flake.modules.nixos.firewall =
+    { pkgs, ... }:
     {
-      lib,
-      pkgs,
-      ...
-    }:
-    let
-      inherit (lib.modules) mkForce;
-    in
-    {
-      options.modules.network.firewall = {
-      };
+      # Services own their ports; the pentesting container module opens 8080.
+      networking.firewall = {
+        enable = true;
+        package = pkgs.iptables;
 
-      config = {
-        networking.firewall = {
-          enable = true;
-          package = pkgs.iptables;
+        allowedTCPPorts = [ ];
+        allowedUDPPorts = [ ];
 
-          allowedTCPPorts = [
-            443
-            8080
-          ];
-          allowedUDPPorts = [ ];
+        allowPing = false;
 
-          allowPing = false;
-
-          logReversePathDrops = true;
-          logRefusedConnections = false;
-
-          checkReversePath = mkForce false;
-        };
+        logReversePathDrops = true;
+        logRefusedConnections = false;
       };
     };
 }

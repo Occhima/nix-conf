@@ -1,10 +1,10 @@
-# Guernica styling for niri. Contributed to the `niri` aspect (not
-# themes-guernica): the niri home module is a keyless lambda, so it must
-# have exactly one importer — the module that owns it. The styling only
-# exists when niri is actually composed.
+# Guernica integration for niri. Import this module (together with the plain
+# Requires `themes-guernica` in the same composition (homeManager.desktop provides it).
+# `niri` module) to apply Guernica styling to niri; the plain niri module no
+# longer carries any theme configuration.
 { inputs, ... }:
 {
-  flake.modules.homeManager.niri =
+  flake.modules.homeManager.themes-guernica-niri =
     {
       ...
     }:

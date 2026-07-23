@@ -1,21 +1,20 @@
+# emacs-vanilla: use-package driven Emacs on the Linux PGTK package
+# (Linux-only homes). Imports emacs-core for the shared session environment.
+# Never import together with emacs-doom.
 { config, ... }:
 let
-  inherit (config.flake.lib.custom) isWayland;
+  emacs-core = config.flake.modules.homeManager.emacs-core;
 in
 {
-  flake.modules.homeManager.emacs =
+  flake.modules.homeManager.emacs-vanilla =
     {
-      config,
-      osConfig ? { },
       lib,
       pkgs,
       ...
     }:
     let
-      inherit (lib) mkIf;
-      cfg = config.modules.editor.emacs;
-
-      emacsBase = if isWayland osConfig then pkgs.emacs-git-pgtk else pkgs.emacs-git;
+      # Linux-only homes: use the PGTK Emacs package directly.
+      emacsBase = pkgs.emacs-git-pgtk;
 
       readRecursively =
         dir:
@@ -45,15 +44,11 @@ in
       };
     in
     {
-      config = mkIf (cfg.flavor == "vanilla") {
-        home = {
-          sessionVariables.EMACSDIR = "${config.xdg.configHome}/emacs";
-        };
+      imports = [ emacs-core ];
 
-        programs.emacs = {
-          enable = true;
-          package = emacsPackageWithPkgs;
-        };
+      programs.emacs = {
+        enable = true;
+        package = emacsPackageWithPkgs;
       };
     };
 }

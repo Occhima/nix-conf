@@ -15,6 +15,5 @@ in
     nixos.environment-fonts
     nixos.environment-locale
     nixos.environment-packages
-    nixos.environment-variables
   ];
 }

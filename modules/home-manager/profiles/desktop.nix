@@ -13,6 +13,9 @@ in
     hm.anyrun
     hm.hyprlock
     hm.themes-guernica
+    # Guernica integrations for the applications this desktop composes.
+    hm.themes-guernica-zen
+    hm.themes-guernica-spicetify
     hm.flatpak
     hm.spotify
     # hm.discord # vesktop wraps EOL electron; re-enable once nixpkgs bumps electron

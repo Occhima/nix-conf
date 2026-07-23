@@ -13,14 +13,10 @@
           excludes = [ "^_sources/.*.nix$" ];
 
           hooks = {
+            # deadnix runs in treefmt (single implementation, CI gate via
+            # the treefmt check) — not duplicated here.
             deadnix = {
-              enable = true;
-              package = pkgs.deadnix;
-              excludes = [
-                # "modules"
-                # "hosts"
-                # "home"
-              ];
+              enable = false;
             };
 
             alejandra = {

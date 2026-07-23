@@ -2,9 +2,11 @@
 # ./_ampcode/package.nix.
 { ... }:
 {
-  # Unfree upstream binary.
-  flake.allowedUnfreePackages = [ "ampcode" ];
+  nixpkgs.allowedUnfree = [
+    "ampcode"
+  ];
 
+  # Unfree upstream binary.
   perSystem =
     { pkgs, ... }:
     {

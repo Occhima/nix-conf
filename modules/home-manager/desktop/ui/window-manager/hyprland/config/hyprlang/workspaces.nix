@@ -41,7 +41,8 @@
           flags = [
             "monitor:${monitor.output}"
             "persistent:true"
-          ] ++ optional (slot == 1 && monitor.isPrimary) "default:true";
+          ]
+          ++ optional (slot == 1 && monitor.isPrimary) "default:true";
         in
         "${toString id}, ${concatStringsSep ", " flags}";
       workspaceRules = concatLists (map (m: map (slot: mkRule m slot) (range 1 per)) monitorList);

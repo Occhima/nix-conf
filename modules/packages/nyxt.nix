@@ -1,5 +1,4 @@
-# Nyxt: source build package, runnable app, and the nyxt-electron overlay
-# — one feature, several outputs.
+# Nyxt: source build package and runnable app.
 {
   perSystem =
     { pkgs, self', ... }:
@@ -12,6 +11,4 @@
         meta.description = "Nyxt browser built from source";
       };
     };
-
-  flake.overlays.nyxt-overlay = import ./_nyxt/electron-overlay.nix;
 }

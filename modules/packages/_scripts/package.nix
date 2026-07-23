@@ -2,6 +2,8 @@
   writeShellApplication,
   symlinkJoin,
   coreutils,
+  gnugrep,
+  nix,
 }:
 let
   inherit (builtins) readFile;
@@ -10,6 +12,8 @@ let
     name = "run-vm";
     runtimeInputs = [
       coreutils
+      gnugrep
+      nix
     ];
     text = readFile ./run-vm.sh;
   };

@@ -8,8 +8,7 @@
       ...
     }:
     let
-      inherit (lib) getExe mkIf mkEnableOption;
-      cfg = config.modules.shell.cli.passwordStore;
+      inherit (lib) getExe mkIf;
       storeSettings = config.programs.password-store;
       hasYubikeySupport = osConfig.modules.hardware.yubikey.enable or false;
 
@@ -45,10 +44,6 @@
       };
     in
     {
-      options.modules.shell.cli.passwordStore = {
-        secretService = mkEnableOption "pass secret service integration";
-      };
-
       config = {
         programs.password-store = {
           enable = true;
@@ -59,11 +54,6 @@
             PASSAGE_IDENTITIES_FILE = "${passageRoot}/identities";
             PASSAGE_RECIPIENTS_FILE = "${passageRoot}/store/.age-recipients";
           };
-        };
-
-        services.pass-secret-service = mkIf cfg.secretService {
-          enable = true;
-          storePath = storeSettings.settings.PASSAGE_DIR;
         };
 
         home = {

@@ -1,46 +1,40 @@
 # Host: beyond — gaming desktop, AMD/NVIDIA, Ly, 2 monitors, Disko, VPN.
+# Plain deferred NixOS module; usable without Den.
 { config, ... }:
-let
-  nixos = config.flake.modules.nixos;
-in
 {
-  den.hosts.x86_64-linux.beyond.users.occhima = { };
+  flake.modules.nixos.host-beyond = {
+    imports = with config.flake.modules.nixos; [
+      gaming-workstation
+      cpu-amd
+      gpu-nvidia
+      login-ly
+      disko-beyond
+      vpn-openvpn
+    ];
 
-  den.aspects.beyond = {
-    nixos =
-      { host, ... }:
-      {
-        imports = [
-          nixos.gaming-workstation
-          nixos.cpu-amd
-          nixos.gpu-nvidia
-          nixos.login-ly
-          nixos.disko-beyond
-          nixos.vpn-openvpn
-        ];
+    modules.network.hostName = "beyond";
 
-        modules.network.hostName = host.hostName;
+    # agenix-rekey host identity lives next to the host, not in a registry.
+    age.rekey.hostPubkey = builtins.readFile ./host.pub;
 
-        # agenix-rekey host identity lives next to the host, not in a registry.
-        age.rekey.hostPubkey = builtins.readFile ./host.pub;
-
-        modules.hardware.monitors = {
-          primaryMonitorName = "dp1";
-          displays.dp1 = {
-            output = "DP-1";
-            mode = "2560x1080@180";
-            position = "0x0";
-          };
-          displays.hdmi = {
-            output = "HDMI-A-1";
-            mode = "1920x1080@180";
-            position = "2560x0";
-          };
-        };
+    modules.hardware.monitors = {
+      primaryMonitorName = "dp1";
+      displays.dp1 = {
+        output = "DP-1";
+        width = 2560;
+        height = 1080;
+        refreshRate = 180;
+        x = 0;
+        y = 0;
       };
-  };
-
-  perSystem = {
-    agenix-rekey.nixosConfigurations.beyond = config.flake.nixosConfigurations.beyond;
+      displays.hdmi = {
+        output = "HDMI-A-1";
+        width = 1920;
+        height = 1080;
+        refreshRate = 180;
+        x = 2560;
+        y = 0;
+      };
+    };
   };
 }

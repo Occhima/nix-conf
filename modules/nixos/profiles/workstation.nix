@@ -22,7 +22,6 @@ in
     nixos.networkmanager
     nixos.firewall
     nixos.blocker
-    nixos.wireless
     nixos.boot-grub
     nixos.boot-kernel
     nixos.boot-plymouth
@@ -39,6 +38,5 @@ in
     nixos.security-auth
     nixos.security-kernel
     nixos.graphical
-    nixos.desktop
   ];
 }

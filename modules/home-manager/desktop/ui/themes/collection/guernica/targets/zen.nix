@@ -1,12 +1,15 @@
-# Guernica styling for the Zen browser. Contributed to the
-# browser-zen-beta aspect (the sole importer of the zen-browser module).
+# Guernica integration for the Zen browser. Explicit module: importing
+# Requires `themes-guernica` in the same composition (homeManager.desktop provides it).
+# `browser-zen-beta` alone no longer activates any theme configuration.
+{ ... }:
 {
-  flake.modules.homeManager.browser-zen-beta =
+  flake.modules.homeManager.themes-guernica-zen =
     {
       config,
       ...
     }:
     {
+
       stylix.targets.zen-browser = {
         enable = false; # disabled by default
       };

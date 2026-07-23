@@ -8,15 +8,8 @@
     let
       inherit (lib.modules) mkIf;
       inherit (lib.lists) optionals concatLists;
-      inherit (lib.options) mkEnableOption;
-
-      cfg = config.modules.security.kernel;
     in
     {
-      options.modules.security.kernel = {
-        noMitigations = mkEnableOption "Disable all CPU mitigations";
-      };
-
       config = {
         security = {
           protectKernelImage = true;
@@ -94,72 +87,52 @@
             # "net.core.bpf_jit_harden" = 2; # Performance impact
           };
 
-          # Kernel parameters for hardening
-          kernelParams =
-            if cfg.noMitigations then
-              [
-                # Disable CPU vulnerability mitigations
-                "l1tf=off"
-                "mds=off"
-                "no_stf_barrier"
-                "noibpb"
-                "noibrs"
-                "nopti"
-                "nospec_store_bypass_disable"
-                "nospectre_v1"
-                "nospectre_v2"
-                "tsx=on"
-                "tsx_async_abort=off"
-                "mitigations=off"
-              ]
-            else
-              [
-                # NixOS produces many wakeups per second, which is bad for battery life.
-                # This kernel parameter disables the timer tick on the last 4 cores
-                "nohz_full=4-7"
+          # Kernel parameters for hardening (broadly applicable only —
+          # fixed CPU-topology tuning such as nohz_full does not belong in a
+          # generic module).
+          kernelParams = [
+            # make stack-based attacks on the kernel harder
+            "randomize_kstack_offset=on"
 
-                # make stack-based attacks on the kernel harder
-                "randomize_kstack_offset=on"
+            # controls the behavior of vsyscalls
+            "vsyscall=none"
 
-                # controls the behavior of vsyscalls
-                "vsyscall=none"
+            # reduce most of the exposure of a heap attack to a single cache
+            "slab_nomerge"
 
-                # reduce most of the exposure of a heap attack to a single cache
-                "slab_nomerge"
+            # Disable debugfs which exposes sensitive kernel data
+            "debugfs=off"
 
-                # Disable debugfs which exposes sensitive kernel data
-                "debugfs=off"
+            # Convert kernel oops to panic
+            "oops=panic"
 
-                # Convert kernel oops to panic
-                "oops=panic"
+            # only allow signed modules
+            "module.sig_enforce=1"
 
-                # only allow signed modules
-                "module.sig_enforce=1"
+            # blocks access to all kernel memory
+            "lockdown=confidentiality"
 
-                # blocks access to all kernel memory
-                "lockdown=confidentiality"
+            # enable buddy allocator free poisoning
+            "page_poison=on"
 
-                # enable buddy allocator free poisoning
-                "page_poison=on"
+            # performance improvement for direct-mapped memory-side-cache
+            "page_alloc.shuffle=1"
 
-                # performance improvement for direct-mapped memory-side-cache
-                "page_alloc.shuffle=1"
+            # for debugging kernel-level slab issues
+            "slub_debug=FZP"
 
-                # for debugging kernel-level slab issues
-                "slub_debug=FZP"
+            # disable sysrq keys
+            "sysrq_always_enabled=0"
 
-                # disable sysrq keys
-                "sysrq_always_enabled=0"
+            # ignore access time updates on files
+            "rootflags=noatime"
 
-                # ignore access time updates on files
-                "rootflags=noatime"
+            # linux security modules
+            "lsm=landlock,lockdown,yama,integrity,apparmor,bpf,tomoyo,selinux"
 
-                # linux security modules
-                "lsm=landlock,lockdown,yama,integrity,apparmor,bpf,tomoyo,selinux"
-
-                # prevent the kernel from blanking plymouth out of the fb
-                "fbcon=nodefer"
-              ];
+            # prevent the kernel from blanking plymouth out of the fb
+            "fbcon=nodefer"
+          ];
 
           blacklistedKernelModules = concatLists [
             # Obscure network protocols

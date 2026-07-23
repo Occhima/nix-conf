@@ -1,5 +1,5 @@
 # Cross-cutting nix daemon/client settings, shared between NixOS hosts and
-# standalone Home Manager (den.homes / non-NixOS machines).
+# standalone Home Manager (non-NixOS machines).
 # stolen from: https://github.com/isabelroses/dotfiles/blob/main/modules/base/nix/nix.nix
 let
   # Settings meaningful in any nix.conf (system or user level).
@@ -22,43 +22,11 @@ let
       "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
     ];
 
-    # https://docs.lix.systems/manual/lix/nightly/contributing/experimental-features.html
+    # Minimal experimental feature set: flakes and the nix3 commands.
+    # Nothing in this configuration uses the removed features.
     experimental-features = [
-      # enables flakes, needed for this config
-      "flakes"
-
-      # enables the nix3 commands, a requirement for flakes
       "nix-command"
-
-      # allow nix to call itself
-      "recursive-nix"
-
-      # allow nix to build and use content addressable derivations, these are nice beaccase
-      # they prevent rebuilds when changes to the derivation do not result in changes to the derivation's output
-      "ca-derivations"
-
-      # Allows Nix to automatically pick UIDs for builds, rather than creating nixbld* user accounts
-      # which is BEYOND annoying, which makes this a really nice feature to have
-      "auto-allocate-uids"
-
-      # allows Nix to execute builds inside cgroups
-      # remember you must also enable use-cgroups in the nix.conf or settings
-      # "cgroups"
-
-      # allow passing installables to nix repl, making its interface consistent with the other experimental commands
-      # "repl-flake"
-
-      # allow usage of the pipe operator in nix expressions
-      "pipe-operators"
-
-      # enable the use of the fetchClosure built-in function in the Nix language.
-      "fetch-closure"
-
-      # dependencies in derivations on the outputs of derivations that are themselves derivations outputs.
-      "dynamic-derivations"
-
-      # allow parsing TOML timestamps via builtins.fromTOML
-      "parse-toml-timestamps"
+      "flakes"
     ];
 
     # continue building derivations even if one fails
@@ -80,9 +48,9 @@ let
     # littrally a CVE waiting to happen <https://x.com/puckipedia/status/1693927716326703441>
     accept-flake-config = false;
 
-    # this defaults to true, however it slows down evaluation so maybe we should disable it
-    # some day, but we do need it for catppuccin/nix so maybe not too soon
-    allow-import-from-derivation = true;
+    # IFD is disabled globally: no derivation output may be read back during
+    # evaluation (regression gate: nix flake check --option allow-import-from-derivation false).
+    allow-import-from-derivation = false;
 
     # for direnv GC roots
     keep-derivations = true;
@@ -129,7 +97,6 @@ in
           system-features = [
             "nixos-test"
             "kvm"
-            "recursive-nix"
 
             # "big-parallel"
           ];

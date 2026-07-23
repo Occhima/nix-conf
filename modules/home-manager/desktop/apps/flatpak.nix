@@ -7,20 +7,13 @@
       config,
       lib,
       pkgs,
-      osConfig ? { },
       ...
     }:
     let
       inherit (lib) mkOption types;
       inherit (lib.modules) mkIf;
-      inherit (lib.attrsets) attrByPath;
 
       cfg = config.modules.desktop.apps.flatpak;
-      flatpakEnabledInNixOS = attrByPath [
-        "services"
-        "flatpak"
-        "enable"
-      ] false osConfig;
     in
     {
       imports = [ inputs.flatpaks.homeManagerModules.nix-flatpak ];
@@ -34,11 +27,8 @@
         };
       };
 
-      config = mkIf (flatpakEnabledInNixOS && pkgs.stdenv.hostPlatform.isLinux) {
-        warnings = lib.optional (
-          !flatpakEnabledInNixOS
-        ) "Flatpak is not enabled in  NixOS configuration. Enable services.flatpak in your NixOS config.";
-
+      # Platform guard required by the upstream nix-flatpak module.
+      config = mkIf pkgs.stdenv.hostPlatform.isLinux {
         services.flatpak = {
           packages = cfg.packages;
           uninstallUnmanaged = false;

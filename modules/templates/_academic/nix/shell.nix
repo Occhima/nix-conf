@@ -11,9 +11,7 @@
 
       # scheme-medium base now comes from texliveMedium; biber is a separate package.
       texlive = pkgs.texliveMedium.withPackages (
-        ps:
-        with ps;
-        [
+        ps: with ps; [
           # Build tooling
           latexmk
           biblatex

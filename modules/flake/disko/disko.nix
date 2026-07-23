@@ -13,6 +13,21 @@ in
 
   imports = [ inputs.disko.flakeModule ];
 
+  perSystem =
+    { inputs', ... }:
+    {
+      apps = {
+        disko = {
+          type = "app";
+          program = "${inputs'.disko.packages.disko}/bin/disko";
+        };
+        disko-install = {
+          type = "app";
+          program = "${inputs'.disko.packages.disko-install}/bin/disko-install";
+        };
+      };
+    };
+
   flake.modules.nixos.disko-base =
     { lib, ... }:
     {

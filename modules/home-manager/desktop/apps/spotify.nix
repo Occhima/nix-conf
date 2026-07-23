@@ -5,7 +5,10 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  flake.allowedUnfreePackages = [ "spotify" ];
+  nixpkgs.allowedUnfree = [
+    "spotify"
+    "spicetify-text"
+  ];
 
   flake.modules.homeManager.spotify =
     {

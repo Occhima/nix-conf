@@ -6,7 +6,7 @@
       ...
     }:
     let
-      inherit (lib.modules) mkDefault mkForce;
+      inherit (lib.modules) mkDefault;
       inherit (lib) mkOption types;
 
       cfg = config.modules.network;
@@ -26,9 +26,6 @@
           hostName = cfg.hostName;
           hostId = builtins.substring 0 8 (builtins.hashString "md5" cfg.hostName);
 
-          useDHCP = mkForce false;
-          useNetworkd = mkForce true;
-
           usePredictableInterfaceNames = mkDefault true;
 
           nameservers = [
@@ -46,7 +43,6 @@
           network.wait-online.enable = false;
 
           services = {
-            NetworkManager-wait-online.enable = false;
             systemd-networkd.stopIfChanged = false;
             systemd-resolved.stopIfChanged = false;
           };

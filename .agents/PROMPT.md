@@ -111,7 +111,14 @@ A couple of commands an project knowldege
 - Use `nixfmt-rfc-style` formatting (enforced via treefmt)
 - Follow standard module structure with options/config separation
 - Use descriptive option names with proper documentation
-- Always use `mkIf` for conditional config sections
+- Imports activate capabilities: choose implementations by importing modules, never by importing two competing implementations and disabling one with a boolean
+- Options represent data, not feature selection
+- Use `mkIf` only for genuine data/platform conditions (architecture, presence of hardware/data)
+- Never create a `modules/features` directory
+- Only files under `modules/den/**` may use Den configuration vocabulary (`den.aspects`, `den.hosts`, `den.homes`, `den.schema`, `den.batteries`)
+- Plain NixOS/Home Manager modules outside `modules/den/**` stay independent of Den — no Den options, context, or aspect wiring
+- Profiles (`nixos.workstation`, `homeManager.desktop`, ...) are optional ordinary deferred-module aggregates, not a requirement
+- Test drvPaths and meaningful closures (system.build.toplevel.drvPath, activationPackage.drvPath), not only shallow option values
 - Properly type all options with appropriate descriptions
 - Avoid hardcoding values that should be configurable
 - Organize imports consistently at the top of files

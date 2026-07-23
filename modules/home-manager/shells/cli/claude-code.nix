@@ -1,5 +1,7 @@
 {
-  flake.allowedUnfreePackages = [ "claude-code" ];
+  nixpkgs.allowedUnfree = [
+    "claude-code"
+  ];
 
   flake.modules.homeManager.claude-code =
     {

@@ -1,15 +1,10 @@
 # Host: voyager — installer ISO image builder, not a real machine.
+# Plain deferred NixOS module; usable without Den.
 { config, ... }:
 {
-  den.hosts.x86_64-linux.voyager = { };
+  flake.modules.nixos.host-voyager = {
+    imports = [ config.flake.modules.nixos.iso-base ];
 
-  den.aspects.voyager = {
-    nixos =
-      { host, ... }:
-      {
-        imports = [ config.flake.modules.nixos.iso-base ];
-
-        networking.hostName = host.hostName;
-      };
+    networking.hostName = "voyager";
   };
 }

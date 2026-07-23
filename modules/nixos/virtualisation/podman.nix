@@ -1,62 +1,26 @@
-# System podman engine for hosts. The Home Manager `podman` module
-# (user containers) is deliberately a separate feature.
+# podman-host: Podman engine with Docker compatibility. Importing this
+# module always enables Podman and its current Docker compatibility.
+# The Home Manager `podman` module (user containers) is deliberately a
+# separate feature.
 {
   flake.modules.nixos.podman-host =
+    { pkgs, ... }:
     {
-      config,
-      lib,
-      pkgs,
-      ...
-    }:
-
-    let
-      inherit (lib)
-        mkOption
-        types
-        ;
-      cfg = config.modules.virtualisation.podman;
-    in
-    {
-      options.modules.virtualisation.podman = {
-        dockerCompat = mkOption {
-          type = types.bool;
-          default = true;
-          description = "Whether to enable Docker compatibility";
-        };
-      };
-
-      config = {
-        # Ensure it doesn't conflict with Docker when in compat mode
-        assertions = [
-          {
-            assertion =
-              !(
-                cfg.dockerCompat
-                && config.virtualisation.docker.enable
-                && !config.modules.virtualisation.docker.usePodman
-              );
-            message = "Cannot enable both Podman with Docker compatibility and real Docker. Either disable Podman's dockerCompat option or set modules.virtualisation.docker.usePodman = true.";
-          }
-        ];
-
-        virtualisation.podman = {
+      virtualisation.podman = {
+        enable = true;
+        dockerCompat = true;
+        dockerSocket.enable = true;
+        defaultNetwork.settings.dns_enabled = true;
+        autoPrune = {
           enable = true;
-          dockerCompat = cfg.dockerCompat;
-          dockerSocket.enable = cfg.dockerCompat;
-          defaultNetwork.settings.dns_enabled = true;
-          # enableNvidia =
-          #   cfg.enableNvidia || builtins.any (driver: driver == "nvidia") config.services.xserver.videoDrivers;
-          autoPrune = {
-            enable = true;
-            flags = [ "--all" ];
-            dates = "weekly";
-          };
+          flags = [ "--all" ];
+          dates = "weekly";
         };
-
-        environment.systemPackages = with pkgs; [
-          podman
-          podman-compose
-        ];
       };
+
+      environment.systemPackages = with pkgs; [
+        podman
+        podman-compose
+      ];
     };
 }

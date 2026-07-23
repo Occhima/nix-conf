@@ -32,6 +32,8 @@
           NIX_USER_CONF_FILES = "${nixConfig}";
           AGENIX_REKEY_ADD_TO_GIT = true;
           FLAKE = ".";
+          NH_FLAKE = ".";
+          NH_OS_FLAKE = ".";
 
           #
           buildInputs =
