@@ -3,7 +3,7 @@
 {
   flake.nixvimModules.default = {
     plugins.avante = {
-      enable = true;
+      enable = false;
       settings = {
         provider = "claude";
         claude = {
