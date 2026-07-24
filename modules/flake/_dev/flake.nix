@@ -62,12 +62,6 @@
     #   repo = "mkdocs-flake";
     # };
 
-    actions-nix = {
-      type = "github";
-      owner = "nialov";
-      repo = "actions.nix";
-    };
-
   };
 
   outputs = _: { };
