@@ -25,33 +25,6 @@ in
       inherit (lib) mkIf getExe getExe';
       hasAgeKeys = (osConfig.age.secrets or { }) ? openrouter-api-key;
 
-      abTop = (
-        pkgs.rustPlatform.buildRustPackage rec {
-          pname = "abtop";
-          version = "0.2.14";
-
-          src = pkgs.fetchFromGitHub {
-            owner = "graykode";
-            repo = "abtop";
-            rev = "v${version}";
-            hash = "sha256-9gIBRWNek7588d/t/EV4Yv1dRoop2ZuHxZVCeSA9vIk=";
-          };
-
-          cargoLock = {
-            lockFile = "${src}/Cargo.lock";
-          };
-
-          doCheck = true;
-
-          meta = with pkgs.lib; {
-            description = "";
-            homepage = "https://github.com/graycode/abtop";
-            license = licenses.mit;
-            platforms = platforms.all;
-          };
-        }
-      );
-
       engram = pkgs.buildGoModule rec {
         pname = "engram";
         version = "1.19.0";
@@ -93,7 +66,6 @@ in
           packages = [
             # pkgs.python313Packages.google-generativeai
             pkgs.rtk
-            abTop
           ];
 
           sessionVariables = mkIf hasAgeKeys {
