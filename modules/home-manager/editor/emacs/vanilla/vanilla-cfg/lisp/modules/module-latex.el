@@ -1,7 +1,7 @@
 ;;; module-latex.el --- LaTeX authoring -*- lexical-binding: t; -*-
 
 (use-package tex
-  :elpaca auctex
+  :ensure auctex
   :defer t
   :hook ((LaTeX-mode . visual-line-mode)
          (LaTeX-mode . LaTeX-math-mode)
@@ -17,6 +17,7 @@
 
 (use-package cdlatex :defer t)
 (use-package pdf-tools
+  :ensure nil
   :defer t
   :config
   (pdf-tools-install))

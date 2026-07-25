@@ -10,8 +10,7 @@
       (kill-buffer buffer))))
 
 (map! :leader
-      (:prefix ("o" . "open")
-       :desc "Calendar" "c" #'=calendar))
+      :desc "Calendar" "o c" #'=calendar)
 
 (map! :after org
       :map org-mode-map

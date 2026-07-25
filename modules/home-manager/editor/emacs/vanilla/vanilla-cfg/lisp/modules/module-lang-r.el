@@ -11,8 +11,7 @@
 
 (use-package ess-plot
   :after ess
-  :config
-  (ess-plot-toggle))
+  :hook (ess-r-post-run . ess-plot-on-startup-h))
 
 (provide 'module-lang-r)
 ;;; module-lang-r.el ends here

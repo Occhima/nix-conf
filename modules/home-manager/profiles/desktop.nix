@@ -8,6 +8,7 @@ in
     {
       imports = [
         hm.browser-zen-beta
+        hm.browser-nyxt
         hm.terminal-kitty
         hm.hyprland
         hm.quickshell-dock

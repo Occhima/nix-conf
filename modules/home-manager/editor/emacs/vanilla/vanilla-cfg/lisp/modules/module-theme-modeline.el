@@ -9,10 +9,14 @@
                (expand-file-name "themes" user-emacs-directory))
   (load-theme 'doom-polykai t)
   (doom-themes-visual-bell-config)
-  (doom-themes-org-config))
+  (doom-themes-org-config)
+  (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
+  (set-face-attribute 'font-lock-keyword-face nil :slant 'italic))
 
 (use-package nerd-icons
-  :if (display-graphic-p))
+  :if (display-graphic-p)
+  :custom
+  (nerd-icons-font-family "Iosevka Nerd Font"))
 
 (use-package doom-modeline
   :init

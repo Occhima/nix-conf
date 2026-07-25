@@ -1,4 +1,4 @@
-;;; doom-monokai-classic-theme.el --- port of Monokai Classic -*- lexical-binding: t; no-byte-compile: t; -*-
+;;; doom-polykai-theme.el --- Polykai color theme -*- lexical-binding: t; no-byte-compile: t; -*-
 ;; NOTE: Theme palette stolen from https://github.com/adamgraham/polykai
 ;; Added: March 12, 2020 (3767e6854429)
 ;; Author: ema2159 <https://github.com/ema2159>

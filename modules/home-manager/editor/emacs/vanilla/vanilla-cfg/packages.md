@@ -1,76 +1,15 @@
-# Vanilla Emacs package inventory
+# Vanilla Emacs package policy
 
-## Core
+The configuration is declared with `use-package`; Elpaca resolves and updates
+ordinary Lisp packages asynchronously. Keep package recipes next to the module
+that uses them instead of duplicating a manual inventory here.
 
-- elpaca
-- use-package (via `elpaca-use-package`)
+Nix supplies Emacs itself, command-line dependencies, tree-sitter grammars, and
+packages with native build steps (`eat`, `jinx`, `jupyter`, `mu4e`,
+`pdf-tools`, and `vterm`). Their declarations use `:ensure nil` so Elpaca does
+not rebuild them.
 
-## Editing and keymaps
-
-- evil
-- evil-collection
-- evil-surround
-- general
-- undo-fu
-- which-key
-
-## UI and startup
-
-- dashboard
-- doom-themes
-- doom-polykai-theme (local custom theme)
-- doom-modeline
-- nerd-icons
-
-## Completion and actions
-
-- vertico
-- orderless
-- marginalia
-- consult
-- embark
-- embark-consult
-- corfu
-- cape
-
-## Navigation and files
-
-- project (builtin)
-- dired (builtin)
-- dirvish
-
-## Version control and build
-
-- magit
-- compile (builtin)
-
-## Terminal
-
-- vterm
-- eat
-
-## AI
-
-- claude-code
-- monet
-
-## Org and writing
-
-- org (builtin)
-- org-modern
-- org-super-agenda
-
-## Languages
-
-- treesit (builtin)
-- eglot (builtin)
-- nix-mode
-- ess
-- ess-plot
-- python (builtin)
-
-## LaTeX
-
-- auctex
-- cdlatex
-- pdf-tools
+Elpaca stores mutable sources and builds below
+`$XDG_DATA_HOME/emacs/elpaca`; caches and state use their corresponding XDG
+directories. The Home Manager link at `$XDG_CONFIG_HOME/emacs` stays
+declarative and read-only.

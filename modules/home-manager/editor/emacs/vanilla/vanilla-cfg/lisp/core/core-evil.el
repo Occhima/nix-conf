@@ -1,11 +1,13 @@
 ;;; core-evil.el --- Evil stack and states -*- lexical-binding: t; -*-
 
 (defconst occhima/leader-key "SPC")
-(defconst occhima/local-leader-key ",")
+(defconst occhima/leader-alt-key "M-SPC")
 
 (use-package undo-fu)
 
 (use-package evil
+  :ensure (:wait t)
+  :demand t
   :init
   (setq evil-want-integration t
         evil-want-keybinding nil
@@ -32,19 +34,28 @@
   (global-evil-surround-mode 1))
 
 (use-package general
+  :ensure (:wait t)
+  :demand t
   :after evil
   :config
-  (general-create-definer occhima/leadrr
-    :states '(normal visual motion)
-    :keymaps 'override
-    :prefix occhima/leader-key
-    :global-prefix "C-SPC")
+  (general-define-key
+   :states '(normal visual motion insert emacs)
+   :keymaps 'override
+   :prefix-map 'occhima/leader-map
+   :prefix occhima/leader-key
+   :non-normal-prefix occhima/leader-alt-key)
 
-  (defalias 'occhima/leader #'occhima/leadrr)
+  (general-create-definer occhima/leader
+    :keymaps 'occhima/leader-map)
 
   (general-create-definer occhima/local-leader
-    :states '(normal visual motion)
-    :prefix occhima/local-leader-key))
+    :keymaps 'occhima/local-leader-map)
+
+  (general-def
+    :states 'normal
+    "C-S-f" #'toggle-frame-fullscreen
+    "C-=" #'text-scale-increase
+    "C--" #'text-scale-decrease))
 
 (provide 'core-evil)
 ;;; core-evil.el ends here

@@ -4,6 +4,7 @@
 (add-to-list 'load-path (expand-file-name "core" occhima/lisp-dir))
 (add-to-list 'load-path (expand-file-name "modules" occhima/lisp-dir))
 
+(require 'core-paths)
 (require 'core-startup)
 (require 'core-package-management)
 (require 'core-ui)
@@ -16,17 +17,20 @@
 (require 'module-vc-compile)
 (require 'module-term)
 (require 'module-ai)
+(require 'module-apps)
 (require 'module-dashboard)
 (require 'module-theme-modeline)
 (require 'module-dired)
 (require 'module-org)
 (require 'module-org-babel)
+(require 'module-academic)
 (require 'module-latex)
 (require 'module-lang-nix)
 (require 'module-lang-python)
 (require 'module-lang-r)
+(require 'module-programming)
 
-(add-hook 'emacs-startup-hook
+(add-hook 'elpaca-after-init-hook
           (lambda ()
             (setq gc-cons-threshold (* 64 1024 1024)
                   gc-cons-percentage 0.1)

@@ -19,6 +19,7 @@
 (winner-mode 1)
 
 (use-package which-key
+  :ensure nil
   :diminish
   :config
   (which-key-mode 1))

@@ -1,27 +1,12 @@
 ;;; early-init.el --- Early startup tuning -*- lexical-binding: t; -*-
 
-(require 'subr-x)
+(add-to-list 'load-path
+             (expand-file-name "lisp/core" user-emacs-directory))
+(require 'core-paths)
 
-(defun occhima/load-env-file (file)
-  "Load environment variables from FILE with lines in KEY=VALUE format."
-  (when (file-readable-p file)
-    (with-temp-buffer
-      (insert-file-contents file)
-      (goto-char (point-min))
-      (while (not (eobp))
-        (let ((line (string-trim (buffer-substring-no-properties (line-beginning-position)
-                                                                 (line-end-position)))))
-          (when (and (not (string-empty-p line))
-                     (not (string-prefix-p "#" line))
-                     (string-match "\\`\\([^=[:space:]]+\\)=\\(.*\\)\\'" line))
-            (setenv (match-string 1 line) (match-string 2 line))))
-        (forward-line 1)))))
-
-(dolist (env-file
-         (list
-          (expand-file-name ".local/env" user-emacs-directory)
-          (expand-file-name "~/.config/doom/.local/env")))
-  (occhima/load-env-file env-file))
+(when (fboundp 'startup-redirect-eln-cache)
+  (startup-redirect-eln-cache
+   (expand-file-name "eln/" occhima/cache-directory)))
 
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6

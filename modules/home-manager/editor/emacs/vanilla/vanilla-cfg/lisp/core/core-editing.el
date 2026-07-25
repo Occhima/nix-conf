@@ -8,6 +8,7 @@
       sentence-end-double-space nil)
 
 (use-package jinx
+  :ensure nil
   :bind (("M-$" . jinx-correct)
          ("C-M-$" . jinx-languages)))
 

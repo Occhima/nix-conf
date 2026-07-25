@@ -1,17 +1,24 @@
 ;;; module-completion.el --- Vertico/Corfu/Embark stack -*- lexical-binding: t; -*-
 
+(require 'core-evil)
+
 (use-package savehist
   :ensure nil
   :init
   (savehist-mode 1))
 
 (use-package vertico
+  :bind (:map vertico-map
+              ("C-j" . vertico-next)
+              ("C-k" . vertico-previous))
   :init
-  (vertico-mode 1))
+  (vertico-mode 1)
+  (vertico-repeat-mode 1))
 
 (use-package orderless
   :init
   (setq completion-styles '(orderless basic)
+        orderless-component-separator #'orderless-escapable-split-on-space
         completion-category-defaults nil
         completion-category-overrides
         '((file (styles basic partial-completion))
@@ -35,6 +42,10 @@
   :after (embark consult))
 
 (use-package corfu
+  :bind (:map corfu-map
+              ("C-j" . corfu-next)
+              ("C-k" . corfu-previous)
+              ("C-SPC" . corfu-insert-separator))
   :custom
   (corfu-cycle t)
   (corfu-auto t)
@@ -42,12 +53,30 @@
   (corfu-auto-delay 0.15)
   (corfu-quit-no-match 'separator)
   :init
-  (global-corfu-mode 1))
+  (global-corfu-mode 1)
+  :config
+  (general-def
+    :states 'insert
+    "C-SPC" #'completion-at-point))
 
 (use-package cape
   :init
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file))
+
+(use-package tempel
+  :bind (("M-+" . tempel-complete)
+         ("M-*" . tempel-insert))
+  :custom
+  (tempel-trigger-prefix "<")
+  :init
+  (defun occhima/tempel-setup-capf ()
+    "Make Tempel available in the current completion-at-point stack."
+    (add-hook 'completion-at-point-functions #'tempel-complete -90 t))
+  :hook ((conf-mode prog-mode text-mode) . occhima/tempel-setup-capf))
+
+(use-package tempel-collection
+  :after tempel)
 
 (provide 'module-completion)
 ;;; module-completion.el ends here
