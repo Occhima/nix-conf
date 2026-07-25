@@ -5,14 +5,10 @@
       "args": ["serve", "--mcp"],
       "type": "stdio"
     },
-    "agentmemory": {
-      "command": "agentmemory",
+    "engram": {
+      "command": "engram",
       "args": ["mcp"],
-      "type": "stdio",
-      "env": {
-        "AGENTMEMORY_URL": "http://localhost:3111",
-        "AGENTMEMORY_SECRET": "${AGENTMEMORY_SECRET}"
-      }
+      "type": "stdio"
     }
   }
 }

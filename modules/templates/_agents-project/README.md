@@ -1,6 +1,6 @@
 # Agents Project Template
 
-Coding agent workspace with RTK, Codegraph, AgentMemory, and Caveman.
+Coding agent workspace with RTK, Codegraph, Engram, and Caveman.
 Works with Claude Code and OpenCode.
 
 ## Structure
@@ -21,11 +21,12 @@ Works with Claude Code and OpenCode.
 
 ## Prerequisites
 
-In PATH via NixOS/home-manager or `nix develop`:
+These commands must be available in `PATH`. The default Home Manager AI/CLI
+profiles provide them; otherwise add them to the template's dev shell:
 
 - `rtk` — token-optimized CLI proxy
 - `codegraph` — code knowledge graph
-- `agentmemory` — persistent agent memory (daemon at `$AGENTMEMORY_URL`)
+- `engram` — local persistent agent memory and stdio MCP server
 
 ## Getting Started
 
@@ -42,9 +43,8 @@ nix develop   # enters shell, runs: codegraph sync && rtk init -g
 | `.claude/settings.json` | permissions         | —                         |
 | `CLAUDE.md`             | agent instructions  | agent instructions        |
 
-## Env Vars
+## Engram
 
-```bash
-AGENTMEMORY_URL=http://localhost:3111   # agentmemory daemon address
-AGENTMEMORY_SECRET=<secret>             # agentmemory auth token
-```
+The MCP client starts `engram mcp` on demand. No separate daemon, port, or
+secret is required for the local setup. Engram stores its database under
+`~/.engram/` by default.

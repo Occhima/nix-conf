@@ -32,11 +32,12 @@ Scope {
                 right: true
             }
 
-            implicitWidth: 420
+            implicitWidth: Data.Settings.notificationWidth
+                + Data.Settings.barSideMargin
             implicitHeight: toastColumn.implicitHeight
                 + Data.Settings.barHeight
                 + Data.Settings.barMargin * 2
-                + Data.Settings.spacingXl
+                + Data.Settings.notificationGap
             color: "transparent"
 
             Column {
@@ -46,12 +47,12 @@ Scope {
                     top: parent.top
                     topMargin: Data.Settings.barHeight
                         + Data.Settings.barMargin * 2
-                        + Data.Settings.spacingSm
+                        + Data.Settings.notificationGap
                     right: parent.right
                     rightMargin: Data.Settings.barSideMargin
                 }
-                width: 390
-                spacing: Data.Settings.spacingMd
+                width: Data.Settings.notificationWidth
+                spacing: Data.Settings.notificationGap
 
                 Repeater {
                     model: Services.Notifications.toastModel

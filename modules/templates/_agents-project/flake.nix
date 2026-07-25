@@ -1,5 +1,5 @@
 {
-  description = "Coding agent workspace with RTK, Codegraph, AgentMemory";
+  description = "Coding agent workspace with RTK, Codegraph, and Engram";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";

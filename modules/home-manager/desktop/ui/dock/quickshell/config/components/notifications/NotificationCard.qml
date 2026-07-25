@@ -12,16 +12,23 @@ Rectangle {
     property bool autoExpire: false
     property bool compact: false
 
+    readonly property color accentColor: Services.Notifications.colorFor(notification)
+    readonly property int contentPadding: compact
+        ? Data.Settings.spacingMd
+        : Data.Settings.notificationPadding
+    readonly property int iconSize: compact
+        ? 32
+        : Data.Settings.notificationIconSize
+
     signal dismissed()
 
-    implicitHeight: content.implicitHeight + Data.Settings.spacingXl * 2
-    radius: compact ? Data.Settings.rounding : 18
-    color: compact ? Data.Settings.bgLight : Data.Settings.bgColorTranslucent
+    implicitHeight: content.implicitHeight + contentPadding * 2
+    radius: Data.Settings.notificationRadius
+    color: compact ? Data.Settings.bgLight : Data.Settings.notificationSurface
     border.width: 1
-    border.color: Qt.alpha(
-        Services.Notifications.colorFor(notification),
-        compact ? 0.22 : 0.42
-    )
+    border.color: compact
+        ? Data.Settings.borderSubtle
+        : Data.Settings.notificationBorder
 
     scale: cardMouse.pressed ? 0.985 : 1.0
 
@@ -38,9 +45,9 @@ Rectangle {
             bottom: parent.bottom
             left: parent.left
         }
-        width: 3
-        radius: 2
-        color: Services.Notifications.colorFor(root.notification)
+        width: 2
+        radius: 1
+        color: root.accentColor
     }
 
     MouseArea {
@@ -58,27 +65,24 @@ Rectangle {
             left: parent.left
             right: parent.right
             top: parent.top
-            margins: Data.Settings.spacingXl
-            leftMargin: Data.Settings.spacingXl + 3
+            margins: root.contentPadding
+            leftMargin: root.contentPadding + 2
         }
-        spacing: Data.Settings.spacingMd
+        spacing: Data.Settings.spacingSm
 
         RowLayout {
             Layout.fillWidth: true
-            spacing: Data.Settings.spacingMd
+            spacing: Data.Settings.spacingSm
 
             Rectangle {
-                Layout.preferredWidth: root.compact ? 36 : 44
+                Layout.preferredWidth: root.iconSize
                 Layout.preferredHeight: Layout.preferredWidth
-                radius: root.compact ? 10 : 13
-                color: Qt.alpha(
-                    Services.Notifications.colorFor(root.notification),
-                    0.13
-                )
+                radius: 10
+                color: Qt.alpha(root.accentColor, 0.13)
 
                 Image {
                     anchors.centerIn: parent
-                    width: parent.width - 10
+                    width: parent.width - 8
                     height: width
                     sourceSize: Qt.size(width, height)
                     fillMode: Image.PreserveAspectFit
@@ -112,9 +116,9 @@ Rectangle {
             }
 
             Rectangle {
-                Layout.preferredWidth: 26
-                Layout.preferredHeight: 26
-                radius: 13
+                Layout.preferredWidth: 24
+                Layout.preferredHeight: 24
+                radius: 12
                 color: closeMouse.containsMouse
                     ? Qt.alpha(Data.Settings.errorColor, 0.18)
                     : "transparent"
@@ -125,6 +129,11 @@ Rectangle {
                     height: width
                     sourceSize: Qt.size(width, height)
                     source: Quickshell.iconPath("window-close-symbolic")
+                    opacity: closeMouse.containsMouse ? 1.0 : 0.55
+
+                    Behavior on opacity {
+                        NumberAnimation { duration: Data.Settings.animFast }
+                    }
                 }
 
                 MouseArea {
@@ -166,9 +175,9 @@ Rectangle {
                 Rectangle {
                     readonly property var action: root.notification.actions[index]
 
-                    Layout.preferredWidth: actionLabel.implicitWidth + Data.Settings.spacingXl
-                    Layout.preferredHeight: 30
-                    radius: 10
+                    Layout.preferredWidth: actionLabel.implicitWidth + Data.Settings.spacingLg
+                    Layout.preferredHeight: 28
+                    radius: 9
                     color: actionMouse.containsMouse
                         ? Data.Settings.hoverBg
                         : Data.Settings.bgLight

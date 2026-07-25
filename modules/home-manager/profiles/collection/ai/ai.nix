@@ -64,6 +64,7 @@ in
         home = {
           # TODO: add codeburn
           packages = [
+            engram
             # pkgs.python313Packages.google-generativeai
             # pkgs.rtk
           ];
@@ -139,11 +140,6 @@ in
             #   type = "stdio";
             # };
 
-            memory = {
-              command = getExe pkgs.mcp-server-memory;
-              args = [ ];
-              type = "stdio";
-            };
             engram = {
               command = getExe engram;
               args = [ "mcp" ];

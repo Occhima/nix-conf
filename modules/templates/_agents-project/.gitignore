@@ -32,4 +32,3 @@ htmlcov/
 
 # Agent artifacts
 .codegraph/
-agentmemory.db

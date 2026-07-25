@@ -20,13 +20,14 @@ Pre-indexed knowledge graph. **Consult before writing code**, not during.
 | Blast radius before refactor | `codegraph_impact`            |
 | Survey source                | `codegraph_explore`           |
 
-### AgentMemory
+### Engram
 
-Persistent cross-session memory. Assume server running at `$AGENTMEMORY_URL`.
+Persistent cross-session memory. The MCP client starts the local stdio server.
 
-- `memory_save` — persist findings, decisions, patterns
-- `memory_recall` — retrieve prior context
-- `memory_smart_search` — semantic search
+- `mem_context` — load recent project context
+- `mem_search` — retrieve prior findings and decisions
+- `mem_save` — persist durable decisions, fixes, and lessons
+- `mem_session_summary` — record a useful handoff before ending work
 
 ## Skills
 

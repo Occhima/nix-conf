@@ -6,13 +6,9 @@
       "enabled": true,
       "type": "local"
     },
-    "agentmemory": {
-      "command": ["agentmemory", "mcp"],
+    "engram": {
+      "command": ["engram", "mcp"],
       "enabled": true,
-      "environment": {
-        "AGENTMEMORY_URL": "http://localhost:3111",
-        "AGENTMEMORY_SECRET": "{env:AGENTMEMORY_SECRET}"
-      },
       "type": "local"
     }
   },

@@ -10,6 +10,8 @@
       inherit (lib) mkIf mkForce;
       inherit (config.lib.stylix) colors;
 
+      # Settings.qml derives translucent surfaces from these palette entries.
+      # This keeps popups and notifications in the same Guernica color system.
       themedConfig = pkgs.runCommand "quickshell-guernica-config" { } ''
         cp -R ${../../../../dock/quickshell/config} "$out"
         chmod -R u+w "$out"
@@ -25,7 +27,10 @@
           --replace-fail '"#ff0060"' '"#${colors.base0E}"' \
           --replace-fail '"#c080ff"' '"#${colors.base0C}"' \
           --replace-fail '"#6080ff"' '"#${colors.base09}"' \
-          --replace-fail '"#ffe080"' '"#${colors.base0B}"'
+          --replace-fail '"#ffe080"' '"#${colors.base0B}"' \
+          --replace-fail \
+            'readonly property color notificationSurface: bgColorTranslucent' \
+            'readonly property color notificationSurface: bgLightTranslucent'
       '';
     in
     {

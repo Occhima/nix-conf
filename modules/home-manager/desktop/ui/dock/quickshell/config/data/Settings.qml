@@ -8,9 +8,9 @@ Singleton {
     readonly property bool notificationsEnabled: notificationBackend === "quickshell"
 
     readonly property color bgColor: "#141818"
-    readonly property color bgColorTranslucent: Qt.rgba(0.078, 0.094, 0.094, 0.85)
+    readonly property color bgColorTranslucent: Qt.alpha(bgColor, 0.85)
     readonly property color bgLight: "#1e2424"
-    readonly property color bgLightTranslucent: Qt.rgba(0.118, 0.141, 0.141, 0.9)
+    readonly property color bgLightTranslucent: Qt.alpha(bgLight, 0.9)
     readonly property color bgLighter: "#3c4848"
     readonly property color fgColor: "#f8f8f8"
     readonly property color fgDim: "#909090"
@@ -55,4 +55,14 @@ Singleton {
     readonly property int iconSm: 14
     readonly property int iconMd: 16
     readonly property int iconLg: 18
+
+    // Shared notification contract. Theme targets choose the surface; the
+    // components consume these metrics instead of carrying private constants.
+    readonly property color notificationSurface: bgColorTranslucent
+    readonly property color notificationBorder: borderNormal
+    readonly property int notificationWidth: 352
+    readonly property int notificationRadius: rounding
+    readonly property int notificationPadding: spacingLg
+    readonly property int notificationGap: spacingSm
+    readonly property int notificationIconSize: 36
 }
