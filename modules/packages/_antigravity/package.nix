@@ -4,7 +4,6 @@
   pkgs,
   ...
 }:
-
 pkgs.stdenv.mkDerivation rec {
   pname = "antigravity";
   version = "1.11.3-6583016683339776";

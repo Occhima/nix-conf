@@ -14,11 +14,8 @@ in
     nixos.iso-nix
     nixos.iso-programs
     nixos.iso-space
-    (
-      { modulesPath, ... }:
-      {
-        imports = [ "${modulesPath}/installer/cd-dvd/installation-cd-minimal-new-kernel.nix" ];
-      }
-    )
+    ({ modulesPath, ... }: {
+      imports = [ "${modulesPath}/installer/cd-dvd/installation-cd-minimal-new-kernel.nix" ];
+    })
   ];
 }

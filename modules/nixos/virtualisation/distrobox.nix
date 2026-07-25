@@ -7,7 +7,6 @@
       pkgs,
       ...
     }:
-
     {
       options.modules.virtualisation.distrobox = {
       };

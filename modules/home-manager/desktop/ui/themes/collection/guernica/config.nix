@@ -4,10 +4,7 @@ let
 in
 {
   flake.modules.homeManager.themes-guernica =
-    {
-      pkgs,
-      ...
-    }:
+    { pkgs, ... }:
     let
       wallpaperPath = guernicaAssets.wallpaper;
     in

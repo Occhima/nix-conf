@@ -1,6 +1,10 @@
 # flake-parts does not declare `flake.templates`; declare it once so each
 # template file can contribute its own entry.
-{ lib, flake-parts-lib, ... }:
+{
+  lib,
+  flake-parts-lib,
+  ...
+}:
 {
   options.flake = flake-parts-lib.mkSubmoduleOptions {
     templates = lib.mkOption {

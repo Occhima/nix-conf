@@ -37,7 +37,6 @@ in
       lib,
       ...
     }:
-
     let
       inherit (lib)
         mkOption
@@ -52,10 +51,8 @@ in
         name = lib.removeSuffix ".age" name;
         value = {
           rekeyFile = secretsDir + "/${name}";
-          owner = "occhima";
         };
       }) (lib.filterAttrs (name: _: lib.hasSuffix ".age" name) (builtins.readDir secretsDir));
-
     in
     {
       imports = [
@@ -64,7 +61,6 @@ in
       ];
 
       options.modules.secrets.agenix = {
-
         masterKeys = mkOption {
           description = "Paths to master SSH public keys (e.g., YubiKey identities)";
           example = [ "./identity/yubi-identity.pub" ];
@@ -98,6 +94,5 @@ in
           };
         }
       ];
-
     };
 }

@@ -1,7 +1,11 @@
 # Evaluation contract tests: force the public outputs far enough to prove
 # the composition holds, plus regression facts that catch unwanted behavior.
 # Eval-only, no network, no builds — drvPaths are the regression gate.
-{ lib, self, ... }:
+{
+  lib,
+  self,
+  ...
+}:
 let
   hosts = [
     "aerodynamic"

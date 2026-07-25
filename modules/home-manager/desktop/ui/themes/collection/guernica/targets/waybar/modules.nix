@@ -3,7 +3,6 @@
 # them through the fixed point instead of relative imports.
 {
   flake.lib.guernica.waybarModules = {
-
     # Custom separators
     separators = {
       dot = {

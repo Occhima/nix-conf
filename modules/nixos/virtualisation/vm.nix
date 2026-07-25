@@ -5,7 +5,6 @@
       lib,
       ...
     }:
-
     let
       inherit (lib)
         mkOption
@@ -63,6 +62,5 @@
         };
         programs.virt-manager.enable = true;
       };
-
     };
 }

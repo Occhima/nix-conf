@@ -2,7 +2,6 @@
   description = "Dependencies for my nixos config devenv";
 
   inputs = {
-
     nixpkgs = {
       type = "github";
       owner = "nixos";
@@ -42,13 +41,6 @@
     #   };
     # };
 
-    # Does not work anymore, I must have made something stupid
-    just-flake = {
-      type = "github";
-      owner = "juspay";
-      repo = "just-flake";
-    };
-
     nix-unit = {
       type = "github";
       owner = "nix-community";
@@ -61,7 +53,6 @@
     #   owner = "applicative-systems";
     #   repo = "mkdocs-flake";
     # };
-
   };
 
   outputs = _: { };

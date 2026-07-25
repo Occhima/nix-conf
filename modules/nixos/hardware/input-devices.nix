@@ -1,6 +1,10 @@
 {
   flake.modules.nixos.input-devices =
-    { lib, config, ... }:
+    {
+      lib,
+      config,
+      ...
+    }:
     let
       inherit (lib) mkOption mkIf types;
       cfg = config.modules.hardware.input;

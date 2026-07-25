@@ -1,6 +1,10 @@
 {
   flake.modules.homeManager.clipboard =
-    { config, lib, ... }:
+    {
+      config,
+      lib,
+      ...
+    }:
     {
       config = {
         services.clipcat = {

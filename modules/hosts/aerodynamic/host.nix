@@ -1,7 +1,6 @@
 # Host: aerodynamic — laptop, Intel/NVIDIA, Greetd, Disko, impermanence.
 # Plain deferred NixOS module; usable without Den.
-{ config, ... }:
-{
+{ config, ... }: {
   flake.modules.nixos.host-aerodynamic = {
     imports = with config.flake.modules.nixos; [
       workstation

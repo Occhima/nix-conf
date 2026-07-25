@@ -6,7 +6,11 @@
 #
 #   { config, ... }:
 #   let inherit (config.flake.lib.custom) isWayland; in ...
-{ lib, flake-parts-lib, ... }:
+{
+  lib,
+  flake-parts-lib,
+  ...
+}:
 {
   options.flake = flake-parts-lib.mkSubmoduleOptions {
     lib = lib.mkOption {

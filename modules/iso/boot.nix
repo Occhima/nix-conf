@@ -5,7 +5,6 @@
       inherit (lib.modules) mkForce mkAfter;
     in
     {
-
       boot = {
         kernelParams = mkAfter [
           "noquiet"

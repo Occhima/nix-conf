@@ -1,11 +1,13 @@
 # Structured monitor data: typed fields only. Renderers (Hyprland, Niri)
 # may turn these into compositor-specific strings; nothing parses structure
 # back out of strings.
-{ ... }:
-
-{
+{ ... }: {
   flake.modules.nixos.monitors =
-    { config, lib, ... }:
+    {
+      config,
+      lib,
+      ...
+    }:
     let
       inherit (lib) mkOption types literalExpression;
       monitorOptions = {

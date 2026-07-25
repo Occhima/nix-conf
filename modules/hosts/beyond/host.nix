@@ -1,7 +1,6 @@
 # Host: beyond — gaming desktop, AMD/NVIDIA, Ly, 2 monitors, Disko, VPN.
 # Plain deferred NixOS module; usable without Den.
-{ config, ... }:
-{
+{ config, ... }: {
   flake.modules.nixos.host-beyond = {
     imports = with config.flake.modules.nixos; [
       gaming-workstation

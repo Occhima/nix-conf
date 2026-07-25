@@ -5,10 +5,7 @@ let
 in
 {
   flake.modules.homeManager.jcode =
-    {
-      pkgs,
-      ...
-    }:
+    { pkgs, ... }:
     let
       pkg = flakePkgs.${pkgs.stdenv.hostPlatform.system}.jcode;
 

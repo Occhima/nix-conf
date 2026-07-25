@@ -1,28 +1,24 @@
 {
-  flake.modules.homeManager.bat =
-    {
-      ...
-    }:
-    {
-      config = {
-        programs.bat = {
-          enable = true;
+  flake.modules.homeManager.bat = {
+    config = {
+      programs.bat = {
+        enable = true;
 
-          config = {
-            pager = "less -FR";
-            color = "always";
-            style = "plain";
-            # theme = "Catppuccin-mocha";
-          };
-
-          # themes = {
-          # };
+        config = {
+          pager = "less -FR";
+          color = "always";
+          style = "plain";
+          # theme = "Catppuccin-mocha";
         };
 
-        # Alias cat to bat
-        home.shellAliases = {
-          cat = "bat";
-        };
+        # themes = {
+        # };
+      };
+
+      # Alias cat to bat
+      home.shellAliases = {
+        cat = "bat";
       };
     };
+  };
 }

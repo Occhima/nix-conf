@@ -61,7 +61,11 @@ let
 in
 {
   flake.modules.nixos.nix =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      ...
+    }:
     let
       sudoers = "@wheel";
     in
@@ -107,7 +111,11 @@ in
   # User-level nix.conf for homes outside NixOS; daemon-only knobs
   # (sandbox, allowed-users, ...) stay in the NixOS module above.
   flake.modules.homeManager.nix =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      ...
+    }:
     {
       nix = {
         package = lib.mkDefault pkgs.nix;

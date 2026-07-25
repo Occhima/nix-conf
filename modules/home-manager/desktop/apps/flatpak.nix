@@ -1,5 +1,4 @@
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   flake-file.inputs.flatpaks.url = "github:gmodena/nix-flatpak";
 
   flake.modules.homeManager.flatpak =

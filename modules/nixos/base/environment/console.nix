@@ -1,6 +1,10 @@
 {
   flake.modules.nixos.environment-console =
-    { lib, pkgs, ... }:
+    {
+      lib,
+      pkgs,
+      ...
+    }:
     {
       console = {
         enable = lib.modules.mkDefault true;

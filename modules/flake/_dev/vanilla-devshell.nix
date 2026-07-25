@@ -63,7 +63,6 @@
                   nix-search-tv print | fzf --preview 'nix-search-tv preview {}' --scheme history
                 '';
               })
-
             ]
             ++ lib.lists.optionals pkgs.stdenv.hostPlatform.isLinux [ deploy-rs ];
           shellHook = ''

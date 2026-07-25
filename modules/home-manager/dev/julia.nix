@@ -1,9 +1,6 @@
 {
   flake.modules.homeManager.julia =
-    {
-      pkgs,
-      ...
-    }:
+    { pkgs, ... }:
     let
       juliaPackages = [
         "LanguageServer"

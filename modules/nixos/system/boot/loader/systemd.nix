@@ -14,7 +14,6 @@
       cfg = config.modules.system.boot.loader;
     in
     {
-
       options.modules.system.boot.loader.systemd = {
         memtest = {
           package = mkPackageOption pkgs "memtest86plus" { };

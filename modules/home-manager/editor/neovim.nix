@@ -1,4 +1,8 @@
-{ config, inputs, ... }:
+{
+  config,
+  inputs,
+  ...
+}:
 let
   flakePkgs = config.flake.packages;
 in

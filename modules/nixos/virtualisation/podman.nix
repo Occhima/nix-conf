@@ -3,24 +3,22 @@
 # The Home Manager `podman` module (user containers) is deliberately a
 # separate feature.
 {
-  flake.modules.nixos.podman-host =
-    { pkgs, ... }:
-    {
-      virtualisation.podman = {
+  flake.modules.nixos.podman-host = { pkgs, ... }: {
+    virtualisation.podman = {
+      enable = true;
+      dockerCompat = true;
+      dockerSocket.enable = true;
+      defaultNetwork.settings.dns_enabled = true;
+      autoPrune = {
         enable = true;
-        dockerCompat = true;
-        dockerSocket.enable = true;
-        defaultNetwork.settings.dns_enabled = true;
-        autoPrune = {
-          enable = true;
-          flags = [ "--all" ];
-          dates = "weekly";
-        };
+        flags = [ "--all" ];
+        dates = "weekly";
       };
-
-      environment.systemPackages = with pkgs; [
-        podman
-        podman-compose
-      ];
     };
+
+    environment.systemPackages = with pkgs; [
+      podman
+      podman-compose
+    ];
+  };
 }

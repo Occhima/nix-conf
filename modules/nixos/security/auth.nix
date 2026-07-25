@@ -1,9 +1,6 @@
 {
   flake.modules.nixos.security-auth =
-    {
-      lib,
-      ...
-    }:
+    { lib, ... }:
     let
       inherit (lib) mkDefault;
     in

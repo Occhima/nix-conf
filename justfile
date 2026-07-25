@@ -1,7 +1,3 @@
-# See flake.nix (just-flake)
-
-import? 'just-flake.just'
-
 flake_var := env_var('FLAKE')
 flake := if flake_var =~ '^\.*$' { justfile_directory() } else { flake_var }
 
@@ -27,14 +23,6 @@ flake-check:
     @just reload
     nix run github:DeterminateSystems/flake-checker
 alias fc := flake-check
-
-# <- Run integration tests
-[group('dev')]
-integration-tests:
-    @just reload
-    nix build .#checks.$(nix eval --impure --expr builtins.currentSystem --raw).integration
-alias it := integration-tests
-
 
 # <- Reloads all the checks:  direnv, nix flake check and flake-checker ( That's not nix flake check! )
 [group('dev')]

@@ -1,5 +1,4 @@
 # Re-export the deploy-rs overlay on this flake.
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   flake.overlays.deploy-rs = inputs.deploy-rs.overlays.default;
 }

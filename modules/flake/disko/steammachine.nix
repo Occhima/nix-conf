@@ -5,9 +5,7 @@
 let
   layout = {
     devices.disk = {
-
       ssd = {
-
         # KINGSTON 480 GB
         type = "disk";
         device = "/dev/disk/by-id/ata-KINGSTON_SA400S37480G_50026B7784F23C10";
@@ -15,7 +13,6 @@ let
         content = {
           type = "gpt";
           partitions = {
-
             ESP = {
               size = "512M";
               type = "EF00";

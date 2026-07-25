@@ -32,5 +32,10 @@ in
 
     home.username = "occhima";
     home.homeDirectory = "/home/occhima";
+
+    modules.desktop.apps.flatpak.packages = [
+      "com.github.tchx84.Flatseal"
+      "com.github.flxzt.rnote"
+    ];
   };
 }

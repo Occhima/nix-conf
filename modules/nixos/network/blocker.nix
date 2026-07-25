@@ -1,21 +1,17 @@
 {
-  flake.modules.nixos.blocker =
-    {
-      ...
-    }:
-    {
-      options.modules.network.blocker = {
-      };
+  flake.modules.nixos.blocker = {
+    options.modules.network.blocker = {
+    };
 
-      config = {
-        networking.stevenblack = {
-          enable = true;
-          block = [
-            "fakenews"
-            "gambling"
-            "porn"
-          ];
-        };
+    config = {
+      networking.stevenblack = {
+        enable = true;
+        block = [
+          "fakenews"
+          "gambling"
+          "porn"
+        ];
       };
     };
+  };
 }

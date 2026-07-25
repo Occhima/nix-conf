@@ -2,7 +2,6 @@
   lib,
   stdenvNoCC,
   fetchurl,
-
   # build
   appimageTools,
   cacert,
@@ -17,13 +16,10 @@
   wayland,
   egl-wayland,
   runCommand,
-
   # Creating desktop entries
   makeDesktopItem,
   copyDesktopItems,
-
   ...
-
 }:
 let
   pname = "nyxt";
@@ -53,7 +49,6 @@ let
     inherit version pname;
     src = unpackedSource;
   };
-
 in
 stdenvNoCC.mkDerivation {
   inherit pname version;
@@ -74,7 +69,6 @@ stdenvNoCC.mkDerivation {
     egl-wayland
     electron
     enchant
-
   ];
 
   # sourceRoot = lib.optionalString hostPlatform.isDarwin ".";

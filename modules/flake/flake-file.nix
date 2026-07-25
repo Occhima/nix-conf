@@ -1,5 +1,4 @@
 { inputs, ... }: {
-
   flake-file.inputs = {
     flake-file.url = "github:vic/flake-file";
     flake-parts = {
@@ -13,5 +12,4 @@
   imports = [ inputs.flake-file.flakeModules.dendritic ];
 
   flake-file.description = "My dendritic NixOS config";
-
 }

@@ -1,5 +1,4 @@
-{ self, ... }:
-{
+{ self, ... }: {
   flake.modules.nixos.iso-image =
     {
       lib,

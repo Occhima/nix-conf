@@ -1,12 +1,8 @@
 {
   flake.modules.homeManager.themes-guernica =
     # NOTE: stole from: https://gitlab.com/saibhargav/arch-hypr-mini/-/blob/main/wlogout/style.css?ref_type=heads
-    {
-      config,
-      ...
-    }:
+    { config, ... }:
     let
-
       stylixColors = config.lib.stylix.colors;
     in
     {

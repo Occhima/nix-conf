@@ -1,14 +1,9 @@
 {
-  flake.modules.homeManager.calibre =
-    {
-      pkgs,
-      ...
-    }:
-    {
-      config = {
-        home.packages = [
-          pkgs.calibre
-        ];
-      };
+  flake.modules.homeManager.calibre = { pkgs, ... }: {
+    config = {
+      home.packages = [
+        pkgs.calibre
+      ];
     };
+  };
 }

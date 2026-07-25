@@ -7,13 +7,11 @@
       uiCfg,
       waybarModules,
     }:
-
     let
       modules = waybarModules;
       compactWorkspacesModule = "${uiCfg.windowManager}/workspaces";
     in
     {
-
       settings.mainBar = {
         layer = "top";
         position = "top";
@@ -133,7 +131,6 @@
           tooltip = true;
           tooltip-format = "{used:0.1f}GB/{total:0.1f}G";
           on-click-right = "kitty --title btop sh -c 'btop'";
-
         };
 
         disk = modules.disk;

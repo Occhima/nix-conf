@@ -6,7 +6,6 @@
   fetchFromGitHub,
   fetchurl,
 }:
-
 # Slopped derivation, but hey.... it works !
 let
   version = "0.3.4";

@@ -1,36 +1,31 @@
 {
-  flake.modules.homeManager.finance =
-    {
-      pkgs,
-      ...
-    }:
-    {
-      config = {
-        home.packages = with pkgs; [
-          beancount
-          beancount-language-server
+  flake.modules.homeManager.finance = { pkgs, ... }: {
+    config = {
+      home.packages = with pkgs; [
+        beancount
+        beancount-language-server
 
-          #NOTE: Broken
-          # fava
+        #NOTE: Broken
+        # fava
 
-          hledger-ui
-          hledger-web
-        ];
-        programs.ledger.enable = true;
+        hledger-ui
+        hledger-web
+      ];
+      programs.ledger.enable = true;
 
-        # services.podman = mkIf podmanEnabled {
+      # services.podman = mkIf podmanEnabled {
 
-        #   containers = {
+      #   containers = {
 
-        #     maybeFinanceRedis = { };
-        #     maybeFinanceDb = { };
-        #     autoStart = true;
-        #     image = "postgres:latest";
-        #   };
-        #   maybeFinanceWorker = { };
-        #   maybeFinanceWeb = { };
+      #     maybeFinanceRedis = { };
+      #     maybeFinanceDb = { };
+      #     autoStart = true;
+      #     image = "postgres:latest";
+      #   };
+      #   maybeFinanceWorker = { };
+      #   maybeFinanceWeb = { };
 
-        # };
-      };
+      # };
     };
+  };
 }

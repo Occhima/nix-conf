@@ -1,9 +1,6 @@
 {
   flake.modules.homeManager.themes-guernica =
-    {
-      config,
-      ...
-    }:
+    { config, ... }:
     let
       inherit (config.lib.formats.rasi) mkLiteral;
     in

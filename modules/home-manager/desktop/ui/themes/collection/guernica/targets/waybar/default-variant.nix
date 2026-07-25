@@ -8,7 +8,6 @@
       uiCfg,
       waybarModules,
     }:
-
     let
       inherit (lib) mkIf mkMerge;
 

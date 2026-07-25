@@ -1,6 +1,10 @@
 {
   flake.modules.nixos.laptop =
-    { pkgs, config, ... }:
+    {
+      pkgs,
+      config,
+      ...
+    }:
     {
       hardware.acpilight.enable = false;
       services.acpid.enable = true;

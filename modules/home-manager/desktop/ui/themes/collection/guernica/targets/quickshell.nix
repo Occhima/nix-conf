@@ -11,7 +11,7 @@
       stylixColors = config.lib.stylix.colors;
     in
     {
-      xdg.configFile."quickshell/data/Settings.qml" = mkIf config.programs.quickshell.enable ({
+      xdg.configFile."quickshell/data/Settings.qml" = mkIf config.programs.quickshell.enable {
         text = ''
           pragma Singleton
 
@@ -44,6 +44,6 @@
               readonly property int barSideMargin: 16
           }
         '';
-      });
+      };
     };
 }

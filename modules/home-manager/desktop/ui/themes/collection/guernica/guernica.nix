@@ -8,10 +8,7 @@ let
 in
 {
   flake.modules.homeManager.themes-guernica =
-    {
-      config,
-      ...
-    }:
+    { config, ... }:
     let
       isCompact = themeLib.isVariant config "compact";
       usingNiri = config.programs.niri.enable or false;

@@ -13,7 +13,6 @@
     in
     {
       options.modules.network = {
-
         hostName = mkOption {
           type = types.str;
           description = "Hostname of the machine";

@@ -1,4 +1,8 @@
-{ inputs, self, ... }:
+{
+  inputs,
+  self,
+  ...
+}:
 let
   # Test against the same helpers the flake exports, on top of a plain
   # nixpkgs lib (the flake never merges libs into `self.lib`).

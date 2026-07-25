@@ -4,10 +4,7 @@ let
 in
 {
   flake.modules.homeManager.feynman =
-    {
-      pkgs,
-      ...
-    }:
+    { pkgs, ... }:
     let
       pkg = flakePkgs.${pkgs.stdenv.hostPlatform.system}.feynman;
     in

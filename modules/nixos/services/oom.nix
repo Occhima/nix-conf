@@ -48,7 +48,6 @@
         "node"
         "pipewire(.*)"
       ];
-
     in
     {
       config = {

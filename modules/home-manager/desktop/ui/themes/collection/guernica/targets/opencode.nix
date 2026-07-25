@@ -1,9 +1,6 @@
 {
   flake.modules.homeManager.themes-guernica =
-    {
-      config,
-      ...
-    }:
+    { config, ... }:
     let
       colors = config.lib.stylix.colors;
       guernicaTheme = with colors; {

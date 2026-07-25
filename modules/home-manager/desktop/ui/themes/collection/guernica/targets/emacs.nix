@@ -1,9 +1,5 @@
 {
-  flake.modules.homeManager.themes-guernica =
-    {
-      ...
-    }:
-    {
-      stylix.targets.emacs.enable = false;
-    };
+  flake.modules.homeManager.themes-guernica = {
+    stylix.targets.emacs.enable = false;
+  };
 }

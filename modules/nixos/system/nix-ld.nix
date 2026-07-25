@@ -1,17 +1,12 @@
 {
-  flake.modules.nixos.nix-ld =
-    {
-      ...
-    }:
+  flake.modules.nixos.nix-ld = {
+    options.modules.system.nix-ld = {
+    };
 
-    {
-      options.modules.system.nix-ld = {
-      };
-
-      config = {
-        programs.nix-ld = {
-          enable = true;
-        };
+    config = {
+      programs.nix-ld = {
+        enable = true;
       };
     };
+  };
 }

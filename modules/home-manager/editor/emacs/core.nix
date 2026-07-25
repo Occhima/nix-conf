@@ -2,7 +2,11 @@
 # modules (emacs-doom, emacs-vanilla); enable a flavor to get an editor.
 {
   flake.modules.homeManager.emacs-core =
-    { config, pkgs, ... }:
+    {
+      config,
+      pkgs,
+      ...
+    }:
     {
       home = {
         packages = [

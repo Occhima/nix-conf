@@ -9,6 +9,7 @@ in
     hm.xdg
     hm.persistence
     hm.maestral
+    hm.maestral-service
     hm.email
   ];
 }

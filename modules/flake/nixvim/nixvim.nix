@@ -3,7 +3,11 @@
 # every fragment under modules/flake/nixvim/ contributes to
 # `flake.nixvimModules.default` independently; the merged module is
 # evaluated into the `nvim` configuration and its packages.
-{ config, inputs, ... }:
+{
+  config,
+  inputs,
+  ...
+}:
 {
   flake-file.inputs.nixvim = {
     url = "github:nix-community/nixvim";
@@ -17,18 +21,16 @@
     checks.enable = true;
   };
 
-  perSystem =
-    { system, ... }:
-    {
-      nixvimConfigurations = {
-        nvim = inputs.nixvim.lib.evalNixvim {
-          inherit system;
-          modules = [
-            config.flake.nixvimModules.default
-            # Explicit since nixpkgs.follows alters the default; silences the warning.
-            { nixpkgs.source = inputs.nixpkgs; }
-          ];
-        };
+  perSystem = { system, ... }: {
+    nixvimConfigurations = {
+      nvim = inputs.nixvim.lib.evalNixvim {
+        inherit system;
+        modules = [
+          config.flake.nixvimModules.default
+          # Explicit since nixpkgs.follows alters the default; silences the warning.
+          { nixpkgs.source = inputs.nixpkgs; }
+        ];
       };
     };
+  };
 }

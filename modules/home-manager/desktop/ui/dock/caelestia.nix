@@ -1,15 +1,11 @@
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   flake-file.inputs.caelestia-shell = {
     url = "github:caelestia-dots/shell";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
   flake.modules.homeManager.caelestia-dock =
-    {
-      pkgs,
-      ...
-    }:
+    { pkgs, ... }:
     let
       system = pkgs.stdenv.hostPlatform.system;
       shellPkg = inputs.caelestia-shell.packages.${system}.default;

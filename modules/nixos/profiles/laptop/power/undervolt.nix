@@ -1,6 +1,10 @@
 {
   flake.modules.nixos.laptop =
-    { pkgs, config, ... }:
+    {
+      pkgs,
+      config,
+      ...
+    }:
     {
       # ponytail: check cpu-intel's flag instead of old selector enum
       services.undervolt = {

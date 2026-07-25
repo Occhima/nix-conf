@@ -1,9 +1,6 @@
 {
   flake.modules.homeManager.aider =
-    {
-      pkgs,
-      ...
-    }:
+    { pkgs, ... }:
     let
       yamlFormat = pkgs.formats.yaml { };
       settings = {

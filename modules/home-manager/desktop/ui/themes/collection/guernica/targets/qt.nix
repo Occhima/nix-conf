@@ -1,11 +1,7 @@
 {
-  flake.modules.homeManager.themes-guernica =
-    {
-      ...
-    }:
-    {
-      stylix.targets.qt = {
-        enable = true;
-      };
+  flake.modules.homeManager.themes-guernica = {
+    stylix.targets.qt = {
+      enable = true;
     };
+  };
 }

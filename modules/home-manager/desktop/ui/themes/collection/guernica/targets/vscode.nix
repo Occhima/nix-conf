@@ -1,9 +1,5 @@
 {
-  flake.modules.homeManager.themes-guernica =
-    {
-      ...
-    }:
-    {
-      stylix.targets.vscode.enable = true;
-    };
+  flake.modules.homeManager.themes-guernica = {
+    stylix.targets.vscode.enable = true;
+  };
 }

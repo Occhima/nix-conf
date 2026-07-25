@@ -1,12 +1,14 @@
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   imports = [ inputs.treefmt-nix.flakeModule ];
   perSystem =
-    { pkgs, config, ... }:
+    {
+      pkgs,
+      config,
+      ...
+    }:
     {
       formatter = config.treefmt.programs.nixfmt.package;
       treefmt = {
-
         # enabled to be the base formatter
         flakeFormatter = true;
 
@@ -62,7 +64,6 @@
             enable = true;
           };
         };
-
       };
     };
 }

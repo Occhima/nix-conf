@@ -11,7 +11,6 @@ in
       ...
     }:
     let
-
       usingWayland = isWayland osConfig;
 
       flameShotPkg =

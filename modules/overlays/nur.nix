@@ -1,6 +1,5 @@
 # Re-export the nur overlay on this flake.
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   flake-file.inputs.nur = {
     url = "github:nix-community/NUR";
     inputs.nixpkgs.follows = "nixpkgs";

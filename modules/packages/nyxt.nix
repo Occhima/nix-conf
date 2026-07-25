@@ -1,7 +1,11 @@
 # Nyxt: source build package and runnable app.
 {
   perSystem =
-    { pkgs, self', ... }:
+    {
+      pkgs,
+      self',
+      ...
+    }:
     {
       packages.nyxt-source = pkgs.callPackage ./_nyxt/package.nix { };
 

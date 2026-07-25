@@ -1,11 +1,14 @@
 {
   flake.modules.nixos.iso-networking =
-    { lib, pkgs, ... }:
+    {
+      lib,
+      pkgs,
+      ...
+    }:
     let
       inherit (lib.modules) mkForce;
     in
     {
-
       hardware.wirelessRegulatoryDatabase = true;
       networking.networkmanager = {
         enable = true;

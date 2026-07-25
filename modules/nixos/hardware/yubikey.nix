@@ -1,6 +1,10 @@
 {
   flake.modules.nixos.yubikey =
-    { lib, pkgs, ... }:
+    {
+      lib,
+      pkgs,
+      ...
+    }:
     let
       inherit (lib.modules) mkDefault;
     in

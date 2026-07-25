@@ -1,5 +1,4 @@
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   flake-file.inputs.nixos-wsl = {
     url = "github:nix-community/NixOS-WSL";
     inputs.nixpkgs.follows = "nixpkgs";
@@ -26,7 +25,6 @@
           defaultUser = "occhima";
           startMenuLaunchers = true;
           interop = {
-
             includePath = false;
             register = true;
           };

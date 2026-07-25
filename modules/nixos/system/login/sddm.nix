@@ -9,15 +9,12 @@ in
       pkgs,
       ...
     }:
-
     let
-
       theme = pkgs.elegant-sddm.override {
         themeConfig.General = {
           background = "${pkgs.nixos-artwork.wallpapers.nineish-dark-gray.gnomeFilePath}";
         };
       };
-
     in
     {
       config = {

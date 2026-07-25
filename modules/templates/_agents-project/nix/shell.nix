@@ -6,7 +6,6 @@
       ...
     }:
     let
-
       # add your packages her
       commonPackages = [
       ];

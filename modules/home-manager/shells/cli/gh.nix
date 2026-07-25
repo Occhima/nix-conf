@@ -1,25 +1,20 @@
 {
-  flake.modules.homeManager.gh =
-    {
-      pkgs,
-      ...
-    }:
-    {
-      config = {
-        programs.gh = {
-          enable = true;
+  flake.modules.homeManager.gh = { pkgs, ... }: {
+    config = {
+      programs.gh = {
+        enable = true;
 
-          extensions = [
-            pkgs.gh-eco
-            pkgs.gh-cal
-          ];
+        extensions = [
+          pkgs.gh-eco
+          pkgs.gh-cal
+        ];
 
-          settings = {
-            git_protocol = "ssh";
-            prompt = "enabled";
-            pager = "less";
-          };
+        settings = {
+          git_protocol = "ssh";
+          prompt = "enabled";
+          pager = "less";
         };
       };
     };
+  };
 }

@@ -1,5 +1,4 @@
 # Re-export the agenix overlay on this flake.
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   flake.overlays.agenix = inputs.agenix.overlays.default;
 }

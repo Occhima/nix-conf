@@ -23,7 +23,6 @@
     in
     {
       options.modules.security.clamav = {
-
         daemon = {
           settings = mkOption {
             type = attrsOf (oneOf [

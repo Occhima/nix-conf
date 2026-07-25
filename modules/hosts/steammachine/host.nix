@@ -1,8 +1,7 @@
 # Host: steammachine — gaming desktop, AMD/NVIDIA, Ly, 2 monitors, Disko,
 # pentesting container, VPN.
 # Plain deferred NixOS module; usable without Den.
-{ config, ... }:
-{
+{ config, ... }: {
   flake.modules.nixos.host-steammachine = {
     imports = with config.flake.modules.nixos; [
       gaming-workstation

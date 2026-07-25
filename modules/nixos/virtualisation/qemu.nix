@@ -1,35 +1,28 @@
 {
-  flake.modules.nixos.qemu =
-    {
-      pkgs,
-      ...
-    }:
-
-    {
-      options.modules.virtualisation.qemu = {
-      };
-
-      config = {
-        virtualisation.libvirtd = {
-          enable = true;
-          qemu = {
-            package = pkgs.qemu_kvm;
-            swtpm.enable = true;
-            ovmf = {
-              enable = true;
-              packages = [ pkgs.OVMFFull.fd ];
-            };
-          };
-
-        };
-
-        virtualisation.kvmgt.enable = true;
-        virtualisation.spiceUSBRedirection.enable = true;
-
-        environment.systemPackages = with pkgs; [
-          virt-manager
-          virt-viewer
-        ];
-      };
+  flake.modules.nixos.qemu = { pkgs, ... }: {
+    options.modules.virtualisation.qemu = {
     };
+
+    config = {
+      virtualisation.libvirtd = {
+        enable = true;
+        qemu = {
+          package = pkgs.qemu_kvm;
+          swtpm.enable = true;
+          ovmf = {
+            enable = true;
+            packages = [ pkgs.OVMFFull.fd ];
+          };
+        };
+      };
+
+      virtualisation.kvmgt.enable = true;
+      virtualisation.spiceUSBRedirection.enable = true;
+
+      environment.systemPackages = with pkgs; [
+        virt-manager
+        virt-viewer
+      ];
+    };
+  };
 }

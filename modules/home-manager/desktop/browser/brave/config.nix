@@ -1,7 +1,5 @@
 {
-  flake.modules.homeManager.browser-brave =
-    { pkgs, ... }:
-    {
-      home.packages = [ pkgs.brave ];
-    };
+  flake.modules.homeManager.browser-brave = { pkgs, ... }: {
+    home.packages = [ pkgs.brave ];
+  };
 }

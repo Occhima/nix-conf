@@ -18,7 +18,6 @@ in
     }:
     let
       inherit (lib.modules) mkIf;
-
     in
     {
       options.modules.services.steam = {
@@ -63,7 +62,6 @@ in
               };
             }
           );
-
         };
       };
     };

@@ -2,7 +2,7 @@
 
 A fully **dendritic** NixOS + Home Manager configuration built on
 [flake-parts](https://flake.parts) modules, [Den](https://den.denful.dev) hosts,
-[import-tree](https://github.com/vic/import-tree) and
+[import-tree](https://github.com/denful/import-tree) and
 [flake-file](https://github.com/vic/flake-file).
 
 <p align="center">
@@ -242,5 +242,5 @@ public key at `modules/hosts/<host>/host.pub`.
 
 - [Dendritic pattern](https://github.com/mightyiam/dendritic)
 - [flake-parts `modules` option](https://flake.parts/options/flake-parts-modules.html)
-- [import-tree](https://github.com/vic/import-tree)
+- [import-tree](https://github.com/denful/import-tree)
 - [flake-parts partitions](https://flake.parts/options/flake-parts-partitions.html)

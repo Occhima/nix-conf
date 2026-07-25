@@ -4,18 +4,16 @@
 # aspects on one host is a configuration error and fails as an option
 # conflict.
 {
-  flake.modules.nixos.display-base =
-    { lib, ... }:
-    {
-      options.modules.system.display.type = lib.mkOption {
-        type = lib.types.nullOr (
-          lib.types.enum [
-            "wayland"
-            "x11"
-          ]
-        );
-        default = null;
-        description = "The display server stack this host runs (published by the display modules).";
-      };
+  flake.modules.nixos.display-base = { lib, ... }: {
+    options.modules.system.display.type = lib.mkOption {
+      type = lib.types.nullOr (
+        lib.types.enum [
+          "wayland"
+          "x11"
+        ]
+      );
+      default = null;
+      description = "The display server stack this host runs (published by the display modules).";
     };
+  };
 }

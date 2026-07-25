@@ -14,7 +14,6 @@
     in
     {
       options.modules.security.auditd = {
-
         autoPrune = {
           enable = mkOption {
             type = bool;

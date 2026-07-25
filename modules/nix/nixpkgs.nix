@@ -4,7 +4,11 @@
 # `config.nixpkgs.allowedUnfree`; the shared nixpkgsConfig turns the merged
 # list into allowUnfreePredicate. Internal package sets apply the explicit
 # internal overlay list; exported overlay outputs stay public.
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 let
   # cudaPackages ship dozens of components (cuda-merged, cuda_cuobjdump,
   # libcublas, libnpp, ...) — the active NVIDIA configuration requires the

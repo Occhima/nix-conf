@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   nixpkgs.allowedUnfree = [
     "nvidia-x11"
     "nvidia-settings"
@@ -26,7 +25,6 @@
       hardware = {
         graphics = {
           extraPackages = with pkgs; [
-
             nvidia-vaapi-driver
             libva-vdpau-driver
             libvdpau-va-gl
@@ -87,6 +85,5 @@
         cudaPackages.cuda_cudart
         #(nvtopPackages.nvidia)
       ];
-
     };
 }

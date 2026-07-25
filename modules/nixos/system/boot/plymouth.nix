@@ -9,7 +9,6 @@
       inherit (lib.meta) getExe';
       inherit (lib.options) mkOption;
       inherit (lib.types) bool;
-
     in
     {
       options.modules.system.boot.plymouth = {

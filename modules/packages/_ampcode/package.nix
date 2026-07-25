@@ -6,7 +6,6 @@
   openssl,
   zlib,
 }:
-
 let
   version = "0.0.1782579189-g03e27d";
   sources = {

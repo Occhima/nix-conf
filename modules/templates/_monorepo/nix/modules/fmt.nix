@@ -1,36 +1,30 @@
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   imports = [ inputs.treefmt-nix.flakeModule ];
-  perSystem =
-    {
-      config,
-      ...
-    }:
-    {
-      formatter = config.treefmt.programs.alejandra.package;
-      treefmt = {
-        flakeFormatter = true;
-        flakeCheck = true;
-        projectRootFile = "flake.nix";
+  perSystem = { config, ... }: {
+    formatter = config.treefmt.programs.alejandra.package;
+    treefmt = {
+      flakeFormatter = true;
+      flakeCheck = true;
+      projectRootFile = "flake.nix";
 
-        programs = {
-          # Nix
-          alejandra.enable = true;
-          deadnix.enable = true;
+      programs = {
+        # Nix
+        alejandra.enable = true;
+        deadnix.enable = true;
 
-          # GitHub Actions
-          actionlint.enable = true;
+        # GitHub Actions
+        actionlint.enable = true;
 
-          # Bash
-          beautysh.enable = true;
+        # Bash
+        beautysh.enable = true;
 
-          # Python
-          ruff-check.enable = true;
-          ruff-format.enable = true;
+        # Python
+        ruff-check.enable = true;
+        ruff-format.enable = true;
 
-          # YAML
-          prettier.enable = true;
-        };
+        # YAML
+        prettier.enable = true;
       };
     };
+  };
 }

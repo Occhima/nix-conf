@@ -3,17 +3,12 @@
     "postman"
   ];
 
-  flake.modules.homeManager.web =
-    {
-      pkgs,
-      ...
-    }:
-    {
-      config = {
-        home.packages = with pkgs; [
-          pastel
-          postman
-        ];
-      };
+  flake.modules.homeManager.web = { pkgs, ... }: {
+    config = {
+      home.packages = with pkgs; [
+        pastel
+        postman
+      ];
     };
+  };
 }

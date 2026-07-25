@@ -15,7 +15,6 @@
     in
     {
       options.modules.security.selinux = {
-
         state = mkOption {
           type = enum [
             "enforcing"

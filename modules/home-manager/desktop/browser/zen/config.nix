@@ -1,5 +1,4 @@
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   flake-file.inputs.zen-browser = {
     url = "github:0xc000022070/zen-browser-flake";
     inputs.nixpkgs.follows = "nixpkgs";
@@ -8,11 +7,7 @@
 
   flake.modules.homeManager.browser-zen-beta =
     # NOTE: another feature stolen from the isabelroses/dotfiles repo
-    {
-      pkgs,
-      ...
-    }:
-    {
+    { pkgs, ... }: {
       imports = [
         inputs.zen-browser.homeModules.beta
       ];

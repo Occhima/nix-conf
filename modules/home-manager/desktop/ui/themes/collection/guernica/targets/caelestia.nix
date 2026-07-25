@@ -6,15 +6,11 @@ in
   # Contributed to the caelestia-dock aspect (not themes-guernica) so the
   # settings only exist when the caelestia module is actually imported.
   flake.modules.homeManager.caelestia-dock =
-    {
-      config,
-      ...
-    }:
+    { config, ... }:
     let
       stylixFonts = config.stylix.fonts;
     in
     {
-
       programs.caelestia.settings = {
         appearance = {
           anim.durations.scale = 1;

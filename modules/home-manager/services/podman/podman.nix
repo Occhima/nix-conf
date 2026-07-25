@@ -1,14 +1,10 @@
 {
-  flake.modules.homeManager.podman =
-    {
-      ...
-    }:
-    {
-      config = {
-        services.podman = {
-          enable = true;
-          enableTypeChecks = true;
-        };
+  flake.modules.homeManager.podman = {
+    config = {
+      services.podman = {
+        enable = true;
+        enableTypeChecks = true;
       };
     };
+  };
 }

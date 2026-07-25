@@ -6,7 +6,6 @@
       pkgs,
       ...
     }:
-
     let
       inherit (lib) concatStringsSep;
       accountsCfg = config.modules.accounts;

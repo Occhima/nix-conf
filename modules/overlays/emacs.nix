@@ -1,6 +1,5 @@
 # Re-export the emacs-overlay overlay on this flake.
-{ inputs, ... }:
-{
+{ inputs, ... }: {
   flake-file.inputs.emacs-overlay = {
     url = "github:nix-community/emacs-overlay";
     inputs.nixpkgs.follows = "nixpkgs";
