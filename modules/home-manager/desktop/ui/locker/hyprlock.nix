@@ -1,26 +1,13 @@
 {
-  config,
-  lib,
-  ...
-}:
-
-let
-  inherit (lib) mkIf;
-  cfg = config.modules.desktop.ui;
-
-in
-{
-  config = mkIf (cfg.locker == "hyprlock") {
+  flake.modules.homeManager.hyprlock = {
     programs.hyprlock = {
       enable = true;
-      settings = {
-        general = {
-          no_fade_in = true;
-          no_fade_out = true;
-          hide_cursor = false;
-          grace = 0;
-          disable_loading_bar = true;
-        };
+      settings.general = {
+        no_fade_in = true;
+        no_fade_out = true;
+        hide_cursor = false;
+        grace = 0;
+        disable_loading_bar = true;
       };
     };
 
@@ -28,5 +15,4 @@ in
       "$mainMod, L, exec, hyprlock"
     ];
   };
-
 }

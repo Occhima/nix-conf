@@ -1,25 +1,16 @@
-{
-  lib,
-  config,
-  inputs,
-  ...
-}:
-let
-  inherit (lib)
-    mkEnableOption
-    mkIf
-    ;
-  cfg = config.modules.virtualisation.microvm;
-
-in
-{
-  options.modules.virtualisation.microvm = {
-    enable = mkEnableOption "microvm configs";
+{ inputs, ... }: {
+  flake-file.inputs.microvm = {
+    url = "github:astro/microvm.nix";
+    inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  imports = [ inputs.microvm.nixosModules.host ];
+  flake.modules.nixos.microvm-config = {
+    options.modules.virtualisation.microvm = {
+    };
 
-  config = mkIf cfg.enable {
+    imports = [ inputs.microvm.nixosModules.host ];
 
+    config = {
+    };
   };
 }

@@ -1,3 +1,7 @@
+-- hypr/options.lua — single source of truth for the backup config.
+-- Values mirror hyprlang/*.nix; monitor/workspace data mirrors what
+-- hardware/monitors.nix injects into the Nix side.
+
 local M = {}
 
 M.main_mod = "SUPER"
@@ -5,29 +9,20 @@ M.main_mod = "SUPER"
 M.programs = {
   terminal = os.getenv("HYPR_BACKUP_TERMINAL") or "kitty",
   launcher = os.getenv("HYPR_BACKUP_LAUNCHER") or "anyrun",
-  browser = os.getenv("BROWSER") or "firefox",
   color_picker = "hyprpicker",
-  clipboard_menu = "clipcat-menu --rofi-menu-length 10",
   screenshot = "flameshot gui",
   lock = "hyprlock",
   logout = "wlogout",
   emacs = "emacsclient -c",
 }
 
+-- Optional extras that exist only in the backup config (not in hyprlang/).
 M.features = {
-  rofi = false,
-  anyrun = true,
   flameshot = true,
   wlogout = true,
   hyprlock = true,
   emacs_service = true,
-  clipboard = false,
-  steam = false,
-  hyprsplit = false,
-  native_workspaces = true,
-  split_monitor_workspaces = false,
-  hy3 = false,
-  compact_theme = false,
+  steam = false, -- gamemode bind (hyprlang/gamemode.nix)
 }
 
 M.workspaces = {
@@ -41,6 +36,7 @@ M.input = {
   primary_tablet_output = "DP-1",
 }
 
+-- Mirrors osConfig.modules.hardware.monitors.displays per host.
 M.monitors = {
   desktop = {
     { output = "DP-1", mode = "2560x1080@180", position = "0x0", scale = 1.0 },

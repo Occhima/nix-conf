@@ -1,16 +1,5 @@
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
-let
-  inherit (lib) mkIf;
-  cfg = config.modules.desktop.ui;
-in
-{
-  config = mkIf (cfg.dock == "waybar") {
+  flake.modules.homeManager.waybar-dock = { pkgs, ... }: {
     home.packages = [ pkgs.pavucontrol ];
     programs.waybar = {
       enable = true;

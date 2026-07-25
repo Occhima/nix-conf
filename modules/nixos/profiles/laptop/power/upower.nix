@@ -1,14 +1,5 @@
 {
-  lib,
-  config,
-  ...
-}:
-let
-  inherit (lib) mkIf;
-  inherit (lib.custom) hasProfile;
-in
-{
-  config = mkIf (hasProfile config [ "laptop" ]) {
+  flake.modules.nixos.laptop = {
     services.upower = {
       enable = true;
       percentageLow = 15;

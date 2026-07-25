@@ -1,0 +1,68 @@
+# Disko layout for steammachine: standalone `diskoConfigurations.steammachine` output
+# (for `disko --flake .#steammachine`) and the `disko-steammachine` NixOS module the
+# host imports.
+{ config, ... }:
+let
+  layout = {
+    devices.disk = {
+      ssd = {
+        # KINGSTON 480 GB
+        type = "disk";
+        device = "/dev/disk/by-id/ata-KINGSTON_SA400S37480G_50026B7784F23C10";
+
+        content = {
+          type = "gpt";
+          partitions = {
+            ESP = {
+              size = "512M";
+              type = "EF00";
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot";
+                mountOptions = [ "umask=0077" ];
+              };
+            };
+
+            root = {
+              # root + /nix
+              size = "100%";
+              content = {
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/";
+                mountOptions = [ "noatime" ];
+              };
+            };
+          };
+        };
+      };
+
+      hdd = {
+        type = "disk";
+        device = "/dev/disk/by-id/ata-WDC_WD10EZEX-21WN4A0_WCC6Y7VYE70H";
+
+        content = {
+          type = "gpt";
+          partitions.home = {
+            size = "100%";
+            content = {
+              type = "filesystem";
+              format = "ext4";
+              mountpoint = "/home";
+              mountOptions = [ "noatime" ];
+            };
+          };
+        };
+      };
+    };
+  };
+in
+{
+  flake.diskoConfigurations.steammachine = layout;
+
+  flake.modules.nixos.disko-steammachine = {
+    imports = [ config.flake.modules.nixos.disko-base ];
+    disko.devices = layout.devices;
+  };
+}

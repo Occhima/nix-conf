@@ -1,82 +1,98 @@
-{
-  config,
-  lib,
-  self,
-  inputs,
-  ...
-}:
-
+# agenix + agenix-rekey: one feature, several contexts. This file carries
+# the flake-level rekey integration AND the NixOS module. The secret
+# assets live right here (./vault, ./identity, ./rekeyed) so every
+# reference is local; each host contributes its own `age.rekey.hostPubkey`
+# from a `host.pub` next to its host module and registers itself via
+# `perSystem.agenix-rekey.nixosConfigurations.<host>` — no central list.
+{ inputs, ... }:
 let
-  inherit (lib)
-    mkIf
-    mkOption
-    mkEnableOption
-    mkMerge
-    mkDefault
-    ;
-  inherit (lib.strings) optionalString;
-  inherit (inputs.haumea.lib) load matchers;
-
-  cfg = config.modules.secrets.agenix;
-  persist = config.modules.system.file-system.impermanence.enable;
-  secretsDir = self + /secrets/vault;
-  ageSecrets = load {
-    src = secretsDir;
-    loader = [
-      (matchers.extension "age" (
-        _ctx: path: {
-          rekeyFile = path;
-          owner = "occhima";
-        }
-      ))
-    ];
-  };
-
+  secretsDir = ./vault;
+  identityDir = ./identity;
+  rekeyedDir = ./rekeyed;
 in
 {
-  imports = [
-    inputs.agenix-rekey.nixosModules.default
-    inputs.agenix.nixosModules.default
-  ];
-
-  options.modules.secrets.agenix = {
-    enable = mkEnableOption "Agenix secret management with auto-rekeying";
-
-    masterKeys = mkOption {
-      description = "Paths to master SSH public keys (e.g., YubiKey identities)";
-      example = [ "../secrets/identity/yubi-identity.pub" ];
-      default = [
-        (self.outPath + "/secrets/identity/yubi-id.pub")
-      ];
+  flake-file.inputs = {
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
-    extraPub = mkOption {
-      default = [ ];
-      description = "Additional public keys to use for encryption, mostly backup keys";
+    agenix-rekey = {
+      url = "github:oddlama/agenix-rekey";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  config = mkMerge [
+
+  imports = [ inputs.agenix-rekey.flakeModule ];
+
+  perSystem = {
+    agenix-rekey = {
+      collectHomeManagerConfigurations = false;
+    };
+  };
+
+  flake.modules.nixos.agenix =
     {
-      # XXX: This must always be set in agenix-rekey
-      age.rekey.masterIdentities = cfg.masterKeys;
-    }
-    (mkIf cfg.enable {
-      age = {
-        secrets = ageSecrets;
+      config,
+      lib,
+      ...
+    }:
+    let
+      inherit (lib)
+        mkOption
+        mkMerge
+        mkDefault
+        ;
+      inherit (lib.strings) optionalString;
 
-        rekey = {
-          storageMode = mkDefault "local";
-          hostPubkey = builtins.readFile (
-            self.outPath + "/hosts/${config.networking.hostName}/assets/host.pub"
-          );
-          localStorageDir = self.outPath + "/secrets/rekeyed/${config.networking.hostName}";
-          extraEncryptionPubkeys = cfg.extraPub;
+      cfg = config.modules.secrets.agenix;
+      persist = config.environment.persistence ? "/persist";
+      ageSecrets = lib.mapAttrs' (name: _: {
+        name = lib.removeSuffix ".age" name;
+        value = {
+          rekeyFile = secretsDir + "/${name}";
         };
+      }) (lib.filterAttrs (name: _: lib.hasSuffix ".age" name) (builtins.readDir secretsDir));
+    in
+    {
+      imports = [
+        inputs.agenix-rekey.nixosModules.default
+        inputs.agenix.nixosModules.default
+      ];
 
-        identityPaths = [
-          "${optionalString persist "/persist"}/etc/ssh/ssh_host_ed25519_key"
-        ];
+      options.modules.secrets.agenix = {
+        masterKeys = mkOption {
+          description = "Paths to master SSH public keys (e.g., YubiKey identities)";
+          example = [ "./identity/yubi-identity.pub" ];
+          default = [
+            (identityDir + "/yubi-id.pub")
+          ];
+        };
+        extraPub = mkOption {
+          default = [ ];
+          description = "Additional public keys to use for encryption, mostly backup keys";
+        };
       };
-    })
-  ];
+      config = mkMerge [
+        {
+          # XXX: This must always be set in agenix-rekey
+          age.rekey.masterIdentities = cfg.masterKeys;
+        }
+        {
+          age = {
+            secrets = ageSecrets;
 
+            rekey = {
+              storageMode = mkDefault "local";
+              localStorageDir = rekeyedDir + "/${config.networking.hostName}";
+              extraEncryptionPubkeys = cfg.extraPub;
+            };
+
+            identityPaths = [
+              "${optionalString persist "/persist"}/etc/ssh/ssh_host_ed25519_key"
+            ];
+          };
+        }
+      ];
+    };
 }

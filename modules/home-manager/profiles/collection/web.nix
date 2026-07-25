@@ -1,19 +1,14 @@
 {
-  config,
-  pkgs,
-  lib,
-  ...
+  nixpkgs.allowedUnfree = [
+    "postman"
+  ];
 
-}:
-let
-  inherit (lib) mkIf;
-  inherit (lib.custom) hasProfile;
-in
-{
-  config = mkIf (hasProfile config [ "web" ]) {
-    home.packages = with pkgs; [
-      pastel
-      postman
-    ];
+  flake.modules.homeManager.web = { pkgs, ... }: {
+    config = {
+      home.packages = with pkgs; [
+        pastel
+        postman
+      ];
+    };
   };
 }

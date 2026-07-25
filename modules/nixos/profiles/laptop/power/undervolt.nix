@@ -1,19 +1,16 @@
 {
-  pkgs,
-  config,
-  lib,
-  ...
-}:
-let
-  inherit (lib) mkIf;
-  inherit (lib.custom) hasProfile;
-in
-{
-  config = mkIf (hasProfile config [ "laptop" ]) {
-    services.undervolt = {
-      enable = config.modules.hardware.cpu.type == "intel";
-      tempBat = 65;
-      package = pkgs.undervolt;
+  flake.modules.nixos.laptop =
+    {
+      pkgs,
+      config,
+      ...
+    }:
+    {
+      # ponytail: check cpu-intel's flag instead of old selector enum
+      services.undervolt = {
+        enable = config.hardware.cpu.intel.updateMicrocode or false;
+        tempBat = 65;
+        package = pkgs.undervolt;
+      };
     };
-  };
 }

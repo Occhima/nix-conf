@@ -1,21 +1,8 @@
 {
-  config,
-  lib,
-  ...
-}:
-
-let
-  inherit (lib) mkIf;
-
-  cfg = config.modules.desktop.ui;
-  maestralCfg = config.modules.data.maestral;
-
-in
-{
-  config = mkIf (cfg.notifier == "mako") {
+  flake.modules.homeManager.mako-notifier = {
     services.mako = {
       enable = true;
-      settings = mkIf maestralCfg.enable {
+      settings = {
         #HACK: annoying error
         "app-name=maestral summary=\"Sync error\"" = {
           invisible = 1;

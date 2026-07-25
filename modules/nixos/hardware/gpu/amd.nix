@@ -1,16 +1,5 @@
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
-let
-  inherit (lib) mkIf;
-  cfg = config.modules.hardware.gpu;
-in
-{
-  config = mkIf (cfg.type == "amd") {
+  flake.modules.nixos.gpu-amd = { pkgs, ... }: {
     # Enable AMD GPU Xorg drivers
     services.xserver.videoDrivers = [ "amdgpu" ];
 

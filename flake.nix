@@ -1,267 +1,97 @@
+# DO-NOT-EDIT. This file was auto-generated using github:vic/flake-file.
+# Use `nix run .#write-flake` to regenerate it.
 {
-  description = "My extra-bloated NixOS config";
+  description = "My dendritic NixOS config";
 
-  outputs =
-    { flake-parts, ... }@inputs:
-    flake-parts.lib.mkFlake { inherit inputs; } (
-      {
-        ...
-      }:
-      let
-        flakeModules = [
-          ./flake/flake-module.nix
-          ./modules/flake-module.nix
-          ./hosts/flake-module.nix
-          ./home/flake-module.nix
-        ];
-      in
-      {
-        imports = flakeModules;
-      }
-    );
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 
   inputs = {
-    # Sources
-    nixpkgs = {
-      type = "github";
-      owner = "nixos";
-      repo = "nixpkgs";
-      # ref = "nixos-25.05"; # going back to unstable
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs = {
+        home-manager.follows = "home-manager";
+        nixpkgs.follows = "nixpkgs";
+      };
+    };
+    agenix-rekey = {
+      url = "github:oddlama/agenix-rekey";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     caelestia-shell = {
-      type = "github";
-      owner = "caelestia-dots";
-      repo = "shell";
+      url = "github:caelestia-dots/shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-
-    nixpkgs-unstable = {
-      type = "github";
-      owner = "NixOS";
-      repo = "nixpkgs";
-      ref = "nixos-unstable";
-    };
-
-    # ========= Utilities =========
-    disko = {
-      type = "github";
-      owner = "nix-community";
-      repo = "disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nixos-hardware = {
-      type = "github";
-      owner = "NixOS";
-      repo = "nixos-hardware";
-    };
-
-    flake-parts = {
-      type = "github";
-      owner = "hercules-ci";
-      repo = "flake-parts";
-    };
-
-    home-manager = {
-      type = "github";
-      owner = "nix-community";
-      repo = "home-manager";
-      # ref = "release-25.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    impermanence = {
-      type = "github";
-      owner = "nix-community";
-      repo = "impermanence";
-    };
-
-    systems = {
-      type = "github";
-      owner = "nix-systems";
-      repo = "default";
-    };
-
-    nur = {
-      type = "github";
-      owner = "nix-community";
-      repo = "NUR";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nixos-wsl = {
-      type = "github";
-      owner = "nix-community";
-      repo = "NixOS-WSL";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
-
-    easy-hosts = {
-      type = "github";
-      owner = "tgirlcloud";
-      repo = "easy-hosts";
-    };
-
-    # Sec (commented out)
-
-    agenix = {
-      type = "github";
-      owner = "ryantm";
-      repo = "agenix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        home-manager.follows = "nixpkgs";
-      };
-    };
-
-    agenix-rekey = {
-      type = "github";
-      owner = "oddlama";
-      repo = "agenix-rekey";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
-
-    stylix = {
-      type = "github";
-      owner = "danth";
-      repo = "stylix";
-      # ref = "release-25.05";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        # home-manager.follows = "nixpkgs";
-      };
-    };
-
-    nixvim = {
-      type = "github";
-      owner = "nix-community";
-      repo = "nixvim";
-      # inputs = {
-      #   nixpkgs.follows = "nixpkgs";
-      # };
-    };
-
-    # For secure boot support
-    lanzaboote = {
-      type = "github";
-      owner = "nix-community";
-      repo = "lanzaboote";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
-
-    # sops (commented out)
-    # sops = {
-    #   type = "github";
-    #   owner = "Mic92";
-    #   repo = "sops-nix";
-    # };
-
-    # Deployment tools
+    den.url = "github:denful/den";
     deploy-rs = {
-      type = "github";
-      owner = "serokell";
-      repo = "deploy-rs";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # TODO: Generate iso images and etc with nixos-generators
-    nixos-generators = {
-      type = "github";
-      owner = "nix-community";
-      repo = "nixos-generators";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # https://github.com/search?q=colmena&type=repositories
-    # For now, Im using deploy-rs as reployment tool
-    # colmena = {
-    #   type = "github";
-    #   owner = "zhaofengli";
-    #   repo = "colmena";
-    #   inputs = {
-    #     nixpkgs.follows = "nixpkgs";
-    #   };
-
-    # };
-
-    # Utility for importing modules
-    haumea = {
-      type = "github";
-      owner = "nix-community";
-      repo = "haumea";
-    };
-
-    # Emacs overlay
     emacs-overlay = {
-      type = "github";
-      owner = "nix-community";
-      repo = "emacs-overlay";
+      url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # Flatpak management
-    flatpaks = {
-      type = "github";
-      owner = "gmodena";
-      repo = "nix-flatpak";
+    flake-file.url = "github:vic/flake-file";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
     };
-
-    spicetify-nix = {
-      type = "github";
-      owner = "Gerg-L";
-      repo = "spicetify-nix";
+    flatpaks.url = "github:gmodena/nix-flatpak";
+    home-manager = {
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    schizofox = {
-      type = "github";
-      owner = "schizofox";
-      repo = "schizofox";
+    impermanence = {
+      url = "github:nix-community/impermanence";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
+    import-tree.url = "github:denful/import-tree";
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     microvm = {
-      type = "github";
-      owner = "astro";
-      repo = "microvm.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-
-    };
-
-    nix-on-droid = {
-      type = "github";
-      owner = "nix-community";
-      repo = "nix-on-droid";
+      url = "github:astro/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     niri = {
-      type = "github";
-      owner = "sodiboo";
-      repo = "niri-flake";
+      url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    schizofox = {
+      url = "github:schizofox/schizofox";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    systems.url = "github:nix-systems/default";
     zen-browser = {
-      type = "github";
-      owner = "0xc000022070";
-      repo = "zen-browser-flake";
-
+      url = "github:0xc000022070/zen-browser-flake";
       inputs = {
-        nixpkgs.follows = "nixpkgs";
         home-manager.follows = "home-manager";
+        nixpkgs.follows = "nixpkgs";
       };
     };
   };

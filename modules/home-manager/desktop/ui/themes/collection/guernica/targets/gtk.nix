@@ -1,13 +1,10 @@
-{ config, lib, ... }:
-
-let
-  inherit (lib.custom) themeLib;
-in
 {
-  stylix.targets.gtk = themeLib.whenTheme config "guernica" {
-    enable = true;
-    flatpakSupport.enable = true;
-  };
+  flake.modules.homeManager.themes-guernica = {
+    stylix.targets.gtk = {
+      enable = true;
+      flatpakSupport.enable = true;
+    };
 
-  # gtk.gtk4.theme = config.gtk.theme;
+    # gtk.gtk4.theme = config.gtk.theme;
+  };
 }

@@ -1,123 +1,118 @@
 {
-  config,
-  lib,
-  ...
-}:
+  flake.modules.homeManager.themes-guernica =
+    { config, ... }:
+    let
+      inherit (config.lib.formats.rasi) mkLiteral;
+    in
+    {
+      stylix.targets.rofi.enable = false;
+      programs.rofi = {
+        font = "Iosevka Nerd Font";
+        extraConfig = {
+          modi = "drun";
+          show-icons = true;
 
-let
-  inherit (lib.custom) themeLib;
-  inherit (config.lib.formats.rasi) mkLiteral;
-in
-{
-  stylix.targets.rofi.enable = themeLib.whenTheme config "guernica" false;
-  programs.rofi = themeLib.whenTheme config "guernica" {
+          location = 0;
+          disable-history = false;
+          hide-scrollbar = true;
+          sidebar-mode = false;
+        };
 
-    font = "Iosevka Nerd Font";
-    extraConfig = {
-      modi = "drun";
-      show-icons = true;
+        # /* MACOS SPOTLIGHT LIKE THEME FOR ROFI  */
+        #/* Author: Newman Sanchez (https://github.com/newmanls) */   # MacOS Spotlight-like theme
 
-      location = 0;
-      disable-history = false;
-      hide-scrollbar = true;
-      sidebar-mode = false;
-    };
+        theme = {
+          "*" = {
+            bg0 = mkLiteral "#242424E6";
+            bg1 = mkLiteral "#7E7E7E80";
+            bg2 = mkLiteral "#0860f2E6";
 
-    # /* MACOS SPOTLIGHT LIKE THEME FOR ROFI  */
-    #/* Author: Newman Sanchez (https://github.com/newmanls) */   # MacOS Spotlight-like theme
+            fg0 = mkLiteral "#DEDEDE";
+            fg1 = mkLiteral "#FFFFFF";
+            fg2 = mkLiteral "#DEDEDE80";
 
-    theme = {
-      "*" = {
-        bg0 = mkLiteral "#242424E6";
-        bg1 = mkLiteral "#7E7E7E80";
-        bg2 = mkLiteral "#0860f2E6";
+            background-color = mkLiteral "transparent";
+            text-color = mkLiteral "@fg0";
 
-        fg0 = mkLiteral "#DEDEDE";
-        fg1 = mkLiteral "#FFFFFF";
-        fg2 = mkLiteral "#DEDEDE80";
+            margin = mkLiteral "0";
+            padding = mkLiteral "0";
+            spacing = mkLiteral "0";
+          };
 
-        background-color = mkLiteral "transparent";
-        text-color = mkLiteral "@fg0";
+          "window" = {
+            background-color = mkLiteral "@bg0";
+            location = mkLiteral "center";
+            width = mkLiteral "640";
+            border-radius = mkLiteral "8";
+          };
 
-        margin = mkLiteral "0";
-        padding = mkLiteral "0";
-        spacing = mkLiteral "0";
-      };
+          "inputbar" = {
+            padding = mkLiteral "12px";
+            spacing = mkLiteral "12px";
+            children = mkLiteral "[ icon-search, entry ]";
+          };
 
-      "window" = {
-        background-color = mkLiteral "@bg0";
-        location = mkLiteral "center";
-        width = mkLiteral "640";
-        border-radius = mkLiteral "8";
-      };
+          "icon-search" = {
+            expand = mkLiteral "false";
+            filename = mkLiteral "\"search\"";
+            size = mkLiteral "28px";
+          };
 
-      "inputbar" = {
-        padding = mkLiteral "12px";
-        spacing = mkLiteral "12px";
-        children = mkLiteral "[ icon-search, entry ]";
-      };
+          "icon-search, entry, element-icon, element-text" = {
+            vertical-align = mkLiteral "0.5";
+          };
 
-      "icon-search" = {
-        expand = mkLiteral "false";
-        filename = mkLiteral "\"search\"";
-        size = mkLiteral "28px";
-      };
+          "entry" = {
+            font = mkLiteral "inherit";
+            placeholder = mkLiteral "\"Search\"";
+            placeholder-color = mkLiteral "@fg2";
+          };
 
-      "icon-search, entry, element-icon, element-text" = {
-        vertical-align = mkLiteral "0.5";
-      };
+          "message" = {
+            border = mkLiteral "2px 0 0";
+            border-color = mkLiteral "@bg1";
+            background-color = mkLiteral "@bg1";
+          };
 
-      "entry" = {
-        font = mkLiteral "inherit";
-        placeholder = mkLiteral "\"Search\"";
-        placeholder-color = mkLiteral "@fg2";
-      };
+          "textbox" = {
+            padding = mkLiteral "8px 24px";
+          };
 
-      "message" = {
-        border = mkLiteral "2px 0 0";
-        border-color = mkLiteral "@bg1";
-        background-color = mkLiteral "@bg1";
-      };
+          "listview" = {
+            lines = mkLiteral "10";
+            columns = mkLiteral "1";
+            fixed-height = mkLiteral "false";
+            border = mkLiteral "1px 0 0";
+            border-color = mkLiteral "@bg1";
+          };
 
-      "textbox" = {
-        padding = mkLiteral "8px 24px";
-      };
+          "element" = {
+            padding = mkLiteral "8px 16px";
+            spacing = mkLiteral "16px";
+            background-color = mkLiteral "transparent";
+          };
 
-      "listview" = {
-        lines = mkLiteral "10";
-        columns = mkLiteral "1";
-        fixed-height = mkLiteral "false";
-        border = mkLiteral "1px 0 0";
-        border-color = mkLiteral "@bg1";
-      };
+          "element normal active" = {
+            text-color = mkLiteral "@bg2";
+          };
 
-      "element" = {
-        padding = mkLiteral "8px 16px";
-        spacing = mkLiteral "16px";
-        background-color = mkLiteral "transparent";
-      };
+          "element alternate active" = {
+            text-color = mkLiteral "@bg2";
+          };
 
-      "element normal active" = {
-        text-color = mkLiteral "@bg2";
-      };
+          "element selected normal, element selected active" = {
+            background-color = mkLiteral "@bg2";
+            text-color = mkLiteral "@fg1";
+          };
 
-      "element alternate active" = {
-        text-color = mkLiteral "@bg2";
-      };
+          "element-icon" = {
+            size = mkLiteral "1em";
+          };
 
-      "element selected normal, element selected active" = {
-        background-color = mkLiteral "@bg2";
-        text-color = mkLiteral "@fg1";
-      };
-
-      "element-icon" = {
-        size = mkLiteral "1em";
-      };
-
-      "element-text" = {
-        text-color = mkLiteral "inherit";
+          "element-text" = {
+            text-color = mkLiteral "inherit";
+          };
+        };
       };
     };
-  };
-
 }

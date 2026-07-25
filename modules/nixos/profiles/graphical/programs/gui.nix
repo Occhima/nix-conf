@@ -1,14 +1,5 @@
 {
-  lib,
-  config,
-  ...
-}:
-let
-  inherit (lib) mkIf;
-  inherit (lib.custom) hasProfile;
-in
-{
-  config = mkIf (hasProfile config [ "graphical" ]) {
+  flake.modules.nixos.graphical = {
     programs = {
       # we need dconf to interact with gtk
       dconf.enable = true;
@@ -16,8 +7,8 @@ in
       # gnome's keyring manager
       seahorse.enable = false;
 
-      # networkmanager tray uility, pretty useful actually
-      # nm-applet.enable = config.programs.waybar.enable;
+      # NetworkManager tray applet: explicitly wanted on graphical desktops.
+      nm-applet.enable = true;
     };
   };
 }

@@ -1,17 +1,16 @@
-{
-  lib,
-  config,
-  pkgs,
-  self,
-  ...
-}:
+{ config, ... }:
 let
-  inherit (lib) mkIf;
-  cfg = config.modules.shell.cli;
-  pkg = self.packages.${pkgs.stdenv.hostPlatform.system}.feynman;
+  flakePkgs = config.flake.packages;
 in
 {
-  config = mkIf (cfg.enable && builtins.elem "feynman" cfg.tools) {
-    home.packages = [ pkg ];
-  };
+  flake.modules.homeManager.feynman =
+    { pkgs, ... }:
+    let
+      pkg = flakePkgs.${pkgs.stdenv.hostPlatform.system}.feynman;
+    in
+    {
+      config = {
+        home.packages = [ pkg ];
+      };
+    };
 }

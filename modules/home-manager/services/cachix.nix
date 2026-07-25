@@ -1,23 +1,22 @@
 {
-  config,
-  lib,
-  osConfig,
-  ...
-}:
-let
-  inherit (lib) mkIf mkEnableOption;
-  cfg = config.modules.services.cachix;
-in
-{
-  options.modules.services.cachix = {
-    enable = mkEnableOption "cachix service";
-  };
-
-  config = mkIf cfg.enable {
-    services.cachix-agent = {
-      name = "home-manager-${config.home.username}";
-      enable = true;
-      credentialsFile = osConfig.age.secrets.cachix-key.path;
+  flake.modules.homeManager.cachix =
+    {
+      config,
+      lib,
+      osConfig ? { },
+      ...
+    }:
+    {
+      config = {
+        services.cachix-agent = {
+          name = "home-manager-${config.home.username}";
+          enable = true;
+          # Only available when running under NixOS with agenix secrets;
+          # standalone Home Manager degrades to the default credentials lookup.
+          credentialsFile = lib.mkIf (
+            (osConfig.age.secrets or { }) ? cachix-key
+          ) osConfig.age.secrets.cachix-key.path;
+        };
+      };
     };
-  };
 }

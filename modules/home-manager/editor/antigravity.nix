@@ -1,24 +1,13 @@
-{
-  config,
-  self,
-  lib,
-  pkgs,
-  ...
-}:
+{ config, ... }:
 let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.modules.editor.neovim;
-
+  flakePkgs = config.flake.packages;
 in
 {
-
-  options.modules.editor.antigravity = {
-    enable = mkEnableOption "Google antigravity agentic code editor";
-  };
-
-  config = mkIf cfg.enable {
-    home = {
-      packages = [ self.packages.${pkgs.stdenv.hostPlatform.system}.antigravity ];
+  flake.modules.homeManager.antigravity = { pkgs, ... }: {
+    config = {
+      home = {
+        packages = [ flakePkgs.${pkgs.stdenv.hostPlatform.system}.antigravity ];
+      };
     };
   };
 }

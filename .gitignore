@@ -5,7 +5,6 @@
 *.fd
 result
 .direnv
-just-flake.just
 .claude
 .omo
 data/

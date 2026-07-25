@@ -1,19 +1,5 @@
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
-let
-  inherit (lib) mkIf;
-
-  cfg = config.modules.desktop.ui;
-
-in
-{
-  config = mkIf (cfg.launcher == "rofi") {
-
+  flake.modules.homeManager.rofi = { pkgs, ... }: {
     home.packages = [
       pkgs.rofi-bluetooth
       pkgs.rofi-power-menu

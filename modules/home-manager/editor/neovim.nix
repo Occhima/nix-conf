@@ -1,33 +1,24 @@
 {
-  inputs,
   config,
-  self,
-  lib,
-  pkgs,
+  inputs,
   ...
 }:
 let
-  inherit (inputs) nixvim;
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.modules.editor.neovim;
-
+  flakePkgs = config.flake.packages;
 in
 {
-  imports = [
-    nixvim.homeModules.nixvim
-  ];
+  flake.modules.homeManager.neovim =
+    { pkgs, ... }:
+    let
+      inherit (inputs) nixvim;
+    in
+    {
+      imports = [
+        nixvim.homeModules.nixvim
+      ];
 
-  options.modules.editor.neovim = {
-    enable = mkEnableOption "Neovim editor (powered by nixvim)";
-    default = mkEnableOption "Use neovim as the default editor";
-  };
-
-  config = mkIf cfg.enable {
-    home = {
-      packages = [ self.packages.${pkgs.stdenv.hostPlatform.system}.nvim ];
-      sessionVariables = mkIf cfg.default {
-        EDITOR = "nvim";
+      home = {
+        packages = [ flakePkgs.${pkgs.stdenv.hostPlatform.system}.nvim ];
       };
     };
-  };
 }

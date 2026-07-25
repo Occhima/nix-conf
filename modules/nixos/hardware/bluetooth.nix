@@ -1,22 +1,5 @@
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
-let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.modules.hardware.bluetooth;
-in
-{
-  options.modules.hardware.bluetooth = {
-    enable = mkEnableOption "Bluetooth support";
-    gui = mkEnableOption "Enable GUI bluetooth manager (blueman)";
-    autoReset = mkEnableOption "Auto-reset bluetooth on resume from sleep";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.nixos.bluetooth = { pkgs, ... }: {
     hardware.bluetooth = {
       enable = true;
       package = pkgs.bluez;
@@ -29,10 +12,5 @@ in
     };
 
     environment.systemPackages = [ pkgs.bluetui ];
-    services.blueman.enable = cfg.gui;
-    powerManagement.resumeCommands = mkIf cfg.autoReset ''
-      ${pkgs.util-linux}/bin/rfkill block bluetooth
-      ${pkgs.util-linux}/bin/rfkill unblock bluetooth
-    '';
   };
 }

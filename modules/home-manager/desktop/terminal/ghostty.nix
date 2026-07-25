@@ -1,25 +1,9 @@
 {
-  config,
-  lib,
-  ...
-}:
-
-let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.modules.desktop.terminal.ghostty;
-  terminalCfg = config.modules.desktop.terminal;
-in
-{
-  options.modules.desktop.terminal.ghostty = {
-    enable = mkEnableOption "Enable ghostty terminal emulator";
-  };
-
-  config = mkIf cfg.enable {
-    programs.ghostty = {
-      enable = true;
-    };
-    home.sessionVariables = mkIf (terminalCfg.active == "ghostty") {
-      TERMINAL = "ghostty";
+  flake.modules.homeManager.terminal-ghostty = {
+    config = {
+      programs.ghostty.enable = true;
+      home.sessionVariables.TERMINAL = "ghostty";
+      modules.desktop.terminal.active = "ghostty";
     };
   };
 }

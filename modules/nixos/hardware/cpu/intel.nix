@@ -1,15 +1,5 @@
 {
-  config,
-  lib,
-  ...
-}:
-
-let
-  inherit (lib) mkIf;
-  cfg = config.modules.hardware.cpu;
-in
-{
-  config = mkIf (cfg.type == "intel") {
+  flake.modules.nixos.cpu-intel = {
     hardware.cpu.intel.updateMicrocode = true;
     hardware.enableRedistributableFirmware = true;
     # hardware.enableAllFirmware = true;

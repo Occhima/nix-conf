@@ -1,28 +1,26 @@
-{
-  lib,
-  pkgs,
-  config,
-  ...
-}:
+{ config, ... }:
 let
-  inherit (lib.modules) mkIf;
-
-  cfg = config.modules.system.display;
+  displayBase = config.flake.modules.nixos.display-base;
 in
 {
-  config = mkIf (cfg.type == "x11") {
+  flake.modules.nixos.display-x11 = { pkgs, ... }: {
+    imports = [ displayBase ];
 
-    services.xserver.enable = true;
-    environment.sessionVariables.QT_QPA_PLATFORMTHEME = "gnome";
+    config = {
+      modules.system.display.type = "x11";
 
-    environment.systemPackages = with pkgs; [
-      feh
-      xdragon
-      xclip
-      xdotool
-      xorg.xwininfo
-      qgnomeplatform
-      libsForQt5.qtstyleplugin-kvantum
-    ];
+      services.xserver.enable = true;
+      environment.sessionVariables.QT_QPA_PLATFORMTHEME = "gnome";
+
+      environment.systemPackages = with pkgs; [
+        feh
+        xdragon
+        xclip
+        xdotool
+        xorg.xwininfo
+        qgnomeplatform
+        libsForQt5.qtstyleplugin-kvantum
+      ];
+    };
   };
 }

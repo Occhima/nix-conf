@@ -1,54 +1,51 @@
 {
-  lib,
-  config,
-  ...
-}:
-let
-  inherit (lib.modules) mkIf mkDefault mkForce;
-  inherit (lib) mkOption types;
+  flake.modules.nixos.network =
+    {
+      lib,
+      config,
+      ...
+    }:
+    let
+      inherit (lib.modules) mkDefault;
+      inherit (lib) mkOption types;
 
-  cfg = config.modules.network;
-in
-{
-  options.modules.network = {
-    enable = lib.mkEnableOption "network configuration";
+      cfg = config.modules.network;
+    in
+    {
+      options.modules.network = {
+        hostName = mkOption {
+          type = types.str;
+          description = "Hostname of the machine";
+        };
+      };
 
-    hostName = mkOption {
-      type = types.str;
-      description = "Hostname of the machine";
-    };
-  };
+      config = {
+        environment.etc.hosts.mode = "0644";
+        networking = {
+          hostName = cfg.hostName;
+          hostId = builtins.substring 0 8 (builtins.hashString "md5" cfg.hostName);
 
-  config = mkIf cfg.enable {
-    environment.etc.hosts.mode = "0644";
-    networking = {
-      hostName = cfg.hostName;
-      hostId = builtins.substring 0 8 (builtins.hashString "md5" cfg.hostName);
+          usePredictableInterfaceNames = mkDefault true;
 
-      useDHCP = mkForce false;
-      useNetworkd = mkForce true;
+          nameservers = [
+            "1.1.1.1"
+            "1.0.0.1"
+            "9.9.9.9"
+          ];
 
-      usePredictableInterfaceNames = mkDefault true;
+          enableIPv6 = true;
+        };
 
-      nameservers = [
-        "1.1.1.1"
-        "1.0.0.1"
-        "9.9.9.9"
-      ];
+        services.resolved.enable = true;
 
-      enableIPv6 = true;
-    };
+        systemd = {
+          network.wait-online.enable = false;
 
-    services.resolved.enable = true;
-
-    systemd = {
-      network.wait-online.enable = false;
-
-      services = {
-        NetworkManager-wait-online.enable = false;
-        systemd-networkd.stopIfChanged = false;
-        systemd-resolved.stopIfChanged = false;
+          services = {
+            systemd-networkd.stopIfChanged = false;
+            systemd-resolved.stopIfChanged = false;
+          };
+        };
       };
     };
-  };
 }

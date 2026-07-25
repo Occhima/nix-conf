@@ -1,40 +1,46 @@
-{
-  lib,
-  pkgs,
-  config,
-  ...
-}:
+{ config, ... }:
 let
-  inherit (lib.meta) getExe;
-  inherit (lib.modules) mkIf;
-  inherit (lib.custom) isWayland;
-
-  usingWayland = isWayland config;
+  inherit (config.flake.lib.custom) isWayland;
 in
 {
-  config = {
-    environment.systemPackages = with pkgs; [ slurp ];
+  flake.modules.nixos.display-portals =
+    {
+      lib,
+      pkgs,
+      config,
+      ...
+    }:
+    let
+      inherit (lib.meta) getExe;
+      inherit (lib.modules) mkIf;
 
-    xdg.portal = {
-      enable = true;
+      usingWayland = isWayland config;
+    in
+    {
+      config = {
+        environment.systemPackages = with pkgs; [ slurp ];
 
-      config.common = {
-        default = [ "gtk" ];
-        "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
-      };
+        xdg.portal = {
+          enable = true;
 
-      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+          config.common = {
+            default = [ "gtk" ];
+            "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
+          };
 
-      wlr = {
-        enable = usingWayland;
-        settings = mkIf usingWayland {
-          screencast = {
-            max_fps = 60;
-            chooser_type = "simple";
-            chooser_cmd = "${getExe pkgs.slurp} -f %o -or";
+          extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+
+          wlr = {
+            enable = usingWayland;
+            settings = mkIf usingWayland {
+              screencast = {
+                max_fps = 60;
+                chooser_type = "simple";
+                chooser_cmd = "${getExe pkgs.slurp} -f %o -or";
+              };
+            };
           };
         };
       };
     };
-  };
 }

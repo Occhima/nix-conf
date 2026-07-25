@@ -1,14 +1,5 @@
 {
-  lib,
-  config,
-  ...
-}:
-let
-  inherit (lib) mkIf;
-  inherit (lib.custom) hasProfile;
-in
-{
-  config = mkIf (hasProfile config [ "laptop" ]) {
+  flake.modules.nixos.laptop = {
     # Input settings for libinput
     services.libinput = {
       enable = true;

@@ -1,22 +1,5 @@
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.modules.editor.vscodium;
-
-in
-{
-
-  options.modules.editor.vscodium = {
-    enable = mkEnableOption "VSCodium editor (powered by nixvim)";
-    default = mkEnableOption "Use vscode as the default editor";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.vscode = { pkgs, ... }: {
     programs.vscode = {
       enable = true;
       package = pkgs.vscodium;
@@ -38,11 +21,6 @@ in
           "editor.lineNumbers" = "relative";
           "editor.wordWrap" = "on";
         };
-      };
-    };
-    home = {
-      sessionVariables = mkIf cfg.default {
-        EDITOR = "vscode";
       };
     };
   };

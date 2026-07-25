@@ -1,43 +1,41 @@
-{
-  inputs,
-  lib,
-  config,
-  pkgs,
-  ...
-}:
-let
-  inherit (inputs) spicetify-nix;
-  inherit (lib) mkEnableOption mkIf;
-
-  # TODO: Should I inject the system here using extraSpecialArgs?
-  spicePkgs = spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-
-  cfg = config.modules.desktop.apps.spotify;
-in
-{
-
-  imports = [ spicetify-nix.homeManagerModules.default ];
-
-  options.modules.desktop.apps.spotify = {
-    enable = mkEnableOption "spotify";
+{ inputs, ... }: {
+  flake-file.inputs.spicetify-nix = {
+    url = "github:Gerg-L/spicetify-nix";
+    inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  config = mkIf cfg.enable {
-    programs.spicetify = {
-      enable = true;
-      enabledCustomApps = builtins.attrValues { inherit (spicePkgs.apps) lyricsPlus ncsVisualizer; };
-      enabledExtensions = builtins.attrValues {
-        inherit (spicePkgs.extensions)
-          adblockify
-          hidePodcasts
-          shuffle
-          betterGenres
-          ;
+  nixpkgs.allowedUnfree = [
+    "spotify"
+    "spicetify-text"
+  ];
+
+  flake.modules.homeManager.spotify =
+    { pkgs, ... }:
+    let
+      inherit (inputs) spicetify-nix;
+
+      # TODO: Should I inject the system here using extraSpecialArgs?
+      spicePkgs = spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+    in
+    {
+      imports = [ spicetify-nix.homeManagerModules.default ];
+
+      config = {
+        programs.spicetify = {
+          enable = true;
+          enabledCustomApps = builtins.attrValues { inherit (spicePkgs.apps) lyricsPlus ncsVisualizer; };
+          enabledExtensions = builtins.attrValues {
+            inherit (spicePkgs.extensions)
+              adblockify
+              hidePodcasts
+              shuffle
+              betterGenres
+              ;
+          };
+          experimentalFeatures = true;
+          alwaysEnableDevTools = true;
+          # TODO: Change to theme targets ...
+        };
       };
-      experimentalFeatures = true;
-      alwaysEnableDevTools = true;
-      # TODO: Change to theme targets ...
-
     };
-  };
 }

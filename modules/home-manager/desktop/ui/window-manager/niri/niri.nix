@@ -1,26 +1,15 @@
 # stolen from: github.com/linuxmobile/kaku
-{
-  config,
-  pkgs,
-  inputs,
-  lib,
-  ...
-}:
+{ inputs, ... }: {
+  flake-file.inputs.niri = {
+    url = "github:sodiboo/niri-flake";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
 
-let
-  cfg = config.modules.desktop.ui;
-in
-{
-
-  imports = [
-    inputs.niri.homeModules.niri
-    ./config
-  ];
-  config = lib.mkIf (cfg.windowManager == "niri") {
+  flake.modules.homeManager.niri = { pkgs, ... }: {
+    imports = [ inputs.niri.homeModules.niri ];
     programs.niri = {
       enable = true;
       package = pkgs.niri;
     };
-
   };
 }

@@ -1,26 +1,13 @@
 {
-  lib,
-  config,
-  pkgs,
-  ...
-}:
+  flake.modules.homeManager.beancount = { pkgs, ... }: {
+    config = {
+      home.packages = with pkgs; [
+        beancount
+        beancount-language-server
 
-let
-  inherit (lib) mkEnableOption mkIf;
-  cfg = config.modules.dev.beancount;
-in
-{
-  options.modules.dev.beancount = {
-    enable = mkEnableOption "Enable beancount ( Ledger alternative ) development tools";
-  };
-
-  config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      beancount
-      beancount-language-server
-
-      #NOTE: broken
-      # fava
-    ];
+        #NOTE: broken
+        # fava
+      ];
+    };
   };
 }

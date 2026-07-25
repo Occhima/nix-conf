@@ -1,37 +1,17 @@
 {
-  lib,
-  pkgs,
-  config,
-  ...
-}:
-let
-  inherit (lib.modules) mkIf mkForce;
-  inherit (lib) mkEnableOption;
-
-  cfg = config.modules.network.firewall;
-in
-{
-  options.modules.network.firewall = {
-    enable = mkEnableOption "firewall configuration";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.nixos.firewall = { pkgs, ... }: {
+    # Services own their ports; the pentesting container module opens 8080.
     networking.firewall = {
       enable = true;
       package = pkgs.iptables;
 
-      allowedTCPPorts = [
-        443
-        8080
-      ];
+      allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
 
       allowPing = false;
 
       logReversePathDrops = true;
       logRefusedConnections = false;
-
-      checkReversePath = mkForce false;
     };
   };
 }

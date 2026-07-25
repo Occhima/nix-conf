@@ -1,12 +1,5 @@
 {
-  config,
-  lib,
-  ...
-}:
-
-let
-  inherit (lib.custom) themeLib;
-in
-{
-  stylix.targets.vscode.enable = themeLib.whenTheme config "guernica" true;
+  flake.modules.homeManager.themes-guernica = {
+    stylix.targets.vscode.enable = true;
+  };
 }

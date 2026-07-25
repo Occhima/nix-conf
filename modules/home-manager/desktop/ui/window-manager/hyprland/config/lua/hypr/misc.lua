@@ -1,3 +1,5 @@
+-- hypr/misc.lua — mirrors ecosystem (hyprland.nix) + hyprlang/misc.nix.
+
 local M = {}
 
 function M.setup()

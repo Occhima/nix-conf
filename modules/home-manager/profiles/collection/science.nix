@@ -1,27 +1,16 @@
 {
-  config,
-  pkgs,
-  lib,
-  ...
-
-}:
-let
-  inherit (lib) mkIf;
-  inherit (lib.custom) hasProfile;
-
-in
-{
-
-  config = mkIf (hasProfile config [ "science" ]) {
+  flake.modules.homeManager.science = { pkgs, ... }: {
     programs.tex-fmt.enable = true;
-    programs.texlive = {
-      enable = true;
-      extraPackages = tpkgs: {
-        inherit (tpkgs)
+
+    home.packages = [
+      pkgs.typst
+      pkgs.rnote
+      pkgs.biber
+      # HM's programs.texlive calls deprecated texlive.combine; build the env directly.
+      (pkgs.texliveMedium.withPackages (
+        tpkgs: with tpkgs; [
           biblatex
-          biber
           latexmk
-          scheme-medium
           latexindent
           chktex
           collection-basic
@@ -30,7 +19,6 @@ in
           collection-fontsrecommended
           fontspec
           collection-fontsextra
-          scheme-basic
           enumitem
           capt-of
           datetime
@@ -49,15 +37,8 @@ in
           upquote
           mdframed
           zref
-          ;
-      };
-    };
-
-    home.packages = [
-      # pkgs.marimo
-      # pkgs.quarto
-      pkgs.typst
-      pkgs.rnote
+        ]
+      ))
     ];
   };
 }

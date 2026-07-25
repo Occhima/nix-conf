@@ -1,16 +1,5 @@
 {
-  lib,
-  pkgs,
-  config,
-  ...
-}:
-
-let
-  inherit (lib) mkIf;
-  cfg = config.modules.hardware.media.sound;
-in
-{
-  config = mkIf (cfg.enable && cfg.backend == "pulseaudio") {
+  flake.modules.nixos.media-sound-pulseaudio = { pkgs, ... }: {
     # Enable PulseAudio
     hardware.pulseaudio = {
       enable = true;
