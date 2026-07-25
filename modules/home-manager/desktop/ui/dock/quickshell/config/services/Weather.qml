@@ -3,51 +3,38 @@ pragma Singleton
 import Quickshell
 import Quickshell.Io
 import QtQuick
-
 import "root:/data" as Data
 
-QtObject {
+Singleton {
     id: root
 
     property string temperature: "--\u00b0"
     property string description: "Weather"
 
-    function update() {
-        weatherProc.running = true
+    function update(): void {
+        request.running = true
     }
 
-    property var weatherProc: Process {
-        command: [
-            "sh",
-            "-lc",
-            "if command -v curl >/dev/null 2>&1; then curl -Lsf 'https://wttr.in/?format=%t|%C' || true; fi"
-        ]
-
-        stdout: SplitParser {
-            onRead: data => {
-                const text = Data.Utils.trim(data)
-                if (!text)
+    Process {
+        id: request
+        command: ["curl", "-Lsf", "https://wttr.in/?format=%t|%C"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const parts = Data.Utils.trim(text).split("|")
+                if (parts.length < 2)
                     return
 
-                const parts = text.split("|")
-                if (parts.length >= 2) {
-                    let temp = Data.Utils.trim(parts[0])
-                    const desc = Data.Utils.trim(parts[1])
-
-                    if (temp.startsWith("+"))
-                        temp = temp.substring(1)
-
-                    if (temp)
-                        root.temperature = temp
-
-                    if (desc)
-                        root.description = desc
-                }
+                const temperature = Data.Utils.trim(parts[0]).replace(/^\+/, "")
+                const description = Data.Utils.trim(parts[1])
+                if (temperature)
+                    root.temperature = temperature
+                if (description)
+                    root.description = description
             }
         }
     }
 
-    property var updateTimer: Timer {
+    Timer {
         interval: 1800000
         running: true
         repeat: true

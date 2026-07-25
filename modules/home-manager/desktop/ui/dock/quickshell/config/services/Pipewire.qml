@@ -4,18 +4,13 @@ import Quickshell
 import Quickshell.Services.Pipewire
 import QtQuick
 
-QtObject {
+Singleton {
     id: root
 
     readonly property PwNode sink: Pipewire.defaultAudioSink
-    readonly property PwNode source: Pipewire.defaultAudioSource
 
-    // Bind the nodes using PwObjectTracker so they become ready
-    property var _sinkTracker: PwObjectTracker {
+    PwObjectTracker {
         objects: sink ? [sink] : []
-    }
-    property var _sourceTracker: PwObjectTracker {
-        objects: source ? [source] : []
     }
 
     readonly property bool sinkReady: (sink !== null) && (sink?.ready === true) && (sink?.audio !== null)

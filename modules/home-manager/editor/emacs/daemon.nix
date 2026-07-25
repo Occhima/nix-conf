@@ -1,8 +1,9 @@
-# emacs-daemon: Emacs daemon as the default editor, with the emacsclient
-# Hyprland binding. Importing this module enables both the service and the
-# default-editor behavior (occhima's current selection).
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) hyprlandLib;
+in
 {
-  flake.modules.homeManager.emacs-daemon = {
+  flake.modules.homeManager.emacs-daemon = { config, ... }: {
     services.emacs = {
       enable = true;
       client = {
@@ -13,8 +14,15 @@
       startWithUserSession = "graphical";
     };
 
-    wayland.windowManager.hyprland.settings.bind = [
-      "$mainMod, E, exec, emacsclient -c"
-    ];
+    wayland.windowManager.hyprland.settings =
+      hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
+        [
+          {
+            key = "E";
+            dispatcher = "exec";
+            argument = "emacsclient -c";
+            lua = hyprlandLib.luaExec "emacsclient -c";
+          }
+        ];
   };
 }

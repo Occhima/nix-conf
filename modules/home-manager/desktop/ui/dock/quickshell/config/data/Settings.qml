@@ -1,8 +1,12 @@
 pragma Singleton
 
 import QtQuick
+import Quickshell
 
-QtObject {
+Singleton {
+    readonly property string notificationBackend: Quickshell.env("QS_NOTIFICATION_BACKEND") ?? "quickshell"
+    readonly property bool notificationsEnabled: notificationBackend === "quickshell"
+
     readonly property color bgColor: "#141818"
     readonly property color bgColorTranslucent: Qt.rgba(0.078, 0.094, 0.094, 0.85)
     readonly property color bgLight: "#1e2424"

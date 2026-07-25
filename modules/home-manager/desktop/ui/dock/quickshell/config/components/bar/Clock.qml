@@ -17,8 +17,7 @@ Item {
             spacing: 0
 
             Text {
-                id: hours
-                text: new Date().getHours().toString().padStart(2, '0')
+                text: Data.Time.hours
                 color: Data.Settings.fgColor
                 font.pixelSize: Data.Settings.fontBase
                 font.weight: Font.Bold
@@ -39,8 +38,7 @@ Item {
             }
 
             Text {
-                id: minutes
-                text: new Date().getMinutes().toString().padStart(2, '0')
+                text: Data.Time.minutes
                 color: Data.Settings.fgColor
                 font.pixelSize: Data.Settings.fontBase
                 font.weight: Font.Bold
@@ -49,25 +47,10 @@ Item {
 
         Text {
             anchors.verticalCenter: parent.verticalCenter
-            text: {
-                const d = new Date()
-                const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-                return days[d.getDay()] + " " + d.getDate()
-            }
+            text: Data.Time.barDate
             color: Data.Settings.fgDim
             font.pixelSize: Data.Settings.fontSm
             font.weight: Font.Medium
-        }
-    }
-
-    Timer {
-        interval: 1000
-        running: true
-        repeat: true
-        onTriggered: {
-            const now = new Date()
-            hours.text = now.getHours().toString().padStart(2, '0')
-            minutes.text = now.getMinutes().toString().padStart(2, '0')
         }
     }
 

@@ -1,3 +1,7 @@
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) hyprlandLib;
+in
 {
   flake.modules.homeManager.clipboard =
     {
@@ -12,10 +16,16 @@
           enableSystemdUnit = true;
         };
 
-        # ponytail: check rofi program instead of old selector enum
-        wayland.windowManager.hyprland.settings.bind = lib.optional (config.programs.rofi.enable or false) [
-          "$mainMod, X, exec, clipcat-menu --rofi-menu-length 10"
-        ];
+        wayland.windowManager.hyprland.settings = lib.mkIf (config.programs.rofi.enable or false) (
+          hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType [
+            {
+              key = "X";
+              dispatcher = "exec";
+              argument = "clipcat-menu --rofi-menu-length 10";
+              lua = hyprlandLib.luaExec "clipcat-menu --rofi-menu-length 10";
+            }
+          ]
+        );
       };
     };
 }

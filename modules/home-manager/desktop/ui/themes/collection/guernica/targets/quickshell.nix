@@ -3,47 +3,32 @@
     {
       config,
       lib,
+      pkgs,
       ...
     }:
     let
-      inherit (lib) mkIf;
+      inherit (lib) mkIf mkForce;
+      inherit (config.lib.stylix) colors;
 
-      stylixColors = config.lib.stylix.colors;
+      themedConfig = pkgs.runCommand "quickshell-guernica-config" { } ''
+        cp -R ${../../../../dock/quickshell/config} "$out"
+        chmod -R u+w "$out"
+        substituteInPlace "$out/data/Settings.qml" \
+          --replace-fail '"#141818"' '"#${colors.base00}"' \
+          --replace-fail '"#1e2424"' '"#${colors.base01}"' \
+          --replace-fail '"#3c4848"' '"#${colors.base02}"' \
+          --replace-fail '"#f8f8f8"' '"#${colors.base05}"' \
+          --replace-fail '"#909090"' '"#${colors.base03}"' \
+          --replace-fail '"#40c4ff"' '"#${colors.base0D}"' \
+          --replace-fail '"#ffb000"' '"#${colors.base08}"' \
+          --replace-fail '"#a0ff20"' '"#${colors.base0A}"' \
+          --replace-fail '"#ff0060"' '"#${colors.base0E}"' \
+          --replace-fail '"#c080ff"' '"#${colors.base0C}"' \
+          --replace-fail '"#6080ff"' '"#${colors.base09}"' \
+          --replace-fail '"#ffe080"' '"#${colors.base0B}"'
+      '';
     in
     {
-      xdg.configFile."quickshell/data/Settings.qml" = mkIf config.programs.quickshell.enable {
-        text = ''
-          pragma Singleton
-
-          import QtQuick
-
-          QtObject {
-              readonly property color bgColor: "#${stylixColors.base00}"
-              readonly property color bgColorTranslucent: Qt.rgba(0.078, 0.094, 0.094, 0.85)
-              readonly property color bgLight: "#${stylixColors.base01}"
-              readonly property color bgLightTranslucent: Qt.rgba(0.118, 0.141, 0.141, 0.9)
-              readonly property color bgLighter: "#${stylixColors.base02}"
-              readonly property color fgColor: "#${stylixColors.base05}"
-              readonly property color fgDim: "#${stylixColors.base03}"
-              readonly property color accentColor: "#${stylixColors.base0D}"
-              readonly property color warningColor: "#${stylixColors.base08}"
-              readonly property color successColor: "#${stylixColors.base0A}"
-              readonly property color errorColor: "#${stylixColors.base0E}"
-              readonly property color purpleColor: "#${stylixColors.base0C}"
-              readonly property color blueColor: "#${stylixColors.base09}"
-              readonly property color yellowColor: "#${stylixColors.base0B}"
-
-              readonly property color borderSubtle: Qt.rgba(1, 1, 1, 0.06)
-              readonly property color borderNormal: Qt.rgba(1, 1, 1, 0.08)
-              readonly property color borderHover: Qt.rgba(1, 1, 1, 0.12)
-              readonly property color hoverBg: Qt.rgba(1, 1, 1, 0.1)
-
-              readonly property int rounding: 14
-              readonly property int barHeight: 40
-              readonly property int barMargin: 8
-              readonly property int barSideMargin: 16
-          }
-        '';
-      };
+      programs.quickshell.configs.base = mkIf config.programs.quickshell.enable (mkForce themedConfig);
     };
 }

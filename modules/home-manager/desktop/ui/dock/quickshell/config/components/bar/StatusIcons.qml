@@ -20,6 +20,32 @@ Row {
 
     Shared.IconButton { icon: Services.Pipewire.volumeIcon }
 
+    Shared.IconButton {
+        visible: Data.Settings.notificationsEnabled
+        icon: Services.Notifications.icon
+        onClicked: Data.Runtime.toggleQuickSettings()
+
+        Rectangle {
+            anchors {
+                top: parent.top
+                right: parent.right
+            }
+            width: 14
+            height: 14
+            radius: 7
+            color: Data.Settings.errorColor
+            visible: Services.Notifications.count > 0
+
+            Text {
+                anchors.centerIn: parent
+                text: Math.min(Services.Notifications.count, 9)
+                color: Data.Settings.fgColor
+                font.pixelSize: 8
+                font.weight: Font.Bold
+            }
+        }
+    }
+
     Row {
         visible: Services.UPower.hasBattery
         spacing: Data.Settings.spacingXs

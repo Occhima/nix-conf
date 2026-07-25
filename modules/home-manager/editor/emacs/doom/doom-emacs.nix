@@ -14,7 +14,7 @@ in
     let
       inherit (builtins) getAttr;
 
-      emacsBase = pkgs.emacs-git-pgtk;
+      emacsBase = pkgs.emacs30-pgtk;
       mkEmacsHomePackages =
         packages:
         let
@@ -58,7 +58,6 @@ in
             treesit-grammars.with-all-grammars
             vterm
             eat
-            magit
             mu4e
             pdf-tools
             all-the-icons-nerd-fonts
@@ -66,19 +65,25 @@ in
       };
 
       home.packages = basePackages ++ [
-        (pkgs.writeShellScriptBin "refresh-doom" ''
-          set -euo pipefail
-          doom sync
-          systemctl --user daemon-reload
-          systemctl --user restart emacs
-        '')
+        (pkgs.writeShellApplication {
+          name = "refresh-doom";
+          runtimeInputs = [ pkgs.systemd ];
+          text = ''
+            doom sync
+            systemctl --user daemon-reload
+            systemctl --user restart emacs
+          '';
+        })
 
-        (pkgs.writeShellScriptBin "upgrade-doom" ''
-          set -euo pipefail
-          doom upgrade
-          systemctl --user daemon-reload
-          systemctl --user restart emacs
-        '')
+        (pkgs.writeShellApplication {
+          name = "upgrade-doom";
+          runtimeInputs = [ pkgs.systemd ];
+          text = ''
+            doom upgrade
+            systemctl --user daemon-reload
+            systemctl --user restart emacs
+          '';
+        })
       ];
     };
 }

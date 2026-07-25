@@ -28,6 +28,7 @@ in
     nixos.display-wayland
     nixos.display-hyprland
     nixos.display-portals
+    nixos.quickshell-support
     nixos.impermanence
     nixos.podman-host
     nixos.agenix

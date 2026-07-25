@@ -102,7 +102,7 @@ in
   # ── regression facts ─────────────────────────────────────────────────────
   "emacs doom is selected; vanilla is not" = {
     expr =
-      lib.hasPrefix "emacs-git-pgtk" home.programs.emacs.package.name
+      home.programs.emacs.package.version == "30.2"
       && home.xdg.configFile.doom.enable
       && !(lib.hasPrefix "emacs-with-packages" home.programs.emacs.package.name);
     expected = true;

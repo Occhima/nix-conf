@@ -1,6 +1,6 @@
 { config, ... }:
 let
-  inherit (config.flake.lib.custom) isWayland;
+  inherit (config.flake.lib.custom) hyprlandLib isWayland;
 in
 {
   flake.modules.homeManager.flameshot =
@@ -36,9 +36,16 @@ in
           };
         };
 
-        wayland.windowManager.hyprland.settings.bind = [
-          "$mainMod, S, exec, flameshot gui"
-        ];
+        wayland.windowManager.hyprland.settings =
+          hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
+            [
+              {
+                key = "S";
+                dispatcher = "exec";
+                argument = "flameshot gui";
+                lua = hyprlandLib.luaExec "flameshot gui";
+              }
+            ];
       };
     };
 }

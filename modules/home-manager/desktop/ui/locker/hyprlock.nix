@@ -1,5 +1,9 @@
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) hyprlandLib;
+in
 {
-  flake.modules.homeManager.hyprlock = {
+  flake.modules.homeManager.hyprlock = { config, ... }: {
     programs.hyprlock = {
       enable = true;
       settings.general = {
@@ -11,8 +15,15 @@
       };
     };
 
-    wayland.windowManager.hyprland.settings.bind = [
-      "$mainMod, L, exec, hyprlock"
-    ];
+    wayland.windowManager.hyprland.settings =
+      hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
+        [
+          {
+            key = "L";
+            dispatcher = "exec";
+            argument = "hyprlock";
+            lua = hyprlandLib.luaExec "hyprlock";
+          }
+        ];
   };
 }

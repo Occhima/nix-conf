@@ -4,7 +4,7 @@ import Quickshell
 import Quickshell.Services.UPower
 import QtQuick
 
-QtObject {
+Singleton {
     readonly property UPowerDevice battery: UPower.displayDevice
 
     readonly property bool hasBattery: battery !== null && battery.isPresent

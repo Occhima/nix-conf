@@ -1,82 +1,64 @@
 pragma Singleton
 
+import QtQuick
 import Quickshell
 import Quickshell.Io
-import QtQuick
-
 import "root:/data" as Data
 
-QtObject {
+Singleton {
     id: root
 
     property string osPrettyName: "Linux"
     property string wm: "Wayland"
     property string uptime: "..."
-    property string user: Quickshell.env("USER") || "user"
-    property string home: Quickshell.env("HOME") || ""
 
-    property string facePath: ""
+    readonly property string user: Quickshell.env("USER") || "user"
+    readonly property string home: Quickshell.env("HOME") || ""
+    readonly property string facePath: home ? "file://" + home + "/.face" : ""
 
-    property var faceCheckProc: Process {
-        command: ["bash", "-c", "[ -f '" + root.home + "/.face' ] && echo exists || true"]
-        running: root.home !== ""
-        stdout: SplitParser {
-            onRead: data => {
-                if (data.trim() === "exists")
-                    root.facePath = "file://" + root.home + "/.face"
-            }
-        }
-    }
-
-    function update() {
+    function update(): void {
         osRelease.reload()
-        detectWm()
-        uptimeProc.running = true
+        uptimeProcess.running = true
     }
 
-    function detectWm() {
-        if (Quickshell.env("HYPRLAND_INSTANCE_SIGNATURE")) {
-            root.wm = "Hyprland"
-        } else if (Quickshell.env("NIRI_SOCKET")) {
-            root.wm = "Niri"
-        } else {
-            root.wm = "Wayland"
-        }
+    function detectWm(): void {
+        if (Quickshell.env("HYPRLAND_INSTANCE_SIGNATURE"))
+            wm = "Hyprland"
+        else if (Quickshell.env("NIRI_SOCKET"))
+            wm = "Niri"
+        else
+            wm = "Wayland"
     }
 
-    property var osRelease: FileView {
+    FileView {
+        id: osRelease
         path: "/etc/os-release"
         onLoaded: {
-            const content = text()
-            const lines = content.split("\n")
-            for (const line of lines) {
-                if (line.startsWith("PRETTY_NAME=")) {
-                    let value = line.substring(12)
-                    value = value.replace(/^["']|["']$/g, "")
-                    if (value) root.osPrettyName = value
-                    break
-                }
+            const match = text().match(/^PRETTY_NAME=(.*)$/m)
+            if (match)
+                root.osPrettyName = match[1].replace(/^["']|["']$/g, "") || "Linux"
+        }
+    }
+
+    Process {
+        id: uptimeProcess
+        command: ["uptime", "-p"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const value = Data.Utils.trim(text).replace(/^up\s+/, "")
+                if (value)
+                    root.uptime = value
             }
         }
     }
 
-    property var uptimeProc: Process {
-        command: ["sh", "-lc", "uptime -p 2>/dev/null | sed 's/^up //'"]
-
-        stdout: SplitParser {
-            onRead: data => {
-                const v = Data.Utils.trim(data)
-                if (v)
-                    root.uptime = v
-            }
-        }
-    }
-
-    property var updateTimer: Timer {
+    Timer {
         interval: 60000
         running: true
         repeat: true
         triggeredOnStart: true
         onTriggered: root.update()
     }
+
+    Component.onCompleted: detectWm()
 }

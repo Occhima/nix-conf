@@ -1,3 +1,4 @@
+;;; +prog.el -*- lexical-binding: t; -*-
 
 (after! dirvish
   (setq dired-kill-when-opening-new-dired-buffer t
@@ -15,23 +16,13 @@
         projectile-project-search-path '("~/Dropbox/projects"))
   (defun projectile-ignored-project-function (filepath)
     "Return t if FILEPATH is within any of `projectile-ignored-projects'."
-    (or (mapcar (lambda (p) (s-starts-with-p p filepath)) projectile-ignored-projects))))
-
-(after! magit
-  (setq magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")))
-
-(after! git-gutter
-  (fringe-mode 8)
-  (after! git-gutter-fringe
-    (fringe-mode 8))
-  (setq +vc-gutter-diff-unsaved-buffer t))
+    (seq-some (lambda (project)
+                (file-in-directory-p filepath (expand-file-name project)))
+              projectile-ignored-projects)))
 
 ;; orderless-component-separator lives here; completion-category-overrides in after! eglot
 (after! orderless
   (setq orderless-component-separator #'orderless-escapable-split-on-space))
-
-(after! consult-gh
-  (setq consult-gh-default-clone-directory "~/Dropbox/projects"))
 
 (use-package! jinx
   :defer t
@@ -64,8 +55,7 @@
 
 ;; Register tempel in CAPF early so it is available before tempel itself loads
 (defun +tempel-setup-capf ()
-  (setq-local completion-at-point-functions
-              (cons #'tempel-complete completion-at-point-functions)))
+  (add-hook 'completion-at-point-functions #'tempel-complete -90 t))
 
 (add-hook! '(conf-mode-hook prog-mode-hook text-mode-hook) #'+tempel-setup-capf)
 
@@ -78,7 +68,7 @@
                                         (eglot-capf (styles orderless)))
         eglot-connect-timeout 600))
 
-(after! julia-mode
+(after! eglot-jl
   (setq eglot-jl-language-server-project eglot-jl-base))
 
 (after! eshell
@@ -131,24 +121,23 @@
   (combobulate-key-prefix "C-c o"))
 
 (after! gumshoe
-  (global-gumshoe-backtracking-mode)
+  (global-gumshoe-backtracking-mode 1)
   (setf gumshoe-slot-schema          '(perspective time buffer position line)
         gumshoe-auto-cancel-backtracking-p nil))
 
 (after! haskell
   (setq haskell-interactive-popup-errors nil))
 
-(after! ess-r-mode
-  (require 'ess-plot)
-  (ess-plot-toggle))
+(use-package! ess-plot
+  :hook (ess-r-post-run . ess-plot-on-startup-h))
 
 (map! :after nix-mode
       :map nix-mode-map
       :localleader
       "f" #'nix-flake)
 
-(after! nix
-  (add-hook! 'nix-mode-hook (nix-prettify-mode t))
+(after! nix-mode
+  (add-hook 'nix-mode-hook #'nix-prettify-mode)
   (after! nix-repl
     (set-popup-rule! "^\\*Nix-REPL" :size 0.4 :quit nil :select t)
     (add-hook! 'nix-repl-mode-hook (nix-prettify-mode t))
@@ -157,9 +146,6 @@
         (when (file-exists-p repl-file)
           (setq-local nix-repl-executable-args (list "repl" "--file" repl-file))
           (print! "Configured nix-repl file: %s" repl-file))))))
-
-(after! lsp-nix
-  (setq lsp-nix-nil-formatter ["nixpkgs-fmt"]))
 
 (after! (:and evil nix-repl)
   (set-evil-initial-state! 'nix-repl-mode 'insert))
@@ -213,40 +199,39 @@
                   +nix-json-innermode
                   +nix-markdown-innermode)))
 
-;; ;; treesit-range-rules alternative (no indirect buffers, but verbose):
-;; (after! nix-ts-mode
-;;   (require 'sh-script)
-;;   (defvar sh-mode--treesit-settings)
-;;   (setq nix-ts-mode--font-lock-settings
-;;         (append nix-ts-mode--font-lock-settings
-;;                 (mapcar (lambda (r) `(,(car r) t ,(nth 2 r) t))
-;;                         sh-mode--treesit-settings)))
-;;   (defun +nix-ts--language-at-point (point)
-;;     (let* ((range nil)
-;;            (lang (cl-loop
-;;                   for parser in (treesit-parser-list)
-;;                   do (setq range
-;;                            (cl-loop
-;;                             for r in (treesit-parser-included-ranges parser)
-;;                             if (and (>= point (car r)) (<= point (cdr r)))
-;;                             return parser))
-;;                   if range return (treesit-parser-language parser))))
-;;       (or lang 'nix)))
-;;   (add-hook! 'nix-ts-mode-hook
-;;     (setq-local treesit-range-settings
-;;       (treesit-range-rules
-;;         :embed 'bash :host 'nix
-;;         '(((comment) @_c . (indented_string_expression (string_fragment) @capture))
-;;           (:match "^#[ \t]*\\(ba\\)?sh$" @_c))
-;;         :embed 'python :host 'nix
-;;         '(((comment) @_c . (indented_string_expression (string_fragment) @capture))
-;;           (:match "^#[ \t]*python" @_c))
-;;         :embed 'json :host 'nix
-;;         '(((comment) @_c . (indented_string_expression (string_fragment) @capture))
-;;           (:match "^#[ \t]*json" @_c))))
-;;     (setq-local treesit-language-at-point-function #'+nix-ts--language-at-point)))
+(use-package! flyover
+  :hook (flymake-mode . flyover-mode)
+  :custom
+  (flyover-checkers '(flymake))
+  (flyover-use-theme-colors t)
+  (flyover-wrap-messages t))
 
-(add-hook! 'flycheck-mode-hook #'flyover-mode)
-(after! flyover
-  (setq flyover-use-theme-colors t
-        flyover-wrap-messages t))
+(defun +just/run ()
+  "Open Justl at the current project root."
+  (interactive)
+  (let ((default-directory (or (doom-project-root) default-directory)))
+    (justl)))
+
+(use-package! just-mode
+  :mode ("\\(?:J\\|j\\)ustfile\\'" "\\.just\\'")
+  :config
+  (map! :map just-mode-map
+        :localleader
+        "r" #'justl-exec-recipe
+        "R" #'justl-exec-default-recipe
+        "j" #'justl
+        "=" #'just-format-buffer))
+
+(use-package! justl
+  :commands (justl justl-exec-recipe justl-exec-default-recipe)
+  :config
+  (map! :map justl-compile-mode-map
+        :localleader "j" #'justl)
+  (map! :leader
+        (:prefix ("j" . "just")
+         :desc "Open Justl" "j" #'justl
+         :desc "Run recipe" "r" #'justl-exec-recipe)))
+
+(use-package! blamer
+  :config
+  (global-blamer-mode 1))

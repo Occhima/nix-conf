@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import Quickshell.Io
 import "root:/data" as Data
 
 RowLayout {
@@ -9,48 +8,28 @@ RowLayout {
 
     spacing: Data.Settings.spacingSm
 
-    Process {
-        id: settingsProcess
-        command: ["qs-network-settings"]
-        onStarted: Data.Runtime.closeAll()
-    }
-
-    Process {
-        id: lockProcess
-        command: ["qs-lock"]
-        onStarted: Data.Runtime.closeAll()
-    }
-
-    Process {
-        id: powerProcess
-        command: ["qs-logout"]
-        onStarted: Data.Runtime.closeAll()
+    function run(command: string): void {
+        Data.Runtime.closeAll()
+        Quickshell.execDetached([command])
     }
 
     ColumnLayout {
         spacing: 2
 
         Text {
-            id: timeText
-            text: Qt.formatTime(new Date(), "hh:mm")
+            text: Data.Time.time
             font.pixelSize: Data.Settings.fontXxl
             font.weight: Font.Bold
             color: Data.Settings.fgColor
         }
 
         Text {
-            text: Qt.formatDate(new Date(), "dddd, MMMM d")
+            text: Data.Time.longDate
             font.pixelSize: Data.Settings.fontBase
             font.weight: Font.Medium
             color: Data.Settings.fgDim
         }
 
-        Timer {
-            interval: 1000
-            running: Data.Runtime.quickSettingsVisible
-            repeat: true
-            onTriggered: timeText.text = Qt.formatTime(new Date(), "hh:mm")
-        }
     }
 
     Item { Layout.fillWidth: true }
@@ -60,15 +39,15 @@ RowLayout {
 
         HeaderButton {
             icon: "preferences-system-symbolic"
-            onClicked: settingsProcess.running = true
+            onClicked: root.run("qs-network-settings")
         }
         HeaderButton {
             icon: "system-lock-screen-symbolic"
-            onClicked: lockProcess.running = true
+            onClicked: root.run("qs-lock")
         }
         HeaderButton {
             icon: "system-shutdown-symbolic"
-            onClicked: powerProcess.running = true
+            onClicked: root.run("qs-logout")
         }
     }
 

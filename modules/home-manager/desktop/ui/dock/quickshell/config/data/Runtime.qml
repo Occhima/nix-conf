@@ -1,8 +1,8 @@
 pragma Singleton
 
-import QtQuick
+import Quickshell
 
-QtObject {
+Singleton {
     property string activePopup: ""
 
     readonly property bool quickSettingsVisible: activePopup === "quickSettings"

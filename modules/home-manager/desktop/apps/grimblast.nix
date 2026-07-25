@@ -1,3 +1,7 @@
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) hyprlandLib;
+in
 {
   flake.modules.homeManager.grimblast =
     {
@@ -22,9 +26,16 @@
           };
         };
 
-        wayland.windowManager.hyprland.settings.bind = [
-          "$mainMod, S, exec, grimblast save area - | satty --filename -"
-        ];
+        wayland.windowManager.hyprland.settings =
+          hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
+            [
+              {
+                key = "S";
+                dispatcher = "exec";
+                argument = "grimblast save area - | satty --filename -";
+                lua = hyprlandLib.luaExec "grimblast save area - | satty --filename -";
+              }
+            ];
       };
     };
 }

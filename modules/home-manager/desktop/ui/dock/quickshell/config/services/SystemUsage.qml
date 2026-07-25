@@ -4,7 +4,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 
-QtObject {
+Singleton {
     id: root
 
     property string gpuType: "NONE"
@@ -24,8 +24,6 @@ QtObject {
 
     property real _prevCpuIdle: 0
     property real _prevCpuTotal: 0
-
-    readonly property bool hasGpu: gpuType !== "NONE"
 
     function safeNumber(value, fallback) {
         const num = parseFloat(String(value).trim())
@@ -159,7 +157,7 @@ QtObject {
         root.gpuUsage = root.clamp01(avg / 100)
     }
 
-    property var gpuBackendDetect: Process {
+    Process {
         running: true
         command: [
             "sh",
@@ -175,17 +173,20 @@ QtObject {
         }
     }
 
-    property var cpuStat: FileView {
+    FileView {
+        id: cpuStat
         path: "/proc/stat"
         onLoaded: root.parseCpuStat(text())
     }
 
-    property var memInfo: FileView {
+    FileView {
+        id: memInfo
         path: "/proc/meminfo"
         onLoaded: root.parseMemInfo(text())
     }
 
-    property var diskProc: Process {
+    Process {
+        id: diskProc
         command: ["sh", "-lc", "df -k / | tail -1"]
 
         stdout: StdioCollector {
@@ -193,7 +194,8 @@ QtObject {
         }
     }
 
-    property var gpuUsageProc: Process {
+    Process {
+        id: gpuUsageProc
         command: root.gpuType === "NVIDIA"
             ? [
                 "nvidia-smi",
@@ -222,7 +224,8 @@ QtObject {
         }
     }
 
-    property var sensorProc: Process {
+    Process {
+        id: sensorProc
         command: [
             "sh",
             "-lc",
@@ -234,7 +237,7 @@ QtObject {
         }
     }
 
-    property var updateTimer: Timer {
+    Timer {
         interval: 2000
         running: true
         repeat: true
@@ -248,7 +251,7 @@ QtObject {
         }
     }
 
-    property var diskTimer: Timer {
+    Timer {
         interval: 30000
         running: true
         repeat: true

@@ -1,25 +1,19 @@
 pragma Singleton
 
 import Quickshell
-import QtQuick
 
-QtObject {
-    readonly property string time: {
-        const now = new Date();
-        let hours = now.getHours();
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const ampm = hours >= 12 ? "PM" : "AM";
-        hours = hours % 12 || 12;
-        return String(hours).padStart(2, '0') + "\n" + minutes;
-    }
+Singleton {
+    readonly property date now: clock.date
+    readonly property string hours: String(clock.hours).padStart(2, "0")
+    readonly property string minutes: String(clock.minutes).padStart(2, "0")
+    readonly property string time: Qt.formatDateTime(clock.date, "hh:mm")
+    readonly property string stackedTime: hours + "\n" + minutes
+    readonly property string shortDate: Qt.formatDate(clock.date, "ddd, d")
+    readonly property string barDate: Qt.formatDate(clock.date, "ddd d")
+    readonly property string longDate: Qt.formatDate(clock.date, "dddd, MMMM d")
 
-    property var timer: Timer {
-        interval: 60000 - (Date.now() % 60000)
-        running: true
-        repeat: true
-        onTriggered: {
-            interval = 60000;
-            time;
-        }
+    SystemClock {
+        id: clock
+        precision: SystemClock.Minutes
     }
 }

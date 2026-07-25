@@ -12,18 +12,6 @@ import "root:/components/dashboard" as Dashboard
 Scope {
     id: dashboard
 
-    property date now: new Date()
-
-    Timer {
-        interval: 1000
-        running: true
-        repeat: true
-
-        onTriggered: {
-            dashboard.now = new Date()
-        }
-    }
-
     Variants {
         model: Quickshell.screens
 
@@ -185,14 +173,12 @@ Scope {
                                     Layout.preferredWidth: 104
                                     Layout.fillHeight: true
                                     Layout.minimumHeight: 180
-                                    currentTime: dashboard.now
                                 }
 
                                 Dashboard.CalendarCard {
                                     Layout.fillWidth: true
                                     Layout.fillHeight: true
                                     Layout.minimumHeight: 180
-                                    currentTime: dashboard.now
                                 }
 
                             }

@@ -30,16 +30,7 @@ GridLayout {
     }
 
     Shared.QuickToggle {
-        Layout.fillWidth: true
-        icon: "notifications-disabled-symbolic"
-        label: "Do Not Disturb"
-        subLabel: Services.Notifications.dnd ? "On" : "Off"
-        active: Services.Notifications.dnd
-        activeColor: Data.Settings.warningColor
-        onClicked: Services.Notifications.toggleDnd()
-    }
-
-    Shared.QuickToggle {
+        Layout.columnSpan: Data.Settings.notificationsEnabled ? 1 : 2
         Layout.fillWidth: true
         icon: Services.Pipewire.sinkReady ? Services.Pipewire.volumeIcon : "audio-volume-muted-symbolic"
         label: Services.Pipewire.muted ? "Muted" : "Sound"
@@ -51,5 +42,18 @@ GridLayout {
         active: Services.Pipewire.muted
         activeColor: Data.Settings.errorColor
         onClicked: Services.Pipewire.toggleMute()
+    }
+
+    Shared.QuickToggle {
+        Layout.fillWidth: true
+        visible: Data.Settings.notificationsEnabled
+        icon: Services.Notifications.icon
+        label: "Do not disturb"
+        subLabel: Services.Notifications.dnd
+            ? "On"
+            : `${Services.Notifications.count} saved`
+        active: Services.Notifications.dnd
+        activeColor: Data.Settings.purpleColor
+        onClicked: Services.Notifications.toggleDnd()
     }
 }

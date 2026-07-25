@@ -1,136 +1,145 @@
 pragma Singleton
 
+import QtQuick
 import Quickshell
 import Quickshell.Io
-import QtQuick
 import "root:/data" as Data
 
-QtObject {
+Singleton {
     id: root
 
     property bool wifiEnabled: false
     property bool wifiConnected: false
     property string wifiSsid: ""
     property int wifiSignal: 0
-
     property bool ethernetConnected: false
-    property string ethernetDevice: ""
-
     property string activeInterface: ""
     property string ipv4Address: ""
     property string gateway: ""
-    property real downloadKbps: 0
-    property real uploadKbps: 0
+    property real downloadMbps: 0
+    property real uploadMbps: 0
 
     readonly property bool connected: wifiConnected || ethernetConnected
-
-    readonly property string connectionType: {
-        if (ethernetConnected) return "ethernet"
-        if (wifiConnected) return "wifi"
-        return "none"
-    }
-
     readonly property string icon: {
-        if (ethernetConnected) return "network-wired"
+        if (ethernetConnected)
+            return "network-wired"
         if (wifiConnected) {
-            if (wifiSignal >= 75) return "network-wireless-signal-excellent-symbolic"
-            if (wifiSignal >= 50) return "network-wireless-signal-good-symbolic"
-            if (wifiSignal >= 25) return "network-wireless-signal-ok-symbolic"
+            if (wifiSignal >= 75)
+                return "network-wireless-signal-excellent-symbolic"
+            if (wifiSignal >= 50)
+                return "network-wireless-signal-good-symbolic"
+            if (wifiSignal >= 25)
+                return "network-wireless-signal-ok-symbolic"
             return "network-wireless-signal-weak-symbolic"
         }
-        if (wifiEnabled) return "network-wireless-offline-symbolic"
-        return "network-offline-symbolic"
+        return wifiEnabled
+            ? "network-wireless-offline-symbolic"
+            : "network-offline-symbolic"
+    }
+    readonly property string statusText: ethernetConnected ? "Ethernet"
+        : wifiConnected ? wifiSsid
+        : wifiEnabled ? "Not Connected"
+        : "WiFi Off"
+
+    function setStatus(line: string): void {
+        const separator = line.indexOf("=")
+        if (separator < 0)
+            return
+
+        const key = line.slice(0, separator)
+        const value = line.slice(separator + 1)
+        switch (key) {
+        case "WIFI_ENABLED": wifiEnabled = value === "enabled"; break
+        case "WIFI_CONNECTED": wifiConnected = value === "yes"; break
+        case "WIFI_SSID": wifiSsid = value; break
+        case "WIFI_SIGNAL": wifiSignal = parseInt(value) || 0; break
+        case "ETH_CONNECTED": ethernetConnected = value === "yes"; break
+        }
     }
 
-    readonly property string statusText: {
-        if (ethernetConnected) return "Ethernet"
-        if (wifiConnected) return wifiSsid
-        if (wifiEnabled) return "Not Connected"
-        return "WiFi Off"
+    function setDetails(line: string): void {
+        const separator = line.indexOf("=")
+        if (separator < 0)
+            return
+
+        const key = line.slice(0, separator)
+        const value = line.slice(separator + 1)
+        switch (key) {
+        case "ACTIVE_INTERFACE": activeInterface = value; break
+        case "IPV4": ipv4Address = value; break
+        case "GATEWAY": gateway = value; break
+        case "DOWN_MBPS": downloadMbps = Number(value) || 0; break
+        case "UP_MBPS": uploadMbps = Number(value) || 0; break
+        }
     }
 
-    function toggleWifi() {
-        wifiToggleProc.command = ["nmcli", "radio", "wifi", wifiEnabled ? "off" : "on"]
-        wifiToggleProc.running = true
+    function toggleWifi(): void {
+        wifiToggle.command = ["nmcli", "radio", "wifi", wifiEnabled ? "off" : "on"]
+        wifiToggle.running = true
     }
 
-    function reload() { statusProc.running = true }
+    function reload(): void {
+        status.running = true
+    }
 
-    function reloadDetails() {
+    function reloadDetails(): void {
         if (!connected) {
             activeInterface = ""
             ipv4Address = ""
             gateway = ""
-            downloadKbps = 0
-            uploadKbps = 0
+            downloadMbps = 0
+            uploadMbps = 0
             return
         }
-
-        detailsProc.running = true
+        details.running = true
     }
 
-    property var monitor: Process {
+    Process {
         command: ["nmcli", "monitor"]
         running: true
-        stdout: SplitParser { onRead: data => reloadTimer.restart() }
+        stdout: SplitParser {
+            onRead: reloadTimer.restart()
+        }
     }
 
-    property var reloadTimer: Timer {
+    Timer {
+        id: reloadTimer
         interval: 200
         onTriggered: root.reload()
     }
 
-    property var statusProc: Process {
-        command: ["bash", Quickshell.shellDir + "/services/scripts/network-status.sh"]
+    Process {
+        id: status
+        command: ["qs-network-status"]
         running: true
         stdout: SplitParser {
-            onRead: line => {
-                const parts = line.split("=")
-                if (parts.length !== 2) return
-                const [key, value] = parts
-
-                switch (key) {
-                    case "WIFI_ENABLED": root.wifiEnabled = value === "enabled"; break
-                    case "WIFI_CONNECTED": root.wifiConnected = value === "yes"; break
-                    case "WIFI_SSID": root.wifiSsid = value; break
-                    case "WIFI_SIGNAL": root.wifiSignal = parseInt(value) || 0; break
-                    case "ETH_CONNECTED": root.ethernetConnected = value === "yes"; break
-                    case "ETH_DEVICE": root.ethernetDevice = value; break
-                }
-            }
+            onRead: line => root.setStatus(line)
         }
         onExited: {
-            if (Data.Runtime.networkPopupVisible) root.reloadDetails()
+            if (Data.Runtime.networkPopupVisible)
+                root.reloadDetails()
         }
     }
 
-    property var detailsProc: Process {
+    Process {
+        id: details
         command: ["qs-network-details"]
         stdout: SplitParser {
-            onRead: line => {
-                const parts = line.split("=")
-                if (parts.length !== 2) return
-                const [key, value] = parts
-
-                switch (key) {
-                    case "ACTIVE_INTERFACE": root.activeInterface = value; break
-                    case "IPV4": root.ipv4Address = value; break
-                    case "GATEWAY": root.gateway = value; break
-                    case "DOWN_KBPS": root.downloadKbps = Number(value) || 0; break
-                    case "UP_KBPS": root.uploadKbps = Number(value) || 0; break
-                }
-            }
+            onRead: line => root.setDetails(line)
         }
     }
-    property var networkPopupVisibilityConnection: Connections {
+
+    Process {
+        id: wifiToggle
+        onExited: root.reload()
+    }
+
+    Connections {
         target: Data.Runtime
 
-        function onNetworkPopupVisibleChanged() {
-            if (Data.Runtime.networkPopupVisible) root.reloadDetails()
+        function onNetworkPopupVisibleChanged(): void {
+            if (Data.Runtime.networkPopupVisible)
+                root.reloadDetails()
         }
     }
-
-    property var wifiToggleProc: Process { onExited: root.reload() }
-
-    Component.onCompleted: reload()
 }

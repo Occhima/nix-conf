@@ -1,3 +1,7 @@
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) hyprlandLib;
+in
 {
   flake.modules.homeManager.anyrun =
     {
@@ -74,8 +78,15 @@
         '';
       };
 
-      wayland.windowManager.hyprland.settings.bind = [
-        "$mainMod, SPACE, exec, anyrun"
-      ];
+      wayland.windowManager.hyprland.settings =
+        hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
+          [
+            {
+              key = "SPACE";
+              dispatcher = "exec";
+              argument = "anyrun";
+              lua = hyprlandLib.luaExec "anyrun";
+            }
+          ];
     };
 }

@@ -5,13 +5,13 @@ import "root:/data" as Data
 Item {
     id: root
 
-    property date displayDate: new Date()
+    property date displayDate: Data.Time.now
     property bool interactive: false
     property bool mondayStart: true
 
     implicitHeight: column.implicitHeight
 
-    readonly property date today: new Date()
+    readonly property date today: Data.Time.now
 
     function isToday(day) {
         return day === today.getDate() &&
@@ -45,7 +45,7 @@ Item {
 
             NavButton {
                 text: "\u2022"
-                onClicked: root.displayDate = new Date()
+                onClicked: root.displayDate = Data.Time.now
             }
 
             NavButton {

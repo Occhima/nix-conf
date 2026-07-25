@@ -1,16 +1,20 @@
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) hyprlandLib;
+in
 {
-  flake.modules.homeManager.wlogout =
-    # XXX: Is this supposed to be here?
-    # TODO: find a better place for this module
-    { ... }: {
-      config = {
-        programs.wlogout = {
-          enable = true;
-        };
+  flake.modules.homeManager.wlogout = { config, ... }: {
+    programs.wlogout.enable = true;
 
-        wayland.windowManager.hyprland.settings.bind = [
-          "$mainMod, W, exec, wlogout"
+    wayland.windowManager.hyprland.settings =
+      hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
+        [
+          {
+            key = "W";
+            dispatcher = "exec";
+            argument = "wlogout";
+            lua = hyprlandLib.luaExec "wlogout";
+          }
         ];
-      };
-    };
+  };
 }

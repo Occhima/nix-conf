@@ -1,24 +1,24 @@
 { config, ... }:
 let
-  inherit (config.flake.lib.custom) themeLib;
+  inherit (config.flake.lib.custom) hyprlandLib themeLib;
 in
 {
   flake.modules.homeManager.themes-guernica =
     {
-      lib,
       config,
+      lib,
       ...
     }:
     let
-      inherit (lib) mkAfter mkDefault optionalAttrs;
+      inherit (lib) mkAfter mkDefault;
       inherit (lib.attrsets) recursiveUpdate;
 
+      configType = config.wayland.windowManager.hyprland.configType;
       isCompact = themeLib.isVariant config "compact";
       stylixColors = config.lib.stylix.colors;
 
-      baseSettings = {
+      baseConfig = {
         general = {
-          layout = "dwindle";
           gaps_in = 8;
           gaps_out = 20;
           border_size = 1;
@@ -45,63 +45,15 @@ in
           };
         };
 
-        # NOTE: change to attrset
-        layerrule = [
-          "match:namespace anyrun, blur off"
-          # "match:namespace anyrun, ignorealpha on"
-          "match:namespace anyrun, blur_popups on"
-          "match:namespace anyrun, dim_around on"
-          # "match:namespace anyrun, ignorezero on"
-
-          "match:namespace waybar, blur off"
-          # "match:namespace waybar, blur_popups on"
-          # "match:namespace waybar, dim_around on"
-          # "match:namespace waybar, ignorezero on"
-
-          "match:namespace quickshell, blur on"
-          "match:namespace quickshell, blur_popups on"
-          "match:namespace quickshell, dim_around on"
-        ];
-
-        animations = {
-          enabled = true;
-          bezier = [
-            "myBezier, 0.05, 0.9, 0.1, 1.0"
-            "myBezier2, 0.0, 0.1, 0.0, 1.0"
-          ];
-          animation = [
-            "windows, 1, 3, myBezier"
-            "windowsOut, 1, 3, default, popin 80%"
-            "border, 1, 20, default"
-            "borderangle, 1, 8, default"
-            "fade, 1, 7, default"
-            "workspaces, 0, 2, myBezier2"
-
-            # "hyprfocusIn, 1, 0.25, focusIn"
-            # "hyprfocusOut, 1, 0.25, focusOut"
-          ];
-        };
+        animations.enabled = true;
       };
 
-      compactOverrides = {
-        dwindle = {
-          pseudotile = true;
-          preserve_split = true;
-          special_scale_factor = 0.8;
-        };
-
-        master = {
-          new_status = "master";
-          new_on_top = true;
-          mfact = 0.5;
-        };
-
+      compactConfig = {
         general = {
           gaps_in = 4;
           gaps_out = 6;
           border_size = 2;
           resize_on_border = false;
-          layout = "master";
         };
 
         decoration = {
@@ -124,7 +76,7 @@ in
             enabled = true;
             size = 12;
             passes = 3;
-            noise = 0.0200;
+            noise = 0.02;
             vibrancy = 0.1796;
             ignore_opacity = true;
             new_optimizations = true;
@@ -132,46 +84,224 @@ in
             popups = true;
           };
         };
-
-        layerrule = [
-          # "blur, waybar" # blur Waybar
-          # "ignorezero, waybar"
-
-          "blur, anyrun" # blur anyrun
-          "ignorezero, anyrun"
-
-          "blur, rofi" # blur anyrun "ignorezero, rofi"
-          "ignorezero, rofi"
-
-          "blur, quickshell" # blur anyrun "ignorezero, rofi"
-          "ignorezero, quickshell"
-
-          "blur, logout_dialog"
-        ];
-        animations = {
-          enabled = true;
-          bezier = [
-            "default, 0, 1, 0, 1"
-            "wind, 0.05, 0.69, 0.1, 1"
-            "winIn, 0.1, 1.1, 0.1, 1"
-            "winOut, 0.3, 1, 0, 1"
-            "linear, 1, 1, 1, 1"
-            "easeOut, 0.16, 1, 0.3, 1"
-          ];
-
-          animation = [
-            "windows, 1, 6.9, easeOut, slide"
-            "windowsIn, 1, 6.9, easeOut, popin 90%"
-            "windowsOut, 1, 6.9, easeOut, popin 80%"
-            "windowsMove, 1, 6.9, easeOut, slide"
-            "fade, 1, 10, default"
-            "workspaces, 1, 10, easeOut, slide"
-            "layers, 1, 6.9, easeOut, slide"
-          ];
-        };
       };
 
-      settings = recursiveUpdate baseSettings (optionalAttrs isCompact compactOverrides);
+      baseCurves = [
+        {
+          name = "myBezier";
+          points = [
+            0.05
+            0.9
+            0.1
+            1.0
+          ];
+        }
+        {
+          name = "myBezier2";
+          points = [
+            0.0
+            0.1
+            0.0
+            1.0
+          ];
+        }
+      ];
+
+      compactCurves = [
+        {
+          name = "default";
+          points = [
+            0
+            1
+            0
+            1
+          ];
+        }
+        {
+          name = "wind";
+          points = [
+            0.05
+            0.69
+            0.1
+            1
+          ];
+        }
+        {
+          name = "winIn";
+          points = [
+            0.1
+            1.1
+            0.1
+            1
+          ];
+        }
+        {
+          name = "winOut";
+          points = [
+            0.3
+            1
+            0
+            1
+          ];
+        }
+        {
+          name = "linear";
+          points = [
+            1
+            1
+            1
+            1
+          ];
+        }
+        {
+          name = "easeOut";
+          points = [
+            0.16
+            1
+            0.3
+            1
+          ];
+        }
+      ];
+
+      baseAnimations = [
+        {
+          leaf = "windows";
+          enabled = true;
+          speed = 3;
+          bezier = "myBezier";
+        }
+        {
+          leaf = "windowsOut";
+          enabled = true;
+          speed = 3;
+          bezier = "default";
+          style = "popin 80%";
+        }
+        {
+          leaf = "border";
+          enabled = true;
+          speed = 20;
+          bezier = "default";
+        }
+        {
+          leaf = "borderangle";
+          enabled = true;
+          speed = 8;
+          bezier = "default";
+        }
+        {
+          leaf = "fade";
+          enabled = true;
+          speed = 7;
+          bezier = "default";
+        }
+        {
+          leaf = "workspaces";
+          enabled = false;
+          speed = 2;
+          bezier = "myBezier2";
+        }
+      ];
+
+      compactAnimations = [
+        {
+          leaf = "windows";
+          enabled = true;
+          speed = 6.9;
+          bezier = "easeOut";
+          style = "slide";
+        }
+        {
+          leaf = "windowsIn";
+          enabled = true;
+          speed = 6.9;
+          bezier = "easeOut";
+          style = "popin 90%";
+        }
+        {
+          leaf = "windowsOut";
+          enabled = true;
+          speed = 6.9;
+          bezier = "easeOut";
+          style = "popin 80%";
+        }
+        {
+          leaf = "windowsMove";
+          enabled = true;
+          speed = 6.9;
+          bezier = "easeOut";
+          style = "slide";
+        }
+        {
+          leaf = "fade";
+          enabled = true;
+          speed = 10;
+          bezier = "default";
+        }
+        {
+          leaf = "workspaces";
+          enabled = true;
+          speed = 10;
+          bezier = "easeOut";
+          style = "slide";
+        }
+        {
+          leaf = "layers";
+          enabled = true;
+          speed = 6.9;
+          bezier = "easeOut";
+          style = "slide";
+        }
+      ];
+
+      baseLayerRules = [
+        {
+          name = "anyrun";
+          namespace = "anyrun";
+          blur = false;
+          blur_popups = true;
+          dim_around = true;
+        }
+        {
+          name = "waybar";
+          namespace = "waybar";
+          blur = false;
+        }
+        {
+          name = "quickshell";
+          namespace = "quickshell";
+          blur = true;
+          blur_popups = true;
+          dim_around = true;
+        }
+      ];
+
+      compactLayerRules =
+        map
+          (namespace: {
+            name = namespace;
+            inherit namespace;
+            blur = true;
+            ignore_alpha = 0.0;
+          })
+          [
+            "anyrun"
+            "rofi"
+            "quickshell"
+            "logout_dialog"
+          ];
+
+      themeConfig = recursiveUpdate baseConfig (if isCompact then compactConfig else { });
+      curves = if isCompact then compactCurves else baseCurves;
+      animations = if isCompact then compactAnimations else baseAnimations;
+      layerRules = if isCompact then compactLayerRules else baseLayerRules;
+
+      settings = recursiveUpdate (hyprlandLib.mkConfig configType themeConfig) (
+        recursiveUpdate (hyprlandLib.mkAnimations configType {
+          inherit curves animations;
+        }) (hyprlandLib.mkLayerRules configType layerRules)
+      );
     in
     {
       wayland.windowManager.hyprland.settings = mkAfter settings;
