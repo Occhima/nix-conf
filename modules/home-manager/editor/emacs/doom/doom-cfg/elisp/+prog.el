@@ -178,6 +178,13 @@
     :head-mode 'host
     :tail-mode 'host)
 
+  (define-innermode +nix-lua-innermode
+    :mode 'lua-ts-mode
+    :head-matcher "# lua\n[ \t]*''"
+    :tail-matcher "''"
+    :head-mode 'host
+    :tail-mode 'host)
+
   (define-innermode +nix-json-innermode
     :mode 'json-ts-mode
     :head-matcher "# json\n[ \t]*''"
@@ -196,6 +203,7 @@
     :hostmode '+nix-ts-hostmode
     :innermodes '(+nix-bash-innermode
                   +nix-python-innermode
+                  +nix-lua-innermode
                   +nix-json-innermode
                   +nix-markdown-innermode)))
 

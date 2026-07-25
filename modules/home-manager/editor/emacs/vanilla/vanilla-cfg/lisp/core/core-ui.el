@@ -1,8 +1,20 @@
 ;;; core-ui.el --- Minimal UI defaults -*- lexical-binding: t; -*-
+;; Code
+(set-face-attribute 'default nil
+                    :family "Iosevka Comfy"
+                    :height 150
+                    :weight 'normal)
 
-(set-face-attribute 'default nil :family "Iosevka Comfy" :height 150 :weight 'semibold)
-(set-face-attribute 'fixed-pitch nil :family "Iosevka Comfy" :height 150)
-(set-face-attribute 'variable-pitch nil :family "Iosevka Nerd Font Mono" :height 150)
+(set-face-attribute 'fixed-pitch nil
+                    :family "Iosevka Comfy"
+                    :height 150
+                    :weight 'normal)
+
+(set-face-attribute 'variable-pitch nil
+                    :family "Iosevka Nerd Font Mono"
+                    :height 150
+                    :weight 'normal)
+
 
 (setq frame-title-format "%b"
       undo-limit 80000000
