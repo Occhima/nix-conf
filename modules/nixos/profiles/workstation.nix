@@ -26,6 +26,7 @@ in
     nixos.boot-kernel
     nixos.boot-plymouth
     nixos.display-wayland
+    nixos.display-hyprland
     nixos.display-portals
     nixos.impermanence
     nixos.podman-host

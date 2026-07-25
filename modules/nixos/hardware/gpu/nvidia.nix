@@ -35,7 +35,7 @@
         };
 
         nvidia = {
-          package = mkDefault config.boot.kernelPackages.nvidiaPackages.beta;
+          package = mkDefault config.boot.kernelPackages.nvidiaPackages.latest;
           open = true;
           powerManagement = {
             enable = true;
@@ -43,7 +43,7 @@
           };
 
           nvidiaSettings = true;
-          nvidiaPersistenced = true;
+          nvidiaPersistenced = false;
           modesetting.enable = true;
         };
       };
@@ -66,24 +66,24 @@
         __GLX_VENDOR_LIBRARY_NAME = "nvidia";
 
         # FIXME: ttps://forums.developer.nvidia.com/t/580-65-06-gtk-4-apps-hang-when-attempting-to-exit-close/341308/6
-        GSK_RENDERER = "ngl";
+        # GSK_RENDERER = "ngl";
       };
 
-      environment.systemPackages = with pkgs; [
-        # NVIDIA utilities
-        vulkan-tools
-        vulkan-loader
-        vulkan-validation-layers
-        vulkan-extension-layer
-        libva
-        libva-utils
-        mesa
-        cudaPackages.cudatoolkit
-        cudaPackages.cuda_nvcc
-        cudaPackages.cuda_cccl
-        cudaPackages.libcublas
-        cudaPackages.cuda_cudart
-        #(nvtopPackages.nvidia)
-      ];
+      # environment.systemPackages = with pkgs; [
+      # NVIDIA utilities
+      # vulkan-tools
+      # vulkan-loader
+      # vulkan-validation-layers
+      # vulkan-extension-layer
+      # libva
+      # libva-utils
+      # mesa
+      # cudaPackages.cudatoolkit
+      # cudaPackages.cuda_nvcc
+      # cudaPackages.nccl
+      # cudaPackages.libcublas
+      # cudaPackages.cuda_cudart
+      #(nvtopPackages.nvidia)
+      # ];
     };
 }

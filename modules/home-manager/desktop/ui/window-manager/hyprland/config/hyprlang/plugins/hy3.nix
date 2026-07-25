@@ -1,5 +1,3 @@
-# hy3 tiling layout plugin for Hyprland. Importing this module enables the
-# plugin, the hy3 layout and its binds.
 {
   flake.modules.homeManager.hyprland =
     {
@@ -11,12 +9,13 @@
       inherit (lib) mkForce;
 
       hy3 = pkgs.hyprlandPlugins.hy3.overrideAttrs (_: {
-        version = "hl0.55.0";
+        version = "0.56.0.1";
         src = pkgs.fetchFromGitHub {
           owner = "outfoxxed";
           repo = "hy3";
-          rev = "a7282db2d7ca336d3c9faa5d10d75fc43eed37aa";
-          hash = "sha256-P3wwiIfqo89evW7xzI+wOI/qM1WPZBiiSmGNtBmYeVk=";
+          rev = "42b7ed8fd9aefd3f36e5f617afd5071245c67853";
+          hash = "sha256-iK0vERuy5aXisDXm/bzcJP0dgaIot5MLPoVG62DjqO4=";
+
         };
       });
     in

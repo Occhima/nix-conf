@@ -65,7 +65,7 @@ in
           # TODO: add codeburn
           packages = [
             # pkgs.python313Packages.google-generativeai
-            pkgs.rtk
+            # pkgs.rtk
           ];
 
           sessionVariables = mkIf hasAgeKeys {

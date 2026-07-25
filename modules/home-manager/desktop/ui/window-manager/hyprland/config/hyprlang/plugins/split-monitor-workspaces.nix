@@ -1,6 +1,3 @@
-# split-monitor-workspaces: awesome-like per-monitor workspaces for Hyprland
-# (zjeffer fork). Importing this module enables the plugin, its settings and
-# its binds.
 {
   flake.modules.homeManager.hyprland =
     {
@@ -14,13 +11,13 @@
 
       splitMonitorWorkspaces = pkgs.hyprland.stdenv.mkDerivation {
         pname = "split-monitor-workspaces";
-        version = "unstable-2026-05-15";
+        version = "unstable-2026-07-25";
 
         src = pkgs.fetchFromGitHub {
           owner = "zjeffer";
           repo = "split-monitor-workspaces";
-          rev = "7fa10d87b486401549267edb73f6145dd524d6f0";
-          hash = "sha256-fqWPifkCkwkTPrGosPN+wLQcy8AJMD3UIzRcLUN/3rA=";
+          rev = "c8a03d993f71a3ae73179ce354e7a54859055f02";
+          hash = "sha256-XVm8Bi8XasjMP2VOisrPAuJvrB6+rQZW+/TL9kr2Ogs=";
         };
 
         nativeBuildInputs = with pkgs; [

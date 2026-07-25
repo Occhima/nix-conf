@@ -1,5 +1,3 @@
-# Aggregate: the full graphical desktop — browser, terminal, Hyprland
-# with its UI pieces, the Guernica theme and the desktop applications.
 { config, ... }:
 let
   hm = config.flake.modules.homeManager;
@@ -18,9 +16,9 @@ in
     hm.themes-guernica-spicetify
     hm.flatpak
     hm.spotify
-    # hm.discord # vesktop wraps EOL electron; re-enable once nixpkgs bumps electron
+    hm.discord # vesktop wraps EOL electron; re-enable once nixpkgs bumps electron
     hm.grimblast
     hm.wlogout
-    hm.calibre
+    # hm.calibre
   ];
 }
