@@ -8,6 +8,8 @@ import "root:/services" as Services
 ColumnLayout {
     id: root
 
+    property int maxListHeight: 220
+
     spacing: Data.Settings.spacingMd
 
     RowLayout {
@@ -77,7 +79,7 @@ ColumnLayout {
         id: historyView
 
         Layout.fillWidth: true
-        Layout.preferredHeight: Math.min(contentHeight, 220)
+        Layout.preferredHeight: Math.min(contentHeight, root.maxListHeight)
         model: Services.Notifications.historyModel
         spacing: Data.Settings.spacingSm
         clip: true

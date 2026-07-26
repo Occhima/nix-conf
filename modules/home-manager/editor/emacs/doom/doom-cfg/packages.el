@@ -15,6 +15,7 @@
            :branch "main"
            :depth 1
            :files ("*.el" (:exclude "images/*"))))
+(package! llama)
 (package! combobulate :recipe (:host github :repo "mickeynp/combobulate"))
 (package! corg :recipe (:host github :repo "isamert/corg.el"))
 (package! devdocs)

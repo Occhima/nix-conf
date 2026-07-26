@@ -22,8 +22,10 @@ Row {
 
     Shared.IconButton {
         visible: Data.Settings.notificationsEnabled
+        enabled: Services.Notifications.hasNotifications
+        active: Services.Notifications.hasNotifications
         icon: Services.Notifications.icon
-        onClicked: Data.Runtime.toggleQuickSettings()
+        onClicked: Data.Runtime.toggleNotificationCenter()
 
         Rectangle {
             anchors {

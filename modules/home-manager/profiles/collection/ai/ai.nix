@@ -142,7 +142,10 @@ in
 
             engram = {
               command = getExe engram;
-              args = [ "mcp" ];
+              args = [
+                "mcp"
+                "--tools=agent"
+              ];
               type = "stdio";
             };
 

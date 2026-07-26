@@ -6,6 +6,7 @@ Singleton {
     property string activePopup: ""
 
     readonly property bool quickSettingsVisible: activePopup === "quickSettings"
+    readonly property bool notificationCenterVisible: activePopup === "notificationCenter"
     readonly property bool calendarVisible: activePopup === "calendar"
     readonly property bool dashboardVisible: activePopup === "dashboard"
     readonly property bool bluetoothVisible: activePopup === "bluetooth"
@@ -16,6 +17,7 @@ Singleton {
     }
 
     function toggleQuickSettings(): void { toggle("quickSettings") }
+    function toggleNotificationCenter(): void { toggle("notificationCenter") }
     function toggleCalendar(): void { toggle("calendar") }
     function toggleDashboard(): void { toggle("dashboard") }
     function toggleBluetooth(): void { toggle("bluetooth") }

@@ -7,6 +7,7 @@ ShellRoot {
         Modules.Bar {}
         Modules.Osd {}
         Modules.Notifications {}
+        Modules.NotificationCenterPopup {}
         Modules.QuickSettingsPopup {}
         Modules.CalendarPopup {}
         Modules.DashboardPopup {}

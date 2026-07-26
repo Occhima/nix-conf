@@ -87,15 +87,6 @@ Scope {
 
                     Divider {}
 
-                    QS.NotificationList {
-                        Layout.fillWidth: true
-                        visible: Data.Settings.notificationsEnabled
-                    }
-
-                    Divider {
-                        visible: Data.Settings.notificationsEnabled
-                    }
-
                     QS.VolumeSlider {
                         Layout.fillWidth: true
                     }
