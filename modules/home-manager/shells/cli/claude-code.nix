@@ -64,6 +64,18 @@
                 repo = "forrestchang/andrej-karpathy-skills";
               };
             };
+            humanizer = {
+              source = {
+                source = "github";
+                repo = "blader/humanizer";
+              };
+            };
+            impeccable = {
+              source = {
+                source = "github";
+                repo = "pbakaus/impeccable";
+              };
+            };
           };
           enabledPlugins = {
             #"perplexity@perplexity-mcp-server" = true;
@@ -80,6 +92,8 @@
             "claude-md-management@claude-plugins-official" = true;
             "claude-code-setup@claude-plugins-official" = true;
             "andrej-karpathy-skills@karpathy-skills" = true;
+            "humanizer@humanizer" = true;
+            "impeccable@impeccable" = true;
           };
           permissions = {
             disableBypassPermissionsMode = "disable";

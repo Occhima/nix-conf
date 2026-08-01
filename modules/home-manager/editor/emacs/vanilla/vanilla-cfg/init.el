@@ -14,12 +14,13 @@
 (require 'module-completion)
 (require 'module-treesit)
 (require 'module-project)
+(require 'module-programming)
 (require 'module-vc-compile)
 (require 'module-term)
 (require 'module-ai)
 (require 'module-apps)
-(require 'module-dashboard)
 (require 'module-theme-modeline)
+(require 'module-dashboard)
 (require 'module-dired)
 (require 'module-org)
 (require 'module-org-babel)
@@ -28,7 +29,6 @@
 (require 'module-lang-nix)
 (require 'module-lang-python)
 (require 'module-lang-r)
-(require 'module-programming)
 
 (add-hook 'elpaca-after-init-hook
           (lambda ()

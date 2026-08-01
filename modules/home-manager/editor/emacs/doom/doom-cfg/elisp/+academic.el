@@ -43,28 +43,30 @@
   (setq bibtex-dialect 'biblatex
         org-ref-bibtex-pdf-download-dir occhima/pdf-articles-dir
         org-ref-show-equation-images-in-tooltips t)
-
-  (defun occhima/arxiv-bulk-add-from-region (beg end)
-    "Add each arXiv identifier between BEG and END to the article library."
-    (interactive "r")
-    (unless (use-region-p)
-      (user-error "Select a region containing arXiv identifiers first"))
-    (let ((text (buffer-substring-no-properties beg end))
-          ids
-          (start 0)
-          (regexp "[0-9]\\{4\\}\\.[0-9]\\{5\\}"))
-      (while (string-match regexp text start)
-        (push (match-string 0 text) ids)
-        (setq start (match-end 0)))
-      (unless ids
-        (user-error "No arXiv identifiers found in region"))
-      (make-directory occhima/pdf-articles-dir t)
-      (dolist (id (nreverse ids))
-        (message "Adding arXiv:%s" id)
-        (arxiv-get-pdf-add-bibtex-entry
-         id (car occhima/bibliographies) occhima/pdf-articles-dir)
-        (sleep-for 1)))))
+  )
 
 (after! scihub
   (setq scihub-download-directory occhima/pdf-articles-dir
         scihub-fetch-domain 'scihub-fetch-domains-lovescihub))
+
+
+(defun occhima/arxiv-bulk-add-from-region (beg end)
+  "Add each arXiv identifier between BEG and END to the article library."
+  (interactive "r")
+  (unless (use-region-p)
+    (user-error "Select a region containing arXiv identifiers first"))
+  (let ((text (buffer-substring-no-properties beg end))
+        ids
+        (start 0)
+        (regexp "[0-9]\\{4\\}\\.[0-9]\\{5\\}"))
+    (while (string-match regexp text start)
+      (push (match-string 0 text) ids)
+      (setq start (match-end 0)))
+    (unless ids
+      (user-error "No arXiv identifiers found in region"))
+    (make-directory occhima/pdf-articles-dir t)
+    (dolist (id (nreverse ids))
+      (message "Adding arXiv:%s" id)
+      (arxiv-get-pdf-add-bibtex-entry
+       id (car occhima/bibliographies) occhima/pdf-articles-dir)
+      (sleep-for 1))))

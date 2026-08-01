@@ -8,6 +8,18 @@
   (startup-redirect-eln-cache
    (expand-file-name "eln/" occhima/cache-directory)))
 
+;; These upstream files contain optional or dynamically generated references
+;; which Emacs 30's JIT compiler cannot prove are defined.  Elpaca still
+;; byte-compiles them; only their noisy JIT native compilation is skipped.
+(defvar native-comp-jit-compilation-deny-list nil)
+(dolist (library '("combobulate-setup"
+                   "general"
+                   "posframe"
+                   "scihub"
+                   "welcome-dashboard"))
+  (add-to-list 'native-comp-jit-compilation-deny-list
+               (concat "/" (regexp-quote library) "\\.el\\'")))
+
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6
       package-enable-at-startup nil

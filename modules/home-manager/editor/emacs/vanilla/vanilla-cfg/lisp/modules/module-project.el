@@ -12,6 +12,8 @@
      (project-eshell "Eshell"))))
 
 (use-package consult
+  :ensure nil
+  :defer t
   :after project
   :bind
   (("C-c p f" . project-find-file)

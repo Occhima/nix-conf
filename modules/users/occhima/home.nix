@@ -1,6 +1,3 @@
-# occhima — plain Home Manager module. Hosts and the standalone home get it
-# wired through the Den aspect in modules/den/aspects/users/occhima.nix; the
-# module itself is Den-free and usable on its own.
 { config, ... }:
 let
   hm = config.flake.modules.homeManager;
@@ -35,7 +32,7 @@ in
 
     modules.desktop.apps.flatpak.packages = [
       "com.github.tchx84.Flatseal"
-      "com.github.flxzt.rnote"
+      # "com.github.flxzt.rnote"
     ];
   };
 }

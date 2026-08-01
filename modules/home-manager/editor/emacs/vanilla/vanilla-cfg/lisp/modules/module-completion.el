@@ -12,8 +12,12 @@
               ("C-j" . vertico-next)
               ("C-k" . vertico-previous))
   :init
-  (vertico-mode 1)
-  (vertico-repeat-mode 1))
+  (vertico-mode 1))
+
+(use-package vertico-repeat
+  :ensure nil
+  :after vertico
+  :hook (minibuffer-setup . vertico-repeat-save))
 
 (use-package orderless
   :init
