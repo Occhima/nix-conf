@@ -15,9 +15,11 @@ in
       ...
     }:
     let
-      # The window manager in use is a fact of the composed configuration,
-      # not a selector option.
-      windowManager = if config.programs.niri.enable or false then "niri" else "hyprland";
+      # A shared Waybar config cannot switch modules after login. Prefer the
+      # existing Hyprland behavior when both sessions are composed; a Niri-only
+      # composition still receives Niri's modules.
+      windowManager =
+        if config.wayland.windowManager.hyprland.enable or false then "hyprland" else "niri";
       uiCfg = { inherit windowManager; };
     in
     {

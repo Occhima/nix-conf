@@ -36,6 +36,15 @@ in
           };
         };
 
+        programs.niri.settings.binds."Mod+S" = {
+          repeat = false;
+          hotkey-overlay.title = "Open Flameshot";
+          action.spawn = [
+            "flameshot"
+            "gui"
+          ];
+        };
+
         wayland.windowManager.hyprland.settings =
           hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
             [

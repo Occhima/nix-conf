@@ -11,11 +11,13 @@ in
         hm.browser-nyxt
         hm.terminal-kitty
         hm.hyprland
-        hm.quickshell-dock
+        # hm.niri
         hm.mako-notifier
         hm.anyrun
         hm.hyprlock
         hm.themes-guernica
+        # hm.themes-guernica-niri
+        hm.themes-guernica-quickshell-ukishima
         # Guernica integrations for the applications this desktop composes.
         hm.themes-guernica-zen
         hm.themes-guernica-spicetify

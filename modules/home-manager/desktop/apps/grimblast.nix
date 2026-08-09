@@ -26,6 +26,28 @@ in
           };
         };
 
+        # Niri owns capture, so this feature keeps the same muscle-memory key
+        # without trying to launch the Hyprland-only grimblast backend.
+        programs.niri.settings.binds = {
+          "Mod+S" = {
+            repeat = false;
+            hotkey-overlay.title = "Capture a region";
+            action.screenshot.show-pointer = false;
+          };
+          "Print" = {
+            repeat = false;
+            action.screenshot.show-pointer = false;
+          };
+          "Ctrl+Print" = {
+            repeat = false;
+            action.screenshot-screen.show-pointer = false;
+          };
+          "Alt+Print" = {
+            repeat = false;
+            action.screenshot-window.show-pointer = false;
+          };
+        };
+
         wayland.windowManager.hyprland.settings =
           hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
             [

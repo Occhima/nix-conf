@@ -12,6 +12,7 @@
       config = {
         services.hyprpaper = {
           enable = true;
+          systemdTarget = "hyprland-session.target";
           settings = {
             ipc = "on";
             splash = false;
@@ -20,6 +21,7 @@
         };
         services.hypridle = {
           enable = true;
+          systemdTarget = "hyprland-session.target";
 
           settings = mkIf config.programs.hyprlock.enable {
             general = {

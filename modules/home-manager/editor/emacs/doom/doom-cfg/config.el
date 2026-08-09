@@ -17,5 +17,5 @@
         ("AUR" "https://aur.archlinux.org/packages?O=0&K=%s"))
       trash-directory "~/.local/share/Trash/files")
 
-(dolist (file '("+ui" "+functions" "+prog" "+org" "+academic" "+apps" "+ai"))
+(dolist (file '("+ui" "+functions" "+prog" "+org" "+academic" "+apps" "+ai" "+casual"))
   (load! (concat "elisp/" file)))

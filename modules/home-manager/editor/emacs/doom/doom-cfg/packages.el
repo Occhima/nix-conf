@@ -9,6 +9,7 @@
 (package! biome)
 (package! blamer)
 (package! calibredb :recipe (:host github :repo "chenyanming/calibredb.el"))
+(package! casual)
 (package! claude-code
   :recipe (:host github
            :repo "stevemolitor/claude-code.el"
@@ -18,6 +19,10 @@
 (package! llama)
 (package! combobulate :recipe (:host github :repo "mickeynp/combobulate"))
 (package! corg :recipe (:host github :repo "isamert/corg.el"))
+(package! consult-gh)
+(package! consult-omni
+  :recipe (:host github :repo "armindarvish/consult-omni"
+           :files (:defaults "sources/*.el")))
 (package! devdocs)
 (package! eat :built-in 'prefer)
 (package! eldoc-box)

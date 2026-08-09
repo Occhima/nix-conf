@@ -22,6 +22,7 @@
 (require 'module-theme-modeline)
 (require 'module-dashboard)
 (require 'module-dired)
+(require 'module-casual)
 (require 'module-org)
 (require 'module-org-babel)
 (require 'module-academic)

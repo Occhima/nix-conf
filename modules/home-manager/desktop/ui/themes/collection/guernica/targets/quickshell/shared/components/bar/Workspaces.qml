@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
+import Quickshell.WindowManager
 import "root:/data" as Data
 
 Row {
@@ -12,9 +13,20 @@ Row {
     property var screen: null
 
     readonly property int workspacesPerMonitor: 9
+    readonly property bool usingNiri: Boolean(Quickshell.env("NIRI_SOCKET"))
     readonly property var monitor: screen ? Hyprland.monitorFor(screen) : null
+    readonly property var niriProjection: usingNiri && screen
+        ? WindowManager.screenProjection(screen)
+        : null
 
     readonly property var monitorWorkspaces: {
+        if (usingNiri) {
+            const arr = niriProjection
+                ? [...niriProjection.windowsets].filter(ws => ws.shouldDisplay)
+                : []
+            arr.sort((a, b) => (a.coordinates[1] ?? 0) - (b.coordinates[1] ?? 0))
+            return arr
+        }
         if (!monitor) return []
         const arr = []
         for (const ws of Hyprland.workspaces.values)
@@ -24,7 +36,7 @@ Row {
     }
 
     Repeater {
-        model: root.workspacesPerMonitor
+        model: root.usingNiri ? root.monitorWorkspaces.length : root.workspacesPerMonitor
 
         Rectangle {
             required property int index
@@ -33,7 +45,9 @@ Row {
             readonly property var workspace: root.monitorWorkspaces[index] ?? null
 
             readonly property bool active: workspace?.active ?? false
-            readonly property bool occupied: (workspace?.toplevels?.values?.length ?? 0) > 0
+            readonly property bool occupied: root.usingNiri
+                ? index < root.monitorWorkspaces.length - 1
+                : (workspace?.toplevels?.values?.length ?? 0) > 0
 
             width: active ? 18 : 6
             height: 6
@@ -50,7 +64,13 @@ Row {
             MouseArea {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
-                onClicked: Hyprland.dispatch("split-workspace " + slot)
+                onClicked: {
+                    if (root.usingNiri) {
+                        if (workspace?.canActivate) workspace.activate()
+                    } else {
+                        Hyprland.dispatch("split-workspace " + slot)
+                    }
+                }
             }
         }
     }

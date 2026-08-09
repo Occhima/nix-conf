@@ -1,4 +1,4 @@
-{ ... }: {
+{
   nixpkgs.allowedUnfree = [
     "nvidia-x11"
     "nvidia-settings"

@@ -1,16 +1,34 @@
-# Guernica integration for niri. Import this module (together with the plain
-# Requires `themes-guernica` in the same composition (homeManager.desktop provides it).
-# `niri` module) to apply Guernica styling to niri; the plain niri module no
-# longer carries any theme configuration.
-{ inputs, ... }: {
-  flake.modules.homeManager.themes-guernica-niri = {
-    imports = [
-      inputs.niri.homeModules.stylix
-    ];
-    stylix.targets.niri.enable = true;
+# Guernica integration for Niri. The plain compositor aspect stays reusable;
+# importing this target adds the rice and its wallpaper service.
+{ inputs, ... }:
+{
+  flake.modules.homeManager.themes-guernica-niri =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    {
+      imports = [ inputs.niri.homeModules.stylix ];
+      stylix.targets.niri.enable = true;
 
-    programs.niri = {
-      settings = {
+      home.packages = [ pkgs.swaybg ];
+
+      systemd.user.services.niri-wallpaper = {
+        Unit = {
+          Description = "Guernica wallpaper for Niri";
+          After = [ "niri.service" ];
+          PartOf = [ "niri.service" ];
+        };
+        Service = {
+          ExecStart = "${lib.getExe pkgs.swaybg} --mode fill --image ${config.stylix.image}";
+          Restart = "on-failure";
+        };
+        Install.WantedBy = [ "niri.service" ];
+      };
+
+      programs.niri.settings = {
         overview = {
           workspace-shadow.enable = false;
           backdrop-color = "transparent";
@@ -19,6 +37,12 @@
           focus-ring.enable = false;
           shadow = {
             enable = true;
+            softness = 30;
+            spread = 5;
+            offset = {
+              x = 0;
+              y = 5;
+            };
           };
           preset-column-widths = [
             { proportion = 0.25; }
@@ -45,8 +69,17 @@
         };
 
         layer-rules = [ ];
-        window-rules = [ ];
+        window-rules = [
+          {
+            geometry-corner-radius = {
+              top-left = 5.0;
+              top-right = 5.0;
+              bottom-left = 5.0;
+              bottom-right = 5.0;
+            };
+            clip-to-geometry = true;
+          }
+        ];
       };
     };
-  };
 }

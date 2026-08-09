@@ -14,6 +14,12 @@
       };
       home.sessionVariables.TERMINAL = "kitty";
       modules.desktop.terminal.active = "kitty";
+
+      programs.niri.settings.binds."Mod+Q" = {
+        repeat = false;
+        hotkey-overlay.title = "Open Kitty";
+        action.spawn = "kitty";
+      };
     };
   };
 }

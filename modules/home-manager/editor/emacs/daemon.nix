@@ -14,6 +14,14 @@ in
       startWithUserSession = "graphical";
     };
 
+    programs.niri.settings.binds."Mod+E" = {
+      hotkey-overlay.title = "Open Emacs client";
+      action.spawn = [
+        "emacsclient"
+        "-c"
+      ];
+    };
+
     wayland.windowManager.hyprland.settings =
       hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
         [

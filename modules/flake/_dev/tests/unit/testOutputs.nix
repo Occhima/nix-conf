@@ -23,6 +23,7 @@ let
   isDrvPath = p: lib.isString (toString p) && lib.hasSuffix ".drv" (toString p);
   hostConfig = h: self.nixosConfigurations.${h}.config;
   home = self.homeConfigurations.occhima.config;
+  niriBinds = home.programs.niri.settings.binds;
 in
 {
   # ── outputs evaluate ─────────────────────────────────────────────────────
@@ -86,11 +87,75 @@ in
     expected = true;
   };
 
+  "niri is an alternate session on every physical workstation" = {
+    expr = lib.all (host: (hostConfig host).programs.niri.enable) [
+      "aerodynamic"
+      "beyond"
+      "steammachine"
+    ];
+    expected = true;
+  };
+
+  "niri feature modules own their application bindings" = {
+    expr = lib.all (key: builtins.hasAttr key niriBinds) [
+      "Mod+Q"
+      "Mod+Space"
+      "Mod+E"
+      "Mod+L"
+      "Mod+S"
+      "Mod+W"
+    ];
+    expected = true;
+  };
+
+  "the Guernica island owns its compositor bindings" = {
+    expr = lib.all (key: builtins.hasAttr key niriBinds) [
+      "Mod+Ctrl+Space"
+      "Mod+Ctrl+M"
+      "Mod+Ctrl+N"
+      "Mod+Ctrl+I"
+      "Mod+Ctrl+P"
+      "Mod+Ctrl+Escape"
+    ];
+    expected = true;
+  };
+
+  "quickshell runtime and Guernica source stay decoupled" = {
+    expr =
+      home.programs.quickshell.enable
+      && home.programs.quickshell.activeConfig == "guernica-ukishima"
+      && builtins.attrNames home.programs.quickshell.configs == [ "guernica-ukishima" ];
+    expected = true;
+  };
+
+  "niri settings serialize to a complete config" = {
+    expr =
+      lib.isString home.programs.niri.finalConfig
+      && lib.hasInfix "focus-workspace 1" home.programs.niri.finalConfig
+      && lib.hasInfix ''spawn "anyrun"'' home.programs.niri.finalConfig;
+    expected = true;
+  };
+
+  "compositor daemons stay scoped to their own sessions" = {
+    expr =
+      home.services.hyprpaper.systemdTarget == "hyprland-session.target"
+      && home.services.hypridle.systemdTarget == "hyprland-session.target";
+    expected = true;
+  };
+
+  "niri reuses the existing locker stack" = {
+    expr = home.programs.hyprlock.enable && !home.programs.swaylock.enable;
+    expected = true;
+  };
+
   "feature modules are exported through flake.modules" = {
     expr =
       self.modules.nixos ? workstation
       && self.modules.nixos ? gaming-workstation
-      && self.modules.homeManager ? home-base;
+      && self.modules.homeManager ? home-base
+      && self.modules.homeManager ? quickshell-runtime
+      && self.modules.homeManager ? themes-guernica-quickshell-base
+      && self.modules.homeManager ? themes-guernica-quickshell-ukishima;
     expected = true;
   };
 

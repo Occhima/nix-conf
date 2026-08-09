@@ -20,6 +20,26 @@ in
         cycle = true;
       };
 
+      programs.niri.settings.binds = {
+        "Mod+Space" = {
+          repeat = false;
+          hotkey-overlay.title = "Open Rofi";
+          action.spawn = [
+            "rofi"
+            "-show"
+            "drun"
+          ];
+        };
+        "Mod+B".action.spawn = "rofi-bluetooth";
+        "Mod+P".action.spawn = [
+          "rofi"
+          "-show"
+          "power-menu"
+          "-modi"
+          "power-menu:rofi-power-menu"
+        ];
+      };
+
       wayland.windowManager.hyprland.settings =
         hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
           (

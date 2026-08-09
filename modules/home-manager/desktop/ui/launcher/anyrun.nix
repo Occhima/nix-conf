@@ -78,6 +78,12 @@ in
         '';
       };
 
+      programs.niri.settings.binds."Mod+Space" = {
+        repeat = false;
+        hotkey-overlay.title = "Open Anyrun";
+        action.spawn = "anyrun";
+      };
+
       wayland.windowManager.hyprland.settings =
         hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
           [

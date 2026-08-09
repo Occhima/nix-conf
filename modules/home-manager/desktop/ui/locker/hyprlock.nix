@@ -15,6 +15,12 @@ in
       };
     };
 
+    programs.niri.settings.binds."Mod+L" = {
+      repeat = false;
+      hotkey-overlay.title = "Lock session";
+      action.spawn = "hyprlock";
+    };
+
     wayland.windowManager.hyprland.settings =
       hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
         [

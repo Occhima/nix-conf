@@ -1,102 +1,105 @@
 {
   flake.modules.homeManager.niri =
     {
-      config,
       lib,
-      pkgs,
       ...
     }:
     let
-      inherit (lib) mkIf mkMerge;
-      desktopCfg = config.modules.desktop;
-
-      a = config.lib.niri.actions;
-      spawn = a.spawn;
-
-      termBin = desktopCfg.terminal.active;
+      workspaceNumbers = lib.range 1 9;
+      focusWorkspaces = lib.listToAttrs (
+        map (number: {
+          name = "Mod+${toString number}";
+          value.action.focus-workspace = number;
+        }) workspaceNumbers
+      );
+      moveToWorkspaces = lib.listToAttrs (
+        map (number: {
+          name = "Mod+Shift+${toString number}";
+          value.action.move-column-to-workspace = [
+            { focus = false; }
+            number
+          ];
+        }) workspaceNumbers
+      );
     in
     {
-      programs.niri.settings.binds =
-        with a;
-        mkMerge [
-          {
-            "Mod+Return".action = spawn termBin;
+      # This aspect owns compositor mechanics only. Applications add their
+      # bindings from their own dendritic modules.
+      programs.niri.settings.binds = {
+        "Mod+K" = {
+          repeat = false;
+          action.close-window = [ ];
+        };
+        "Mod+Shift+M" = {
+          repeat = false;
+          action.quit.skip-confirmation = true;
+        };
+        "Mod+Shift+R" = {
+          repeat = false;
+          action.load-config-file = [ ];
+        };
+        "Mod+V".action.toggle-window-floating = [ ];
+        "Mod+F".action.fullscreen-window = [ ];
+        "Mod+O" = {
+          repeat = false;
+          action.toggle-overview = [ ];
+        };
+        "Mod+Shift+Slash" = {
+          repeat = false;
+          action.show-hotkey-overlay = [ ];
+        };
 
-            # Window management
-            "Mod+Q".action = close-window; # Hypr: killactive
-            "Mod+V".action = toggle-window-floating; # Hypr: togglefloating
-            "Mod+J".action = toggle-column-tabbed-display; # Hypr: togglesplit-ish
+        "Mod+Left".action.focus-column-left = [ ];
+        "Mod+Right".action.focus-column-right = [ ];
+        "Mod+Up".action.focus-window-up = [ ];
+        "Mod+Down".action.focus-window-down = [ ];
+        "Mod+Ctrl+Left".action.move-column-left = [ ];
+        "Mod+Ctrl+Right".action.move-column-right = [ ];
+        "Mod+Ctrl+Up".action.move-window-up = [ ];
+        "Mod+Ctrl+Down".action.move-window-down = [ ];
 
-            # Focus movement (columns/workspaces)
-            "Mod+Left".action = focus-column-left;
-            "Mod+Right".action = focus-column-right;
-            "Mod+Up".action = focus-workspace-up;
-            "Mod+Down".action = focus-workspace-down;
+        "Mod+Shift+Left".action.focus-monitor-left = [ ];
+        "Mod+Shift+Right".action.focus-monitor-right = [ ];
+        "Mod+Shift+Up".action.focus-monitor-up = [ ];
+        "Mod+Shift+Down".action.focus-monitor-down = [ ];
+        "Mod+Ctrl+Shift+Left".action.move-column-to-monitor-left = [ ];
+        "Mod+Ctrl+Shift+Right".action.move-column-to-monitor-right = [ ];
+        "Mod+Ctrl+Shift+Up".action.move-column-to-monitor-up = [ ];
+        "Mod+Ctrl+Shift+Down".action.move-column-to-monitor-down = [ ];
 
-            # Column / window sizing tweaks similar to your example set
-            "Mod+Minus".action = set-column-width "-10%";
-            "Mod+Plus".action = set-column-width "+10%";
-            "Mod+Shift+Minus".action = set-window-height "-10%";
-            "Mod+Shift+Plus".action = set-window-height "+10%";
+        "Mod+BracketLeft".action.focus-workspace-up = [ ];
+        "Mod+BracketRight".action.focus-workspace-down = [ ];
+        "Mod+WheelScrollUp" = {
+          cooldown-ms = 150;
+          action.focus-workspace-up = [ ];
+        };
+        "Mod+WheelScrollDown" = {
+          cooldown-ms = 150;
+          action.focus-workspace-down = [ ];
+        };
+        "Mod+D".action.focus-monitor-next = [ ];
+        "Mod+Shift+D".action.move-column-to-monitor-next = [ ];
 
-            # Column / workspace moves
-            "Mod+Shift+H".action = move-column-left;
-            "Mod+Shift+L".action = move-column-right;
-            "Mod+Shift+J".action = move-column-to-workspace-down;
-            "Mod+Shift+K".action = move-column-to-workspace-up;
-
-            # Misc quality-of-life
-            "Mod+C".action = center-visible-columns;
-            "Mod+Tab".action = switch-focus-between-floating-and-tiling;
-
-            # Example: set fixed column widths
-            "Mod+1".action = set-column-width "25%";
-            "Mod+2".action = set-column-width "50%";
-            "Mod+3".action = set-column-width "75%";
-            "Mod+4".action = set-column-width "100%";
-          }
-
-          # --- launcher: rofi ---
-          (mkIf config.programs.rofi.enable {
-            "Mod+Space".action = spawn "${pkgs.rofi}/bin/rofi" [
-              "-show"
-              "drun"
-            ];
-            "Mod+B".action = spawn "rofi-bluetooth";
-            "Mod+P".action = spawn [
-              "rofi"
-              "-show"
-              "power-menu"
-              "-modi"
-              "power-menu:rofi-power-menu"
-            ];
-            # clipboard menu (only when your service is enabled)
-            "Mod+K".action = mkIf config.modules.services.clipboard.enable (
-              spawn "clipcat-menu" [
-                "--rofi-menu-length"
-                "10"
-              ]
-            );
-          })
-
-          # --- launcher: anyrun ---
-          (mkIf config.programs.anyrun.enable {
-            "Mod+Space".action = spawn "anyrun";
-          })
-
-          # --- optional apps ---
-          (mkIf desktopCfg.apps.flameshot.enable {
-            "Mod+S".action = spawn "flameshot" [ "gui" ];
-          })
-          (mkIf desktopCfg.apps.wlogout.enable {
-            "Mod+W".action = spawn "wlogout";
-          })
-          (mkIf config.programs.hyprlock.enable {
-            "Mod+L".action = spawn "hyprlock";
-          })
-          (mkIf (config.modules.editor.emacs.enable && config.modules.editor.emacs.service) {
-            "Mod+E".action = spawn "emacsclient" [ "-c" ];
-          })
-        ];
+        "Mod+T".action.toggle-column-tabbed-display = [ ];
+        "Mod+Comma".action.consume-window-into-column = [ ];
+        "Mod+Period".action.expel-window-from-column = [ ];
+        "Mod+R".action.switch-preset-column-width = [ ];
+        "Mod+Minus".action.set-column-width = "-10%";
+        "Mod+Equal".action.set-column-width = "+10%";
+        "Mod+Shift+Minus".action.set-window-height = "-10%";
+        "Mod+Shift+Equal".action.set-window-height = "+10%";
+        "Mod+C" = {
+          repeat = false;
+          hotkey-overlay.title = "Pick and copy a color";
+          action.spawn-sh = ''
+            color="$(niri msg pick-color | sed -n 's/^Hex: //p')"
+            [ -n "$color" ] && printf '%s' "$color" | wl-copy
+          '';
+        };
+        "Mod+Ctrl+C".action.center-visible-columns = [ ];
+        "Mod+Tab".action.switch-focus-between-floating-and-tiling = [ ];
+      }
+      // focusWorkspaces
+      // moveToWorkspaces;
     };
 }
