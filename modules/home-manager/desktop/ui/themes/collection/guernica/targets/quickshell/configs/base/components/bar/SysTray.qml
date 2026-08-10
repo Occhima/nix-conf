@@ -1,0 +1,1 @@
+../../../../shared/components/bar/SysTray.qml

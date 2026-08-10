@@ -11,24 +11,24 @@
         +mu4e-gmail-accounts '(("Gmail" . "/gmail")))
 
   (set-email-account! "Gmail"
-    '((mu4e-sent-folder . "/gmail/sent items")
-      (mu4e-drafts-folder . "/gmail/drafts")
-      (mu4e-trash-folder . "/gmail/trash")
-      (mu4e-refile-folder . "/gmail/Inbox")
-      (smtpmail-smtp-user . "marcoocchialini2@gmail.com")
-      (user-mail-address . "marcoocchialini2@gmail.com")
-      (mu4e-compose-signature . "---\nAtte,\nMarco Occhialini"))
-    t)
+                      '((mu4e-sent-folder . "/gmail/sent items")
+                        (mu4e-drafts-folder . "/gmail/drafts")
+                        (mu4e-trash-folder . "/gmail/trash")
+                        (mu4e-refile-folder . "/gmail/Inbox")
+                        (smtpmail-smtp-user . "marcoocchialini2@gmail.com")
+                        (user-mail-address . "marcoocchialini2@gmail.com")
+                        (mu4e-compose-signature . "---\nAtte,\nMarco Occhialini"))
+                      t)
 
   (set-email-account! "Hotmail"
-    '((mu4e-sent-folder . "/hotmail/sent items")
-      (mu4e-drafts-folder . "/hotmail/Drafts")
-      (mu4e-trash-folder . "/hotmail/trash")
-      (mu4e-refile-folder . "/hotmail/Inbox")
-      (smtpmail-smtp-user . "marcoocchialini@hotmail.com")
-      (user-mail-address . "marcoocchialini@hotmail.com")
-      (mu4e-compose-signature . "---\nAtte,\nMarco Occhialini"))
-    t))
+                      '((mu4e-sent-folder . "/hotmail/sent items")
+                        (mu4e-drafts-folder . "/hotmail/Drafts")
+                        (mu4e-trash-folder . "/hotmail/trash")
+                        (mu4e-refile-folder . "/hotmail/Inbox")
+                        (smtpmail-smtp-user . "marcoocchialini@hotmail.com")
+                        (user-mail-address . "marcoocchialini@hotmail.com")
+                        (mu4e-compose-signature . "---\nAtte,\nMarco Occhialini"))
+                      t))
 
 (after! org-gcal
   (setq org-gcal-client-id (+pass-get-secret "google/agenda/client_id")
@@ -98,6 +98,17 @@
   :config
   (require 'consult-gh-embark)
   (consult-gh-enable-default-keybindings))
+
+(use-package! consult-gh-embark
+  :after consult-gh
+  :config
+  (consult-gh-embark-mode +1))
+
+(use-package! consult-gh-forge
+  :after consult-gh
+  :config
+  (consult-gh-forge-mode +1))
+
 
 (use-package! consult-omni
   :commands (consult-omni-multi consult-omni-multi-static)

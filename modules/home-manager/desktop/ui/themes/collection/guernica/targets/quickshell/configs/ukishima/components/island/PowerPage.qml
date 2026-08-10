@@ -1,144 +1,158 @@
 import QtQuick
-import QtQuick.Layouts
 import Quickshell
 
-import "root:/components/island" as Island
-import "root:/components/shared" as Shared
 import "root:/data" as Data
-import "root:/services" as Services
 
 Item {
     id: root
 
-    function run(command): void {
+    property int hoveredIndex: -1
+
+    readonly property var actions: [
+        {
+            label: "Lock",
+            icon: "system-lock-screen-symbolic",
+            confirm: false,
+            command: ["qs-lock"]
+        },
+        {
+            label: "Log out",
+            icon: "system-log-out-symbolic",
+            confirm: true,
+            command: ["qs-logout"]
+        },
+        {
+            label: "Sleep",
+            icon: "weather-clear-night-symbolic",
+            confirm: false,
+            command: ["systemctl", "suspend"]
+        },
+        {
+            label: "Restart",
+            icon: "system-reboot-symbolic",
+            confirm: true,
+            command: ["systemctl", "reboot"]
+        },
+        {
+            label: "Shutdown",
+            icon: "system-shutdown-symbolic",
+            confirm: true,
+            command: ["systemctl", "poweroff"]
+        }
+    ]
+
+    function run(action): void {
         Data.Runtime.closeAll()
-        Quickshell.execDetached(command)
+        Quickshell.execDetached(action.command)
     }
 
-    ColumnLayout {
-        anchors.fill: parent
-        spacing: Data.Settings.spacingMd
+    Row {
+        id: tiles
 
-        Shared.CardFrame {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 86
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        spacing: 8
 
-            RowLayout {
-                anchors.fill: parent
-                anchors.margins: Data.Settings.spacingLg
-                spacing: Data.Settings.spacingLg
+        Repeater {
+            model: root.actions
+
+            delegate: Row {
+                id: cell
+
+                required property int index
+                required property var modelData
+                spacing: 8
 
                 Rectangle {
-                    Layout.preferredWidth: 48
-                    Layout.preferredHeight: 48
-                    radius: 24
-                    color: Qt.alpha(Data.Settings.accentColor, 0.16)
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: cell.index === 3
+                    width: visible ? 1 : 0
+                    height: 26
+                    color: Data.Settings.hairline
+                }
 
-                    Text {
+                Rectangle {
+                    id: tile
+
+                    width: 46
+                    height: 46
+                    radius: 13
+                    color: tileMouse.containsMouse
+                        ? Data.Settings.bgLighter
+                        : "transparent"
+                    border.width: 1
+                    border.color: tileMouse.containsMouse
+                        ? (cell.modelData.confirm
+                            ? Qt.alpha(Data.Settings.errorColor, 0.42)
+                            : Data.Settings.borderHover)
+                        : Data.Settings.borderSubtle
+
+                    Behavior on color {
+                        ColorAnimation { duration: Data.Settings.animFast }
+                    }
+
+                    Rectangle {
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        height: tileMouse.pressed && cell.modelData.confirm
+                            ? parent.height
+                            : 0
+                        radius: parent.radius
+                        color: Qt.alpha(Data.Settings.errorColor, 0.16)
+
+                        Behavior on height {
+                            NumberAnimation {
+                                duration: tileMouse.pressed ? 900 : 180
+                                easing.type: Easing.InOutQuad
+                            }
+                        }
+                    }
+
+                    Image {
                         anchors.centerIn: parent
-                        text: Services.SystemInfo.user.slice(0, 1).toUpperCase()
-                        color: Data.Settings.fgColor
-                        font.pixelSize: Data.Settings.fontXl
-                        font.weight: Font.Bold
-                    }
-                }
-
-                ColumnLayout {
-                    Layout.fillWidth: true
-                    spacing: 2
-
-                    Text {
-                        text: Services.SystemInfo.user + " on " + Services.SystemInfo.wm
-                        color: Data.Settings.fgColor
-                        font.pixelSize: Data.Settings.fontLg
-                        font.weight: Font.DemiBold
+                        width: 20
+                        height: 20
+                        sourceSize: Qt.size(width, height)
+                        source: Quickshell.iconPath(cell.modelData.icon)
+                        opacity: tileMouse.containsMouse ? 1 : 0.68
                     }
 
-                    Text {
-                        text: Services.SystemInfo.osPrettyName + " · up " + Services.SystemInfo.uptime
-                        color: Data.Settings.fgDim
-                        font.pixelSize: Data.Settings.fontSm
-                    }
-                }
+                    MouseArea {
+                        id: tileMouse
 
-                Text {
-                    visible: Services.UPower.hasBattery
-                    text: Math.round(Services.UPower.percentage) + "%"
-                    color: Services.UPower.charging
-                        ? Data.Settings.successColor
-                        : Data.Settings.fgColor
-                    font.pixelSize: Data.Settings.fontLg
-                    font.weight: Font.Bold
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        pressAndHoldInterval: 900
+                        onContainsMouseChanged: {
+                            if (containsMouse) root.hoveredIndex = cell.index
+                            else if (root.hoveredIndex === cell.index) root.hoveredIndex = -1
+                        }
+                        onClicked: {
+                            if (!cell.modelData.confirm) root.run(cell.modelData)
+                        }
+                        onPressAndHold: {
+                            if (cell.modelData.confirm) root.run(cell.modelData)
+                        }
+                    }
                 }
             }
         }
+    }
 
-        GridLayout {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            columns: 3
-            columnSpacing: Data.Settings.spacingMd
-            rowSpacing: Data.Settings.spacingMd
-
-            Island.ActionButton {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                label: "Lock"
-                detail: "Secure this session"
-                icon: "system-lock-screen-symbolic"
-                accent: Data.Settings.blueColor
-                onTriggered: root.run(["qs-lock"])
-            }
-
-            Island.ActionButton {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                label: "Suspend"
-                detail: "Sleep until resumed"
-                icon: "weather-clear-night-symbolic"
-                accent: Data.Settings.purpleColor
-                onTriggered: root.run(["systemctl", "suspend"])
-            }
-
-            Island.ActionButton {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                label: "Log out"
-                detail: "End the current session"
-                icon: "system-log-out-symbolic"
-                accent: Data.Settings.warningColor
-                onTriggered: root.run(["qs-logout"])
-            }
-
-            Island.ActionButton {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                label: "Reboot"
-                detail: "Restart the machine"
-                icon: "system-reboot-symbolic"
-                accent: Data.Settings.accentColor
-                onTriggered: root.run(["systemctl", "reboot"])
-            }
-
-            Island.ActionButton {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                label: "Power off"
-                detail: "Shut the machine down"
-                icon: "system-shutdown-symbolic"
-                accent: Data.Settings.errorColor
-                onTriggered: root.run(["systemctl", "poweroff"])
-            }
-
-            Island.ActionButton {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                label: "Close"
-                detail: "Collapse the island"
-                icon: "window-close-symbolic"
-                accent: Data.Settings.fgDim
-                onTriggered: Data.Runtime.closeAll()
-            }
-        }
+    Text {
+        anchors.top: tiles.bottom
+        anchors.topMargin: 8
+        anchors.horizontalCenter: parent.horizontalCenter
+        text: root.hoveredIndex < 0
+            ? ""
+            : root.actions[root.hoveredIndex].label
+                + (root.actions[root.hoveredIndex].confirm ? " — hold" : "")
+        color: root.hoveredIndex >= 0 && root.actions[root.hoveredIndex].confirm
+            ? Data.Settings.errorColor
+            : Data.Settings.fgDim
+        font.pixelSize: Data.Settings.fontSm
+        font.weight: Font.Medium
     }
 }

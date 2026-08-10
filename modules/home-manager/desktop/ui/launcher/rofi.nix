@@ -6,22 +6,60 @@ in
   flake.modules.homeManager.rofi =
     {
       config,
+      lib,
       pkgs,
       ...
     }:
     {
-      home.packages = [
-        pkgs.rofi-bluetooth
-        pkgs.rofi-power-menu
+      config = lib.mkMerge [
+        {
+          home.packages = [
+            pkgs.rofi-bluetooth
+            pkgs.rofi-power-menu
+          ];
+
+          programs.rofi = {
+            enable = true;
+            cycle = true;
+          };
+
+          wayland.windowManager.hyprland.settings =
+            hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
+              (
+                map
+                  (
+                    bind:
+                    bind
+                    // {
+                      dispatcher = "exec";
+                      lua = hyprlandLib.luaExec bind.argument;
+                    }
+                  )
+                  [
+                    {
+                      key = "SPACE";
+                      argument = "rofi -show drun";
+                    }
+                    {
+                      key = "B";
+                      argument = "rofi-bluetooth";
+                    }
+                    {
+                      key = "P";
+                      argument = "rofi -show power-menu -modi power-menu:rofi-power-menu";
+                    }
+                  ]
+              );
+        }
       ];
+    };
 
-      programs.rofi = {
-        enable = true;
-        cycle = true;
-      };
-
-      programs.niri.settings.binds = {
-        "Mod+Space" = {
+  flake.modules.homeManager.niri =
+    { config, lib, ... }:
+    {
+      programs.niri.settings.binds = lib.mkIf (config.programs.rofi.enable or false) {
+        # Anyrun owns Mod+Space in the shared desktop; keep Rofi available too.
+        "Mod+Shift+Space" = {
           repeat = false;
           hotkey-overlay.title = "Open Rofi";
           action.spawn = [
@@ -39,33 +77,5 @@ in
           "power-menu:rofi-power-menu"
         ];
       };
-
-      wayland.windowManager.hyprland.settings =
-        hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
-          (
-            map
-              (
-                bind:
-                bind
-                // {
-                  dispatcher = "exec";
-                  lua = hyprlandLib.luaExec bind.argument;
-                }
-              )
-              [
-                {
-                  key = "SPACE";
-                  argument = "rofi -show drun";
-                }
-                {
-                  key = "B";
-                  argument = "rofi-bluetooth";
-                }
-                {
-                  key = "P";
-                  argument = "rofi -show power-menu -modi power-menu:rofi-power-menu";
-                }
-              ]
-          );
     };
 }

@@ -27,7 +27,7 @@ in
     nixos.boot-plymouth
     nixos.display-wayland
     nixos.display-hyprland
-    nixos.display-niri
+    # nixos.display-niri
     nixos.display-portals
     nixos.quickshell-support
     nixos.impermanence

@@ -57,8 +57,9 @@ in
 
       themedConfig = pkgs.runCommand "quickshell-guernica-base" { } ''
         mkdir -p "$out"
-        cp -R ${./shared}/. "$out/"
-        cp -R ${./configs/base}/. "$out/"
+        # This source root is directly launchable. Materialize its links to
+        # the neutral shared toolkit before applying the active palette.
+        cp -RL ${./.}/configs/base/. "$out/"
         chmod -R u+w "$out"
         substituteInPlace "$out/data/Settings.qml" \
           --replace-fail '"#141818"' '"#${colors.base00}"' \

@@ -6,6 +6,7 @@ in
   flake.modules.homeManager.anyrun =
     {
       config,
+      lib,
       pkgs,
       ...
     }:
@@ -13,86 +14,94 @@ in
       desktopCfg = config.modules.desktop;
     in
     {
-      programs.anyrun = {
-        enable = true;
+      config = lib.mkMerge [
+        {
+          programs.anyrun = {
+            enable = true;
 
-        config = {
-          hideIcons = false;
-          ignoreExclusiveZones = false;
-          layer = "overlay";
-          hidePluginInfo = false;
-          closeOnClick = true;
-          showResultsImmediately = false;
-          maxEntries = null;
+            config = {
+              hideIcons = false;
+              ignoreExclusiveZones = false;
+              layer = "overlay";
+              hidePluginInfo = false;
+              closeOnClick = true;
+              showResultsImmediately = false;
+              maxEntries = null;
 
-          plugins = [
-            "${pkgs.anyrun}/lib/libapplications.so"
-            "${pkgs.anyrun}/lib/libshell.so"
-            "${pkgs.anyrun}/lib/librink.so"
-            "${pkgs.anyrun}/lib/libwebsearch.so"
-            "${pkgs.anyrun}/lib/librandr.so"
-            "${pkgs.anyrun}/lib/libnix_run.so"
-          ];
-        };
+              plugins = [
+                "${pkgs.anyrun}/lib/libapplications.so"
+                "${pkgs.anyrun}/lib/libshell.so"
+                "${pkgs.anyrun}/lib/librink.so"
+                "${pkgs.anyrun}/lib/libwebsearch.so"
+                "${pkgs.anyrun}/lib/librandr.so"
+                "${pkgs.anyrun}/lib/libnix_run.so"
+              ];
+            };
 
-        extraConfigFiles."websearch.ron".text = ''
-          Config(
-              prefix: "?",
-              engines: [DuckDuckGo]
-          )
-        '';
+            extraConfigFiles."websearch.ron".text = ''
+              Config(
+                  prefix: "?",
+                  engines: [DuckDuckGo]
+              )
+            '';
 
-        extraConfigFiles."applications.ron".text = ''
-          Config(
-            desktop_actions: true,
-            max_entries: 9,
-            terminal: Some(Terminal(
-              command: "${desktopCfg.terminal.active}",
-              args: "-e {}")
-            )
-            )
-        '';
+            extraConfigFiles."applications.ron".text = ''
+              Config(
+                desktop_actions: true,
+                max_entries: 9,
+                terminal: Some(Terminal(
+                  command: "${desktopCfg.terminal.active}",
+                  args: "-e {}")
+                )
+                )
+            '';
 
-        extraConfigFiles."nix-run.ron".text = ''
-          Config(
-            prefix: ":nr ",
-            allow_unfree: false,
-            channel: "nixpkgs-unstable",
-            max_entries: 3,
-          )
-        '';
+            extraConfigFiles."nix-run.ron".text = ''
+              Config(
+                prefix: ":nr ",
+                allow_unfree: false,
+                channel: "nixpkgs-unstable",
+                max_entries: 3,
+              )
+            '';
 
-        extraConfigFiles."randr.ron".text = ''
-          Config(
-            prefix: ":dp",
-            max_entries: 5,
-          )
-        '';
+            extraConfigFiles."randr.ron".text = ''
+              Config(
+                prefix: ":dp",
+                max_entries: 5,
+              )
+            '';
 
-        extraConfigFiles."shell.ron".text = ''
-          Config(
-            prefix: ":sh",
-            shell: None,
-          )
+            extraConfigFiles."shell.ron".text = ''
+              Config(
+                prefix: ":sh",
+                shell: None,
+              )
 
-        '';
-      };
+            '';
+          };
 
-      programs.niri.settings.binds."Mod+Space" = {
+          wayland.windowManager.hyprland.settings =
+            hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
+              [
+                {
+                  key = "SPACE";
+                  dispatcher = "exec";
+                  argument = "anyrun";
+                  lua = hyprlandLib.luaExec "anyrun";
+                }
+              ];
+        }
+      ];
+    };
+
+  flake.modules.homeManager.niri =
+    { config, lib, ... }:
+    {
+      programs.niri.settings.binds."Mod+Space" = lib.mkIf (config.programs.anyrun.enable or false) {
         repeat = false;
         hotkey-overlay.title = "Open Anyrun";
         action.spawn = "anyrun";
       };
-
-      wayland.windowManager.hyprland.settings =
-        hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
-          [
-            {
-              key = "SPACE";
-              dispatcher = "exec";
-              argument = "anyrun";
-              lua = hyprlandLib.luaExec "anyrun";
-            }
-          ];
     };
 }

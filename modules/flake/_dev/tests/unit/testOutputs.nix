@@ -23,7 +23,7 @@ let
   isDrvPath = p: lib.isString (toString p) && lib.hasSuffix ".drv" (toString p);
   hostConfig = h: self.nixosConfigurations.${h}.config;
   home = self.homeConfigurations.occhima.config;
-  niriBinds = home.programs.niri.settings.binds;
+  quickshellSources = ../../../../home-manager/desktop/ui/themes/collection/guernica/targets/quickshell;
 in
 {
   # ── outputs evaluate ─────────────────────────────────────────────────────
@@ -96,27 +96,8 @@ in
     expected = true;
   };
 
-  "niri feature modules own their application bindings" = {
-    expr = lib.all (key: builtins.hasAttr key niriBinds) [
-      "Mod+Q"
-      "Mod+Space"
-      "Mod+E"
-      "Mod+L"
-      "Mod+S"
-      "Mod+W"
-    ];
-    expected = true;
-  };
-
-  "the Guernica island owns its compositor bindings" = {
-    expr = lib.all (key: builtins.hasAttr key niriBinds) [
-      "Mod+Ctrl+Space"
-      "Mod+Ctrl+M"
-      "Mod+Ctrl+N"
-      "Mod+Ctrl+I"
-      "Mod+Ctrl+P"
-      "Mod+Ctrl+Escape"
-    ];
+  "desktop keeps the Home Manager niri config opt-in" = {
+    expr = !(home.programs ? niri);
     expected = true;
   };
 
@@ -128,11 +109,26 @@ in
     expected = true;
   };
 
-  "niri settings serialize to a complete config" = {
-    expr =
-      lib.isString home.programs.niri.finalConfig
-      && lib.hasInfix "focus-workspace 1" home.programs.niri.finalConfig
-      && lib.hasInfix ''spawn "anyrun"'' home.programs.niri.finalConfig;
+  "Guernica quickshell variants are independently launchable source trees" = {
+    expr = lib.all builtins.pathExists [
+      "${quickshellSources}/configs/base/shell.qml"
+      "${quickshellSources}/configs/base/data/Settings.qml"
+      "${quickshellSources}/configs/base/components/bar/Workspaces.qml"
+      "${quickshellSources}/configs/base/modules/Osd.qml"
+      "${quickshellSources}/configs/ukishima/shell.qml"
+      "${quickshellSources}/configs/ukishima/data/Settings.qml"
+      "${quickshellSources}/configs/ukishima/components/bar/Workspaces.qml"
+      "${quickshellSources}/configs/ukishima/components/island/CalendarPage.qml"
+      "${quickshellSources}/configs/ukishima/components/island/PillIcon.qml"
+      "${quickshellSources}/configs/ukishima/components/island/SystemPage.qml"
+      "${quickshellSources}/configs/ukishima/components/dashboard/MediaCard.qml"
+      "${quickshellSources}/configs/ukishima/components/notifications/NotificationCard.qml"
+      "${quickshellSources}/configs/ukishima/components/quicksettings/VolumeSlider.qml"
+      "${quickshellSources}/configs/ukishima/components/shared/CardFrame.qml"
+      "${quickshellSources}/configs/ukishima/modules/Osd.qml"
+      "${quickshellSources}/configs/ukishima/services/Pipewire.qml"
+      "${quickshellSources}/configs/ukishima/services/Weather.qml"
+    ];
     expected = true;
   };
 
@@ -143,7 +139,7 @@ in
     expected = true;
   };
 
-  "niri reuses the existing locker stack" = {
+  "desktop keeps the existing locker stack" = {
     expr = home.programs.hyprlock.enable && !home.programs.swaylock.enable;
     expected = true;
   };

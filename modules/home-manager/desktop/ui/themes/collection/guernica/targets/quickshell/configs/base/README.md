@@ -1,8 +1,14 @@
 # Guernica base variation
 
-This directory contains the QML that is unique to the original Guernica
-Quickshell layout. `base.nix` assembles it with the neutral primitives in
-`../../shared`; it does not import or copy the Ukishima variation.
+This is a complete source config for the original Guernica Quickshell layout:
+
+```console
+quickshell -p modules/home-manager/desktop/ui/themes/collection/guernica/targets/quickshell/configs/base
+```
+
+Repository links expose the neutral primitives from `../../shared` inside
+this config root. `base.nix` materializes those links and applies the active
+palette; it never imports or copies the Ukishima variation.
 
 ## Credits
 

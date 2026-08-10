@@ -14,27 +14,17 @@ Item {
             Layout.fillWidth: true
             spacing: Data.Settings.spacingSm
 
-            ColumnLayout {
-                spacing: 1
-
-                Text {
-                    text: "Notifications"
-                    color: Data.Settings.fgColor
-                    font.pixelSize: Data.Settings.fontLg
-                    font.weight: Font.DemiBold
-                }
-
-                Text {
-                    text: Services.Notifications.count + " saved"
-                    color: Data.Settings.fgDim
-                    font.pixelSize: Data.Settings.fontXs
-                }
+            Text {
+                text: Services.Notifications.count + " saved"
+                color: Data.Settings.fgDim
+                font.pixelSize: Data.Settings.fontXs
+                font.weight: Font.Medium
             }
 
             Item { Layout.fillWidth: true }
 
             HeaderAction {
-                label: Services.Notifications.dnd ? "Resume alerts" : "Do not disturb"
+                label: Services.Notifications.dnd ? "DND on" : "DND off"
                 accent: Services.Notifications.dnd
                     ? Data.Settings.purpleColor
                     : Data.Settings.fgDim
@@ -107,8 +97,8 @@ Item {
         signal triggered()
 
         implicitWidth: actionLabel.implicitWidth + Data.Settings.spacingXl
-        implicitHeight: 30
-        radius: 15
+        implicitHeight: 28
+        radius: 14
         color: actionMouse.containsMouse && enabled
             ? Qt.alpha(accent, 0.18)
             : Data.Settings.bgLight

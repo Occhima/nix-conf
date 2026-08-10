@@ -1,0 +1,1 @@
+../../../../shared/components/shared/SliderControl.qml
