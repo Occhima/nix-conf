@@ -8,7 +8,6 @@ M.main_mod = "SUPER"
 
 M.programs = {
   terminal = os.getenv("HYPR_BACKUP_TERMINAL") or "kitty",
-  launcher = os.getenv("HYPR_BACKUP_LAUNCHER") or "anyrun",
   color_picker = "hyprpicker",
   screenshot = "flameshot gui",
   lock = "hyprlock",

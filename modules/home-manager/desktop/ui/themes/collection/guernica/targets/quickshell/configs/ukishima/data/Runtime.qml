@@ -23,7 +23,11 @@ Singleton {
     IpcHandler {
         target: "guernica-island"
 
-        function dashboard(): void { root.togglePage("system") }
+        function dashboard(): void { root.togglePage("launcher") }
+        function launcher(): void { root.togglePage("launcher") }
+        function clipboard(): void { root.togglePage("clipboard") }
+        function bluetooth(): void { root.togglePage("bluetooth") }
+        function mixer(): void { root.togglePage("mixer") }
         function system(): void { root.togglePage("system") }
         function calendar(): void { root.togglePage("calendar") }
         function media(): void { root.togglePage("media") }

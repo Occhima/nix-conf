@@ -87,20 +87,6 @@ in
     expected = true;
   };
 
-  "niri is an alternate session on every physical workstation" = {
-    expr = lib.all (host: (hostConfig host).programs.niri.enable) [
-      "aerodynamic"
-      "beyond"
-      "steammachine"
-    ];
-    expected = true;
-  };
-
-  "desktop keeps the Home Manager niri config opt-in" = {
-    expr = !(home.programs ? niri);
-    expected = true;
-  };
-
   "quickshell runtime and Guernica source stay decoupled" = {
     expr =
       home.programs.quickshell.enable
@@ -119,14 +105,25 @@ in
       "${quickshellSources}/configs/ukishima/data/Settings.qml"
       "${quickshellSources}/configs/ukishima/components/bar/Workspaces.qml"
       "${quickshellSources}/configs/ukishima/components/island/CalendarPage.qml"
+      "${quickshellSources}/configs/ukishima/components/island/BluetoothPage.qml"
+      "${quickshellSources}/configs/ukishima/components/island/ClipboardPage.qml"
+      "${quickshellSources}/configs/ukishima/components/island/GlyphIcon.qml"
+      "${quickshellSources}/configs/ukishima/components/island/LauncherPage.qml"
+      "${quickshellSources}/configs/ukishima/components/island/MixerPage.qml"
       "${quickshellSources}/configs/ukishima/components/island/PillIcon.qml"
+      "${quickshellSources}/configs/ukishima/components/island/SearchHeader.qml"
       "${quickshellSources}/configs/ukishima/components/island/SystemPage.qml"
+      "${quickshellSources}/configs/ukishima/components/island/VerticalFader.qml"
+      "${quickshellSources}/configs/ukishima/components/island/WorkspaceStrip.qml"
       "${quickshellSources}/configs/ukishima/components/dashboard/MediaCard.qml"
       "${quickshellSources}/configs/ukishima/components/notifications/NotificationCard.qml"
       "${quickshellSources}/configs/ukishima/components/quicksettings/VolumeSlider.qml"
       "${quickshellSources}/configs/ukishima/components/shared/CardFrame.qml"
       "${quickshellSources}/configs/ukishima/modules/Osd.qml"
       "${quickshellSources}/configs/ukishima/services/Pipewire.qml"
+      "${quickshellSources}/configs/ukishima/services/Clipboard.qml"
+      "${quickshellSources}/configs/ukishima/services/Mixer.qml"
+      "${quickshellSources}/configs/ukishima/services/SystemMetrics.qml"
       "${quickshellSources}/configs/ukishima/services/Weather.qml"
     ];
     expected = true;

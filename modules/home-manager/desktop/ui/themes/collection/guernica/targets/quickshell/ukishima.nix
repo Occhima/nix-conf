@@ -2,6 +2,115 @@
 let
   hm = config.flake.modules.homeManager;
   inherit (config.flake.lib.custom) hyprlandLib;
+
+  # Each surface owns its integration next to the QML which implements it.
+  # The same declarative table renders Hyprland and Niri bindings.
+  surfaceBindings = [
+    {
+      key = "SPACE";
+      modifiers = [ "SUPER" ];
+      niriBind = "Mod+Space";
+      member = "launcher";
+      title = "Search applications";
+    }
+    {
+      key = "X";
+      modifiers = [ "SUPER" ];
+      niriBind = "Mod+X";
+      member = "clipboard";
+      title = "Search clipboard history";
+    }
+    {
+      key = "B";
+      modifiers = [
+        "SUPER"
+        "CTRL"
+      ];
+      niriBind = "Mod+Ctrl+B";
+      member = "bluetooth";
+      title = "Open Bluetooth devices";
+    }
+    {
+      key = "M";
+      modifiers = [
+        "SUPER"
+        "CTRL"
+      ];
+      niriBind = "Mod+Ctrl+M";
+      member = "mixer";
+      title = "Open display and audio mixer";
+    }
+    {
+      key = "S";
+      modifiers = [
+        "SUPER"
+        "CTRL"
+      ];
+      niriBind = "Mod+Ctrl+S";
+      member = "system";
+      title = "Open system performance";
+    }
+    {
+      key = "A";
+      modifiers = [
+        "SUPER"
+        "CTRL"
+      ];
+      niriBind = "Mod+Ctrl+A";
+      member = "calendar";
+      title = "Open weather and calendar";
+    }
+    {
+      key = "U";
+      modifiers = [
+        "SUPER"
+        "CTRL"
+      ];
+      niriBind = "Mod+Ctrl+U";
+      member = "media";
+      title = "Open media controls";
+    }
+    {
+      key = "N";
+      modifiers = [
+        "SUPER"
+        "CTRL"
+      ];
+      niriBind = "Mod+Ctrl+N";
+      member = "notifications";
+      title = "Open notifications";
+    }
+    {
+      key = "I";
+      modifiers = [
+        "SUPER"
+        "CTRL"
+      ];
+      niriBind = "Mod+Ctrl+I";
+      member = "network";
+      title = "Open network controls";
+    }
+    {
+      key = "P";
+      modifiers = [
+        "SUPER"
+        "CTRL"
+      ];
+      niriBind = "Mod+Ctrl+P";
+      member = "power";
+      title = "Open power menu";
+    }
+    {
+      key = "ESCAPE";
+      modifiers = [
+        "SUPER"
+        "CTRL"
+      ];
+      niriBind = "Mod+Ctrl+Escape";
+      member = "hide";
+      title = "Close Guernica surfaces";
+    }
+  ];
 in
 {
   flake.modules.homeManager.themes-guernica-quickshell-ukishima =
@@ -52,63 +161,61 @@ in
     {
       imports = [ hm.themes-guernica-quickshell-common ];
 
-      config = lib.mkMerge [
-        {
-          programs.quickshell = {
-            activeConfig = configName;
-            configs.${configName} = themedConfig;
-          };
+      programs.quickshell = {
+        activeConfig = configName;
+        configs.${configName} = themedConfig;
+      };
 
-          wayland.windowManager.hyprland.settings =
-            hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
-              (
-                map
-                  (
-                    binding:
-                    binding
-                    // {
-                      modifiers = [
-                        "SUPER"
-                        "CTRL"
-                      ];
-                      dispatcher = "exec";
-                      argument = ipcCommand binding.member;
-                      lua = hyprlandLib.luaExec (ipcCommand binding.member);
-                    }
-                  )
-                  [
-                    {
-                      key = "SPACE";
-                      member = "dashboard";
-                    }
-                    {
-                      key = "M";
-                      member = "media";
-                    }
-                    {
-                      key = "N";
-                      member = "notifications";
-                    }
-                    {
-                      key = "I";
-                      member = "network";
-                    }
-                    {
-                      key = "P";
-                      member = "power";
-                    }
-                    {
-                      key = "ESCAPE";
-                      member = "hide";
-                    }
-                  ]
-              );
-        }
+      home.packages = with pkgs; [
+        brightnessctl
+        cliphist
+        wl-clipboard
       ];
+
+      systemd.user.services = {
+        guernica-cliphist-text = {
+          Unit = {
+            Description = "Guernica text clipboard history";
+            PartOf = [ "graphical-session.target" ];
+            After = [ "graphical-session.target" ];
+          };
+          Service = {
+            ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${lib.getExe pkgs.cliphist} store";
+            Restart = "on-failure";
+            RestartSec = 1;
+          };
+          Install.WantedBy = [ "graphical-session.target" ];
+        };
+
+        guernica-cliphist-image = {
+          Unit = {
+            Description = "Guernica image clipboard history";
+            PartOf = [ "graphical-session.target" ];
+            After = [ "graphical-session.target" ];
+          };
+          Service = {
+            ExecStart = "${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${lib.getExe pkgs.cliphist} store";
+            Restart = "on-failure";
+            RestartSec = 1;
+          };
+          Install.WantedBy = [ "graphical-session.target" ];
+        };
+      };
+
+      wayland.windowManager.hyprland.settings =
+        hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
+          (
+            map (binding: {
+              inherit (binding) modifiers key;
+              dispatcher = "exec";
+              argument = ipcCommand binding.member;
+              lua = hyprlandLib.luaExec (ipcCommand binding.member);
+            }) surfaceBindings
+          );
     };
 
   flake.modules.homeManager.niri =
-    { config, lib, ... }:
+    { config, ... }:
     let
       configName = "guernica-ukishima";
       ipcTarget = "guernica-island";
@@ -126,39 +233,15 @@ in
     {
       # Ukishima contributes bindings to hm.niri without importing it into
       # the ordinary desktop graph.
-      programs.niri.settings.binds =
-        lib.mkIf ((config.programs.quickshell.activeConfig or null) == configName)
-          {
-            "Mod+Ctrl+Space" = {
-              repeat = false;
-              hotkey-overlay.title = "Toggle Guernica island";
-              action.spawn = ipcArgs "dashboard";
-            };
-            "Mod+Ctrl+M" = {
-              repeat = false;
-              hotkey-overlay.title = "Open island media";
-              action.spawn = ipcArgs "media";
-            };
-            "Mod+Ctrl+N" = {
-              repeat = false;
-              hotkey-overlay.title = "Open island notifications";
-              action.spawn = ipcArgs "notifications";
-            };
-            "Mod+Ctrl+I" = {
-              repeat = false;
-              hotkey-overlay.title = "Open island connectivity";
-              action.spawn = ipcArgs "network";
-            };
-            "Mod+Ctrl+P" = {
-              repeat = false;
-              hotkey-overlay.title = "Open island power menu";
-              action.spawn = ipcArgs "power";
-            };
-            "Mod+Ctrl+Escape" = {
-              repeat = false;
-              hotkey-overlay.title = "Close Guernica island";
-              action.spawn = ipcArgs "hide";
-            };
+      programs.niri.settings.binds = builtins.listToAttrs (
+        map (binding: {
+          name = binding.niriBind;
+          value = {
+            repeat = false;
+            hotkey-overlay.title = binding.title;
+            action.spawn = ipcArgs binding.member;
           };
+        }) surfaceBindings
+      );
     };
 }

@@ -33,35 +33,42 @@ Singleton {
     readonly property color surfaceTop: Qt.alpha(bgLight, 0.97)
     readonly property color surfaceBottom: Qt.alpha(bgColor, 0.97)
 
-    readonly property int rounding: 14
-    readonly property int popupRadius: 22
+    readonly property int rounding: 10
+    readonly property int popupRadius: 15
     readonly property real popupScaleHidden: 0.96
 
     readonly property int islandMargin: 8
-    readonly property int islandRestWidth: 160
-    readonly property int islandRestHeight: 38
-    readonly property int islandHoverHeight: 58
-    readonly property int islandHoverPadding: 20
+    readonly property int islandDockWidth: 754
+    readonly property int islandDockHeight: 50
+    readonly property int islandDockRadius: 14
+    readonly property int islandDockPadding: 17
 
-    readonly property int calendarWidth: 332
-    readonly property int calendarHeight: 348
-    readonly property int mediaWidth: 390
-    readonly property int mediaHeight: 150
-    readonly property int networkWidth: 390
-    readonly property int networkHeight: 318
-    readonly property int notificationsWidth: 390
-    readonly property int notificationsHeight: 366
-    readonly property int systemWidth: 392
-    readonly property int systemHeight: 246
-    readonly property int powerWidth: 330
-    readonly property int powerHeight: 150
+    readonly property int launcherWidth: 430
+    readonly property int launcherHeight: 374
+    readonly property int clipboardWidth: 430
+    readonly property int clipboardHeight: 350
+    readonly property int bluetoothWidth: 420
+    readonly property int bluetoothHeight: 340
+    readonly property int mixerWidth: 420
+    readonly property int mixerHeight: 272
+    readonly property int calendarWidth: 500
+    readonly property int calendarHeight: 280
+    readonly property int mediaWidth: 430
+    readonly property int mediaHeight: 176
+    readonly property int networkWidth: 430
+    readonly property int networkHeight: 330
+    readonly property int notificationsWidth: 430
+    readonly property int notificationsHeight: 400
+    readonly property int systemWidth: 430
+    readonly property int systemHeight: 248
+    readonly property int powerWidth: 370
+    readonly property int powerHeight: 176
 
     readonly property int animFast: 100
     readonly property int animShort: 150
     readonly property int animMedium: 250
-    readonly property int animGlide: 260
-    readonly property int animHoverGrace: 300
-    readonly property int animMorph: 420
+    readonly property int animGlide: 190
+    readonly property int animMorph: 230
 
     readonly property int spacingXs: 4
     readonly property int spacingSm: 8
@@ -70,16 +77,16 @@ Singleton {
     readonly property int spacingXl: 20
     readonly property int spacingXxl: 24
 
-    readonly property int fontXs: 10
-    readonly property int fontSm: 11
-    readonly property int fontBase: 13
-    readonly property int fontLg: 14
-    readonly property int fontXl: 18
-    readonly property int fontXxl: 32
+    readonly property int fontXs: 11
+    readonly property int fontSm: 13
+    readonly property int fontBase: 15
+    readonly property int fontLg: 17
+    readonly property int fontXl: 20
+    readonly property int fontXxl: 34
 
-    readonly property int iconSm: 14
-    readonly property int iconMd: 16
-    readonly property int iconLg: 18
+    readonly property int iconSm: 16
+    readonly property int iconMd: 20
+    readonly property int iconLg: 23
 
     readonly property color notificationSurface: bgLightTranslucent
     readonly property color notificationBorder: borderNormal

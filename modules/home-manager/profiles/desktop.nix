@@ -13,7 +13,6 @@ in
         hm.hyprland
         # hm.niri
         hm.mako-notifier
-        hm.anyrun
         hm.hyprlock
         hm.themes-guernica
         # hm.themes-guernica-niri

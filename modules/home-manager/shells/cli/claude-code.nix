@@ -15,6 +15,12 @@
           };
 
           extraKnownMarketplaces = {
+            academic-skills = {
+              source = {
+                source = "github";
+                repo = "Imbad0202/academic-research-skills";
+              };
+            };
             ponytail = {
               source = {
                 source = "github";
@@ -79,6 +85,7 @@
           };
           enabledPlugins = {
             #"perplexity@perplexity-mcp-server" = true;
+            "academic-research-skills@academic-skills" = true;
             "superpowers@superpowers-marketplace" = true;
             # "document-skills@anthropic-agent-skills" = true;
             # "everything-claude-code@everything-claude-code" = true;

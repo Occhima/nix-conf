@@ -31,10 +31,6 @@ local function bind_core()
   })
 end
 
-local function bind_launcher()
-  hl.bind(mod .. " + SPACE", util.exec(programs.launcher))
-end
-
 local function bind_optional_apps()
   util.when_enabled(features.flameshot, function()
     hl.bind(mod .. " + S", util.exec(programs.screenshot))
@@ -87,7 +83,6 @@ end
 
 function M.setup()
   bind_core()
-  bind_launcher()
   bind_optional_apps()
   bind_gamemode()
 end

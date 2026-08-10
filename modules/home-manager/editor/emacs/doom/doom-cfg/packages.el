@@ -19,7 +19,10 @@
 (package! llama)
 (package! combobulate :recipe (:host github :repo "mickeynp/combobulate"))
 (package! corg :recipe (:host github :repo "isamert/corg.el"))
-(package! consult-gh)
+(package! consult-gh
+  :recipe (:host github
+           :repo "armindarvish/consult-gh"
+           :files ("*.el")))
 (package! consult-omni
   :recipe (:host github :repo "armindarvish/consult-omni"
            :files (:defaults "sources/*.el")))

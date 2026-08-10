@@ -6,9 +6,6 @@
 local M = {}
 
 local layer_rules = {
-  { name = "anyrun-no-blur", match = { namespace = "anyrun" }, blur = false },
-  { name = "anyrun-popup-blur", match = { namespace = "anyrun" }, blur_popups = true },
-  { name = "anyrun-dim", match = { namespace = "anyrun" }, dim_around = true },
   { name = "waybar-no-blur", match = { namespace = "waybar" }, blur = false },
   { name = "quickshell-blur", match = { namespace = "quickshell" }, blur = true },
   { name = "quickshell-popup-blur", match = { namespace = "quickshell" }, blur_popups = true },

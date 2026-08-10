@@ -9,12 +9,12 @@ Item {
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: Data.Settings.spacingMd
+        spacing: 5
 
         RowLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: Data.Settings.spacingXl
+            spacing: 20
 
             Gauge {
                 Layout.fillWidth: true
@@ -24,7 +24,7 @@ Item {
                 primary: Math.round(value * 100) + "%"
                 secondary: Services.SystemUsage.cpuTemp > 0
                     ? Math.round(Services.SystemUsage.cpuTemp) + "°"
-                    : "live"
+                    : "LIVE"
                 accent: Data.Settings.errorColor
             }
 
@@ -35,7 +35,7 @@ Item {
                 value: Services.SystemUsage.memUsage
                 primary: Services.SystemUsage.memUsedGiB.toFixed(1)
                 secondary: "/ " + Services.SystemUsage.memTotalGiB.toFixed(0) + " GB"
-                accent: Data.Settings.accentColor
+                accent: Data.Settings.warmAccent
             }
         }
 
@@ -47,14 +47,15 @@ Item {
 
         RowLayout {
             Layout.fillWidth: true
-            Layout.preferredHeight: 42
+            Layout.preferredHeight: 34
             spacing: 0
 
             Metric {
                 Layout.fillWidth: true
-                label: "GPU"
-                value: Math.round(Services.SystemUsage.gpuUsage * 100) + "%"
-                accent: Data.Settings.warningColor
+                label: "NET"
+                value: "↓" + Services.SystemMetrics.downloadText
+                    + " ↑" + Services.SystemMetrics.uploadText
+                accent: Data.Settings.errorColor
             }
             Divider {}
             Metric {
@@ -66,8 +67,15 @@ Item {
             Divider {}
             Metric {
                 Layout.fillWidth: true
-                label: "UP"
-                value: Services.SystemInfo.uptime
+                label: "SWAP"
+                value: Math.round(Services.SystemMetrics.swapUsage * 100) + "%"
+                accent: Data.Settings.fgColor
+            }
+            Divider {}
+            Metric {
+                Layout.fillWidth: true
+                label: "GPU"
+                value: Math.round(Services.SystemUsage.gpuUsage * 100) + "%"
                 accent: Data.Settings.successColor
             }
         }
@@ -87,55 +95,66 @@ Item {
 
         Canvas {
             id: ring
+
             anchors.centerIn: parent
-            width: Math.min(parent.width, parent.height) - 4
-            height: width
+            width: Math.min(parent.width, parent.height * 1.35)
+            height: Math.min(parent.height, width * 0.78)
 
             onPaint: {
-                const ctx = getContext("2d")
-                const center = width / 2
-                const radius = Math.max(8, center - 7)
-                const start = Math.PI * 0.72
-                const sweep = Math.PI * 1.56
+                const context = getContext("2d")
+                const centerX = width / 2
+                const centerY = height * 0.57
+                const radius = Math.min(width * 0.37, height * 0.48)
+                const start = Math.PI * 0.76
+                const sweep = Math.PI * 1.48
 
-                ctx.reset()
-                ctx.lineWidth = 7
-                ctx.lineCap = "round"
-                ctx.beginPath()
-                ctx.strokeStyle = Data.Settings.bgLighter
-                ctx.arc(center, center, radius, start, start + sweep)
-                ctx.stroke()
+                context.reset()
+                context.lineWidth = 6
+                context.lineCap = "round"
+                context.beginPath()
+                context.strokeStyle = Data.Settings.bgLighter
+                context.arc(centerX, centerY, radius, start, start + sweep)
+                context.stroke()
 
-                ctx.beginPath()
-                ctx.strokeStyle = gauge.accent
-                ctx.arc(center, center, radius, start, start + sweep * Math.max(0, Math.min(1, gauge.value)))
-                ctx.stroke()
+                context.beginPath()
+                context.strokeStyle = gauge.accent
+                context.arc(
+                    centerX,
+                    centerY,
+                    radius,
+                    start,
+                    start + sweep * Math.max(0, Math.min(1, gauge.value))
+                )
+                context.stroke()
             }
         }
 
         Column {
             anchors.centerIn: parent
-            spacing: 1
+            anchors.verticalCenterOffset: 3
+            spacing: 0
 
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: gauge.primary
                 color: Data.Settings.fgColor
-                font.pixelSize: Data.Settings.fontXl
+                font.family: "monospace"
+                font.pixelSize: Data.Settings.fontLg
                 font.weight: Font.Bold
             }
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: gauge.label
                 color: Data.Settings.fgDim
+                font.family: "monospace"
                 font.pixelSize: Data.Settings.fontXs
-                font.capitalization: Font.AllUppercase
-                font.letterSpacing: 1.2
+                font.letterSpacing: 1
             }
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: gauge.secondary
                 color: Data.Settings.fgDim
+                font.family: "monospace"
                 font.pixelSize: Data.Settings.fontXs
             }
         }
@@ -146,29 +165,31 @@ Item {
         required property string value
         required property color accent
 
-        spacing: 2
+        spacing: 1
 
         Text {
             Layout.alignment: Qt.AlignHCenter
             text: label
             color: Data.Settings.fgDim
+            font.family: "monospace"
             font.pixelSize: Data.Settings.fontXs
-            font.capitalization: Font.AllUppercase
-            font.letterSpacing: 1.1
+            font.letterSpacing: 1
         }
         Text {
-            Layout.alignment: Qt.AlignHCenter
+            Layout.fillWidth: true
+            horizontalAlignment: Text.AlignHCenter
             text: value
             color: accent
-            font.pixelSize: Data.Settings.fontBase
-            font.weight: Font.Bold
+            font.family: "monospace"
+            font.pixelSize: Data.Settings.fontXs
+            font.weight: Font.DemiBold
             elide: Text.ElideRight
         }
     }
 
     component Divider: Rectangle {
         Layout.preferredWidth: 1
-        Layout.preferredHeight: 28
+        Layout.preferredHeight: 24
         color: Data.Settings.hairline
     }
 }
