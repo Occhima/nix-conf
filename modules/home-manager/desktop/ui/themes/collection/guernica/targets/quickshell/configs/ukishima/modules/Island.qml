@@ -278,7 +278,7 @@ Scope {
 
                                     Text {
                                         anchors.horizontalCenter: parent.horizontalCenter
-                                        text: Data.Time.time.replace(":", " /")
+                                        text: Data.Time.time
                                         color: Data.Settings.fgColor
                                         font.family: "monospace"
                                         font.pixelSize: Data.Settings.fontBase
@@ -306,14 +306,12 @@ Scope {
 
                             IslandComponents.PillIcon {
                                 glyph: "search"
-                                accent: Data.Settings.errorColor
                                 onTriggered: Data.Runtime.togglePage("launcher")
                             }
 
                             IslandComponents.PillIcon {
                                 glyph: Services.Weather.glyph
                                 text: Services.Weather.temperature
-                                accent: Data.Settings.warmAccent
                                 onTriggered: Data.Runtime.togglePage("calendar")
                             }
 
@@ -325,16 +323,12 @@ Scope {
                             IslandComponents.PillIcon {
                                 glyph: Services.Networking.ethernetConnected ? "ethernet" : "wifi"
                                 selected: Services.Networking.connected
-                                accent: Services.Networking.connected
-                                    ? Data.Settings.successColor
-                                    : Data.Settings.warningColor
                                 onTriggered: Data.Runtime.togglePage("network")
                             }
 
                             IslandComponents.PillIcon {
                                 glyph: "bluetooth"
                                 selected: Services.Bluetooth.connected
-                                accent: Data.Settings.blueColor
                                 onTriggered: Data.Runtime.togglePage("bluetooth")
                             }
 
@@ -343,9 +337,6 @@ Scope {
                                 glyph: "battery"
                                 text: Math.round(Services.UPower.percentage) + "%"
                                 selected: Services.UPower.charging
-                                accent: Services.UPower.charging
-                                    ? Data.Settings.successColor
-                                    : Data.Settings.fgDim
                                 onTriggered: Data.Runtime.togglePage("system")
                             }
 
@@ -353,20 +344,17 @@ Scope {
                                 visible: Data.Settings.notificationsEnabled
                                 glyph: "bell"
                                 unread: Services.Notifications.count > 0
-                                accent: Data.Settings.errorColor
                                 onTriggered: Data.Runtime.togglePage("notifications")
                             }
 
                             IslandComponents.PillIcon {
                                 glyph: "mixer"
                                 selected: Services.Pipewire.muted
-                                accent: Data.Settings.errorColor
                                 onTriggered: Data.Runtime.togglePage("mixer")
                             }
 
                             IslandComponents.PillIcon {
                                 glyph: "monitor"
-                                accent: Data.Settings.errorColor
                                 onTriggered: Data.Runtime.togglePage("system")
                             }
 
@@ -390,7 +378,6 @@ Scope {
 
                             IslandComponents.PillIcon {
                                 glyph: "power"
-                                accent: Data.Settings.errorColor
                                 onTriggered: Data.Runtime.togglePage("power")
                             }
                         }
@@ -404,7 +391,7 @@ Scope {
                         height: 8
                         radius: 4
                         visible: !islandWindow.surfaceOpen
-                        color: Data.Settings.errorColor
+                        color: Data.Settings.fgDim
                     }
 
                     Item {

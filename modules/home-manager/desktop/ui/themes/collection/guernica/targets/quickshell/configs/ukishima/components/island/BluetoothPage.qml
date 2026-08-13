@@ -21,7 +21,7 @@ Item {
             Text {
                 text: Services.Bluetooth.adapter?.discovering ? "Scanning…" : Services.Bluetooth.statusText
                 color: Services.Bluetooth.adapter?.discovering
-                    ? Data.Settings.errorColor
+                    ? Data.Settings.warmAccent
                     : Data.Settings.fgDim
                 font.family: "monospace"
                 font.pixelSize: Data.Settings.fontXs
@@ -44,7 +44,7 @@ Item {
             ActionButton {
                 label: Services.Bluetooth.powered ? "On" : "Off"
                 accent: Services.Bluetooth.powered
-                    ? Data.Settings.errorColor
+                    ? Data.Settings.warmAccent
                     : Data.Settings.fgDim
                 onTriggered: Services.Bluetooth.toggle()
             }
@@ -128,7 +128,7 @@ Item {
                                         ? "Paired · " + deviceRow.modelData.address
                                         : deviceRow.modelData.address
                                 color: deviceRow.connected
-                                    ? Data.Settings.successColor
+                                    ? Data.Settings.fgColor
                                     : Data.Settings.fgDim
                                 font.family: "monospace"
                                 font.pixelSize: Data.Settings.fontXs
@@ -143,7 +143,7 @@ Item {
                                     ? "Join"
                                     : "Pair"
                             accent: deviceRow.connected
-                                ? Data.Settings.errorColor
+                                ? Data.Settings.fgDim
                                 : Data.Settings.warmAccent
                             onTriggered: {
                                 if (deviceRow.connected)

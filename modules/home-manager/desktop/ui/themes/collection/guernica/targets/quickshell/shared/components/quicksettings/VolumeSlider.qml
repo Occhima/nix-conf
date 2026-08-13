@@ -8,7 +8,7 @@ Shared.SliderControl {
     label: "Volume"
     value: Services.Pipewire.sinkReady ? Services.Pipewire.volume : 0
     enabled: Services.Pipewire.sinkReady
-    accentColor: Data.Settings.accentColor
+    accentColor: Data.Settings.warmAccent
     onSliderMoved: newVal => {
         if (Services.Pipewire.sinkReady) Services.Pipewire.setVolume(newVal)
     }

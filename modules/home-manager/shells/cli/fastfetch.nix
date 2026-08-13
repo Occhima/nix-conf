@@ -3,116 +3,66 @@
     config = {
       programs.fastfetch = {
         enable = true;
-        # NOTE: stolen from: https://github.com/Anifyuli/my-nixos/blob/b625848262c59a557492f9a644c4555e510a8a93/home/config/fastfetch.nix
         settings = {
           schema = "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json";
+          logo = {
+            type = "small";
+            padding = {
+              top = 1;
+              right = 4;
+            };
+          };
           display = {
-            separator = " ";
+            separator = "  ";
+            color = {
+              keys = "bright_black";
+              title = "white";
+            };
           };
           modules = [
-            {
-              type = "host";
-              key = "╭─󰌢";
-              keyColor = "green";
-            }
-            {
-              type = "cpu";
-              key = "├─󰻠";
-              keyColor = "green";
-            }
-            {
-              type = "gpu";
-              key = "├─󰍛";
-              keyColor = "green";
-            }
-            {
-              type = "disk";
-              key = "├─";
-              keyColor = "green";
-            }
-            {
-              type = "memory";
-              key = "├─󰑭";
-              keyColor = "green";
-            }
-            {
-              type = "swap";
-              key = "├─󰓡";
-              keyColor = "green";
-            }
-            {
-              type = "display";
-              key = "╰─󰍹";
-              keyColor = "green";
-            }
-
             "break"
-
-            {
-              type = "shell";
-              key = "╭─";
-              keyColor = "yellow";
-            }
-            {
-              type = "terminal";
-              key = "├─";
-              keyColor = "yellow";
-            }
-            {
-              type = "terminalfont";
-              key = "├─";
-              keyColor = "yellow";
-            }
-            {
-              type = "de";
-              key = "├─";
-              keyColor = "yellow";
-            }
-            {
-              type = "wm";
-              key = "├─";
-              keyColor = "yellow";
-            }
-            {
-              type = "theme";
-              key = "├─󰉼";
-              keyColor = "yellow";
-            }
-            {
-              type = "icons";
-              key = "╰─󰀻";
-              keyColor = "yellow";
-            }
-
+            { type = "title"; }
             "break"
-
-            {
-              type = "title";
-              key = "╭─";
-              format = "{1}@{2}";
-              keyColor = "blue";
-            }
             {
               type = "os";
-              key = "├─"; # Just get your distro's logo off nerdfonts.com
-              keyColor = "blue";
+              key = "󱄅 ";
+              format = "{pretty-name}";
             }
             {
               type = "kernel";
-              key = "├─";
-              format = "{1} {2}";
-              keyColor = "blue";
+              key = "󰻠 ";
+              format = "{release}";
+            }
+            {
+              type = "wm";
+              key = "󰖳 ";
+              format = "{pretty-name}";
+            }
+            {
+              type = "shell";
+              key = "󰆍 ";
+              format = "{pretty-name}";
             }
             {
               type = "packages";
-              key = "├─󰏖";
-              keyColor = "blue";
+              key = "󰏖 ";
+              format = "{all}";
             }
             {
               type = "uptime";
-              key = "╰─󰅐";
-              keyColor = "blue";
+              key = "󰅐 ";
             }
+            {
+              type = "memory";
+              key = "󰍛 ";
+              format = "{used} / {total}";
+            }
+            "break"
+            {
+              type = "colors";
+              symbol = "circle";
+            }
+            "break"
           ];
         };
       };

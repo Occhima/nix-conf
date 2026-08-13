@@ -25,7 +25,7 @@ Item {
                 secondary: Services.SystemUsage.cpuTemp > 0
                     ? Math.round(Services.SystemUsage.cpuTemp) + "°"
                     : "LIVE"
-                accent: Data.Settings.errorColor
+                accent: Data.Settings.warmAccent
             }
 
             Gauge {
@@ -55,14 +55,14 @@ Item {
                 label: "NET"
                 value: "↓" + Services.SystemMetrics.downloadText
                     + " ↑" + Services.SystemMetrics.uploadText
-                accent: Data.Settings.errorColor
+                accent: Data.Settings.warmAccent
             }
             Divider {}
             Metric {
                 Layout.fillWidth: true
                 label: "DISK"
                 value: Math.round(Services.SystemUsage.diskUsage * 100) + "%"
-                accent: Data.Settings.accentColor
+                accent: Data.Settings.warmAccent
             }
             Divider {}
             Metric {
@@ -76,7 +76,7 @@ Item {
                 Layout.fillWidth: true
                 label: "GPU"
                 value: Math.round(Services.SystemUsage.gpuUsage * 100) + "%"
-                accent: Data.Settings.successColor
+                accent: Data.Settings.warmAccent
             }
         }
     }

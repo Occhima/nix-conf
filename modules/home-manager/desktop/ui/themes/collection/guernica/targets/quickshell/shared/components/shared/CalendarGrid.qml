@@ -129,7 +129,7 @@ Item {
                     readonly property bool isTodayCell: modelData.current && root.isToday(modelData.day)
 
                     color: isTodayCell
-                        ? (root.interactive ? Data.Settings.accentColor : Qt.alpha(Data.Settings.warningColor, 0.85))
+                        ? (root.interactive ? Data.Settings.warmAccent : Qt.alpha(Data.Settings.warmAccent, 0.85))
                         : "transparent"
 
                     Text {

@@ -8,7 +8,7 @@ Rectangle {
 
     property string glyph: ""
     property string text: ""
-    property color accent: Data.Settings.accentColor
+    property color accent: Data.Settings.fgColor
     property bool selected: false
     property bool unread: false
 
@@ -39,8 +39,9 @@ Rectangle {
                     : iconMouse.containsMouse
                         ? Data.Settings.fgColor
                         : Data.Settings.fgDim
-                strokeWidth: 1.75
-                opacity: root.enabled ? (root.selected ? 1 : 0.76) : 0.28
+                strokeWidth: 2
+                filled: root.selected
+                opacity: root.enabled ? (root.selected ? 1 : 0.7) : 0.28
             }
 
             Rectangle {
@@ -60,6 +61,7 @@ Rectangle {
             visible: root.text.length > 0
             text: root.text
             color: root.selected ? root.accent : Data.Settings.fgDim
+            font.family: "monospace"
             font.pixelSize: Data.Settings.fontSm
             font.weight: Font.DemiBold
         }

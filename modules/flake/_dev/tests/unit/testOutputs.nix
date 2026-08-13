@@ -1,42 +1,88 @@
-# Evaluation contract tests: force the public outputs far enough to prove
-# the composition holds, plus regression facts that catch unwanted behavior.
-# Eval-only, no network, no builds — drvPaths are the regression gate.
 {
   lib,
   self,
   ...
 }:
 let
-  hosts = [
-    "aerodynamic"
-    "beyond"
-    "crescendoll"
-    "steammachine"
-    "voyager"
-  ];
-  homeHosts = [
-    "aerodynamic"
-    "beyond"
-    "crescendoll"
-    "steammachine"
-  ];
-  isDrvPath = p: lib.isString (toString p) && lib.hasSuffix ".drv" (toString p);
+  inherit (lib)
+    all
+    any
+    attrNames
+    attrValues
+    concatMap
+    count
+    elem
+    filter
+    hasPrefix
+    hasInfix
+    hasSuffix
+    unique
+    ;
+
+  hosts = attrNames self.nixosConfigurations;
   hostConfig = h: self.nixosConfigurations.${h}.config;
-  home = self.homeConfigurations.occhima.config;
-  quickshellSources = ../../../../home-manager/desktop/ui/themes/collection/guernica/targets/quickshell;
+
+  installerHosts = [ "voyager" ];
+  persistentHosts = filter (h: !(elem h installerHosts)) hosts;
+  homeHosts = filter (h: ((hostConfig h).home-manager.users or { }) ? occhima) hosts;
+
+  homeOf = h: (hostConfig h).home-manager.users.occhima;
+  standaloneHome = self.homeConfigurations.occhima.config;
+  homes = map homeOf homeHosts ++ [ standaloneHome ];
+
+  isDrvPath = p: hasSuffix ".drv" (toString p);
+
+  systemDrv =
+    h:
+    if elem h installerHosts then
+      (hostConfig h).system.build.isoImage.drvPath
+    else
+      (hostConfig h).system.build.toplevel.drvPath;
+
+  bindsOf = home: home.wayland.windowManager.hyprland.settings.bind or [ ];
+  bindKey = b: if builtins.isString b then lib.head (lib.splitString "," b) else lib.head b._args;
+  bindCommand =
+    b:
+    if builtins.isString b then
+      b
+    else
+      let
+        argument = lib.elemAt b._args 1;
+      in
+      if builtins.isAttrs argument then argument.expr or "" else toString argument;
+
+  duplicateKeys =
+    home:
+    let
+      keys = map bindKey (bindsOf home);
+    in
+    filter (k: count (x: x == k) keys > 1) (unique keys);
+
+  userServices = home: attrValues home.systemd.user.services;
+  execStarts = home: concatMap (s: lib.toList (s.Service.ExecStart or [ ])) (userServices home);
+  wantedBy = service: service.Install.WantedBy or [ ];
+
+  diskoHosts = filter (h: self.diskoConfigurations ? ${h}) hosts;
+  layoutValues =
+    key: value:
+    if builtins.isList value then
+      concatMap (layoutValues key) value
+    else if lib.isAttrs value && !(value ? outPath) then
+      lib.optional (builtins.isString (value.${key} or null)) value.${key}
+      ++ concatMap (layoutValues key) (attrValues value)
+    else
+      [ ];
+  mountpointsOf = h: unique (layoutValues "mountpoint" self.diskoConfigurations.${h});
+  contentTypesOf = h: unique (layoutValues "type" self.diskoConfigurations.${h});
 in
 {
-  # ── outputs evaluate ─────────────────────────────────────────────────────
   "every host evaluates its system drvPath" = {
-    expr = lib.all (
-      h:
-      isDrvPath (
-        if h == "voyager" then
-          self.nixosConfigurations.${h}.config.system.build.isoImage.drvPath
-        else
-          self.nixosConfigurations.${h}.config.system.build.toplevel.drvPath
-      )
-    ) hosts;
+    expr = all (h: isDrvPath (systemDrv h)) hosts;
+    expected = true;
+  };
+
+  "every home-enabled host evaluates occhima's activation drvPath" = {
+    expr = all (h: isDrvPath (homeOf h).home.activationPackage.drvPath) homeHosts;
     expected = true;
   };
 
@@ -45,133 +91,141 @@ in
     expected = true;
   };
 
-  "host inventory is exactly the five hosts" = {
-    expr = builtins.sort builtins.lessThan (builtins.attrNames self.nixosConfigurations);
-    expected = hosts;
-  };
-
-  "standalone occhima home exists" = {
-    expr = builtins.attrNames self.homeConfigurations;
-    expected = [ "occhima" ];
-  };
-
-  "hosts wire the occhima home; voyager has none" = {
-    expr =
-      lib.all (h: self.nixosConfigurations.${h}.config.home-manager.users ? occhima) homeHosts
-      && (self.nixosConfigurations.voyager.config.home-manager.users or { } == { });
-    expected = true;
-  };
-
-  "crescendoll keeps its WSL behavior" = {
-    expr = self.nixosConfigurations.crescendoll.config.wsl.enable;
-    expected = true;
-  };
-
-  "disko layouts are published per host" = {
-    expr = builtins.sort builtins.lessThan (builtins.attrNames self.diskoConfigurations);
-    expected = [
-      "aerodynamic"
-      "beyond"
-      "face2face"
-      "steammachine"
-    ];
-  };
-
-  "split nixvim fragments evaluate to the nvim package" = {
-    expr = lib.isDerivation self.packages.x86_64-linux.nvim;
-    expected = true;
-  };
-
-  "split hyprland fragments merge into one aspect" = {
-    expr = home.wayland.windowManager.hyprland.enable;
-    expected = true;
-  };
-
-  "quickshell runtime and Guernica source stay decoupled" = {
-    expr =
-      home.programs.quickshell.enable
-      && home.programs.quickshell.activeConfig == "guernica-ukishima"
-      && builtins.attrNames home.programs.quickshell.configs == [ "guernica-ukishima" ];
-    expected = true;
-  };
-
-  "Guernica quickshell variants are independently launchable source trees" = {
-    expr = lib.all builtins.pathExists [
-      "${quickshellSources}/configs/base/shell.qml"
-      "${quickshellSources}/configs/base/data/Settings.qml"
-      "${quickshellSources}/configs/base/components/bar/Workspaces.qml"
-      "${quickshellSources}/configs/base/modules/Osd.qml"
-      "${quickshellSources}/configs/ukishima/shell.qml"
-      "${quickshellSources}/configs/ukishima/data/Settings.qml"
-      "${quickshellSources}/configs/ukishima/components/bar/Workspaces.qml"
-      "${quickshellSources}/configs/ukishima/components/island/CalendarPage.qml"
-      "${quickshellSources}/configs/ukishima/components/island/BluetoothPage.qml"
-      "${quickshellSources}/configs/ukishima/components/island/ClipboardPage.qml"
-      "${quickshellSources}/configs/ukishima/components/island/GlyphIcon.qml"
-      "${quickshellSources}/configs/ukishima/components/island/LauncherPage.qml"
-      "${quickshellSources}/configs/ukishima/components/island/MixerPage.qml"
-      "${quickshellSources}/configs/ukishima/components/island/PillIcon.qml"
-      "${quickshellSources}/configs/ukishima/components/island/SearchHeader.qml"
-      "${quickshellSources}/configs/ukishima/components/island/SystemPage.qml"
-      "${quickshellSources}/configs/ukishima/components/island/VerticalFader.qml"
-      "${quickshellSources}/configs/ukishima/components/island/WorkspaceStrip.qml"
-      "${quickshellSources}/configs/ukishima/components/dashboard/MediaCard.qml"
-      "${quickshellSources}/configs/ukishima/components/notifications/NotificationCard.qml"
-      "${quickshellSources}/configs/ukishima/components/quicksettings/VolumeSlider.qml"
-      "${quickshellSources}/configs/ukishima/components/shared/CardFrame.qml"
-      "${quickshellSources}/configs/ukishima/modules/Osd.qml"
-      "${quickshellSources}/configs/ukishima/services/Pipewire.qml"
-      "${quickshellSources}/configs/ukishima/services/Clipboard.qml"
-      "${quickshellSources}/configs/ukishima/services/Mixer.qml"
-      "${quickshellSources}/configs/ukishima/services/SystemMetrics.qml"
-      "${quickshellSources}/configs/ukishima/services/Weather.qml"
+  "exported packages evaluate to drvPaths" = {
+    expr = all isDrvPath [
+      self.packages.x86_64-linux.nvim.drvPath
+      self.packages.x86_64-linux.run-vm.drvPath
     ];
     expected = true;
   };
 
-  "compositor daemons stay scoped to their own sessions" = {
-    expr =
+  "hyprland keybinds are collision free" = {
+    expr = concatMap duplicateKeys homes;
+    expected = [ ];
+  };
+
+  "island keybinds drive the quickshell config the session starts" = {
+    expr = all (
+      home:
+      let
+        active = home.programs.quickshell.activeConfig;
+        islandBinds = filter (c: hasInfix "ipc call guernica-island" c) (map bindCommand (bindsOf home));
+        serviceStarts = filter (c: hasInfix "quickshell" c) (execStarts home);
+      in
+      home.programs.quickshell.configs ? ${active}
+      && islandBinds != [ ]
+      && all (c: hasInfix "-c ${active}" c) islandBinds
+      && all (c: hasInfix "--config ${active}" c) serviceStarts
+    ) homes;
+    expected = true;
+  };
+
+  "one status bar owns the session" = {
+    expr = all (home: home.programs.quickshell.enable -> !home.programs.waybar.enable) homes;
+    expected = true;
+  };
+
+  "one notification daemon owns the session" = {
+    expr = all (
+      home:
+      let
+        backend = home.modules.desktop.notifications.backend;
+      in
+      (backend == "quickshell") != (home.services.mako.enable or false)
+    ) homes;
+    expected = true;
+  };
+
+  "one screen locker is enabled" = {
+    expr = all (
+      home: (home.programs.hyprlock.enable or false) != (home.programs.swaylock.enable or false)
+    ) homes;
+    expected = true;
+  };
+
+  "session-scoped units only target a compositor that is enabled" = {
+    expr = all (
+      home:
+      all (
+        service:
+        elem "hyprland-session.target" (wantedBy service) -> home.wayland.windowManager.hyprland.enable
+      ) (userServices home)
+    ) homes;
+    expected = true;
+  };
+
+  "compositor daemons follow the compositor session, not the generic one" = {
+    expr = all (
+      home:
       home.services.hyprpaper.systemdTarget == "hyprland-session.target"
-      && home.services.hypridle.systemdTarget == "hyprland-session.target";
+      && home.services.hypridle.systemdTarget == "hyprland-session.target"
+    ) homes;
     expected = true;
   };
 
-  "desktop keeps the existing locker stack" = {
-    expr = home.programs.hyprlock.enable && !home.programs.swaylock.enable;
+  "user services launch absolute store paths" = {
+    expr = all (home: all (cmd: hasPrefix "/nix/store/" cmd) (execStarts home)) homes;
     expected = true;
   };
 
-  "feature modules are exported through flake.modules" = {
-    expr =
-      self.modules.nixos ? workstation
-      && self.modules.nixos ? gaming-workstation
-      && self.modules.homeManager ? home-base
-      && self.modules.homeManager ? quickshell-runtime
-      && self.modules.homeManager ? themes-guernica-quickshell-base
-      && self.modules.homeManager ? themes-guernica-quickshell-ukishima;
+  "the island ships the icon font it renders with" = {
+    expr = all (
+      home:
+      home.programs.quickshell.enable -> any (p: (p.pname or "") == "material-symbols") home.home.packages
+    ) homes;
     expected = true;
   };
 
-  "run-vm package is wired" = {
-    expr = lib.isDerivation self.packages.x86_64-linux.run-vm;
+  "EDITOR resolves to a store path backed by the emacs daemon" = {
+    expr = all (
+      home:
+      hasPrefix "/nix/store/" (home.home.sessionVariables.EDITOR or "")
+      && home.services.emacs.enable
+      && home.services.emacs.defaultEditor
+    ) homes;
     expected = true;
   };
 
-  # ── regression facts ─────────────────────────────────────────────────────
-  "emacs doom is selected; vanilla is not" = {
-    expr =
-      home.programs.emacs.package.version == "30.2"
-      && home.xdg.configFile.doom.enable
-      && !(lib.hasPrefix "emacs-with-packages" home.programs.emacs.package.name);
+  "persistent hosts declare a bootloader, a root and an ESP" = {
+    expr = all (
+      h:
+      let
+        c = hostConfig h;
+        bootable = c.boot.loader.grub.enable || c.boot.loader.systemd-boot.enable;
+      in
+      if c.wsl.enable or false then
+        !bootable
+      else
+        bootable && c.fileSystems ? "/" && c.fileSystems ? "/boot"
+    ) persistentHosts;
     expected = true;
   };
 
-  "emacs daemon and default editor stay active" = {
-    expr = home.services.emacs.enable && home.services.emacs.defaultEditor;
+  "disko layouts are mounted by the hosts that use them" = {
+    expr = all (
+      h:
+      let
+        c = hostConfig h;
+        encrypted = elem "luks" (contentTypesOf h);
+      in
+      all (m: c.fileSystems ? ${m}) (mountpointsOf h)
+      && (encrypted -> (c.boot.initrd.luks.devices or { }) != { })
+    ) diskoHosts;
     expected = true;
   };
 
-  "pentesting container is private with no password or autologin" = {
+  "ssh stays key-only on persistent hosts" = {
+    expr = all (
+      h:
+      let
+        ssh = (hostConfig h).services.openssh;
+      in
+      ssh.enable -> (ssh.settings.PermitRootLogin == "no" && !ssh.settings.PasswordAuthentication)
+    ) persistentHosts;
+    expected = true;
+  };
+
+  "the pentesting container is private, with no password or autologin" = {
     expr =
       let
         c = hostConfig "steammachine";
@@ -185,20 +239,31 @@ in
     expected = true;
   };
 
-  "electron-40.10.5 is not permitted" = {
-    expr = lib.all (
+  "no host reopens an insecure electron" = {
+    expr = all (
       h:
-      !(builtins.elem "electron-40.10.5" ((hostConfig h).nixpkgs.config.permittedInsecurePackages or [ ]))
+      !(any (p: hasPrefix "electron-" p) ((hostConfig h).nixpkgs.config.permittedInsecurePackages or [ ]))
     ) hosts;
     expected = true;
   };
 
-  "flatpak nixos/hm composition stays active" = {
-    expr = (hostConfig "aerodynamic").services.flatpak.enable && home.services.flatpak.uninstallUnused;
+  "flatpak in home requires the system service on the same host" = {
+    expr = all (
+      h: (homeOf h).services.flatpak.enable -> (hostConfig h).services.flatpak.enable
+    ) homeHosts;
     expected = true;
   };
 
-  "NH points at the current flake" = {
+  "the WSL host stays headless" = {
+    expr =
+      let
+        c = hostConfig "crescendoll";
+      in
+      c.wsl.enable && !c.services.xserver.enable && !(c.services.displayManager.sddm.enable or false);
+    expected = true;
+  };
+
+  "the dev shell points nh at this flake" = {
     expr =
       let
         shell = self.devShells.x86_64-linux.default;

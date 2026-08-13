@@ -76,7 +76,7 @@ Scope {
                             width: parent.width * Math.min(1, Services.Pipewire.volume)
                             height: parent.height
                             radius: parent.radius
-                            color: Data.Settings.accentColor
+                            color: Data.Settings.warmAccent
 
                             Behavior on width { NumberAnimation { duration: Data.Settings.animFast; easing.type: Easing.OutCubic } }
                         }

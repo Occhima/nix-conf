@@ -169,6 +169,7 @@ in
       home.packages = with pkgs; [
         brightnessctl
         cliphist
+        material-symbols
         wl-clipboard
       ];
 

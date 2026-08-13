@@ -23,7 +23,8 @@ in
         hm.flatpak
         hm.spotify
         hm.discord # vesktop wraps EOL electron; re-enable once nixpkgs bumps electron
-        hm.grimblast
+        # hm.grimblast
+        hm.flameshot
         hm.wlogout
         # hm.calibre
       ];

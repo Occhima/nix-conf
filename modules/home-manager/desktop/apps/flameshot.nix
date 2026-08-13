@@ -16,6 +16,8 @@ in
 
       flameShotPkg =
         if usingWayland then (pkgs.flameshot.override { enableWlrSupport = true; }) else pkgs.flameshot;
+
+      flameshotGui = "${lib.getExe flameShotPkg} gui";
     in
     {
       config = lib.mkMerge [
@@ -25,8 +27,6 @@ in
             package = flameShotPkg;
             settings = {
               General = {
-                # useGrimAdapter = usingWayland;
-                # disabledGrimWarning = true;
                 showStartupLaunchMessage = false;
                 savePath = config.xdg.userDirs.extraConfig.SCREENSHOTS;
                 savePathFixed = true;
@@ -44,8 +44,8 @@ in
                 {
                   key = "S";
                   dispatcher = "exec";
-                  argument = "flameshot gui";
-                  lua = hyprlandLib.luaExec "flameshot gui";
+                  argument = flameshotGui;
+                  lua = hyprlandLib.luaExec flameshotGui;
                 }
               ];
         }
@@ -60,7 +60,7 @@ in
         repeat = false;
         hotkey-overlay.title = "Open Flameshot";
         action.spawn = [
-          "flameshot"
+          (lib.getExe config.services.flameshot.package)
           "gui"
         ];
       };

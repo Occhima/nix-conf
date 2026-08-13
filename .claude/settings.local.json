@@ -23,7 +23,17 @@
       "Bash(nix fmt *)",
       "Bash(nix build *)",
       "Bash(git mv *)",
-      "Bash(nix run *)"
+      "Bash(nix run *)",
+      "Bash(nix-store -q --references /nix/store/cnfai4n36zq416z8n3qv2llznyb3ic8n-quickshell-wrapped)",
+      "Bash(nix-store -qR /nix/store/cnfai4n36zq416z8n3qv2llznyb3ic8n-quickshell-wrapped)",
+      "Bash(fc-list)",
+      "Bash(timeout 600 nix shell nixpkgs#python3 --command env PYTHONPATH=/nix/store/wxf6jzhkimvjc77yinlp38gixmlk7p5x-python3.14-fonttools-4.63.0/lib/python3.14/site-packages python3 liga.py)",
+      "Bash(/nix/store/3vd002px7rdr8cmr1wxh3628fpkrbhg2-qtdeclarative-6.11.1/bin/qmllint components/island/GlyphIcon.qml components/island/PillIcon.qml)",
+      "Read(//nix/store/**)",
+      "Bash(timeout 1800 nix-unit --flake .#tests)",
+      "Bash(timeout 300 treefmt modules/flake/_dev/tests/unit/testOutputs.nix)",
+      "Bash(fastfetch --config /nix/store/r4ywzj2qhzm4bq43fkr29bmhnsdza4ac-config.jsonc)",
+      "Bash(timeout 300 treefmt)"
     ]
   }
 }

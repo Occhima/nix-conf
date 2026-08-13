@@ -55,7 +55,7 @@ Row {
             height: 4
             radius: 2
             color: active
-                ? Data.Settings.errorColor
+                ? Data.Settings.fgColor
                 : occupied
                     ? Data.Settings.fgDim
                     : Data.Settings.bgLighter

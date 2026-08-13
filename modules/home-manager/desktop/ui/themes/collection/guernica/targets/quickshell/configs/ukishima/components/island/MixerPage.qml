@@ -15,7 +15,7 @@ Item {
             glyph: "☀"
             value: Services.Mixer.brightness
             enabled: Services.Mixer.brightnessReady
-            accent: Data.Settings.errorColor
+            accent: Data.Settings.warmAccent
             onValueEdited: value => Services.Mixer.setBrightness(value)
         }
 
@@ -24,7 +24,7 @@ Item {
             glyph: "⌨"
             value: Services.Mixer.keyboardBrightness
             enabled: Services.Mixer.keyboardBrightnessReady
-            accent: Data.Settings.purpleColor
+            accent: Data.Settings.warmAccent
             onValueEdited: value => Services.Mixer.setKeyboardBrightness(value)
         }
 
@@ -35,8 +35,8 @@ Item {
             enabled: Services.Mixer.sinkReady
             glyphClickable: true
             accent: Services.Mixer.outputMuted
-                ? Data.Settings.errorColor
-                : Data.Settings.accentColor
+                ? Data.Settings.fgDim
+                : Data.Settings.warmAccent
             onValueEdited: value => Services.Mixer.setOutputVolume(value)
             onGlyphTriggered: Services.Mixer.toggleOutputMute()
         }
@@ -48,8 +48,8 @@ Item {
             enabled: Services.Mixer.sourceReady
             glyphClickable: true
             accent: Services.Mixer.inputMuted
-                ? Data.Settings.errorColor
-                : Data.Settings.successColor
+                ? Data.Settings.fgDim
+                : Data.Settings.warmAccent
             onValueEdited: value => Services.Mixer.setInputVolume(value)
             onGlyphTriggered: Services.Mixer.toggleInputMute()
         }

@@ -26,14 +26,14 @@ Item {
             HeaderAction {
                 label: Services.Notifications.dnd ? "DND on" : "DND off"
                 accent: Services.Notifications.dnd
-                    ? Data.Settings.purpleColor
+                    ? Data.Settings.warmAccent
                     : Data.Settings.fgDim
                 onTriggered: Services.Notifications.toggleDnd()
             }
 
             HeaderAction {
                 label: "Clear"
-                accent: Data.Settings.errorColor
+                accent: Data.Settings.fgColor
                 enabled: Services.Notifications.count > 0
                 onTriggered: Services.Notifications.clearAll()
             }
@@ -74,7 +74,7 @@ Item {
                 Text {
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: "✓"
-                    color: Data.Settings.successColor
+                    color: Data.Settings.fgDim
                     font.pixelSize: Data.Settings.fontXxl
                     font.weight: Font.Bold
                 }
@@ -93,7 +93,7 @@ Item {
 
     component HeaderAction: Rectangle {
         required property string label
-        property color accent: Data.Settings.accentColor
+        property color accent: Data.Settings.warmAccent
         signal triggered()
 
         implicitWidth: actionLabel.implicitWidth + Data.Settings.spacingXl
