@@ -19,6 +19,25 @@
   :after vertico
   :hook (minibuffer-setup . vertico-repeat-save))
 
+(use-package posframe)
+
+(use-package vertico-posframe
+  :after (vertico posframe)
+  :demand t
+  :custom
+  (vertico-posframe-poshandler #'posframe-poshandler-frame-center)
+  (vertico-posframe-fallback-mode #'vertico-buffer-mode)
+  (vertico-posframe-width 130)
+  (vertico-posframe-min-width 90)
+  (vertico-posframe-height 20)
+  (vertico-posframe-border-width 2)
+  (vertico-posframe-parameters
+   '((left-fringe . 12)
+     (right-fringe . 12)
+     (undecorated . t)))
+  :config
+  (vertico-posframe-mode 1))
+
 (use-package orderless
   :init
   (setq completion-styles '(orderless basic)

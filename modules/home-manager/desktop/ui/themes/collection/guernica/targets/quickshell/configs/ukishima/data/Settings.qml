@@ -23,7 +23,10 @@ Singleton {
     readonly property color purpleColor: "#c080ff"
     readonly property color blueColor: "#6080ff"
     readonly property color yellowColor: "#ffe080"
-    readonly property color warmAccent: warningColor
+
+    readonly property color activeColor: fgColor
+    readonly property color inactiveColor: fgDim
+    readonly property color warmAccent: activeColor
 
     readonly property color borderSubtle: Qt.rgba(1, 1, 1, 0.06)
     readonly property color borderNormal: Qt.rgba(1, 1, 1, 0.10)
@@ -38,7 +41,6 @@ Singleton {
     readonly property real popupScaleHidden: 0.96
 
     readonly property int islandMargin: 8
-    readonly property int islandDockWidth: 754
     readonly property int islandDockHeight: 50
     readonly property int islandDockRadius: 14
     readonly property int islandDockPadding: 17

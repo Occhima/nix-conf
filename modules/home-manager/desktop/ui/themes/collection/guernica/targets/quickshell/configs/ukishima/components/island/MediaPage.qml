@@ -158,7 +158,7 @@ Item {
         Text {
             anchors.centerIn: parent
             text: button.symbol
-            color: button.primary ? Data.Settings.warmAccent : Data.Settings.fgColor
+            color: button.primary ? Data.Settings.activeColor : Data.Settings.inactiveColor
             font.pixelSize: Data.Settings.fontBase
         }
 

@@ -70,6 +70,6 @@ in
           ];
       };
 
-      home.packages = runtimePackages;
+      home.packages = runtimePackages ++ [ pkgs.nerd-fonts.symbols-only ];
     };
 }

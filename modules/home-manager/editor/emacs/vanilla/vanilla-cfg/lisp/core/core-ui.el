@@ -1,19 +1,37 @@
 ;;; core-ui.el --- Minimal UI defaults -*- lexical-binding: t; -*-
 ;; Code
-(set-face-attribute 'default nil
-                    :family "Iosevka Comfy"
-                    :height 150
-                    :weight 'normal)
+(defconst occhima/fixed-font "Iosevka Comfy")
+(defconst occhima/variable-font "Iosevka Nerd Font Mono")
+(defconst occhima/symbol-font "Symbols Nerd Font Mono")
+(defconst occhima/font-height 150)
+(defconst occhima/symbol-font-ranges
+  '((#xe000 . #xf8ff)
+    (#xf0000 . #xfffff)))
 
-(set-face-attribute 'fixed-pitch nil
-                    :family "Iosevka Comfy"
-                    :height 150
-                    :weight 'normal)
+(defvar occhima/symbol-fontset-applied nil)
 
-(set-face-attribute 'variable-pitch nil
-                    :family "Iosevka Nerd Font Mono"
-                    :height 150
-                    :weight 'normal)
+(defun occhima/apply-symbol-fontset (&optional frame)
+  "Route the Nerd Font private-use ranges on FRAME to `occhima/symbol-font'."
+  (when (and (not occhima/symbol-fontset-applied)
+             (fboundp 'set-fontset-font)
+             (display-multi-font-p frame)
+             (find-font (font-spec :family occhima/symbol-font)))
+    (dolist (range occhima/symbol-font-ranges)
+      (set-fontset-font t range occhima/symbol-font frame 'prepend))
+    (setq occhima/symbol-fontset-applied t)))
+
+(defun occhima/apply-fonts (&optional frame)
+  "Set the configured font faces on FRAME, or globally when FRAME is nil."
+  (dolist (spec (list (cons 'default occhima/fixed-font)
+                      (cons 'fixed-pitch occhima/fixed-font)
+                      (cons 'variable-pitch occhima/variable-font)))
+    (set-face-attribute (car spec) frame
+                        :family (cdr spec)
+                        :height occhima/font-height
+                        :weight 'normal))
+  (occhima/apply-symbol-fontset frame))
+
+(occhima/apply-fonts)
 
 
 (setq frame-title-format "%b"

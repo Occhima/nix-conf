@@ -214,10 +214,6 @@
   "p p" '(project-switch-project :wk "Switch project")
   "p s" '(occhima/save-project-buffers :wk "Save project buffers")
 
-  "q f" '(delete-frame :wk "Delete frame")
-  "q K" '(save-buffers-kill-emacs :wk "Kill Emacs")
-  "q q" '(save-buffers-kill-terminal :wk "Quit Emacs")
-
   "s b" '(consult-line :wk "Search buffer")
   "s B" '(consult-line-multi :wk "Search open buffers")
   "s d" '(consult-ripgrep :wk "Search directory")

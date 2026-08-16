@@ -62,6 +62,10 @@
       use-package-compute-statistics t
       use-package-expand-minimally t)
 
+(use-package transient
+  :ensure (transient :host github :repo "magit/transient" :wait t)
+  :demand t)
+
 (add-hook 'elpaca-after-init-hook
           (lambda ()
             (load custom-file 'noerror 'nomessage)))

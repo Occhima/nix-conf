@@ -13,7 +13,7 @@ in
       inherit (lib.modules) mkIf;
     in
     {
-      config = mkIf (pkgs.stdenv.isLinux) {
+      config = mkIf (pkgs.stdenv.hostPlatform.isLinux) {
         home = {
           packages = [ flakePkgs.${pkgs.stdenv.hostPlatform.system}.nyxt-source ];
           sessionVariables = {

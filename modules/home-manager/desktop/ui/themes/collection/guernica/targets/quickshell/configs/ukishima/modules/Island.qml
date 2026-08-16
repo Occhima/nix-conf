@@ -49,6 +49,7 @@ Scope {
             readonly property bool surfaceOpen: Data.Runtime.surfaceOpen
             readonly property bool searchSurface: Data.Runtime.activePage === "launcher"
                 || Data.Runtime.activePage === "clipboard"
+            readonly property bool dockExpanded: dockHover.hovered || surfaceOpen
             readonly property real availableWidth: Math.max(
                 320,
                 (screen?.width ?? 1920) - Data.Settings.spacingXxl * 2
@@ -114,10 +115,7 @@ Scope {
                 availableWidth,
                 surfaceOpen
                     ? surfaceWidth(Data.Runtime.activePage)
-                    : Math.max(
-                        Data.Settings.islandDockWidth,
-                        dockRow.implicitWidth + Data.Settings.islandDockPadding * 2
-                    )
+                    : dockRow.implicitWidth + Data.Settings.islandDockPadding * 2
             )
             readonly property real targetHeight: surfaceOpen
                 ? surfaceHeight(Data.Runtime.activePage)
@@ -144,9 +142,9 @@ Scope {
 
             Region {
                 id: dockRegion
-                x: island.x - 6
+                x: island.x - 8
                 y: island.y
-                width: island.width + 12
+                width: island.width + 24
                 height: island.height
             }
 
@@ -195,7 +193,7 @@ Scope {
                     radius: islandWindow.surfaceOpen
                         ? Data.Settings.popupRadius
                         : Data.Settings.islandDockRadius
-                    clip: islandWindow.surfaceOpen
+                    clip: true
                     border.width: 1
                     border.color: islandWindow.surfaceOpen
                         ? Qt.alpha(Data.Settings.warmAccent, 0.28)
@@ -231,6 +229,11 @@ Scope {
                     }
                     Behavior on border.color {
                         ColorAnimation { duration: Data.Settings.animShort }
+                    }
+
+                    HoverHandler {
+                        id: dockHover
+                        enabled: !islandWindow.surfaceOpen
                     }
 
                     Rectangle {
@@ -302,96 +305,101 @@ Scope {
                                 }
                             }
 
-                            DockDivider {}
+                            Item {
+                                id: expandedSlot
 
-                            IslandComponents.PillIcon {
-                                glyph: "search"
-                                onTriggered: Data.Runtime.togglePage("launcher")
-                            }
-
-                            IslandComponents.PillIcon {
-                                glyph: Services.Weather.glyph
-                                text: Services.Weather.temperature
-                                onTriggered: Data.Runtime.togglePage("calendar")
-                            }
-
-                            Bar.SysTray {
                                 anchors.verticalCenter: parent.verticalCenter
-                                visible: itemCount > 0
-                            }
+                                visible: islandWindow.dockExpanded
+                                implicitWidth: expandedRow.implicitWidth
+                                implicitHeight: expandedRow.implicitHeight
 
-                            IslandComponents.PillIcon {
-                                glyph: Services.Networking.ethernetConnected ? "ethernet" : "wifi"
-                                selected: Services.Networking.connected
-                                onTriggered: Data.Runtime.togglePage("network")
-                            }
+                                Row {
+                                    id: expandedRow
 
-                            IslandComponents.PillIcon {
-                                glyph: "bluetooth"
-                                selected: Services.Bluetooth.connected
-                                onTriggered: Data.Runtime.togglePage("bluetooth")
-                            }
+                                    anchors.centerIn: parent
+                                    spacing: 11
 
-                            IslandComponents.PillIcon {
-                                visible: Services.UPower.hasBattery
-                                glyph: "battery"
-                                text: Math.round(Services.UPower.percentage) + "%"
-                                selected: Services.UPower.charging
-                                onTriggered: Data.Runtime.togglePage("system")
-                            }
+                                    DockDivider {}
 
-                            IslandComponents.PillIcon {
-                                visible: Data.Settings.notificationsEnabled
-                                glyph: "bell"
-                                unread: Services.Notifications.count > 0
-                                onTriggered: Data.Runtime.togglePage("notifications")
-                            }
+                                    IslandComponents.PillIcon {
+                                        glyph: "search"
+                                        onTriggered: Data.Runtime.togglePage("launcher")
+                                    }
 
-                            IslandComponents.PillIcon {
-                                glyph: "mixer"
-                                selected: Services.Pipewire.muted
-                                onTriggered: Data.Runtime.togglePage("mixer")
-                            }
+                                    IslandComponents.PillIcon {
+                                        glyph: Services.Weather.glyph
+                                        text: Services.Weather.temperature
+                                        onTriggered: Data.Runtime.togglePage("calendar")
+                                    }
 
-                            IslandComponents.PillIcon {
-                                glyph: "monitor"
-                                onTriggered: Data.Runtime.togglePage("system")
-                            }
+                                    Bar.SysTray {
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        visible: itemCount > 0
+                                    }
 
-                            IslandComponents.PillIcon {
-                                glyph: "music"
-                                onTriggered: Data.Runtime.togglePage("media")
-                            }
+                                    IslandComponents.PillIcon {
+                                        glyph: Services.Networking.ethernetConnected ? "ethernet" : "wifi"
+                                        selected: Services.Networking.connected
+                                        onTriggered: Data.Runtime.togglePage("network")
+                                    }
 
-                            IslandComponents.PillIcon {
-                                glyph: "clipboard"
-                                onTriggered: Data.Runtime.togglePage("clipboard")
-                            }
+                                    IslandComponents.PillIcon {
+                                        glyph: "bluetooth"
+                                        selected: Services.Bluetooth.connected
+                                        onTriggered: Data.Runtime.togglePage("bluetooth")
+                                    }
 
-                            IslandComponents.PillIcon {
-                                glyph: "image"
-                                onTriggered: Quickshell.execDetached([
-                                    "xdg-open",
-                                    Quickshell.env("HOME") + "/Pictures"
-                                ])
-                            }
+                                    IslandComponents.PillIcon {
+                                        visible: Services.UPower.hasBattery
+                                        glyph: "battery"
+                                        text: Math.round(Services.UPower.percentage) + "%"
+                                        selected: Services.UPower.charging
+                                        onTriggered: Data.Runtime.togglePage("system")
+                                    }
 
-                            IslandComponents.PillIcon {
-                                glyph: "power"
-                                onTriggered: Data.Runtime.togglePage("power")
+                                    IslandComponents.PillIcon {
+                                        visible: Data.Settings.notificationsEnabled
+                                        glyph: "bell"
+                                        unread: Services.Notifications.count > 0
+                                        onTriggered: Data.Runtime.togglePage("notifications")
+                                    }
+
+                                    IslandComponents.PillIcon {
+                                        glyph: "mixer"
+                                        selected: Services.Pipewire.muted
+                                        onTriggered: Data.Runtime.togglePage("mixer")
+                                    }
+
+                                    IslandComponents.PillIcon {
+                                        glyph: "monitor"
+                                        onTriggered: Data.Runtime.togglePage("system")
+                                    }
+
+                                    IslandComponents.PillIcon {
+                                        glyph: "music"
+                                        onTriggered: Data.Runtime.togglePage("media")
+                                    }
+
+                                    IslandComponents.PillIcon {
+                                        glyph: "clipboard"
+                                        onTriggered: Data.Runtime.togglePage("clipboard")
+                                    }
+
+                                    IslandComponents.PillIcon {
+                                        glyph: "image"
+                                        onTriggered: Quickshell.execDetached([
+                                            "xdg-open",
+                                            Quickshell.env("HOME") + "/Pictures"
+                                        ])
+                                    }
+
+                                    IslandComponents.PillIcon {
+                                        glyph: "power"
+                                        onTriggered: Data.Runtime.togglePage("power")
+                                    }
+                                }
                             }
                         }
-                    }
-
-                    Rectangle {
-                        anchors.right: parent.right
-                        anchors.rightMargin: -4
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: 8
-                        height: 8
-                        radius: 4
-                        visible: !islandWindow.surfaceOpen
-                        color: Data.Settings.fgDim
                     }
 
                     Item {
@@ -506,6 +514,54 @@ Scope {
                                 }
                             }
                         }
+                    }
+                }
+
+                Rectangle {
+                    id: notificationDot
+
+                    readonly property bool alert: Data.Settings.notificationsEnabled
+                        && Services.Notifications.count > 0
+
+                    anchors.left: island.right
+                    anchors.leftMargin: -4
+                    anchors.verticalCenter: island.verticalCenter
+
+                    width: 8
+                    height: 8
+                    radius: 4
+                    visible: !islandWindow.surfaceOpen
+                    color: alert ? Data.Settings.activeColor : Data.Settings.inactiveColor
+
+                    Behavior on color {
+                        ColorAnimation { duration: Data.Settings.animShort }
+                    }
+
+                    SequentialAnimation on opacity {
+                        running: notificationDot.alert && notificationDot.visible
+                        loops: Animation.Infinite
+                        alwaysRunToEnd: true
+
+                        NumberAnimation {
+                            from: 1
+                            to: 0.2
+                            duration: 620
+                            easing.type: Easing.InOutQuad
+                        }
+                        NumberAnimation {
+                            from: 0.2
+                            to: 1
+                            duration: 620
+                            easing.type: Easing.InOutQuad
+                        }
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        anchors.margins: -6
+                        enabled: Data.Settings.notificationsEnabled
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: Data.Runtime.togglePage("notifications")
                     }
                 }
             }

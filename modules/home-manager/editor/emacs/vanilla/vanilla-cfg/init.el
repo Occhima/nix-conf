@@ -11,6 +11,7 @@
 (require 'core-editing)
 (require 'core-evil)
 (require 'core-keybinds)
+(require 'module-server)
 (require 'module-completion)
 (require 'module-treesit)
 (require 'module-project)

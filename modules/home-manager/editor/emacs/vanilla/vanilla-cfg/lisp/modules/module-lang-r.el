@@ -10,6 +10,10 @@
   (setq ess-use-flymake t))
 
 (use-package ess-plot
+  :ensure (ess-plot
+           :host github
+           :repo "DennieTeMolder/ess-plot"
+           :files ("ess-plot.el" "*.R"))
   :after ess
   :hook (ess-r-post-run . ess-plot-on-startup-h))
 

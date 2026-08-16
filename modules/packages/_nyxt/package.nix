@@ -40,7 +40,7 @@ let
   '';
 
   # Linux -- build from AppImage
-  appimageContents = appimageTools.extractType2 {
+  appimageContents = appimageTools.extract {
     inherit version pname;
     src = unpackedSource;
   };
