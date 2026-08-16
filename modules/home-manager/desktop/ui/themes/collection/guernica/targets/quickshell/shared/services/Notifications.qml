@@ -16,6 +16,8 @@ Singleton {
 
     readonly property int count: items.length
     readonly property bool hasNotifications: count > 0
+    readonly property bool hasCritical: items.some(item =>
+        item && item.urgency === NotificationUrgency.Critical)
     readonly property int maxHistory: 30
     readonly property int maxToasts: 4
     readonly property alias historyModel: historyModelSource

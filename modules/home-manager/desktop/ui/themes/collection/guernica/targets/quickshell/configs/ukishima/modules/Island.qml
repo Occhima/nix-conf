@@ -517,49 +517,128 @@ Scope {
                     }
                 }
 
-                Rectangle {
-                    id: notificationDot
+                Item {
+                    id: notificationBadge
 
-                    readonly property bool alert: Data.Settings.notificationsEnabled
-                        && Services.Notifications.count > 0
+                    readonly property int count: Data.Settings.notificationsEnabled
+                        ? Services.Notifications.count
+                        : 0
+                    readonly property bool alert: count > 0
+                    readonly property bool muted: Services.Notifications.dnd
+                    readonly property bool critical: Services.Notifications.hasCritical && !muted
+                    readonly property string label: count > 9 ? "9+" : String(count)
+                    readonly property string glyph: muted
+                        ? "notifications_off"
+                        : critical ? "priority_high" : ""
+                    readonly property bool glyphMode: glyph.length > 0
 
                     anchors.left: island.right
-                    anchors.leftMargin: -4
+                    anchors.leftMargin: 6
                     anchors.verticalCenter: island.verticalCenter
 
-                    width: 8
-                    height: 8
-                    radius: 4
-                    visible: !islandWindow.surfaceOpen
-                    color: alert ? Data.Settings.activeColor : Data.Settings.inactiveColor
+                    implicitWidth: glyphMode
+                        ? 18
+                        : Math.max(18, badgeLabel.implicitWidth + 12)
+                    implicitHeight: 18
 
-                    Behavior on color {
-                        ColorAnimation { duration: Data.Settings.animShort }
+                    visible: opacity > 0
+                    opacity: (alert && !islandWindow.surfaceOpen) ? 1 : 0
+                    scale: (alert && !islandWindow.surfaceOpen) ? 1 : 0.6
+
+                    Behavior on opacity {
+                        NumberAnimation { duration: Data.Settings.animShort }
+                    }
+                    Behavior on scale {
+                        NumberAnimation {
+                            duration: Data.Settings.animGlide
+                            easing.type: Easing.OutBack
+                            easing.overshoot: 1.6
+                        }
+                    }
+                    Behavior on implicitWidth {
+                        NumberAnimation { duration: Data.Settings.animShort }
                     }
 
-                    SequentialAnimation on opacity {
-                        running: notificationDot.alert && notificationDot.visible
-                        loops: Animation.Infinite
-                        alwaysRunToEnd: true
+                    Rectangle {
+                        id: badgeSurface
 
-                        NumberAnimation {
-                            from: 1
-                            to: 0.2
-                            duration: 620
-                            easing.type: Easing.InOutQuad
+                        readonly property color content: notificationBadge.critical
+                            ? Data.Settings.bgColor
+                            : notificationBadge.muted
+                                ? Data.Settings.fgDim
+                                : Data.Settings.fgColor
+
+                        anchors.fill: parent
+                        radius: height / 2
+                        color: notificationBadge.critical
+                            ? Data.Settings.fgColor
+                            : Data.Settings.bgLighter
+
+                        Behavior on color {
+                            ColorAnimation { duration: Data.Settings.animShort }
                         }
-                        NumberAnimation {
-                            from: 0.2
-                            to: 1
-                            duration: 620
-                            easing.type: Easing.InOutQuad
+
+                        Rectangle {
+                            anchors.fill: parent
+                            radius: parent.radius
+                            color: "transparent"
+                            border.width: 1
+                            border.color: badgeMouse.containsMouse
+                                ? Data.Settings.borderHover
+                                : Data.Settings.borderSubtle
+                        }
+
+                        Text {
+                            id: badgeLabel
+
+                            visible: !notificationBadge.glyphMode
+                            anchors.centerIn: parent
+                            text: notificationBadge.label
+                            color: badgeSurface.content
+                            font.family: "monospace"
+                            font.pixelSize: Data.Settings.fontXs
+                            font.weight: Font.DemiBold
+                        }
+
+                        IslandComponents.GlyphIcon {
+                            visible: notificationBadge.glyphMode
+                            anchors.centerIn: parent
+                            width: Data.Settings.iconSm - 4
+                            height: Data.Settings.iconSm - 4
+                            name: notificationBadge.glyph
+                            color: badgeSurface.content
+                            strokeWidth: 2.4
+                        }
+                        SequentialAnimation on opacity {
+                            running: notificationBadge.critical
+                                && notificationBadge.alert
+                                && !islandWindow.surfaceOpen
+                            loops: Animation.Infinite
+                            alwaysRunToEnd: true
+
+                            NumberAnimation {
+                                from: 1
+                                to: 0.45
+                                duration: 620
+                                easing.type: Easing.InOutQuad
+                            }
+                            NumberAnimation {
+                                from: 0.45
+                                to: 1
+                                duration: 620
+                                easing.type: Easing.InOutQuad
+                            }
                         }
                     }
 
                     MouseArea {
+                        id: badgeMouse
+
                         anchors.fill: parent
-                        anchors.margins: -6
+                        anchors.margins: -5
                         enabled: Data.Settings.notificationsEnabled
+                            && notificationBadge.alert
+                        hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: Data.Runtime.togglePage("notifications")
                     }
