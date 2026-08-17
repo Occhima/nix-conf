@@ -367,6 +367,11 @@
 (defvar *palette-height-ratio* 0.52)
 (defvar *palette-top-ratio* 0.16)
 
+(defun %requested-height (buffer)
+  (or (ignore-errors
+       (uiop:symbol-call :nyxt/renderer/electron :set-height buffer))
+      0))
+
 (defmethod (setf nyxt::ffi-height) :after ((height integer)
                                            (prompt-buffer prompt-buffer))
   (ignore-errors
@@ -375,14 +380,19 @@
        (let* ((bounds (uiop:symbol-call :electron :get-bounds window))
               (window-width (alexandria:assoc-value bounds :width))
               (window-height (alexandria:assoc-value bounds :height))
+              (chrome-height (+ (%requested-height (nyxt::status-buffer window))
+                                (%requested-height (nyxt::message-buffer window))))
               (palette-width (min *palette-max-width*
                                   (round (* window-width *palette-width-ratio*))))
               (palette-height (min *palette-max-height*
                                    (round (* window-height *palette-height-ratio*)))))
          (uiop:symbol-call :electron :set-background-color
                            prompt-buffer "#00000000")
-         (uiop:symbol-call :nyxt/renderer/electron
-                           :update-active-buffer-bounds window 0)
+         (uiop:symbol-call :electron :set-bounds (active-buffer window)
+                           :x 0
+                           :y 0
+                           :width window-width
+                           :height (max 0 (- window-height chrome-height)))
          (uiop:symbol-call :electron :set-bounds prompt-buffer
                            :x (round (/ (- window-width palette-width) 2))
                            :y (round (* window-height *palette-top-ratio*))

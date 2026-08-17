@@ -9,6 +9,7 @@ in
       imports = [
         hm.browser-zen-beta
         hm.browser-nyxt
+        hm.browser-qutebrowser
         hm.terminal-kitty
         hm.hyprland
         # hm.niri
@@ -19,6 +20,7 @@ in
         hm.themes-guernica-quickshell-ukishima
         # Guernica integrations for the applications this desktop composes.
         hm.themes-guernica-zen
+        hm.themes-guernica-qutebrowser
         hm.themes-guernica-spicetify
         hm.flatpak
         hm.spotify

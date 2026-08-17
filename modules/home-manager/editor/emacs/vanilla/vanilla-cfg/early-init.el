@@ -15,8 +15,7 @@
 (dolist (library '("combobulate-setup"
                    "general"
                    "posframe"
-                   "scihub"
-                   "welcome-dashboard"))
+                   "scihub"))
   (add-to-list 'native-comp-jit-compilation-deny-list
                (concat "/" (regexp-quote library) "\\.el\\'")))
 
