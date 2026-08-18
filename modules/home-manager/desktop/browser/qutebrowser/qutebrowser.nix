@@ -1,10 +1,9 @@
-# qutebrowser: keyboard-driven browser configured through the Home Manager
-# options. Colors and fonts live in the guernica target, not here.
 {
   flake.modules.homeManager.browser-qutebrowser =
     {
       lib,
       pkgs,
+      config,
       ...
     }:
     let
@@ -74,7 +73,7 @@
             };
 
             downloads = {
-              location.directory = "~/Downloads";
+              location.directory = config.xdg.userDirs.download;
               position = "bottom";
               remove_finished = 5000;
             };
@@ -134,15 +133,57 @@
             zoom.default = "100%";
           };
 
-          keyBindings.normal = {
-            "gf" = "view-source --pretty";
-            "gm" = "open -t https://mynixos.com/search?q={primary}";
-            "tt" = "config-cycle tabs.show multiple always";
-            "ts" = "config-cycle statusbar.show always in-mode";
-            "<Ctrl-Shift-e>" = "edit-url";
-            ",o" = "yank inline [[{url}][{title}]]";
-            ",m" = "yank inline [{title}]({url})";
-            ",r" = "config-source";
+          keyBindings = {
+            normal = {
+              "gf" = "view-source --pretty";
+              "gm" = "open -t https://mynixos.com/search?q={primary}";
+              "tt" = "config-cycle tabs.show multiple always";
+              "ts" = "config-cycle statusbar.show always in-mode";
+              "<Ctrl-Shift-e>" = "edit-url";
+              ",o" = "yank inline [[{url}][{title}]]";
+              ",m" = "yank inline [{title}]({url})";
+              ",r" = "config-source";
+
+              "gt" = "tab-next";
+              "gT" = "tab-prev";
+              "<Ctrl-l>" = "tab-next";
+              "<Ctrl-h>" = "tab-prev";
+              "<Ctrl-Shift-l>" = "tab-move +";
+              "<Ctrl-Shift-h>" = "tab-move -";
+              "g0" = "tab-focus 1";
+              "g$" = "tab-focus -1";
+              "gb" = "tab-focus last";
+              "gx" = "tab-close";
+              "gX" = "tab-only";
+              "gp" = "tab-pin";
+              "gc" = "tab-clone";
+              "<Ctrl-Shift-t>" = "undo";
+              "<Ctrl-Shift-m>" = "tab-mute";
+
+              "yy" = "yank url";
+              "yt" = "yank title";
+              "yd" = "yank domain";
+              "pp" = "open -- {clipboard}";
+              "pt" = "open -t -- {clipboard}";
+
+              "zz" = "zoom";
+              "zi" = "zoom-in";
+              "zo" = "zoom-out";
+
+              ",y" = "hint links yank";
+              ",t" = "hint links tab-bg";
+              ",j" = "config-cycle -p -t -u {url:host} content.javascript.enabled";
+              "<Ctrl-Shift-r>" = "restart";
+            };
+
+            insert = {
+              "<Ctrl-e>" = "open-editor";
+            };
+
+            command = {
+              "<Ctrl-j>" = "completion-item-focus next";
+              "<Ctrl-k>" = "completion-item-focus prev";
+            };
           };
 
           extraConfig = ''

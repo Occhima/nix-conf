@@ -10,9 +10,9 @@ Singleton {
     // Independent fallback palette for source previews. The Nix target maps
     // these literals to the current Guernica Base16 palette.
     readonly property color bgColor: "#141818"
-    readonly property color bgColorTranslucent: Qt.alpha(bgColor, 0.92)
+    readonly property color bgColorTranslucent: Qt.alpha(bgColor, 0.62)
     readonly property color bgLight: "#1e2424"
-    readonly property color bgLightTranslucent: Qt.alpha(bgLight, 0.94)
+    readonly property color bgLightTranslucent: Qt.alpha(bgLight, 0.68)
     readonly property color bgLighter: "#3c4848"
     readonly property color fgColor: "#f8f8f8"
     readonly property color fgDim: "#909090"
@@ -33,8 +33,12 @@ Singleton {
     readonly property color borderHover: Qt.rgba(1, 1, 1, 0.14)
     readonly property color hoverBg: Qt.rgba(1, 1, 1, 0.1)
     readonly property color hairline: Qt.alpha(fgColor, 0.12)
-    readonly property color surfaceTop: Qt.alpha(bgLight, 0.97)
-    readonly property color surfaceBottom: Qt.alpha(bgColor, 0.97)
+    readonly property color glassEdge: Qt.rgba(1, 1, 1, 0.18)
+    readonly property color glassSpecular: Qt.rgba(1, 1, 1, 0.22)
+    readonly property color surfaceTop: Qt.alpha(bgLight, 0.26)
+    readonly property color surfaceBottom: Qt.alpha(bgColor, 0.40)
+    readonly property color surfaceTopOpen: Qt.alpha(bgLight, 0.40)
+    readonly property color surfaceBottomOpen: Qt.alpha(bgColor, 0.52)
 
     readonly property int rounding: 10
     readonly property int popupRadius: 15

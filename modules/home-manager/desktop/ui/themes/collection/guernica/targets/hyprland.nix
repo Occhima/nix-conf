@@ -275,6 +275,13 @@ in
           blur_popups = true;
           dim_around = true;
         }
+        {
+          name = "guernica-ukishima";
+          namespace = "guernica-ukishima";
+          blur = true;
+          blur_popups = true;
+          ignore_alpha = 0.06;
+        }
       ];
 
       compactLayerRules =
@@ -289,6 +296,7 @@ in
             "anyrun"
             "rofi"
             "quickshell"
+            "guernica-ukishima"
             "logout_dialog"
           ];
 

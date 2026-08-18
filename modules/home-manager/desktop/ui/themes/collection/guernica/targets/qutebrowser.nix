@@ -3,10 +3,37 @@
 # `browser-qutebrowser` alone no longer activates any theme configuration.
 {
   flake.modules.homeManager.themes-guernica-qutebrowser =
-    { config, ... }:
+    { config, lib, ... }:
     let
       inherit (config.lib.stylix.colors) withHashtag;
+      colors = config.lib.stylix.colors;
       fonts = config.stylix.fonts;
+
+      channel = base: component: lib.toInt colors."${base}-rgb-${component}";
+
+      hex2 =
+        value:
+        let
+          digits = "0123456789abcdef";
+          clamped =
+            if value > 255 then
+              255
+            else if value < 0 then
+              0
+            else
+              value;
+        in
+        builtins.substring (clamped / 16) 1 digits + builtins.substring (lib.mod clamped 16) 1 digits;
+
+      mix =
+        base: over: weight:
+        let
+          blend =
+            component: (channel base component * weight + channel over component * (100 - weight)) / 100;
+        in
+        "#${hex2 (blend "r")}${hex2 (blend "g")}${hex2 (blend "b")}";
+
+      tint = base: weight: mix base "base00" weight;
 
       bg = withHashtag.base00;
       panel = withHashtag.base01;
@@ -21,6 +48,13 @@
       violet = withHashtag.base0C;
       cyan = withHashtag.base0D;
       magenta = withHashtag.base0E;
+
+      accent = cyan;
+      hintBg = yellow;
+
+      selectedBg = tint "base05" 14;
+      selectedHardBg = tint "base05" 20;
+      selectedFg = fg;
     in
     {
       # Guernica dresses qutebrowser itself; keep stylix's target off.
@@ -44,16 +78,19 @@
           };
         };
 
-        hints.border = "1px solid ${magenta}";
+        hints = {
+          border = "1px solid ${tint "base0B" 60}";
+          radius = 8;
+        };
 
         colors = {
           completion = {
             category = {
               bg = bg;
-              fg = magenta;
+              fg = accent;
               border = {
-                bottom = bg;
-                top = bg;
+                bottom = line;
+                top = line;
               };
             };
 
@@ -62,16 +99,16 @@
             fg = dim;
 
             item.selected = {
-              bg = panel;
-              fg = fg;
-              match.fg = magenta;
+              bg = selectedBg;
+              fg = selectedFg;
+              match.fg = accent;
               border = {
-                bottom = panel;
-                top = panel;
+                bottom = selectedHardBg;
+                top = selectedHardBg;
               };
             };
 
-            match.fg = magenta;
+            match.fg = accent;
 
             scrollbar = {
               bg = bg;
@@ -85,8 +122,8 @@
               fg = fg;
             };
             selected = {
-              bg = panel;
-              fg = fg;
+              bg = selectedBg;
+              fg = selectedFg;
             };
             disabled = {
               bg = bg;
@@ -97,56 +134,56 @@
           downloads = {
             bar.bg = bg;
             start = {
-              bg = bg;
-              fg = cyan;
+              bg = tint "base0D" 24;
+              fg = fg;
             };
             stop = {
-              bg = bg;
-              fg = green;
+              bg = tint "base0A" 24;
+              fg = fg;
             };
             error = {
-              bg = bg;
-              fg = magenta;
+              bg = tint "base0E" 26;
+              fg = fg;
             };
           };
 
           hints = {
-            bg = magenta;
+            bg = hintBg;
             fg = bg;
-            match.fg = yellow;
+            match.fg = magenta;
           };
 
           keyhint = {
             bg = panel;
             fg = fg;
-            suffix.fg = magenta;
+            suffix.fg = accent;
           };
 
           messages = {
             info = {
-              bg = bg;
-              fg = cyan;
+              bg = tint "base0D" 18;
+              fg = fg;
               border = line;
             };
             warning = {
-              bg = bg;
-              fg = orange;
-              border = line;
+              bg = tint "base08" 20;
+              fg = fg;
+              border = orange;
             };
             error = {
-              bg = bg;
-              fg = magenta;
-              border = line;
+              bg = tint "base0E" 26;
+              fg = fg;
+              border = magenta;
             };
           };
 
           prompts = {
-            bg = panel;
+            bg = bg;
             fg = fg;
             border = "1px solid ${line}";
             selected = {
-              bg = line;
-              fg = fg;
+              bg = selectedBg;
+              fg = selectedFg;
             };
           };
 
@@ -159,34 +196,34 @@
               bg = bg;
               fg = fg;
               private = {
-                bg = bg;
+                bg = tint "base0C" 20;
                 fg = violet;
               };
             };
             insert = {
-              bg = bg;
+              bg = tint "base0A" 20;
               fg = green;
             };
             passthrough = {
-              bg = bg;
+              bg = tint "base09" 20;
               fg = blue;
             };
             private = {
-              bg = bg;
+              bg = tint "base0C" 20;
               fg = violet;
             };
             caret = {
-              bg = bg;
+              bg = tint "base0B" 20;
               fg = yellow;
               selection = {
-                bg = bg;
+                bg = tint "base0E" 22;
                 fg = magenta;
               };
             };
-            progress.bg = magenta;
+            progress.bg = accent;
             url = {
               fg = fg;
-              hover.fg = cyan;
+              hover.fg = accent;
               error.fg = magenta;
               warn.fg = orange;
               success = {
@@ -208,12 +245,12 @@
             };
             selected = {
               even = {
-                bg = bg;
-                fg = fg;
+                bg = selectedHardBg;
+                fg = selectedFg;
               };
               odd = {
-                bg = bg;
-                fg = fg;
+                bg = selectedHardBg;
+                fg = selectedFg;
               };
             };
             pinned = {
@@ -227,17 +264,17 @@
               };
               selected = {
                 even = {
-                  bg = bg;
-                  fg = fg;
+                  bg = selectedBg;
+                  fg = selectedFg;
                 };
                 odd = {
-                  bg = bg;
-                  fg = fg;
+                  bg = selectedBg;
+                  fg = selectedFg;
                 };
               };
             };
             indicator = {
-              start = cyan;
+              start = accent;
               stop = green;
               error = magenta;
             };

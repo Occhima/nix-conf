@@ -134,6 +134,11 @@ Scope {
 
             mask: surfaceOpen ? fullRegion : dockRegion
 
+            BackgroundEffect.blurRegion: Region {
+                item: island
+                radius: island.radius
+            }
+
             WlrLayershell.layer: WlrLayer.Overlay
             WlrLayershell.namespace: "guernica-ukishima"
             WlrLayershell.keyboardFocus: surfaceOpen
@@ -197,15 +202,19 @@ Scope {
                     border.width: 1
                     border.color: islandWindow.surfaceOpen
                         ? Qt.alpha(Data.Settings.warmAccent, 0.28)
-                        : Data.Settings.borderNormal
+                        : Data.Settings.glassEdge
                     gradient: Gradient {
                         GradientStop {
                             position: 0
-                            color: Data.Settings.surfaceTop
+                            color: islandWindow.surfaceOpen
+                                ? Data.Settings.surfaceTopOpen
+                                : Data.Settings.surfaceTop
                         }
                         GradientStop {
                             position: 1
-                            color: Data.Settings.surfaceBottom
+                            color: islandWindow.surfaceOpen
+                                ? Data.Settings.surfaceBottomOpen
+                                : Data.Settings.surfaceBottom
                         }
                     }
 
@@ -243,7 +252,17 @@ Scope {
                         anchors.leftMargin: parent.radius
                         anchors.rightMargin: parent.radius
                         height: 1
-                        color: Qt.alpha(Data.Settings.fgColor, 0.08)
+                        color: Data.Settings.glassSpecular
+                    }
+
+                    Rectangle {
+                        anchors.bottom: parent.bottom
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.leftMargin: parent.radius
+                        anchors.rightMargin: parent.radius
+                        height: 1
+                        color: Qt.rgba(0, 0, 0, 0.22)
                     }
 
                     Item {
