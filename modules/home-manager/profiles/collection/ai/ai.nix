@@ -3,9 +3,6 @@ let
   cliAi = config.flake.modules.homeManager.cli-ai;
 in
 {
-  # Agent instructions/skills live in this directory; other features
-  # (e.g. jcode) consume them through the fixed point instead of
-  # reaching across the tree with relative paths.
   flake.lib.custom.aiAssets = {
     skills = ./skills;
     agentsMd = ./AGENTS.md;
@@ -25,6 +22,9 @@ in
       inherit (lib) mkIf getExe getExe';
       hasAgeKeys = (osConfig.age.secrets or { }) ? openrouter-api-key;
 
+      graphify = pkgs.graphify.overridePythonAttrs (old: {
+        dependencies = old.dependencies ++ old.optional-dependencies.mcp;
+      });
       engram = pkgs.buildGoModule rec {
         pname = "engram";
         version = "1.19.0";
@@ -65,6 +65,7 @@ in
           # TODO: add codeburn
           packages = [
             engram
+            graphify
             # pkgs.python313Packages.google-generativeai
             # pkgs.rtk
           ];
@@ -107,6 +108,14 @@ in
             deepwiki = {
               type = "http";
               url = "https://mcp.deepwiki.com/mcp";
+            };
+            graphify = {
+              command = getExe' graphify "graphify-mcp";
+              args = [
+                "--transport"
+                "stdio"
+              ];
+              type = "stdio";
             };
 
             context7 = {
