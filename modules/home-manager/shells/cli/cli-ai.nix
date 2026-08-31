@@ -9,6 +9,7 @@ in
     hm.aider
     hm.fabric
     hm.jcode
+    hm.pi
     hm.codegraph
     hm.feynman
   ];

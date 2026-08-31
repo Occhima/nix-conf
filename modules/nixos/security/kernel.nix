@@ -21,9 +21,6 @@
           # User namespaces are required for sandboxing
           allowUserNamespaces = true;
 
-          # Disable unprivileged user namespaces, unless containers are enabled
-          unprivilegedUsernsClone = config.virtualisation.containers.enable;
-
           allowSimultaneousMultithreading = true;
         };
 

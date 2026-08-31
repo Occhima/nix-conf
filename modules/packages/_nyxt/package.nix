@@ -9,9 +9,7 @@
   enchant,
   electron,
   xdg-utils,
-  autoPatchelfHook,
   libglvnd,
-  glibcLocales,
   makeWrapper,
   wayland,
   egl-wayland,
@@ -49,6 +47,15 @@ let
     inherit version pname;
     src = unpackedSource;
   };
+
+  runtimeLibs = lib.makeLibraryPath [
+    openssl
+    libglvnd
+    wayland
+    egl-wayland
+    electron
+    enchant
+  ];
 in
 stdenvNoCC.mkDerivation {
   inherit pname version;
@@ -57,21 +64,8 @@ stdenvNoCC.mkDerivation {
 
   nativeBuildInputs = [
     makeWrapper
-    autoPatchelfHook
-    glibcLocales
     copyDesktopItems
   ];
-
-  LD_LIBRARY_PATH = lib.makeLibraryPath [
-    openssl
-    libglvnd
-    wayland
-    egl-wayland
-    electron
-    enchant
-  ];
-
-  # sourceRoot = lib.optionalString hostPlatform.isDarwin ".";
 
   installPhase = ''
     runHook preInstall
@@ -87,10 +81,10 @@ stdenvNoCC.mkDerivation {
     runHook postInstall
   '';
 
-  # --set to set env variables
   postFixup = ''
     wrapProgram "$out/bin/nyxt" \
-      --prefix LD_LIBRARY_PATH : "$LD_LIBRARY_PATH" \
+      --prefix LD_LIBRARY_PATH : "${runtimeLibs}" \
+      --set-default APPIMAGE_EXTRACT_AND_RUN 1 \
       --set-default SSL_CERT_FILE  ${cacert}/etc/ssl/certs/ca-bundle.crt \
       --set-default CURL_CA_BUNDLE ${cacert}/etc/ssl/certs/ca-bundle.crt \
       --prefix PATH : "${
@@ -109,7 +103,7 @@ stdenvNoCC.mkDerivation {
       name = "nyxt";
       desktopName = "Nyxt";
       comment = "A browser for Hackers";
-      exec = "${binaryName} %u"; # relies on profile PATH; simple & clean
+      exec = "${binaryName} %u";
       icon = "${binaryName}"; # resolved by the hicolor icon we installed
       type = "Application";
       mimeTypes = [
@@ -146,7 +140,6 @@ stdenvNoCC.mkDerivation {
     })
   ];
 
-  dontStrip = true;
   meta = {
     description = "Infinitely extensible web-browser (with Lisp development files using Electron platform port)";
     mainProgram = "nyxt";
