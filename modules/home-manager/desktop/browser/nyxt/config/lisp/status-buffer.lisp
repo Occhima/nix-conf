@@ -26,10 +26,61 @@ means each one is a fresh definition rather than a redefinition."
 (defmethod format-status :around ((status status-buffer))
   (if (window status) (call-next-method) ""))
 
+(defun %mode-label (status mode)
+  "Status label for MODE, or NIL when it asked not to be named.
+
+The `-mode' every class name carries is noise once the label sits on a bar
+that holds nothing but modes."
+  (alexandria:when-let ((label (mode-status status mode)))
+    (str:replace-all "-mode" "" label)))
+
+(defun %visible-modes (buffer)
+  "BUFFER's modes worth naming, keyscheme mode first.
+
+`sort-modes-for-status' drops the modes that set `visible-in-status-p' to
+nil -- document, hint and small-web among them -- so what comes back is the
+handful that says something about this buffer rather than every mode it
+happens to run."
+  (ignore-errors
+   (nyxt::sort-modes-for-status (nyxt::enabled-modes buffer))))
+
+(defun %keyscheme-label (status buffer)
+  "Label of BUFFER's keyscheme mode, or NIL when none is enabled."
+  (alexandria:when-let ((mode (first (%visible-modes buffer))))
+    (when (typep mode 'nyxt/mode/keyscheme:keyscheme-mode)
+      (%mode-label status mode))))
+
+(defun %other-mode-labels (status buffer)
+  "Labels of BUFFER's visible modes, the keyscheme one excepted."
+  (let ((modes (%visible-modes buffer)))
+    (loop for mode in (if (and modes
+                               (typep (first modes)
+                                      'nyxt/mode/keyscheme:keyscheme-mode))
+                          (rest modes)
+                          modes)
+          for label = (%mode-label status mode)
+          when label
+            collect label)))
+
+(defmethod mode-status ((status status-buffer)
+                        (mode nyxt/mode/vi:vi-normal-mode))
+  "normal")
+
+(defmethod mode-status ((status status-buffer)
+                        (mode nyxt/mode/vi:vi-insert-mode))
+  "insert")
+
 (defmethod format-status-load-status ((status status-buffer))
-  "Spinning indicator while the active buffer loads."
+  "Keyscheme state at the far left of the bar, then the load indicator.
+
+`format-status' renders this ahead of the URL, which is the one spot on the
+bar a modal editor puts its state and the one spot nothing competes for.
+Beside the tabs the same label read as another tab, a pill among pills."
   (alexandria:when-let ((buffer (%status-target status)))
     (spinneret:with-html
+      (alexandria:when-let ((keyscheme (%keyscheme-label status buffer)))
+        (:span :class (format nil "keyscheme keyscheme-~a" keyscheme)
+               keyscheme))
       (when (and (web-buffer-p buffer)
                  (eq (nyxt::status buffer) :loading))
         (:span :class "spinner")))))
@@ -86,10 +137,12 @@ the URL already says."
             collect
             (let* ((buffer buffer)
                    (url (url buffer))
-                   (label (if (internal-url-p url)
-                              (format nil "~a:~a"
-                                      (quri:uri-scheme url) (quri:uri-path url))
-                              (or (quri:uri-domain url) (render-url url)))))
+                   (label (cond
+                            ((not (str:emptyp (title buffer))) (title buffer))
+                            ((internal-url-p url)
+                             (format nil "~a:~a"
+                                     (quri:uri-scheme url) (quri:uri-path url)))
+                            (t (or (quri:uri-domain url) (render-url url))))))
               (:span
                :class (if (eq current-buffer buffer) "selected-tab tab" "tab")
                :title (title buffer)
@@ -108,9 +161,11 @@ the URL already says."
                       *glyph-close*))))))))
 
 (defmethod format-status-modes ((status status-buffer))
-  "Single toggle glyph; the mode list itself lives behind it."
+  "The modes worth naming, then the toggle the rest live behind."
   (alexandria:when-let ((buffer (%status-target status)))
     (spinneret:with-html
+      (dolist (label (%other-mode-labels status buffer))
+        (:span :class "mode-name" label))
       (:nbutton :buffer status :text *glyph-modes*
         :title (nyxt::modes-string buffer)
         '(nyxt:toggle-modes)))))
@@ -163,8 +218,14 @@ the URL already says."
          :align-items "center"
          :gap "6px"
          :width "100%"
-         :height "28px"
-         :overflow "hidden")
+         :height "22px"
+         :margin "3px 0"
+         :padding "0 8px"
+         :border-radius "6px"
+         :overflow "hidden"
+         :transition "background-color 120ms ease")
+       `("#url button:hover"
+         :background-color ,(%hairline theme:on-background-color 0.06))
        `(".url-scheme"
          :flex "0 0 auto"
          :color ,theme:primary-color)
@@ -206,22 +267,26 @@ the URL already says."
          :gap "6px"
          :flex "0 1 auto"
          :min-width "0"
-         :height "28px"
+         :height "22px"
          :max-width "140px"
-         :margin "0"
-         :padding "0"
+         :margin "3px 0"
+         :padding "0 8px"
          :border "none"
-         :border-radius "0"
+         :border-radius "6px"
          :background-color "transparent"
          :color ,theme:primary-color
-         :transition "color 120ms ease")
+         :transition "color 120ms ease, background-color 120ms ease")
+       `(".tab:hover"
+         :background-color ,(%hairline theme:on-background-color 0.06))
        '(".tab-label"
          :overflow "hidden"
          :text-overflow "ellipsis"
          :white-space "nowrap")
        '(".tab-close"
          :flex "0 0 auto"
-         :font-size "9px"
+         :font-size "14px"
+         :line-height "1"
+         :padding "2px"
          :opacity "0"
          :transition "opacity 120ms ease")
        '(".tab:hover .tab-close"
@@ -229,13 +294,34 @@ the URL already says."
        '(".tab-close:hover"
          :opacity "1")
        `(".selected-tab"
-         :background-color "transparent"
-         :color ,theme:on-background-color
-         :box-shadow ,(format nil "inset 0 -1px 0 0 ~a" theme:on-background-color))
+         :background-color ,(%hairline theme:on-background-color 0.10)
+         :color ,theme:on-background-color)
+       `(".keyscheme"
+         :flex "0 0 auto"
+         :display "inline-flex"
+         :align-items "center"
+         :height "14px"
+         :padding-left "8px"
+         :border-left ,(format nil "2px solid ~a"
+                               (%hairline theme:on-background-color 0.30))
+         :font-size "10px"
+         :letter-spacing "0.14em"
+         :text-transform "uppercase"
+         :color ,theme:primary-color)
+       `(".keyscheme-insert"
+         :border-left-color ,theme:action-color
+         :color ,theme:action-color)
+       `(".mode-name"
+         :flex "0 0 auto"
+         :font-size "10px"
+         :letter-spacing "0.08em"
+         :text-transform "uppercase"
+         :color ,(%hairline theme:primary-color 0.70))
        `("#modes"
          :flex "0 0 auto"
          :display "flex"
          :align-items "center"
+         :gap "8px"
          :height "28px"
          :margin "0"
          :padding "0"
@@ -244,12 +330,15 @@ the URL already says."
          :background-color "transparent"
          :color ,theme:primary-color)
        `("#modes > button"
-         :height "28px"
-         :padding "0"
-         :border-radius "0"
+         :height "22px"
+         :margin "3px 0"
+         :padding "0 8px"
+         :border-radius "6px"
          :font-size "12px"
          :color ,theme:primary-color
-         :transition "color 120ms ease")
+         :transition "color 120ms ease, background-color 120ms ease")
+       `("#modes > button:hover"
+         :background-color ,(%hairline theme:on-background-color 0.06))
        '(button
          :border-radius "0")
        `("#modes > button:hover, .tab:hover, #url:hover"

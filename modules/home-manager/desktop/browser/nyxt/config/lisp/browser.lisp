@@ -9,7 +9,7 @@
 (define-configuration browser
   ((external-editor-program (%host-command "emacsclient -c"))
    (search-engines (append %slot-default% *extra-search-engines*))
-   (search-engine-suggestions-p t)
+   (search-engine-suggestions-p nil)
    (default-new-buffer-url (quri:uri (nyxt-url 'start-page)))
    (nyxt/renderer/electron:adblocking-enabled-p nil)))
 

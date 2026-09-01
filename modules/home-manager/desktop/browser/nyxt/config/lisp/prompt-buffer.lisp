@@ -6,27 +6,47 @@
 (defvar *palette-height-ratio* 0.52)
 (defvar *palette-top-ratio* 0.16)
 
+(defvar *palette-placement* (make-hash-table :test 'eq)
+  "Window -> the prompt buffer already placed as a palette over it.
+
+Presence is the whole answer: a palette is placed once, when it opens, and
+closing it drops the entry so the next one places itself again.")
+
 (defmethod (setf nyxt::ffi-height) :after ((height integer)
                                            (prompt-buffer prompt-buffer))
-  "Float the prompt buffer as a centred command palette over the web view."
+  "Float the prompt buffer as a centred command palette over the web view.
+
+Nyxt resizes the prompt buffer as its suggestion list grows and shrinks, so
+this runs on every keystroke of a prompt, and every Electron call below is a
+synchronous round trip that the renderer is waiting on -- `%tile' alone is
+one per pane, and reading the window's bounds is one more.  Doing that per
+keystroke is what wedges the palette, so a palette that is already placed
+does nothing at all here: its geometry follows the window's size, which does
+not change while someone is typing into it."
   (ignore-errors
    (with-slots (window) prompt-buffer
-     (when (plusp height)
-       (let* ((bounds (uiop:symbol-call :electron :get-bounds window))
-              (window-width (alexandria:assoc-value bounds :width))
-              (window-height (alexandria:assoc-value bounds :height))
-              (palette-width (min *palette-max-width*
-                                  (round (* window-width *palette-width-ratio*))))
-              (palette-height (min *palette-max-height*
-                                   (round (* window-height *palette-height-ratio*)))))
-         (uiop:symbol-call :electron :set-background-color
-                           prompt-buffer "#00000000")
-         (%tile window)
-         (uiop:symbol-call :electron :set-bounds prompt-buffer
-                           :x (round (/ (- window-width palette-width) 2))
-                           :y (round (* window-height *palette-top-ratio*))
-                           :width palette-width
-                           :height palette-height))))))
+     (cond
+       ((not (plusp height))
+        (remhash window *palette-placement*))
+       ((eq prompt-buffer (gethash window *palette-placement*))
+        nil)
+       (t
+        (setf (gethash window *palette-placement*) prompt-buffer)
+        (let* ((bounds (uiop:symbol-call :electron :get-bounds window))
+               (window-width (alexandria:assoc-value bounds :width))
+               (window-height (alexandria:assoc-value bounds :height))
+               (palette-width (min *palette-max-width*
+                                   (round (* window-width *palette-width-ratio*))))
+               (palette-height (min *palette-max-height*
+                                    (round (* window-height *palette-height-ratio*)))))
+          (uiop:symbol-call :electron :set-background-color
+                            prompt-buffer "#00000000")
+          (%tile window)
+          (uiop:symbol-call :electron :set-bounds prompt-buffer
+                            :x (round (/ (- window-width palette-width) 2))
+                            :y (round (* window-height *palette-top-ratio*))
+                            :width palette-width
+                            :height palette-height)))))))
 
 (define-configuration predicted-command-source
   ((prompter:constructor
@@ -59,48 +79,50 @@
          :box-sizing "border-box"
          :display "grid"
          :grid-template-rows "auto 1fr"
-         :row-gap "10px"
-         :padding "12px"
-         :border-radius "16px"
-         :background-color ,(%hairline theme:background-color 0.93)
+         :row-gap "6px"
+         :padding "10px 0 6px 0"
+         :border-radius "6px"
+         :background-color ,theme:background-color
          :border ,(format nil "1px solid ~a"
-                          (%hairline theme:on-background-color 0.22))
-         :box-shadow "0 18px 50px rgba(0,0,0,0.55)"
+                          (%hairline theme:on-background-color 0.12))
+         :box-shadow "0 8px 24px rgba(0,0,0,0.35)"
          :animation "nyxt-palette-in 150ms cubic-bezier(0.2, 0.7, 0.3, 1) both")
        `("#prompt-area"
-         :margin "0"
-         :height "42px"
+         :margin "0 0 4px 0"
+         :height "34px"
          :align-items "center"
          :border "none"
-         :border-radius "12px"
+         :border-radius "0"
          :background-color "transparent"
-         :box-shadow ,(format nil "inset 0 0 0 1px ~a"
-                              (%hairline theme:on-background-color 0.22)))
+         :box-shadow ,(format nil "inset 0 -1px 0 0 ~a"
+                              (%hairline theme:on-background-color 0.10)))
        `("#prompt"
          :background-color "transparent"
          :color ,theme:primary-color
-         :font-size "11px"
-         :letter-spacing "0.06em"
-         :text-transform "lowercase"
-         :line-height "42px"
+         :font-size "10px"
+         :letter-spacing "0.10em"
+         :text-transform "uppercase"
+         :line-height "34px"
          :padding "0 2px 0 14px"
          :max-width "24ch")
        '("#prompt-input"
-         :line-height "42px"
+         :line-height "34px"
          :padding "0 6px"
          :min-width "12ch")
        `("#prompt-extra"
          :background-color "transparent"
          :color ,theme:primary-color
-         :font-size "11px"
-         :line-height "42px"
+         :font-size "10px"
+         :line-height "34px"
          :padding-right "14px")
        '("#prompt-modes, #close-button"
+         :display "none")
+       '("#previous-source, #next-source, #toggle-attributes"
          :display "none")
        `(input
          :font-family ,(%mono-stack theme:monospace-font-family))
        `("#input"
-         :height "42px"
+         :height "34px"
          :border "none"
          :border-radius "0"
          :padding "0"
@@ -117,7 +139,7 @@
          :overflow-y "auto"
          :overflow-x "hidden")
        '(".source"
-         :margin "0 0 10px 0")
+         :margin "0 0 14px 0")
        '(".source:last-of-type"
          :margin-bottom "0")
        `(".source-name"
@@ -128,7 +150,7 @@
          :text-transform "uppercase"
          :border-radius "0"
          :border "none"
-         :padding "0 0 6px 10px")
+         :padding "0 0 6px 14px")
        '(".source-name > div"
          :line-height "14px")
        '(".source-content th"
@@ -139,9 +161,9 @@
          :border-spacing "0 2px"
          :table-layout "auto"
          (td
-          :height "26px"
+          :height "24px"
           :padding "0 14px 0 0"
-          :border-radius "6px"
+          :border-radius "0"
           :color ,theme:primary-color
           :overflow "hidden"
           :text-overflow "ellipsis"
@@ -149,15 +171,17 @@
          ("td:first-child"
           :color ,theme:on-background-color
           :width "1%"
-          :padding-left "10px"
+          :padding-left "14px"
           :white-space "nowrap")
          ("tr:hover td"
           :background-color ,(%hairline theme:on-background-color 0.07)))
        '(".source-content col"
          :width "auto !important")
+       `("#selection"
+         :background-color ,theme:secondary-color)
        `("#selection td"
-         :background-color ,theme:primary-color
-         :color ,theme:on-primary-color)
+         :background-color ,theme:secondary-color
+         :color ,theme:on-background-color)
        `(.marked
          :background-color "transparent"
          :color ,theme:on-background-color)

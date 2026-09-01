@@ -6,7 +6,8 @@
     (load generated)))
 
 (defparameter *components*
-  '("electron-sockets"
+  '("robustness"
+    "electron-sockets"
     "styles"
     "window-splits"
     "search-engines"

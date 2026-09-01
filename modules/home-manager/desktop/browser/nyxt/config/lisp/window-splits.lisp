@@ -192,6 +192,44 @@ is what `window' of a buffer is derived from -- is repeated here."
          (nth (mod (1+ (getf state :focus)) (length buffers)) buffers))
         (echo "Window is not split."))))
 
+(defun %move-focus (direction)
+  "Move to the pane DIRECTION of the focused one, as in Vim's C-w h j k l.
+
+A window holds one row or one column of panes, never a grid, so only the
+axis its orientation runs along can be moved along: DIRECTION across that
+axis has nowhere to go.  Neither does DIRECTION off the end, which stops
+where Vim stops rather than wrapping round to the far side."
+  (let* ((window (current-window))
+         (state (%split-state window))
+         (buffers (getf state :buffers))
+         (vertical-p (eq (getf state :orientation) :vertical))
+         (step (case direction
+                 (:left (and vertical-p -1))
+                 (:right (and vertical-p 1))
+                 (:up (and (not vertical-p) -1))
+                 (:down (and (not vertical-p) 1)))))
+    (if (rest buffers)
+        (alexandria:when-let ((index (and step (+ (getf state :focus) step))))
+          (when (and (<= 0 index) (< index (length buffers)))
+            (set-current-buffer (nth index buffers))))
+        (echo "Window is not split."))))
+
+(define-command focus-split-left ()
+  "Move to the pane left of this one, as in Vim's C-w h."
+  (%move-focus :left))
+
+(define-command focus-split-down ()
+  "Move to the pane below this one, as in Vim's C-w j."
+  (%move-focus :down))
+
+(define-command focus-split-up ()
+  "Move to the pane above this one, as in Vim's C-w k."
+  (%move-focus :up))
+
+(define-command focus-split-right ()
+  "Move to the pane right of this one, as in Vim's C-w l."
+  (%move-focus :right))
+
 (define-command unsplit ()
   "Give the whole window back to the focused pane, as in Vim's :only.
 
@@ -212,28 +250,45 @@ buffer loaded."
 
 (define-configuration base-mode
   ((keyscheme-map
-    ;; `C-w' alone is `delete-current-buffer' in the cua and emacs keyschemes and
-    ;; would swallow the prefix, so those are bound too and the command they lose
-    ;; moves to `C-w c', as in Vim.  The lists are spelled out rather than shared
-    ;; through a variable, which the compiler macro of `define-keyscheme-map'
-    ;; refuses.
+    ;; `C-w' is `delete-current-buffer' in cua and kills a region in emacs, and
+    ;; `M-w' is taken as well, so the prefix is `C-M-w'.  The lists are spelled
+    ;; out rather than shared through a variable, which the compiler macro of
+    ;; `define-keyscheme-map' refuses.
     (keymaps:define-keyscheme-map
       "window-splits" (list :import %slot-value%)
       nyxt/keyscheme:default
-      (list "C-w v" 'split-vertically
-            "C-w s" 'split-horizontally
-            "C-w w" 'switch-split
-            "C-w o" 'unsplit
-            "C-w c" 'delete-current-buffer)
+      (list "C-M-w v" 'split-vertically
+            "C-M-w s" 'split-horizontally
+            "C-M-w w" 'switch-split
+            "C-M-w h" 'focus-split-left
+            "C-M-w j" 'focus-split-down
+            "C-M-w k" 'focus-split-up
+            "C-M-w l" 'focus-split-right
+            "C-M-w o" 'unsplit)
       nyxt/keyscheme:cua
-      (list "C-w v" 'split-vertically
-            "C-w s" 'split-horizontally
-            "C-w w" 'switch-split
-            "C-w o" 'unsplit
-            "C-w c" 'delete-current-buffer)
+      (list "C-M-w v" 'split-vertically
+            "C-M-w s" 'split-horizontally
+            "C-M-w w" 'switch-split
+            "C-M-w h" 'focus-split-left
+            "C-M-w j" 'focus-split-down
+            "C-M-w k" 'focus-split-up
+            "C-M-w l" 'focus-split-right
+            "C-M-w o" 'unsplit)
       nyxt/keyscheme:emacs
-      (list "C-w v" 'split-vertically
-            "C-w s" 'split-horizontally
-            "C-w w" 'switch-split
-            "C-w o" 'unsplit
-            "C-w c" 'delete-current-buffer)))))
+      (list "C-M-w v" 'split-vertically
+            "C-M-w s" 'split-horizontally
+            "C-M-w w" 'switch-split
+            "C-M-w h" 'focus-split-left
+            "C-M-w j" 'focus-split-down
+            "C-M-w k" 'focus-split-up
+            "C-M-w l" 'focus-split-right
+            "C-M-w o" 'unsplit)
+      nyxt/keyscheme:vi-normal
+      (list "C-M-w v" 'split-vertically
+            "C-M-w s" 'split-horizontally
+            "C-M-w w" 'switch-split
+            "C-M-w h" 'focus-split-left
+            "C-M-w j" 'focus-split-down
+            "C-M-w k" 'focus-split-up
+            "C-M-w l" 'focus-split-right
+            "C-M-w o" 'unsplit)))))
