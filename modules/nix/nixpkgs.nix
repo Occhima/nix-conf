@@ -33,12 +33,28 @@ in
       allowUnsupportedSystem = false;
     };
 
-    flake.modules.nixos.nixpkgs-config = {
-      nixpkgs.config = config.flake.lib.custom.nixpkgsConfig;
-      nixpkgs.overlays = [
-        config.flake.overlays.emacs-overlay
-        config.flake.overlays.nur
-      ];
-    };
+    flake.modules.nixos.nixpkgs-config =
+      let
+        nixpkgsConfig = config.flake.lib.custom.nixpkgsConfig;
+        overlays = [
+          config.flake.overlays.emacs-overlay
+          config.flake.overlays.nur
+        ];
+      in
+      { config, ... }:
+      {
+        nixpkgs = {
+          config = nixpkgsConfig;
+          inherit overlays;
+        };
+
+        assertions = [
+          {
+            assertion =
+              !(lib.any (lib.hasPrefix "electron-") (config.nixpkgs.config.permittedInsecurePackages or [ ]));
+            message = "no host may reopen an insecure electron";
+          }
+        ];
+      };
   };
 }

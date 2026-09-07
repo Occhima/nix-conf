@@ -3,10 +3,12 @@
     "claude-code"
   ];
 
-  flake.modules.homeManager.claude-code = {
-    config = {
+  flake.modules.homeManager.claude-code =
+    { config, ... }:
+    {
       programs.claude-code = {
         enable = true;
+        configDir = "${config.xdg.configHome}/claude";
         enableMcpIntegration = true;
 
         settings = {
@@ -82,6 +84,12 @@
                 repo = "pbakaus/impeccable";
               };
             };
+            portal = {
+              source = {
+                source = "github";
+                repo = "spotify/portal-ai-plugins";
+              };
+            };
           };
           enabledPlugins = {
             #"perplexity@perplexity-mcp-server" = true;
@@ -101,6 +109,8 @@
             "andrej-karpathy-skills@karpathy-skills" = true;
             "humanizer@humanizer" = true;
             "impeccable@impeccable" = true;
+            "portal@portal" = true;
+            "shunt@portal" = true;
           };
           permissions = {
             disableBypassPermissionsMode = "disable";
@@ -182,5 +192,4 @@
         };
       };
     };
-  };
 }

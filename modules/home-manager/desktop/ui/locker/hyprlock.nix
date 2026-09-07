@@ -12,6 +12,13 @@ in
     {
       config = lib.mkMerge [
         {
+          assertions = [
+            {
+              assertion = config.programs.hyprlock.enable != config.programs.swaylock.enable;
+              message = "exactly one screen locker must be enabled (hyprlock or swaylock)";
+            }
+          ];
+
           programs.hyprlock = {
             enable = true;
             settings.general = {

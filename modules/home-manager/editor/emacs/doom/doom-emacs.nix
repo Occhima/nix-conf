@@ -14,7 +14,7 @@ in
     let
       inherit (builtins) getAttr;
 
-      emacsBase = pkgs.emacs30-pgtk;
+      emacsBase = pkgs.emacs-pgtk;
       mkEmacsHomePackages =
         packages:
         let
@@ -49,6 +49,26 @@ in
         source = ./doom-cfg;
         recursive = true;
       };
+
+      # flake-file.inputs.nix-doom-emacs-unstraightened = {
+      #   url = "github:marienz/nix-doom-emacs-unstraightened";
+      #   inputs.nixpkgs.follows = "nixpkgs";
+      # };
+
+      #     programs.doom-emacs = {
+      #       enable = true;
+      #       doomDir = ./doom-cfg;
+      #       emacs = emacsBase;
+      #       extraPackages =
+      #         epkgs: with epkgs; [
+      #           treesit-grammars.with-all-grammars
+      #           vterm
+      #           eat
+      #           mu4e
+      #           pdf-tools
+      #           all-the-icons-nerd-fonts
+      #         ];
+      #     };
 
       programs.emacs = {
         enable = true;

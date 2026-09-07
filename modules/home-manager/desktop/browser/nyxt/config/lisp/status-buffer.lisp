@@ -160,13 +160,37 @@ the URL already says."
                                   (nyxt:delete-buffer :buffers (list buffer))))
                       *glyph-close*))))))))
 
+(defun %baseline-mode-names (buffer)
+  "Class names BUFFER should be running per its `default-modes' slot, keyscheme excepted.
+
+Keyscheme is excluded because switching between its own submodes (normal,
+insert) is expected churn, not a deviation worth flagging."
+  (remove-if (lambda (name) (subtypep name 'nyxt/mode/keyscheme:keyscheme-mode))
+             (default-modes buffer)))
+
+(defun %active-mode-names (buffer)
+  "Class names of BUFFER's live modes, keyscheme excepted."
+  (loop for mode in (nyxt::enabled-modes buffer)
+        unless (typep mode 'nyxt/mode/keyscheme:keyscheme-mode)
+          collect (class-name (class-of mode))))
+
+(defun %modes-drifted-p (buffer)
+  "T when BUFFER is running a mode set other than its declared baseline.
+
+Lets the toggle glyph stay quiet during normal browsing and only draw the eye
+once something has actually been turned on or off by hand."
+  (and (set-exclusive-or (%baseline-mode-names buffer) (%active-mode-names buffer))
+       t))
+
 (defmethod format-status-modes ((status status-buffer))
   "The modes worth naming, then the toggle the rest live behind."
   (alexandria:when-let ((buffer (%status-target status)))
     (spinneret:with-html
       (dolist (label (%other-mode-labels status buffer))
         (:span :class "mode-name" label))
-      (:nbutton :buffer status :text *glyph-modes*
+      (:nbutton :buffer status
+        :class (if (%modes-drifted-p buffer) "modes-toggle modes-drifted" "modes-toggle")
+        :text *glyph-modes*
         :title (nyxt::modes-string buffer)
         '(nyxt:toggle-modes)))))
 
@@ -313,10 +337,16 @@ the URL already says."
          :color ,theme:action-color)
        `(".mode-name"
          :flex "0 0 auto"
+         :display "inline-flex"
+         :align-items "center"
+         :height "18px"
+         :padding "0 7px"
+         :border-radius "6px"
+         :background-color ,(%hairline theme:on-background-color 0.10)
          :font-size "10px"
          :letter-spacing "0.08em"
          :text-transform "uppercase"
-         :color ,(%hairline theme:primary-color 0.70))
+         :color ,theme:on-background-color)
        `("#modes"
          :flex "0 0 auto"
          :display "flex"
@@ -339,6 +369,8 @@ the URL already says."
          :transition "color 120ms ease, background-color 120ms ease")
        `("#modes > button:hover"
          :background-color ,(%hairline theme:on-background-color 0.06))
+       `("#modes > button.modes-drifted"
+         :color ,theme:action-color)
        '(button
          :border-radius "0")
        `("#modes > button:hover, .tab:hover, #url:hover"

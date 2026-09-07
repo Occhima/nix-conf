@@ -1,5 +1,13 @@
 {
   flake.modules.homeManager.mako-notifier = { config, ... }: {
+    assertions = [
+      {
+        assertion =
+          (config.modules.desktop.notifications.backend == "quickshell") != config.services.mako.enable;
+        message = "exactly one notification daemon must own the session";
+      }
+    ];
+
     services.mako = {
       enable = config.modules.desktop.notifications.backend == "mako";
       settings = {

@@ -6,10 +6,15 @@ let
     ;
   inherit (lib)
     concatStringsSep
+    count
+    filter
     groupBy
+    head
     mapAttrs
     optional
     optionalAttrs
+    splitString
+    unique
     ;
 
   toLua = lib.generators.toLua { };
@@ -41,6 +46,25 @@ let
       { bind = map mkLuaBind specs; }
     else
       mapAttrs (_: map mkLegacyBind) (groupBy (spec: "bind${spec.legacyFlags or ""}") specs);
+
+  bindKey = bind: if builtins.isString bind then head (splitString "," bind) else head bind._args;
+
+  bindCommand =
+    bind:
+    if builtins.isString bind then
+      bind
+    else
+      let
+        argument = elemAt bind._args 1;
+      in
+      if builtins.isAttrs argument then argument.expr or "" else toString argument;
+
+  duplicateBindKeys =
+    binds:
+    let
+      keys = map bindKey binds;
+    in
+    filter (key: count (other: other == key) keys > 1) (unique keys);
 
   mkConfig = configType: settings: if isLua configType then { config = settings; } else settings;
 
@@ -172,6 +196,9 @@ in
 {
   flake.lib.custom.hyprlandLib = {
     inherit
+      bindCommand
+      bindKey
+      duplicateBindKeys
       isLua
       mkAnimations
       mkAutostart

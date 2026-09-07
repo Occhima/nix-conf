@@ -74,6 +74,10 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    oh-my-pi = {
+      url = "github:can1357/oh-my-pi";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     schizofox = {
       url = "github:schizofox/schizofox";
       inputs.nixpkgs.follows = "nixpkgs";

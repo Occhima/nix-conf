@@ -31,7 +31,6 @@ not change while someone is typing into it."
        ((eq prompt-buffer (gethash window *palette-placement*))
         nil)
        (t
-        (setf (gethash window *palette-placement*) prompt-buffer)
         (let* ((bounds (uiop:symbol-call :electron :get-bounds window))
                (window-width (alexandria:assoc-value bounds :width))
                (window-height (alexandria:assoc-value bounds :height))
@@ -46,7 +45,12 @@ not change while someone is typing into it."
                             :x (round (/ (- window-width palette-width) 2))
                             :y (round (* window-height *palette-top-ratio*))
                             :width palette-width
-                            :height palette-height)))))))
+                            :height palette-height)
+          ;; Cached only once the calls above have actually succeeded --
+          ;; caching it up front would leave a buffer that failed to place
+          ;; stuck unstyled for its whole lifetime, since every later resize
+          ;; would then see it as "already placed" and skip retrying.
+          (setf (gethash window *palette-placement*) prompt-buffer)))))))
 
 (define-configuration predicted-command-source
   ((prompter:constructor

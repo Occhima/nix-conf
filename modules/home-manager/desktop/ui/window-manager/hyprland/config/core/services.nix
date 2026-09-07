@@ -10,6 +10,17 @@
     in
     {
       config = {
+        assertions = [
+          {
+            assertion = lib.all (
+              service:
+              lib.elem "hyprland-session.target" (service.Install.WantedBy or [ ])
+              -> config.wayland.windowManager.hyprland.enable
+            ) (lib.attrValues config.systemd.user.services);
+            message = "user services target hyprland-session.target while hyprland is disabled";
+          }
+        ];
+
         services.hyprpaper = {
           enable = true;
           systemdTarget = "hyprland-session.target";

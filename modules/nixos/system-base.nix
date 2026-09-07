@@ -6,14 +6,32 @@ let
   nixos = config.flake.modules.nixos;
 in
 {
-  flake.modules.nixos.system-base.imports = [
-    nixos.nix
-    nixos.nixpkgs-config
-    nixos.nh
-    nixos.system-config
-    nixos.environment-console
-    nixos.environment-fonts
-    nixos.environment-locale
-    nixos.environment-packages
-  ];
+  flake.modules.nixos.system-base =
+    { config, ... }:
+    let
+      bootable = config.boot.loader.grub.enable || config.boot.loader.systemd-boot.enable;
+    in
+    {
+      imports = [
+        nixos.nix
+        nixos.nixpkgs-config
+        nixos.nh
+        nixos.system-config
+        nixos.environment-console
+        nixos.environment-fonts
+        nixos.environment-locale
+        nixos.environment-packages
+      ];
+
+      assertions = [
+        {
+          assertion =
+            if config.wsl.enable or false then
+              !bootable
+            else
+              bootable && config.fileSystems ? "/" && config.fileSystems ? "/boot";
+          message = "a host must declare a bootloader, a root filesystem and an ESP (or be WSL)";
+        }
+      ];
+    };
 }

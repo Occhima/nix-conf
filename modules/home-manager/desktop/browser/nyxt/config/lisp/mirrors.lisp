@@ -26,12 +26,10 @@ The front-ends match the ones already used by *EXTRA-SEARCH-ENGINES*.")
 The Electron renderer never runs `request-resource-hook', so redirects cannot
 happen before the request leaves.  `on-signal-load-started' is the earliest
 point Nyxt exposes here, so the original page starts loading and is navigated
-away from immediately.")
+away from immediately."
+  ((visible-in-status-p nil)))
 
 (defmethod on-signal-load-started ((mode mirror-mode) url)
   (alexandria:when-let ((target (%mirror-url url)))
     (ffi-buffer-load (buffer mode) target))
   url)
-
-(define-configuration web-buffer
-  ((default-modes (append '(mirror-mode) %slot-value%))))

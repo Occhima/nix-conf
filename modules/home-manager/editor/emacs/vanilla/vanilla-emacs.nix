@@ -16,7 +16,7 @@ in
     let
       inherit (builtins) getAttr;
 
-      emacsBase = pkgs.emacs30-pgtk;
+      emacsBase = pkgs.emacs-pgtk;
       mkEmacsHomePackages =
         packages:
         let

@@ -213,6 +213,23 @@ in
               lua = hyprlandLib.luaExec (ipcCommand binding.member);
             }) surfaceBindings
           );
+
+      assertions =
+        let
+          active = config.programs.quickshell.activeConfig;
+          commands = map hyprlandLib.bindCommand (config.wayland.windowManager.hyprland.settings.bind or [ ]);
+          islandBinds = lib.filter (command: lib.hasInfix ipcTarget command) commands;
+        in
+        [
+          {
+            assertion = config.programs.quickshell.configs ? ${active};
+            message = "quickshell activeConfig ${active} has no matching entry in programs.quickshell.configs";
+          }
+          {
+            assertion = islandBinds != [ ] && lib.all (command: lib.hasInfix active command) islandBinds;
+            message = "island keybinds must drive the active quickshell config (${active})";
+          }
+        ];
     };
 
   flake.modules.homeManager.niri =

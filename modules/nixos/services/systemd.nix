@@ -4,6 +4,15 @@
       thermald.enable = true;
       # smartd.enable = true;
       # lvm.enable = false;
+
+      journald.settings.Journal = {
+        SystemMaxUse = "100M";
+        SystemMaxFileSize = "50M";
+        RuntimeMaxUse = "50M";
+        Storage = "volatile";
+        ForwardToSyslog = "no";
+        Compress = "yes";
+      };
     };
 
     systemd = {
@@ -27,17 +36,6 @@
       };
 
       coredump.enable = true;
-    };
-
-    services.journald = {
-      extraConfig = ''
-        SystemMaxUse=100M
-        SystemMaxFileSize=50M
-        RuntimeMaxUse=50M
-        Storage=volatile
-        ForwardToSyslog=no
-        Compress=yes
-      '';
     };
   };
 }

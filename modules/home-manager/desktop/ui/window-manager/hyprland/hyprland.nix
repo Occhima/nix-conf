@@ -12,8 +12,16 @@ in
     }:
     let
       cfg = config.wayland.windowManager.hyprland;
+      duplicates = hyprlandLib.duplicateBindKeys (cfg.settings.bind or [ ]);
     in
     {
+      assertions = [
+        {
+          assertion = duplicates == [ ];
+          message = "hyprland keybinds collide on: ${lib.concatStringsSep ", " duplicates}";
+        }
+      ];
+
       wayland.windowManager.hyprland = {
         enable = true;
         package = null;
