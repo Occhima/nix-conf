@@ -1,9 +1,14 @@
 ;;; module-dashboard.el --- Startup dashboard -*- lexical-binding: t; -*-
 
+;; Welcome-screen style after https://github.com/gs-101/.emacs.d
+;; (dashboard package: white Emacs logo, centered title, init info,
+;; projects list, bracket navigator buttons, "Vi Vi Vi" footer).
+;; Logo asset gs-101-emacs.png is gs-101's edit of the GNU Emacs icon.
+
 (require 'core-ui)
 
 (defconst occhima/dashboard-banner
-  (expand-file-name "banners/blackhole-polykai.svg" user-emacs-directory))
+  (expand-file-name "banners/gs-101-emacs.png" user-emacs-directory))
 
 (defconst occhima/flake-directory (expand-file-name "~/.config/flake"))
 
@@ -32,16 +37,6 @@
   "Return a dashboard button action running COMMAND interactively."
   (lambda (&rest _) (call-interactively command)))
 
-(defun occhima/dashboard-shortcut (icon label command keys)
-  "Build a dashboard navigator row for COMMAND, shown as ICON, LABEL and KEYS."
-  (list icon
-        (format " %-18s" label)
-        (format "%s (%s)" label keys)
-        (occhima/dashboard-action command)
-        nil
-        ""
-        keys))
-
 (defun occhima/dashboard-navigator ()
   "Return the navigator rows describing this configuration."
   `(((,(nerd-icons-mdicon "nf-md-snowflake" :height 1.1 :v-adjust 0.0)
@@ -62,46 +57,44 @@
 
     (("" "\n" "" nil nil "" ""))
 
-    (,(occhima/dashboard-shortcut
-       (nerd-icons-faicon "nf-fa-search" :height 0.9 :v-adjust -0.1)
-       "Find file" #'find-file "SPC ."))
-    (,(occhima/dashboard-shortcut
-       (nerd-icons-octicon "nf-oct-file_directory" :height 1.0 :v-adjust -0.1)
-       "Switch project" #'project-switch-project "SPC p p"))
-    (,(occhima/dashboard-shortcut
-       (nerd-icons-octicon "nf-oct-three_bars" :height 1.1 :v-adjust -0.1)
-       "File explorer" #'dirvish "SPC o /"))
-    (,(occhima/dashboard-shortcut
-       (nerd-icons-codicon "nf-cod-search" :height 0.9 :v-adjust -0.1)
-       "Search project" #'consult-ripgrep "SPC /"))
-    (,(occhima/dashboard-shortcut
-       (nerd-icons-codicon "nf-cod-calendar" :height 0.9 :v-adjust -0.1)
-       "Org agenda" #'org-agenda "SPC n a"))
-    (,(occhima/dashboard-shortcut
-       (nerd-icons-codicon "nf-cod-settings" :height 0.9 :v-adjust -0.1)
-       "Edit config" #'occhima/find-file-in-config "SPC f e"))))
+    (,(nerd-icons-codicon "nf-cod-note" :height 1.1 :v-adjust 0.0)
+     "Open Scratch Buffer"
+     "Switch to the scratch buffer"
+     ,(lambda (&rest _) (switch-to-buffer (get-scratch-buffer-create)))
+     nil "" " |")
+    (,(nerd-icons-codicon "nf-cod-calendar" :height 1.1 :v-adjust 0.0)
+     "Open Org Agenda"
+     "Switch to the agenda buffer"
+     ,(occhima/dashboard-action #'org-agenda)
+     nil "" " |")
+    (,(nerd-icons-codicon "nf-cod-settings" :height 1.1 :v-adjust 0.0)
+     "Open Config"
+     "Open the Nix flake configuration"
+     #'occhima/browse-flake
+     nil "" "")))
 
 (use-package dashboard
   :ensure (dashboard :wait t)
   :demand t
   :hook (dashboard-mode . occhima/dashboard-quiet-ui)
   :custom
-  (dashboard-banner-logo-title "[Ο Κ Κ Ι Μ Α ❄ Ε Δ Ι Τ Ο Ρ]")
+  (dashboard-banner-logo-title "The Extensible Computing Environment")
   (dashboard-startup-banner occhima/dashboard-banner)
   (dashboard-image-banner-max-height 260)
   (dashboard-center-content t)
   (dashboard-vertically-center-content t)
   (dashboard-icon-type 'nerd-icons)
   (dashboard-startupify-list '(dashboard-insert-banner
-                               dashboard-insert-newline
                                dashboard-insert-banner-title
-                               dashboard-insert-newline
-                               dashboard-insert-navigator
-                               dashboard-insert-newline
                                dashboard-insert-init-info
                                dashboard-insert-items
                                dashboard-insert-newline
+                               dashboard-insert-navigator
+                               dashboard-insert-newline
                                dashboard-insert-footer))
+  (dashboard-modify-heading-icons '((agenda . "nf-oct-calendar")
+                                    (projects . "nf-oct-project")
+                                    (recents . "nf-oct-clock")))
   (dashboard-set-heading-icons t)
   (dashboard-set-file-icons t)
   (dashboard-projects-backend 'project-el)
@@ -109,15 +102,14 @@
   (dashboard-path-style 'truncate-middle)
   (dashboard-path-max-length 60)
   (dashboard-agenda-release-buffers t)
-  (dashboard-items '((recents . 5)
+  (dashboard-items '((agenda . 5)
                      (projects . 5)
-                     (bookmarks . 5)
-                     (agenda . 5)))
+                     (recents . 5)))
   (dashboard-footer-messages
-   '("Reproducible by construction: the flake remembers what you forget."
-     "Any text editor can save your files, only Emacs can save your soul."
-     "A configuration you cannot rebuild from scratch is a configuration you rent."
-     "The best abstraction is the one you never had to write."))
+   '("Vi Vi Vi, the editor of the beast."
+     "Welcome-screen style after https://github.com/gs-101/.emacs.d"
+     "Reproducible by construction: the flake remembers what you forget."
+     "Any text editor can save your files, only Emacs can save your soul."))
   :config
   (setq dashboard-footer-icon
         (nerd-icons-mdicon "nf-md-snowflake"

@@ -17,3 +17,6 @@
   ((nyxt/mode/hint:hints-alphabet "DSJKHLFAGNMXCWEIO")
    (nyxt/mode/hint:hints-selector
     "a, button, input, textarea, details, select, [role=button], [role=link], [onclick], summary")))
+
+(define-configuration document-buffer
+  ((smooth-scrolling t)))

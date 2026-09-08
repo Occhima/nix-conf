@@ -1,4 +1,4 @@
-# Host: steammachine — gaming desktop, AMD/NVIDIA, Ly, 2 monitors, Disko,
+# Host: steammachine — gaming desktop, AMD/NVIDIA, greetd+ReGreet, 2 monitors, Disko,
 # pentesting container, VPN.
 # Plain deferred NixOS module; usable without Den.
 { config, ... }: {
@@ -7,7 +7,7 @@
       gaming-workstation
       cpu-amd
       gpu-nvidia
-      login-ly
+      login-regreet
       disko-steammachine
       vpn-openvpn
       pentesting-container

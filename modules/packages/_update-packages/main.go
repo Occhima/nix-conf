@@ -184,8 +184,10 @@ func scan(pkgDir string) []*pkg {
 		if owner == "" || repo == "" {
 			continue
 		}
+		// ponytail: dirs are _prefixed (not auto-discovered), flake attr is unprefixed
+		name := strings.TrimPrefix(e.Name(), "_")
 		result = append(result, &pkg{
-			name:     e.Name(),
+			name:     name,
 			file:     file,
 			owner:    owner,
 			repo:     repo,
@@ -385,7 +387,7 @@ func updateOne(p *pkg, root string) error {
 
 func main() {
 	root := flakeRoot()
-	pkgDir := filepath.Join(root, "flake", "packages")
+	pkgDir := filepath.Join(root, "modules", "packages")
 
 	fmt.Println(smuted.Render("update-packages · " + pkgDir))
 	fmt.Println()

@@ -18,6 +18,8 @@
     "prompt-buffer"
     "web-buffer"
     "mirrors"
+    "view-source"
+    "search-buffer"
     "passwords"
     "emacs")
   "Files under lisp/, in load order.

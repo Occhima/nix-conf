@@ -10,13 +10,23 @@ place rather than capturing the replacement and delegating to itself.")
   "Write CONDITION to the log without a backtrace.
 
 The backtrace of a dying thread is what makes the log unreadable when
-several go at once, and the condition alone says which one to look at."
+several go at once, and the condition alone says which one to look at.
+Goes to *error-output* -- lost for a GUI launch -- and to
+~/.local/share/nyxt/thread-errors.log, which survives."
   (ignore-errors
-   (format *error-output* "~&Nyxt: unhandled ~a in ~a: ~a~%"
-           (type-of condition)
-           (sb-thread:thread-name sb-thread:*current-thread*)
-           condition)
-   (finish-output *error-output*)))
+   (let ((line (format nil "~&Nyxt: unhandled ~a in ~a: ~a~%"
+                       (type-of condition)
+                       (sb-thread:thread-name sb-thread:*current-thread*)
+                       condition)))
+     (format *error-output* "~a" line)
+     (finish-output *error-output*)
+     ;; ponytail: append-only file, rotate by hand when it grows.
+     (with-open-file (out (merge-pathnames "nyxt/thread-errors.log"
+                                           (uiop:xdg-data-home))
+                          :direction :output
+                          :if-does-not-exist :create
+                          :if-exists :append)
+       (write-string line out)))))
 
 (defun %survive-thread-condition (condition hook)
   "End the thread that signalled CONDITION rather than the whole session.

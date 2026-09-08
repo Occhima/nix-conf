@@ -30,7 +30,8 @@
        "K" 'switch-buffer-previous
        "f" 'nyxt/mode/hint:follow-hint
        "F" 'nyxt/mode/hint:follow-hint-new-buffer
-       "/" 'nyxt/mode/search-buffer:search-buffer
+        "/" 'nyxt/mode/search-buffer:search-buffer
+        "g /" 'nyxt/mode/search-buffer:search-buffers
        "y u" 'copy-url
        ":" 'execute-command
        "g s" 'start-page

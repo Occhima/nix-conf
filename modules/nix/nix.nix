@@ -48,9 +48,9 @@ let
     # littrally a CVE waiting to happen <https://x.com/puckipedia/status/1693927716326703441>
     accept-flake-config = false;
 
-    # IFD is disabled globally: no derivation output may be read back during
-    # evaluation (regression gate: nix flake check --option allow-import-from-derivation false).
-    allow-import-from-derivation = false;
+    # IFD allowed: nix-doom-emacs-unstraightened reads derivation outputs during
+    # eval (doom-intermediates.drv), so evaluation requires it.
+    allow-import-from-derivation = true;
 
     # for direnv GC roots
     keep-derivations = true;

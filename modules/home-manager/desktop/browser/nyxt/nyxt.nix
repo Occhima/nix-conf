@@ -35,14 +35,17 @@ in
         postBuild = ''
           rm "$out/bin/nyxt"
           makeWrapper ${nyxt}/bin/nyxt "$out/bin/nyxt" \
-            --set-default FONTCONFIG_FILE ${fontconfig}/fonts.conf
+            --set-default FONTCONFIG_FILE ${fontconfig}/fonts.conf \
+            --add-flags '--electron-opts "--enable-gpu-rasterization --enable-zero-copy --ignore-gpu-blocklist"'
         '';
       };
     in
     {
       config = mkIf pkgs.stdenv.hostPlatform.isLinux {
         home = {
-          packages = [ (if systemFonts == null then nyxt else nyxtWrapped) ];
+          packages = [
+            (if systemFonts == null then nyxt else nyxtWrapped)
+          ];
 
           activation.nyxtBookmarks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
             bookmarks="''${HOME}/.local/share/nyxt/bookmarks.lisp"
