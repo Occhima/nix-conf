@@ -36,7 +36,6 @@ in
     nixos.systemd
     nixos.firmware
     nixos.flatpak-daemon
-    nixos.bookorbit
     nixos.sshd
     nixos.appimage
     nixos.security-auth

@@ -6,7 +6,7 @@
       gaming-workstation
       cpu-amd
       gpu-nvidia
-      login-regreet
+      login-silentsddm
       disko-beyond
       vpn-openvpn
     ];
