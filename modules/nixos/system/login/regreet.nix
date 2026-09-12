@@ -4,7 +4,6 @@
 {
   flake.modules.nixos.login-regreet =
     {
-      config,
       pkgs,
       ...
     }:

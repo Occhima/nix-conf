@@ -24,57 +24,34 @@
 (define-configuration nyxt/mode/password:password-mode
   ((nyxt/mode/password:password-interface (make-instance 'passage-interface))))
 
-(defun %read-until-pin-prompt (pty)
-  "Read PTY a character at a time until the plugin's PIN prompt appears or
-PTY hits EOF.  Returns T in the former case, NIL in the latter.
+(defun %run-passage-with-pin (entry pin)
+  "Run `passage show --clip' for ENTRY, feeding PIN to its terminal prompt.
+Returns T on a clean exit.
 
-Reading has to happen a character at a time rather than a line at a time:
-the prompt (\"Enter PIN for YubiKey with serial ...: \") never ends in a
-newline, since it expects the answer typed on the same line, so `read-line'
-would just block forever waiting for one that is never coming."
-  (let ((seen (make-array 0 :element-type 'character :adjustable t :fill-pointer 0)))
-    (loop
-      (let ((char (read-char pty nil nil)))
-        (unless char (return nil))
-        (vector-push-extend char seen)
-        (when (search "Enter PIN" seen) (return t))))))
-
-(defun %run-passage-with-pin-prompt (arguments)
-  "Run `passage' ARGUMENTS under a pty, answering an interactive YubiKey PIN
-prompt via Nyxt's own prompt-buffer if the plugin asks for one.  Returns T
-on a clean exit.
-
-Nothing Nyxt hands a subprocess is ever a real terminal, and the YubiKey
-plugin's PIN entry (Go's `term.ReadPassword') needs one -- it calls tty
-ioctls that fail outright on a plain pipe.  SBCL's `:pty' support in
-`run-program' allocates that terminal directly, so the requirement is met
-regardless of what nyxt/mode/password's own, unrelated subprocess call
-does.  An unanswered or empty PIN kills the child rather than forwarding a
-blank line -- a prompt nobody answered must never turn into a submitted
-attempt against the hardware."
-  (let* ((executable (password:executable (make-instance 'passage-interface)))
-         (process (sb-ext:run-program executable arguments
-                                      :pty t :wait nil :search t)))
-    (let ((pty (sb-ext:process-pty process)))
-      (when (%read-until-pin-prompt pty)
-        (let ((pin (prompt1 :prompt "YubiKey PIN"
-                            :sources (list (make-instance 'prompter:raw-source)))))
-          (if (and pin (plusp (length pin)))
-              (progn (write-line pin pty) (force-output pty))
-              (sb-ext:process-kill process 15)))))
-    (sb-ext:process-wait process)
+`passage' insists on reading the YubiKey PIN from a terminal: the plugin has
+no pinentry integration, no environment variable and no stdin support, so a
+subprocess with plain pipes (what nyxt/mode/password hands it) has no prompt
+to answer and blocks forever.  `script' allocates that terminal instead, and
+the PIN is piped into it.  ENTRY and PIN travel as environment variables so
+neither shows up in the process list; output is discarded -- the clipboard
+is the only side effect that matters, and discarding keeps any pty echo of
+the PIN out of Nyxt's logs and prompts."
+  (let ((process (sb-ext:run-program
+                  "bash"
+                  (list "-c" "cmd=$(printf 'passage show --clip -- %q' \"$PASSAGE_ENTRY\")
+printf '%s\\n' \"$PASSAGE_PIN\" | script -qec \"$cmd\" /dev/null >/dev/null 2>&1")
+                  :search t :wait t :input nil :output nil :error nil
+                  :environment (cons (format nil "PASSAGE_ENTRY=~a" entry)
+                                     (cons (format nil "PASSAGE_PIN=~a" pin)
+                                           (sb-ext:posix-environ))))))
     (eql 0 (sb-ext:process-exit-code process))))
 
 (define-command-global copy-password-pin ()
-  "Copy a password to the clipboard, prompting for a YubiKey PIN through
-Nyxt's own prompt-buffer if the store's identity needs one.
+  "Copy a password to the clipboard, asking for the YubiKey PIN first.
 
-The built-in password-copy command hangs indefinitely on a YubiKey-backed
-identity: it hands `passage' a subprocess with no interactive terminal, so
-the plugin's PIN prompt sits blocked forever with no indication anything is
-waiting on you.  This bypasses that flow entirely rather than patching it,
-since neither its subprocess call nor its stdin handling is something this
-configuration can reach into and change."
+Nyxt's own password-copy hands `passage' a subprocess with no terminal, so
+the PIN prompt blocks forever.  This asks here instead and feeds the answer
+to a one-shot `script' invocation -- prompt, pipe, cleaned up, done."
   (let ((entry (prompt1 :prompt "Password"
                         :sources (list (make-instance 'prompter:source
                                                       :name "Passwords"
@@ -84,6 +61,11 @@ configuration can reach into and change."
                                                         (password:list-passwords
                                                          (make-instance 'passage-interface))))))))
     (when entry
-      (if (%run-passage-with-pin-prompt (list "show" "--clip" entry))
-          (echo "Copied ~a to clipboard." entry)
-          (echo-warning "Could not copy ~a." entry)))))
+      (let ((pin (prompt1 :prompt "YubiKey PIN"
+                          :sources (list (make-instance 'prompter:raw-source)))))
+        (cond ((or (null pin) (string= pin ""))
+               (echo-warning "No PIN entered; ~a was not copied." entry))
+              ((%run-passage-with-pin entry pin)
+               (echo "Copied ~a to clipboard." entry))
+              (t
+               (echo-warning "Could not copy ~a." entry)))))))

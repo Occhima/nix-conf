@@ -21,10 +21,10 @@ in
   };
 
   flake.modules.nixos.login-silentsddm =
-    { pkgs, ... }:
+    { ... }:
     let
-      # Same wallpaper the reGreet module used.
-      wallpaper = pkgs.nixos-artwork.wallpapers.nineish-dark-gray.gnomeFilePath;
+      # The same wallpaper the guernica desktop theme uses.
+      wallpaper = ../../../home-manager/desktop/ui/themes/collection/guernica/assets/wallpapers/guernica.jpg;
     in
     {
       imports = [ inputs.silentSDDM.nixosModules.default ];
@@ -32,27 +32,28 @@ in
       config.programs.silentSDDM = {
         enable = true;
         theme = "default";
-        backgrounds.nineish = wallpaper;
+        # SilentSDDM copies each background under its file's basename, so the
+        # settings below must reference "guernica.jpg", not the attr name.
+        backgrounds.guernica = wallpaper;
 
         # ponytail: only the visible surfaces are tinted; add more sections
-        # from the wiki (200+ options) if something still looks stock.
+        # from the docs (200+ options) if something still looks stock.
         settings = {
           "LoginScreen" = {
-            background = "nineish";
-            blur = 10;
+            background = "guernica.jpg";
+            blur = 16;
+            brightness = -0.15;
           };
           "LockScreen" = {
-            background = "nineish";
-            blur = 10;
+            background = "guernica.jpg";
+            blur = 16;
+            brightness = -0.15;
           };
-          "LoginScreen.Clock" = {
-            format = "hh:mm";
-            color = polykai.fg;
-          };
-          "LoginScreen.Date".color = polykai.muted;
           "LoginScreen.LoginArea.Avatar" = {
             active-border-color = polykai.accent;
             inactive-border-color = polykai.border;
+            active-border-size = 3;
+            inactive-border-size = 2;
           };
           "LoginScreen.LoginArea.Username".color = polykai.fg;
           "LoginScreen.LoginArea.PasswordInput" = {
@@ -67,8 +68,9 @@ in
           "LoginScreen.LoginArea.LoginButton" = {
             background-color = polykai.bg;
             background-opacity = 0.85;
-            content-color = polykai.fg;
             active-background-color = polykai.accent;
+            active-background-opacity = 0.9;
+            content-color = polykai.fg;
             active-content-color = polykai.bg;
             border-color = polykai.border;
             border-radius-left = 12;

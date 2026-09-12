@@ -90,12 +90,8 @@ in
           enable = true;
           servers = {
             nixos = {
-              command = "nix";
-              args = [
-                "run"
-                "github:utensils/mcp-nixos"
-                "--"
-              ];
+              command = getExe pkgs.mcp-nixos;
+              args = [ ];
               type = "stdio";
             };
 
@@ -182,6 +178,8 @@ in
               args = [
                 "--from"
                 "paper-search-mcp"
+                "--with"
+                "mcp<2"
                 "python"
                 "-m"
                 "paper_search_mcp.server"

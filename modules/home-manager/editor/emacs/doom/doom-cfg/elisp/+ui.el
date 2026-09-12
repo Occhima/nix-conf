@@ -25,9 +25,22 @@
 ;; bracket footer buttons). The gs-101-emacs.png logo is gs-101's
 ;; edit of the GNU Emacs icon from the Emacs source repository.
 
+(defun +occhima/dashboard-widget-banner ()
+  "Doom's banner widget, with the splash logo capped at 260px tall.
+
+The stock widget inserts the logo at its natural size (550px here),
+which overflows smaller frames and skews Doom's line-count-based
+vertical centering.  260px matches the vanilla Emacs config
+(`dashboard-image-banner-max-height')."
+  (let ((create-image (symbol-function #'create-image)))
+    (cl-letf (((symbol-function #'create-image)
+               (lambda (file &rest args)
+                 (apply create-image file nil nil :max-height 260 args))))
+      (+dashboard-widget-banner))))
+
 (defun +occhima/dashboard-widget-title ()
   "Centered configuration title below the banner."
-  (+dashboard-insert-centered
+  (+dashboard-insert
    (propertize "The Extensible Computing Environment"
                'face '+dashboard-menu-title)))
 
@@ -57,32 +70,36 @@
                               (propertize (format "[Projects (%d)]" (length roots))
                                           'face '+dashboard-menu-title)))
              ;; gs-101's block is flush-left: center it as a unit, rows aligned.
-             (block (cons heading rows))
-             (maxlen (apply #'max (mapcar #'length block)))
-             (prefix (make-string (max 0 (/ (- (window-width) maxlen) 2)) ?\s)))
-        (dolist (line block)
-          (insert prefix line "\n"))))))
+             (block (cons heading rows)))
+        (+dashboard-insert (string-join block "\n"))))))
 
 (defun +occhima/dashboard-widget-footer ()
   "Bracket-button footer, after gs-101's dashboard."
-  (+dashboard-insert-centered
+  (+dashboard-insert
    (with-temp-buffer
-     (pcase-dolist (`(,label ,help ,fn)
-                    '(("Open Scratch Buffer" "Switch to the scratch buffer"
-                       (lambda (_) (switch-to-buffer (get-scratch-buffer-create))))
-                      ("Open Org Agenda" "Switch to the agenda buffer"
-                       (lambda (_) (org-agenda)))
-                      ("Open Config" "Open the Nix flake configuration"
-                       (lambda (_) (find-file "~/.config/flake")))))
-       (insert "[")
-       (insert-text-button label 'action fn 'help-echo help 'follow-link t)
-       (insert "]  "))
+     (dolist (button (list (list (nerd-icons-codicon "nf-cod-note")
+                                 "Open Scratch Buffer"
+                                 "Switch to the scratch buffer"
+                                 (lambda (_) (switch-to-buffer (get-scratch-buffer-create))))
+                           (list (nerd-icons-codicon "nf-cod-calendar")
+                                 "Open Org Agenda"
+                                 "Switch to the agenda buffer"
+                                 (lambda (_) (org-agenda)))
+                           (list (nerd-icons-codicon "nf-cod-settings")
+                                 "Open Config"
+                                 "Open the Nix flake configuration"
+                                 (lambda (_) (find-file "~/.config/flake")))))
+       (pcase-let ((`(,icon ,label ,help ,fn) button))
+         (insert "[")
+         (insert-text-button (concat icon " " label)
+                             'action fn 'help-echo help 'follow-link t)
+         (insert "]  ")))
      (buffer-string))
    (propertize "\nVi Vi Vi, the editor of the beast"
                'face 'font-lock-comment-face)))
 
 (setq +dashboard-functions
-      '(+dashboard-widget-banner
+      '(+occhima/dashboard-widget-banner
         +occhima/dashboard-widget-title
         +dashboard-widget-loaded
         +occhima/dashboard-widget-projects

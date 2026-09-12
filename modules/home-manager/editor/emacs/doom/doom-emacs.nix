@@ -55,11 +55,6 @@ in
         enable = true;
         doomDir = ./doom-cfg;
         emacs = emacsBase;
-        # The 2026-09 MELPA snapshot of ct.el is broken: ct.el now (require 'ct-hct)
-        # at the top before defining ct-clamp, and ct-hct.el calls it while loading,
-        # so byte-compilation dies with "Symbol's function definition is void:
-        # ct-clamp". Pin the last commit before the hct-colorspace rewrite.
-        # Drop this override once upstream neeasade/ct.el fixes the load order.
         emacsPackageOverrides = eself: esuper: {
           ct = esuper.melpaBuild {
             pname = "ct";
@@ -80,10 +75,6 @@ in
               license = licenses.mit;
             };
           };
-          # consult-omni's sources require optional packages that its
-          # Package-Requires header doesn't declare, so nde's dep scanner misses
-          # them and byte-compilation fails. Add them to the build env; drop the
-          # ones upstream declares later.
           consult-omni = esuper.consult-omni.overrideAttrs (old: {
             packageRequires =
               (old.packageRequires or [ ])
@@ -98,7 +89,6 @@ in
                 embark-consult
               ]);
           });
-          # Same issue in consult-mu: embark and mu4e are required but undeclared.
           consult-mu = esuper.consult-mu.overrideAttrs (old: {
             packageRequires =
               (old.packageRequires or [ ])

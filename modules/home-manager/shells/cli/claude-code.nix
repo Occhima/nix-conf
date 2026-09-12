@@ -4,8 +4,12 @@
   ];
 
   flake.modules.homeManager.claude-code =
-    { config, ... }:
+    { config, pkgs, ... }:
     {
+      # Plugin hooks (ponytail, caveman, autoresearch) run `node` scripts,
+      # so node must be on PATH for Claude Code sessions.
+      home.packages = [ pkgs.nodejs ];
+
       programs.claude-code = {
         enable = true;
         configDir = "${config.xdg.configHome}/claude";
