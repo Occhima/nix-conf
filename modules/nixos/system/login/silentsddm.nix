@@ -52,8 +52,6 @@ in
           "LoginScreen.LoginArea.Avatar" = {
             active-border-color = polykai.accent;
             inactive-border-color = polykai.border;
-            active-border-size = 3;
-            inactive-border-size = 2;
           };
           "LoginScreen.LoginArea.Username".color = polykai.fg;
           "LoginScreen.LoginArea.PasswordInput" = {

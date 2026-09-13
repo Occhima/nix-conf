@@ -23,11 +23,16 @@ Emacs as a string literal.  The elisp entry points live in the Doom config's
 
 (define-command add-arxiv-paper ()
   "Add the arXiv paper shown in the current buffer to the bibliography."
-  (let ((url (%current-url-string)))
+  (let* ((url (%current-url-string))
+         (host (quri:uri-host (quri:uri url))))
+    ;; The identifier pattern matches any `dddd.dd+' shape in a URL, so the
+    ;; scan only runs on an arXiv host at all.
     (alexandria:if-let
-        ((id (aref (nth-value 1 (cl-ppcre:scan-to-strings
-                                 "(\\d{4}\\.\\d{4,5})" url))
-                   0)))
+        ((id (and host
+                  (search "arxiv" host :test #'char-equal)
+                  (aref (nth-value 1 (cl-ppcre:scan-to-strings
+                                      "(\\d{4}\\.\\d{4,5})" url))
+                        0))))
       (progn
         (%emacs-eval "(occhima/nyxt-arxiv-add ~s)" id)
         (echo "Adding arXiv:~a to the library" id))

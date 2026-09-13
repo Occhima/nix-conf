@@ -70,12 +70,35 @@ happens to run."
                         (mode nyxt/mode/vi:vi-insert-mode))
   "insert")
 
+(defun %active-downloads ()
+  "Downloads worth showing on the bar: in flight or failed."
+  (remove-if (lambda (download)
+               (member (nyxt/mode/download:status download)
+                       '(:finished :canceled :unloaded)))
+             (nyxt:downloads *browser*)))
+
+(defun %download-name (download)
+  "Human name for DOWNLOAD: file name of the destination, else the URL path.
+NIL when neither says anything short."
+  (let ((path (namestring (nyxt/mode/download:destination-path download))))
+    (unless (str:emptyp path)
+      (setf path (file-namestring path)))
+    (when (str:emptyp path)
+      (setf path (or (quri:uri-path (quri:uri (nyxt/mode/download::url download)))
+                     "")))
+    (unless (str:emptyp path)
+      (str:shorten 16 (string-left-trim "/" path)))))
+
 (defmethod format-status-load-status ((status status-buffer))
   "Keyscheme state at the far left of the bar, then the load indicator.
 
 `format-status' renders this ahead of the URL, which is the one spot on the
 bar a modal editor puts its state and the one spot nothing competes for.
-Beside the tabs the same label read as another tab, a pill among pills."
+Beside the tabs the same label read as another tab, a pill among pills.
+
+Downloads ride here too: the upstream methods on `nyxt/mode/download:download'
+below trade Nyxt 4's list-downloads page for this pill, so a download never
+steals the buffer you are reading."
   (alexandria:when-let ((buffer (%status-target status)))
     (spinneret:with-html
       (alexandria:when-let ((keyscheme (%keyscheme-label status buffer)))
@@ -83,7 +106,42 @@ Beside the tabs the same label read as another tab, a pill among pills."
                keyscheme))
       (when (and (web-buffer-p buffer)
                  (eq (nyxt::status buffer) :loading))
-        (:span :class "spinner")))))
+        (:span :class "spinner"))
+      (loop for download in (%active-downloads)
+            do (:span :class "dl"
+                      (format nil "↓ ~d%~a"
+                              (round (nyxt/mode/download:completion-percentage download))
+                              (alexandria:when-let ((name (%download-name download)))
+                                (format nil " ~a" name))))))))
+
+(defmethod initialize-instance :after ((download nyxt/mode/download:download)
+                                       &key &allow-other-keys)
+  "New downloads stay out of the way.
+
+Upstream Nyxt 4 focuses the list-downloads page the instant a download
+starts; the status pill above makes the page optional."
+  (hooks:run-hook (nyxt/mode/download::before-download-hook download) download)
+  (alexandria:if-let ((name (%download-name download)))
+      (echo "Downloading ~a…" name)
+      (echo "Download started.")))
+
+(defmethod (setf nyxt/mode/download:status)
+    (value (download nyxt/mode/download:download))
+  "Mirror of the upstream (setf status) without the buffer steal.
+
+Updates the status text and, on completion, runs the after-download hook;
+no list-downloads focus."
+  (sb-ext:with-unlocked-packages (:nyxt/mode/download)
+    (setf (slot-value download 'nyxt/mode/download::status) value))
+  (let ((interface (nyxt/mode/download::status-text download)))
+    (setf (user-interface:text interface)
+          (format nil "Status: ~(~a~)." value)))
+  (case value
+    (:finished
+     (echo "Downloaded ~a." (or (%download-name download) "file"))
+     (hooks:run-hook (nyxt/mode/download::after-download-hook download) download))
+    (:failed
+     (echo-warning "Failed to download ~a." (or (%download-name download) "file")))))
 
 (defun %status-url-parts (url)
   "Return (VALUES ICON-GLYPH ICON-CLASS HOST TAIL) describing URL."

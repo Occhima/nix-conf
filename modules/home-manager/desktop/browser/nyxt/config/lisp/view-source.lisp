@@ -19,7 +19,7 @@
                (#\< (write-string "&lt;" out))
                (#\> (write-string "&gt;" out))
                (#\" (write-string "&quot;" out))
-               (t (write-char char out)))))))
+               (t (write-char char out))))))
 
 (defun %source-attrs (element)
   "Render ELEMENT's attributes as highlighted markup."
@@ -90,8 +90,8 @@ Indentation comes from nested .node divs (see CSS), not spaces."
             :word-break "break-all")
     `(main :padding "10px 8px 40px 6px")
     `(.tag :color ,theme:secondary-color)
-    `(.attr :color ,theme:tertiary-color)
-    `(.val :color ,theme:highlight-color)
+    `(.attr :color ,theme:action-color)
+    `(.val :color ,theme:warning-color)
     `(.text :color ,theme:primary-color)
     `(.comment :color ,(%hairline theme:primary-color 0.55))))
 

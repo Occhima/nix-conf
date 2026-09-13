@@ -1,7 +1,8 @@
 (in-package #:nyxt-user)
 
 (define-configuration web-buffer
-  ((default-modes (cons 'nyxt/mode/small-web:small-web-mode %slot-value%))
+  ((default-modes (cons 'nyxt/mode/small-web:small-web-mode
+                        (cons 'mirror-mode %slot-value%)))
    (style
     (str:concat
      %slot-value%
