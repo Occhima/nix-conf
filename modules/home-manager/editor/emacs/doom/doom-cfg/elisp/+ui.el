@@ -18,7 +18,7 @@
  doom-fallback-buffer-name "*dashboard*"
  ;; Resolved against doom-private-dir: with nix-doom-emacs that is the
  ;; built doomDir in the Nix store, not ~/.config/doom.
- fancy-splash-image (expand-file-name "misc/splash/gs-101-emacs.png" doom-private-dir))
+ fancy-splash-image (expand-file-name "misc/splash/emacs.svg" doom-private-dir))
 
 ;; Dashboard restyled after https://github.com/gs-101/.emacs.d
 ;; (white Emacs logo, centered title, init info, project list,
@@ -105,6 +105,13 @@ vertical centering.  260px matches the vanilla Emacs config
         +occhima/dashboard-widget-projects
         +dashboard-widget-spacer
         +occhima/dashboard-widget-footer))
+
+;; Doom's own daemon-only fix for doomemacs/core#2219 (dashboard loses
+;; center alignment after a persp/workspace switch) doesn't cover regular
+;; GUI startup. `+workspaces-on-switch-project-behavior' means every
+;; project switch triggers a persp activation, so apply the same fix
+;; unconditionally.
+(add-hook 'persp-activated-functions #'+dashboard-reload-maybe-h)
 
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)

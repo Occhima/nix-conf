@@ -114,7 +114,10 @@
             "humanizer@humanizer" = true;
             "impeccable@impeccable" = true;
             "portal@portal" = true;
-            "shunt@portal" = true;
+            # shunt's PreToolUse hooks emit legacy top-level {"decision": ...}
+            # JSON; current Claude Code validation rejects it, failing every
+            # Bash/Read PreToolUse check and cascading into tool denials.
+            "shunt@portal" = false;
           };
           permissions = {
             disableBypassPermissionsMode = "disable";

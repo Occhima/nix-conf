@@ -1,6 +1,7 @@
 { config, ... }:
 let
   cliAi = config.flake.modules.homeManager.cli-ai;
+  agentsMd = config.flake.lib.custom.aiAssets.agentsMd;
 in
 {
   flake.lib.custom.aiAssets = {
@@ -66,6 +67,7 @@ in
           packages = [
             engram
             graphify
+            pkgs.ripwire
             # pkgs.python313Packages.google-generativeai
             # pkgs.rtk
           ];
@@ -83,6 +85,10 @@ in
         };
         programs.opencode = {
           agents = ./agents;
+          skills = ./skills;
+        };
+        programs.codex = {
+          context = agentsMd;
           skills = ./skills;
         };
 
