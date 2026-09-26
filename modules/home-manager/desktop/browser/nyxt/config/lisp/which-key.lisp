@@ -16,18 +16,18 @@
   "Sorted (KEY . LABEL) for every binding in BUFFER's keymaps that follows PREFIX."
   (let ((entries (make-hash-table :test 'equal))
         (start (str:concat prefix " ")))
-    (maphash (lambda (keyspec value)
-               (when (str:starts-with-p start keyspec)
-                 (let* ((rest (subseq keyspec (length start)))
-                        (next (first (str:split " " rest))))
-                   (unless (gethash next entries)
-                     (setf (gethash next entries)
-                           (if (find #\Space rest)
-                               "+prefix"
-                               (%binding-name value)))))))
-             (apply #'keymaps:keymap->map
-                    (mapcan #'keymaps::keymap-with-parents
-                            (nyxt::current-keymaps buffer))))
+    ;; Same exported call `describe-bindings' uses; keymaps come highest-priority first.
+    (dolist (keymap (nyxt::current-keymaps buffer))
+      (maphash (lambda (keyspec value)
+                 (when (str:starts-with-p start keyspec)
+                   (let* ((rest (subseq keyspec (length start)))
+                          (next (first (str:split " " rest))))
+                     (unless (gethash next entries)
+                       (setf (gethash next entries)
+                             (if (find #\Space rest)
+                                 "+prefix"
+                                 (%binding-name value)))))))
+               (keymaps:keymap-with-parents->map keymap)))
     (sort (alexandria:hash-table-alist entries) #'string< :key #'car)))
 
 (defun %which-key-css ()

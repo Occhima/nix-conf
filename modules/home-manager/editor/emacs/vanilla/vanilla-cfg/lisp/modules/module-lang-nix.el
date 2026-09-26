@@ -11,6 +11,9 @@
   (with-eval-after-load 'evil
     (evil-set-initial-state 'nix-repl-mode 'insert)))
 
+(use-package nix-update
+  :commands (nix-update-fetch))
+
 (use-package nix-ts-mode
   :defer t
   :hook (nix-ts-mode . eglot-ensure))
@@ -36,7 +39,8 @@
   "r" '(nix-repl-show :wk "Nix REPL")
   "s" '(nix-shell :wk "Nix shell")
   "b" '(nix-build :wk "Nix build")
-  "u" '(nix-unpack :wk "Nix unpack"))
+  "u" '(nix-unpack :wk "Nix unpack")
+  "U" '(nix-update-fetch :wk "Update fetcher hash"))
 
 (provide 'module-lang-nix)
 ;;; module-lang-nix.el ends here

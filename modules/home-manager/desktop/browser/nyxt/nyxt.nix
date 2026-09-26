@@ -18,7 +18,7 @@ in
         sha256 = "0x7ivzw4ym2h4mphr7rbqgl2kq14c5mys3lr0agh3l1j10yspp1l";
       };
 
-      nyxt = flakePkgs.${pkgs.stdenv.hostPlatform.system}.nyxt-source;
+      nyxt = flakePkgs.${pkgs.stdenv.hostPlatform.system}.nyxt;
 
       systemFonts = osConfig.environment.etc.fonts.source or null;
 

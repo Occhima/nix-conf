@@ -1,4 +1,4 @@
-# Nyxt: source build package and runnable app.
+# Nyxt: upstream AppImage package and runnable app.
 {
   perSystem =
     {
@@ -7,12 +7,12 @@
       ...
     }:
     {
-      packages.nyxt-source = pkgs.callPackage ./_nyxt/package.nix { };
+      packages.nyxt = pkgs.callPackage ./_nyxt/package.nix { };
 
-      apps.nyxt-source = {
+      apps.nyxt = {
         type = "app";
-        program = "${self'.packages.nyxt-source}/bin/nyxt";
-        meta.description = "Nyxt browser built from source";
+        program = "${self'.packages.nyxt}/bin/nyxt";
+        meta.description = "Nyxt browser (upstream AppImage)";
       };
     };
 }

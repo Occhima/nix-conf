@@ -42,7 +42,9 @@ in
         "nil"
         "pandoc"
         "ripgrep"
+        "ruff"
         "sqlite"
+        "ty"
       ];
     in
     {

@@ -28,6 +28,7 @@ in
             ELECTRON_OZONE_PLATFORM_HINT = "auto";
             QT_QPA_PLATFORM = "wayland";
             QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+            GTK_IM_MODULE = lib.mkDefault "simple";
           };
         };
 

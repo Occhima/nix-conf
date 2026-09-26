@@ -70,11 +70,7 @@ configuration file -- atlas-engineer/nyxt#3389."
 (defvar *javascript-timeout* 10
   "Seconds a synchronous JavaScript call may take before it returns NIL.")
 
-(alexandria:when-let
-    ((method (find-method #'electron:execute-javascript-synchronous '()
-                          (list (find-class 'electron:web-contents)) nil)))
-  (remove-method #'electron:execute-javascript-synchronous method))
-
+;; Same specializers as cl-electron's method, so this `defmethod' replaces it.
 (defmethod electron:execute-javascript-synchronous ((web-contents electron:web-contents) code
                                                     &key (user-gesture "false"))
   "Stock cl-electron waits forever; a page closed mid-call froze Nyxt."

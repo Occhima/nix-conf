@@ -5,9 +5,6 @@
   # build
   appimageTools,
   cacert,
-  openssl,
-  enchant,
-  electron,
   xdg-utils,
   libglvnd,
   makeWrapper,
@@ -17,7 +14,6 @@
   # Creating desktop entries
   makeDesktopItem,
   copyDesktopItems,
-  ...
 }:
 let
   pname = "nyxt";
@@ -48,13 +44,11 @@ let
     src = unpackedSource;
   };
 
+  # The AppImage bundles Electron, openssl, enchant and sqlite; only GL/EGL come from the host.
   runtimeLibs = lib.makeLibraryPath [
-    openssl
     libglvnd
     wayland
     egl-wayland
-    electron
-    enchant
   ];
 in
 stdenvNoCC.mkDerivation {
@@ -72,11 +66,7 @@ stdenvNoCC.mkDerivation {
     mkdir -p $out/bin
     cp -r bin/${binaryName} $out/bin/nyxt
 
-    install -D ${appimageContents}/nyxt.png  $out/share/icons/hicolor/16x16/apps/nyxt.png
-    install -D ${appimageContents}/nyxt.png  $out/share/icons/hicolor/32x32/apps/nyxt.png
-    install -D ${appimageContents}/nyxt.png  $out/share/icons/hicolor/48x48/apps/nyxt.png
-    install -D ${appimageContents}/nyxt.png  $out/share/icons/hicolor/64x64/apps/nyxt.png
-    install -D ${appimageContents}/nyxt.png  $out/share/icons/hicolor/128x128/apps/nyxt.png
+    install -D ${appimageContents}/nyxt.png $out/share/icons/hicolor/256x256/apps/nyxt.png
 
     runHook postInstall
   '';
@@ -84,19 +74,9 @@ stdenvNoCC.mkDerivation {
   postFixup = ''
     wrapProgram "$out/bin/nyxt" \
       --prefix LD_LIBRARY_PATH : "${runtimeLibs}" \
-      --set-default APPIMAGE_EXTRACT_AND_RUN 1 \
-      --set-default SSL_CERT_FILE  ${cacert}/etc/ssl/certs/ca-bundle.crt \
+      --set-default SSL_CERT_FILE ${cacert}/etc/ssl/certs/ca-bundle.crt \
       --set-default CURL_CA_BUNDLE ${cacert}/etc/ssl/certs/ca-bundle.crt \
-      --prefix PATH : "${
-        lib.makeBinPath [
-          xdg-utils
-          openssl
-          enchant
-          electron
-          libglvnd
-          wayland
-        ]
-      }"
+      --prefix PATH : "${lib.makeBinPath [ xdg-utils ]}"
   '';
   desktopItems = [
     (makeDesktopItem {
@@ -112,7 +92,6 @@ stdenvNoCC.mkDerivation {
         "application/xhtml+xml"
         "x-scheme-handler/http"
         "x-scheme-handler/https"
-        "application/x-xpinstall"
         "application/pdf"
         "application/json"
       ];
@@ -141,7 +120,7 @@ stdenvNoCC.mkDerivation {
   ];
 
   meta = {
-    description = "Infinitely extensible web-browser (with Lisp development files using Electron platform port)";
+    description = "Infinitely extensible web browser (upstream Electron AppImage)";
     mainProgram = "nyxt";
     homepage = "https://nyxt.atlas.engineer";
     license = lib.licenses.bsd3;

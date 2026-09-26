@@ -17,7 +17,12 @@
   :ensure nil
   :custom
   (eglot-connect-timeout 120)
-  (eglot-autoshutdown t))
+  (eglot-sync-connect 0)
+  (eglot-autoshutdown t)
+  (eglot-events-buffer-config '(:size 0 :format full)))
+
+(use-package breadcrumb
+  :hook (prog-mode . breadcrumb-local-mode))
 
 (use-package eglot-booster
   :ensure (eglot-booster :host github :repo "jdtsmith/eglot-booster")
@@ -80,6 +85,13 @@
     :head-mode 'host
     :tail-mode 'host)
 
+  (define-innermode occhima/nix-lua-innermode
+    :mode 'lua-ts-mode
+    :head-matcher "# lua\n[ \t]*''"
+    :tail-matcher "''"
+    :head-mode 'host
+    :tail-mode 'host)
+
   (define-innermode occhima/nix-json-innermode
     :mode 'json-ts-mode
     :head-matcher "# json\n[ \t]*''"
@@ -98,6 +110,7 @@
     :hostmode 'occhima/nix-ts-hostmode
     :innermodes '(occhima/nix-bash-innermode
                   occhima/nix-python-innermode
+                  occhima/nix-lua-innermode
                   occhima/nix-json-innermode
                   occhima/nix-markdown-innermode)))
 
