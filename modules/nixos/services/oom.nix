@@ -27,6 +27,7 @@
         "systemd"
         "systemd-.*"
         "kitty"
+        "ghostty"
         "bash"
         "zsh"
         "n?vim"

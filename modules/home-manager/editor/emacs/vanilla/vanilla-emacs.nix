@@ -28,6 +28,7 @@ in
         "binutils"
         "cmake"
         "editorconfig-core-c"
+        "emacs-lsp-booster"
         "fd"
         "ffmpeg"
         "git"
@@ -65,6 +66,7 @@ in
             jupyter
             mu4e
             pdf-tools
+            sly
             treesit-grammars.with-all-grammars
             vterm
           ];

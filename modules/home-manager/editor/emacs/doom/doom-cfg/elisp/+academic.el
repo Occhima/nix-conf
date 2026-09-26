@@ -56,21 +56,80 @@
 
 
 (defun occhima/nyxt-arxiv-add (id)
-  "Add arXiv ID to the article library. Entry point for Nyxt's `add-arxiv-paper'."
+  "Add arXiv ID to the article library. Entry point for Nyxt's `add-paper'."
   (require 'org-ref-arxiv)
   (make-directory occhima/pdf-articles-dir t)
   (arxiv-get-pdf-add-bibtex-entry
    id (car occhima/bibliographies) occhima/pdf-articles-dir)
   (message "Added arXiv:%s" id))
 
-(defun occhima/nyxt-roam-capture (url title)
-  "Capture URL with TITLE as an org-roam ref node.
-Entry point for Nyxt's `capture-in-org-roam'."
+(defvar occhima/nyxt--quote ""
+  "Selected text of the page being captured, read by `occhima/nyxt--quote-block'.")
+
+(defun occhima/nyxt--quote-block ()
+  (if (string-empty-p occhima/nyxt--quote)
+      ""
+    (format "#+begin_quote\n%s\n#+end_quote\n\n" occhima/nyxt--quote)))
+
+(defun occhima/nyxt--with-quote (template)
+  "TEMPLATE with the captured quote prepended to its body, when it has one."
+  (if (stringp (nth 3 template))
+      (append (seq-take template 3)
+              (list (concat "%(occhima/nyxt--quote-block)" (nth 3 template)))
+              (nthcdr 4 template))
+    template))
+
+(defun occhima/nyxt-roam-capture (url title &optional quote)
+  "Capture URL with TITLE as an org-roam ref node, QUOTE as its first block."
   (require 'org-roam)
+  (setq occhima/nyxt--quote (or quote ""))
   (org-roam-capture- :node (org-roam-node-create :title title)
                      :info (list :ref url)
-                     :templates (or (bound-and-true-p org-roam-capture-ref-templates)
-                                    org-roam-capture-templates)))
+                     :templates (mapcar #'occhima/nyxt--with-quote
+                                        (or (bound-and-true-p org-roam-capture-ref-templates)
+                                            org-roam-capture-templates))))
+
+(defvar occhima/nyxt-read-later-file "~/Dropbox/DropsyncFiles/todo.org")
+
+(defun occhima/nyxt-read-later (url title)
+  "File URL under \"Read later\" in `occhima/nyxt-read-later-file', scheduled for Friday."
+  (require 'org)
+  (with-current-buffer (find-file-noselect occhima/nyxt-read-later-file)
+    (org-with-wide-buffer
+     (unless (org-find-exact-headline-in-buffer "Read later")
+       (goto-char (point-max))
+       (insert "\n* Read later\n"))
+     (goto-char (org-find-exact-headline-in-buffer "Read later"))
+     (org-end-of-subtree t t)
+     (unless (bolp) (insert "\n"))
+     (insert (format "** TODO %s\nSCHEDULED: %s\n"
+                     (org-link-make-string url title)
+                     (format-time-string "<%Y-%m-%d %a>" (org-read-date nil t "fri")))))
+    (save-buffer))
+  (message "Read later: %s" title))
+
+(defun occhima/nyxt-doi-add (doi)
+  "Add DOI to the article library."
+  (require 'org-ref)
+  (require 'doi-utils)
+  (doi-utils-add-bibtex-entry-from-doi doi (car occhima/bibliographies))
+  (message "Added doi:%s" doi))
+
+(defun occhima/nyxt-roam-import (file url title)
+  "Turn FILE, an Org article Nyxt converted, into an org-roam node for URL."
+  (require 'org-roam)
+  (let ((path (expand-file-name
+               (format "%s-%s.org"
+                       (format-time-string "%Y%m%d%H%M%S")
+                       (org-roam-node-slug (org-roam-node-create :title title)))
+               org-roam-directory)))
+    (with-temp-file path
+      (insert (format ":PROPERTIES:\n:ID: %s\n:ROAM_REFS: %s\n:END:\n#+title: %s\n\n"
+                      (org-id-new) url title))
+      (insert-file-contents file))
+    (delete-file file)
+    (org-roam-db-update-file path)
+    (find-file path)))
 
 (defun occhima/arxiv-bulk-add-from-region (beg end)
   "Add each arXiv identifier between BEG and END to the article library."

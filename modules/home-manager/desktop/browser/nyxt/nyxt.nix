@@ -13,6 +13,11 @@ in
     let
       inherit (lib.modules) mkIf;
 
+      readability = pkgs.fetchurl {
+        url = "https://raw.githubusercontent.com/mozilla/readability/0.6.0/Readability.js";
+        sha256 = "0x7ivzw4ym2h4mphr7rbqgl2kq14c5mys3lr0agh3l1j10yspp1l";
+      };
+
       nyxt = flakePkgs.${pkgs.stdenv.hostPlatform.system}.nyxt-source;
 
       systemFonts = osConfig.environment.etc.fonts.source or null;
@@ -58,6 +63,12 @@ in
 
         xdg.configFile = {
           "nyxt".source = ./config;
+
+          "flake-nyxt/paths.lisp".text = ''
+            (in-package #:nyxt-user)
+            (defvar *readability-js* #p"${readability}")
+            (defvar *pandoc* "${lib.getExe pkgs.pandoc}")
+          '';
 
           "flake-nyxt/slynk.lisp".text = ''
             (in-package #:nyxt-user)

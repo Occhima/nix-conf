@@ -13,6 +13,7 @@
               mouse_hide_wait = "2.0";
               cursor_shape = "block";
               confirm_os_window_close = 0;
+              remember_window_size = "no";
             };
           };
           home.sessionVariables.TERMINAL = "kitty";

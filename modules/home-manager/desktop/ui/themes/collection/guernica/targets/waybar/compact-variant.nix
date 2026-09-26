@@ -9,6 +9,13 @@
     }:
     let
       modules = waybarModules;
+      terminal = config.modules.desktop.terminal.active;
+      runInTerminal =
+        command:
+        if terminal == "kitty" then
+          "kitty --title ${command} ${command}"
+        else
+          "${terminal} --title=${command} -e ${command}";
       compactWorkspacesModule = "${uiCfg.windowManager}/workspaces";
     in
     {
@@ -130,11 +137,13 @@
           format-alt-click = "click";
           tooltip = true;
           tooltip-format = "{used:0.1f}GB/{total:0.1f}G";
-          on-click-right = "kitty --title btop sh -c 'btop'";
+          on-click-right = runInTerminal "btop";
         };
 
         disk = modules.disk;
-        temperature = modules.temperature;
+        temperature = modules.temperature // {
+          on-click-right = runInTerminal "nvtop";
+        };
 
         # Demo group (audio, tray, media)
         "group/demo" = {

@@ -134,7 +134,8 @@ not change while someone is typing into it."
          :color ,theme:on-background-color
          :font-size "14px"
          :box-shadow "none"
-         :outline "none")
+         :outline "none"
+         :caret-color ,theme:action-color)
        '("#input:focus"
          :box-shadow "none")
        '("#suggestions"

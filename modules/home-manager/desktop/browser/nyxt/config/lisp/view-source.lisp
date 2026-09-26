@@ -113,7 +113,7 @@ Indentation comes from nested .node divs (see CSS), not spaces."
 (define-internal-scheme "view-source"
   (lambda (url)
     (let ((source-url (quri:uri-path (quri:uri url))))
-      (values (%source-page source-url (ignore-errors (get-url-source source-url)))
+      (values (%source-page source-url (ignore-errors (nyxt/mode/document:get-url-source source-url)))
               "text/html; charset=utf-8")))
   (lambda (condition)
     (values (format nil "<p>view-source failed: ~a</p>" condition)

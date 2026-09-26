@@ -114,6 +114,15 @@ steals the buffer you are reading."
                               (alexandria:when-let ((name (%download-name download)))
                                 (format nil " ~a" name))))))))
 
+(let ((download (find-class 'nyxt/mode/download:download)))
+  (alexandria:when-let
+      ((method (find-method #'initialize-instance '(:after) (list download) nil)))
+    (remove-method #'initialize-instance method))
+  (alexandria:when-let
+      ((method (find-method #'(setf nyxt/mode/download:status) '()
+                            (list (find-class t) download) nil)))
+    (remove-method #'(setf nyxt/mode/download:status) method)))
+
 (defmethod initialize-instance :after ((download nyxt/mode/download:download)
                                        &key &allow-other-keys)
   "New downloads stay out of the way.
@@ -208,6 +217,8 @@ the URL already says."
                           (nyxt/ps:lisp-eval
                            (:title "select-tab" :buffer status)
                            (set-current-buffer buffer)))
+               (unless (internal-url-p url)
+                 (%favicon-html (quri:uri-domain url)))
                (:span :class "tab-label" label)
                (:span :class "tab-close"
                       :title "Close tab"
@@ -360,6 +371,18 @@ once something has actually been turned on or off by hand."
          :transition "color 120ms ease, background-color 120ms ease")
        `(".tab:hover"
          :background-color ,(%hairline theme:on-background-color 0.06))
+       `(".tab .favicon"
+         :width "12px"
+         :height "12px"
+         :object-fit "contain"
+         :opacity "0.75")
+       `(".tab .favicon-fallback"
+         :width "12px"
+         :text-align "center"
+         :font-size "9px"
+         :color ,theme:primary-color)
+       '(".selected-tab .favicon"
+         :opacity "1")
        '(".tab-label"
          :overflow "hidden"
          :text-overflow "ellipsis"

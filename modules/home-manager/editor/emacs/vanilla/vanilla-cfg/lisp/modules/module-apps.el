@@ -103,6 +103,50 @@
   (osm-server 'default)
   (osm-copyright t))
 
+(use-package consult-gh
+  :ensure (consult-gh :host github :repo "armindarvish/consult-gh" :files ("*.el"))
+  :commands (consult-gh-search-repos consult-gh-dashboard)
+  :custom
+  (consult-gh-show-preview t)
+  (consult-gh-preview-key "C-o")
+  (consult-gh-default-clone-directory "~/Dropbox/projects")
+  :config
+  (require 'consult-gh-embark)
+  (consult-gh-embark-mode 1)
+  (require 'consult-gh-forge)
+  (consult-gh-forge-mode 1)
+  (consult-gh-enable-default-keybindings))
+
+(use-package consult-mu
+  :ensure (consult-mu :host github :repo "armindarvish/consult-mu")
+  :defer t)
+
+(use-package consult-omni
+  :ensure (consult-omni :host github
+                        :repo "armindarvish/consult-omni"
+                        :files (:defaults "sources/*.el"))
+  :commands (consult-omni-multi consult-omni-multi-static)
+  :custom
+  (consult-omni-show-preview t)
+  (consult-omni-preview-key "C-o")
+  (consult-omni-default-count 5)
+  :config
+  (require 'consult-omni-sources)
+  (require 'consult-omni-embark)
+  (setq consult-omni-sources-modules-to-load
+        '(consult-omni-wikipedia
+          consult-omni-duckduckgo
+          consult-omni-gh
+          consult-omni-elfeed
+          consult-omni-mu4e
+          consult-omni-org-agenda
+          consult-omni-ripgrep
+          consult-omni-grep
+          consult-omni-fd
+          consult-omni-man
+          consult-omni-stackoverflow))
+  (consult-omni-sources-load-modules))
+
 (occhima/leader
   "o m" '(mu4e :wk "Mail"))
 

@@ -51,6 +51,10 @@ in
         name = lib.removeSuffix ".age" name;
         value = {
           rekeyFile = secretsDir + "/${name}";
+          # All vault secrets are consumed by the main user (shell vars,
+          # user services); agenix defaults to root:root 0400 which they
+          # cannot read. mkDefault so a host can override per secret.
+          owner = mkDefault config.modules.accounts.mainUser;
         };
       }) (lib.filterAttrs (name: _: lib.hasSuffix ".age" name) (builtins.readDir secretsDir));
     in

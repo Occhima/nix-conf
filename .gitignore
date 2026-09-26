@@ -6,6 +6,7 @@
 result
 .direnv
 .claude
+.opencode
 .omo
 data/
 

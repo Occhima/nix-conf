@@ -1,7 +1,8 @@
 (in-package #:nyxt-user)
 
 (dolist (generated '(#p"~/.config/flake-themes/nyxt/theme.lisp"
-                     #p"~/.config/flake-nyxt/slynk.lisp"))
+                     #p"~/.config/flake-nyxt/slynk.lisp"
+                     #p"~/.config/flake-nyxt/paths.lisp"))
   (when (probe-file generated)
     (load generated)))
 
@@ -18,19 +19,21 @@
     "message-buffer" ; styled with styles
     "prompt-buffer" ; floats over window-splits' tiling
     "mirrors" ; defines mirror-mode for web-buffer's default-modes
-    "web-buffer" ; styles + mirrors
+    "site-modes" ; site-modes-mode for web-buffer, reuses status-buffer's mode helpers
+    "web-buffer" ; styles + mirrors + site-modes
     "view-source"
     "search-buffer"
     "passwords"
-    "emacs")
+    "emacs"
+    "reader"
+    ;; "vi"
+    "which-key"
+    "keys")
   "Files under lisp/, in load order.
 
 Loaded by hand rather than through `define-nyxt-user-system' because the 4.0.0
 binary release ships an empty ASDF source location (`Source location: #P\"\"' at
-startup), which makes defining a nyxt-user subsystem signal an error.
-
-keybindings.lisp and vi-input-fields.lisp are kept in the tree for reference
-but deliberately not listed: they are no longer in use.")
+startup), which makes defining a nyxt-user subsystem signal an error.")
 
 (dolist (component *components*)
   (let ((file (merge-pathnames (format nil "lisp/~a.lisp" component) *load-truename*)))

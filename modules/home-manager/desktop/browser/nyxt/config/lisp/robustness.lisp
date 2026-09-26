@@ -60,14 +60,41 @@ configuration file -- atlas-engineer/nyxt#3389."
   "cl-json's reader as it was before the guard below replaced it.")
 
 (defun %decode-json-guarded (source &rest arguments)
-  "Decode SOURCE, reading a closed socket as no message rather than an error.
-
-cl-electron hands whatever it read off its socket straight to the decoder,
-and an end of file -- which is what a view or a window going away in the
-middle of a message looks like -- arrives here as NIL and signals a type
-error in a thread of cl-electron's own.  That is the frame every one of
-the crashed sessions ended in."
-  (when (stringp source)
-    (apply *decode-json-from-string* source arguments)))
+  "End the socket thread on EOF; returning NIL makes cl-electron's read loop spin."
+  (if (or (stringp source) (sb-thread:main-thread-p))
+      (apply *decode-json-from-string* source arguments)
+      (sb-thread:abort-thread)))
 
 (setf (fdefinition 'cl-json:decode-json-from-string) #'%decode-json-guarded)
+
+(defvar *javascript-timeout* 10
+  "Seconds a synchronous JavaScript call may take before it returns NIL.")
+
+(alexandria:when-let
+    ((method (find-method #'electron:execute-javascript-synchronous '()
+                          (list (find-class 'electron:web-contents)) nil)))
+  (remove-method #'electron:execute-javascript-synchronous method))
+
+(defmethod electron:execute-javascript-synchronous ((web-contents electron:web-contents) code
+                                                    &key (user-gesture "false"))
+  "Stock cl-electron waits forever; a page closed mid-call froze Nyxt."
+  (let ((done (bt:make-semaphore))
+        (result nil))
+    (multiple-value-bind (thread-id socket-thread)
+        (electron:execute-javascript-with-promise-callback
+         web-contents code
+         (lambda (web-contents value)
+           (declare (ignore web-contents))
+           (setf result value)
+           (bt:signal-semaphore done))
+         :user-gesture user-gesture)
+      (declare (ignore thread-id))
+      (unwind-protect
+           (if (bt:wait-on-semaphore done :timeout *javascript-timeout*)
+               result
+               (progn (%log-thread-condition
+                       (make-condition 'simple-warning
+                                       :format-control "JavaScript call timed out after ~as"
+                                       :format-arguments (list *javascript-timeout*)))
+                      nil))
+        (electron::destroy-thread* socket-thread)))))

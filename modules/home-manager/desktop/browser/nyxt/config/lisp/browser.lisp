@@ -20,3 +20,27 @@
 
 (define-configuration document-buffer
   ((smooth-scrolling t)))
+
+(defmethod nyxt:style :around ((mode nyxt/mode/hint:hint-mode))
+  (str:concat
+   (call-next-method)
+   (theme:themed-css (theme *browser*)
+     `(".nyxt-hint"
+       :background-color ,theme:background-color+
+       :color ,theme:on-background-color
+       :font-size "11px"
+       :font-weight "600"
+       :letter-spacing "0.06em"
+       :padding "1px 5px"
+       :border "none"
+       :border-radius "4px"
+       :box-shadow ,(format nil "0 0 0 1px ~a, 0 2px 6px rgba(0,0,0,0.35)"
+                            (%hairline theme:action-color 0.55)))
+     `(".nyxt-hint.nyxt-current-hint"
+       :background-color ,theme:action-color
+       :color ,theme:on-action-color)
+     `(".nyxt-hint.nyxt-mark-hint"
+       :background-color ,theme:highlight-color
+       :color ,theme:on-highlight-color)
+     `(".nyxt-element-hint"
+       :background-color ,(%hairline theme:action-color 0.25)))))

@@ -7,8 +7,8 @@
     {
       stylix.targets.rofi.enable = false;
       programs.rofi = {
-        font = "Iosevka Nerd Font";
-        extraConfig = {
+        settings = {
+          font = "Iosevka Nerd Font";
           modi = "drun";
           show-icons = true;
 

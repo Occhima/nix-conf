@@ -10,7 +10,7 @@ in
         hm.browser-zen-beta
         hm.browser-nyxt
         hm.browser-qutebrowser
-        hm.terminal-kitty
+        hm.terminal-ghostty
         hm.hyprland
         # hm.niri
         hm.mako-notifier

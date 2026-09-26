@@ -28,8 +28,7 @@
             inherit (spicePkgs.extensions)
               adblockify
               hidePodcasts
-              shuffle
-              betterGenres
+              featureShuffle
               ;
           };
           experimentalFeatures = true;

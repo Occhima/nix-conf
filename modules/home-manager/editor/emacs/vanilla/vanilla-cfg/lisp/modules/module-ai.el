@@ -18,12 +18,7 @@
   (agent-shell-display-action
    '((display-buffer-in-side-window)
      (side . right)
-     (window-width . 0.4)))
-  :config
-  (occhima/leader
-    "OO" '(agent-shell-opencode-start-agent :wk "Start")
-    "Oo" '(agent-shell-toggle :wk "Toggle")
-    "On" '(agent-shell-new-shell :wk "New shell")))
+     (window-width . 0.4))))
 
 (use-package agent-shell-bookmark
   :ensure (agent-shell-bookmark
@@ -37,21 +32,13 @@
   :custom
   (agent-recall-search-paths '("~/Dropbox/projects" "~/.config"))
   (agent-recall-search-function 'consult-ripgrep)
-  (agent-recall-browse-sort 'modified-desc)
-  :config
-  (occhima/leader
-    "Or" '(agent-recall-search :wk "Recall search")
-    "Ob" '(agent-recall-browse :wk "Recall browse")
-    "OR" '(agent-recall-resume :wk "Recall resume")))
+  (agent-recall-browse-sort 'modified-desc))
 
 (use-package agent-shell-workspace
   :ensure (agent-shell-workspace
            :host github
            :repo "gveres/agent-shell-workspace")
-  :after agent-shell
-  :config
-  (occhima/leader
-    "Ow" '(agent-shell-workspace-toggle :wk "Workspace")))
+  :after agent-shell)
 
 (use-package agent-shell-sidebar
   :ensure (agent-shell-sidebar
@@ -65,10 +52,7 @@
   :config
   (with-eval-after-load 'agent-shell-opencode
     (setq agent-shell-sidebar-default-config
-          (agent-shell-opencode-make-agent-config)))
-  (occhima/leader
-    "Os" '(agent-shell-sidebar-toggle :wk "Sidebar")
-    "Of" '(agent-shell-sidebar-toggle-focus :wk "Sidebar focus")))
+          (agent-shell-opencode-make-agent-config))))
 
 (use-package claude-code
   :ensure (claude-code
@@ -86,10 +70,7 @@
       buffer
       '((display-buffer-in-side-window)
         (side . right)
-        (window-width . 0.4)))))
-  :config
-  (occhima/leader
-    "C" '(claude-code-transient-menu :wk "Claude Code")))
+        (window-width . 0.4))))))
 
 (use-package monet
   :ensure (monet :host github :repo "stevemolitor/monet")
@@ -98,6 +79,18 @@
   (add-hook 'claude-code-process-environment-functions
             #'monet-start-server-function)
   (monet-mode 1))
+
+(occhima/leader
+  "O" '(:ignore t :wk "opencode")
+  "OO" '(agent-shell-opencode-start-agent :wk "Start")
+  "Oo" '(agent-shell-toggle :wk "Toggle")
+  "On" '(agent-shell-new-shell :wk "New shell")
+  "Or" '(agent-recall-search :wk "Recall search")
+  "Ob" '(agent-recall-browse :wk "Recall browse")
+  "OR" '(agent-recall-resume :wk "Recall resume")
+  "Ow" '(agent-shell-workspace-toggle :wk "Workspace")
+  "Os" '(agent-shell-sidebar-toggle :wk "Sidebar")
+  "Of" '(agent-shell-sidebar-toggle-focus :wk "Sidebar focus"))
 
 (provide 'module-ai)
 ;;; module-ai.el ends here

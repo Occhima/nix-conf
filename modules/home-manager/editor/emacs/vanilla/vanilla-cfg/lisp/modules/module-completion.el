@@ -52,7 +52,22 @@
   :init
   (marginalia-mode 1))
 
-(use-package consult)
+(use-package nerd-icons-completion
+  :after marginalia
+  :config
+  (nerd-icons-completion-mode 1)
+  (nerd-icons-completion-marginalia-setup))
+
+(use-package consult
+  :bind (([remap switch-to-buffer] . consult-buffer)
+         ([remap bookmark-jump] . consult-bookmark)
+         ([remap yank-pop] . consult-yank-pop)
+         ([remap locate] . consult-locate)
+         ([remap recentf-open-files] . consult-recent-file)
+         ([remap imenu] . consult-imenu)))
+
+(use-package consult-eglot
+  :after (consult eglot))
 
 (use-package embark
   :bind (("C-." . embark-act)
@@ -81,6 +96,14 @@
   (general-def
     :states 'insert
     "C-SPC" #'completion-at-point))
+
+(use-package nerd-icons-corfu
+  :after corfu
+  :config
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+
+(use-package nerd-icons-ibuffer
+  :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
 
 (use-package cape
   :init

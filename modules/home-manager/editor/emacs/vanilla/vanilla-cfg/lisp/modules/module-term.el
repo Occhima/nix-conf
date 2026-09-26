@@ -6,10 +6,43 @@
   "Disable Eldoc in Eshell buffers."
   (eldoc-mode -1))
 
+(defun occhima/vterm-toggle ()
+  "Toggle a vterm popup rooted at the current project."
+  (interactive)
+  (let* ((root (if-let* ((project (project-current))) (project-root project) default-directory))
+         (name (format "*vterm-popup:%s*" (abbreviate-file-name root)))
+         (window (get-buffer-window name)))
+    (if window
+        (delete-window window)
+      (let ((default-directory root))
+        (pop-to-buffer (or (get-buffer name) (save-window-excursion (vterm name))))))))
+
+(defun occhima/vterm-here ()
+  "Open vterm in the current window and directory."
+  (interactive)
+  (vterm t))
+
+(defun occhima/vterm-quiet-ui ()
+  "Drop editing affordances inside vterm."
+  (setq-local mode-line-format nil
+              show-trailing-whitespace nil
+              confirm-kill-processes nil
+              hscroll-margin 0))
+
+(add-to-list 'display-buffer-alist
+             '("\\*vterm-popup:"
+               (display-buffer-in-side-window)
+               (side . bottom)
+               (slot . -4)
+               (window-height . 0.25)))
+
 (use-package vterm
   :ensure nil
   :commands (vterm vterm-other-window)
+  :hook (vterm-mode . occhima/vterm-quiet-ui)
+  :bind (:map vterm-mode-map ("C-q" . vterm-send-next-key))
   :custom
+  (vterm-kill-buffer-on-exit t)
   (vterm-max-scrollback 10000))
 
 (use-package eat
@@ -39,8 +72,8 @@
   (setq eshell-prompt-function #'occhima/eshell-prompt))
 
 (occhima/leader
-  "o t" '(vterm :wk "Terminal")
-  "o T" '(vterm-other-window :wk "Terminal other window")
+  "o t" '(occhima/vterm-toggle :wk "Toggle vterm popup")
+  "o T" '(occhima/vterm-here :wk "Open vterm here")
   "o e" '(eshell :wk "Eshell")
   "o E" '(project-eshell :wk "Eshell in project")
   "o z" '(eat :wk "Eat terminal"))

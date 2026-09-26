@@ -2,6 +2,30 @@
 
 (require 'core-evil)
 
+;; Enabled last so envrc's hook runs before the others that read the environment.
+(use-package envrc
+  :hook (elpaca-after-init . envrc-global-mode))
+
+(use-package apheleia
+  :demand t
+  :config
+  (setf (alist-get 'python-mode apheleia-mode-alist) 'ruff
+        (alist-get 'python-ts-mode apheleia-mode-alist) 'ruff)
+  (apheleia-global-mode 1))
+
+(use-package eglot
+  :ensure nil
+  :custom
+  (eglot-connect-timeout 120)
+  (eglot-autoshutdown t))
+
+(use-package eglot-booster
+  :ensure (eglot-booster :host github :repo "jdtsmith/eglot-booster")
+  :after eglot
+  :when (executable-find "emacs-lsp-booster")
+  :config
+  (eglot-booster-mode 1))
+
 (use-package eldoc-box
   :hook (eglot-managed-mode . eldoc-box-hover-mode))
 
@@ -26,6 +50,13 @@
   (flyover-checkers '(flymake))
   (flyover-use-theme-colors t)
   (flyover-wrap-messages t))
+
+(occhima/local-leader (emacs-lisp-mode lisp-interaction-mode)
+  "e b" '(eval-buffer :wk "Eval buffer")
+  "e d" '(eval-defun :wk "Eval defun")
+  "e e" '(eval-last-sexp :wk "Eval last sexp")
+  "e r" '(eval-region :wk "Eval region")
+  "m" '(pp-macroexpand-last-sexp :wk "Macroexpand"))
 
 (use-package markdown-mode
   :mode ("\\.md\\'" . markdown-mode))
@@ -73,7 +104,7 @@
 (use-package just-mode
   :mode ("\\(?:J\\|j\\)ustfile\\'" "\\.just\\'")
   :config
-  (occhima/local-leader
+  (occhima/local-leader just-mode
     "r" '(justl-exec-recipe :wk "Run recipe")
     "R" '(justl-exec-default-recipe :wk "Run default recipe")
     "j" '(justl :wk "Open Justl")
@@ -81,11 +112,11 @@
 
 (use-package justl
   :ensure (justl :host github :repo "psibi/justl.el")
-  :commands (justl justl-exec-recipe justl-exec-default-recipe)
-  :config
-  (occhima/leader
-    "jj" '(justl :wk "Open Justl")
-    "jr" '(justl-exec-recipe :wk "Run recipe")))
+  :commands (justl justl-exec-recipe justl-exec-default-recipe))
+
+(occhima/leader
+  "jj" '(justl :wk "Open Justl")
+  "jr" '(justl-exec-recipe :wk "Run recipe"))
 
 (provide 'module-programming)
 ;;; module-programming.el ends here

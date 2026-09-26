@@ -25,7 +25,7 @@
                   ((zerop
                     (apply #'call-process
                            `("git" nil ,buffer t "clone"
-                             ,@(when-let ((depth (plist-get order :depth)))
+                             ,@(when-let* ((depth (plist-get order :depth)))
                                  (list (format "--depth=%d" depth)
                                        "--no-single-branch"))
                              ,(plist-get order :repo) ,repo))))
@@ -59,8 +59,9 @@
   (elpaca-use-package-mode))
 
 (setq use-package-always-ensure t
-      use-package-compute-statistics t
-      use-package-expand-minimally t)
+      ;; `emacs --debug-init' keeps use-package's error guards and load timings.
+      use-package-compute-statistics init-file-debug
+      use-package-expand-minimally (not init-file-debug))
 
 (use-package transient
   :ensure (transient :host github :repo "magit/transient" :wait t)

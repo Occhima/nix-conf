@@ -21,6 +21,7 @@
 (require 'module-ai)
 (require 'module-apps)
 (require 'module-theme-modeline)
+(require 'module-ui)
 (require 'module-dashboard)
 (require 'module-dired)
 (require 'module-casual)
@@ -31,6 +32,7 @@
 (require 'module-lang-nix)
 (require 'module-lang-python)
 (require 'module-lang-r)
+(require 'module-lang-extra)
 
 (add-hook 'elpaca-after-init-hook
           (lambda ()

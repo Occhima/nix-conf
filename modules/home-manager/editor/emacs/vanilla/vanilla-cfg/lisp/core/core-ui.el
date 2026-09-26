@@ -1,9 +1,11 @@
 ;;; core-ui.el --- Minimal UI defaults -*- lexical-binding: t; -*-
-;; Code
+
 (defconst occhima/fixed-font "Iosevka Comfy")
 (defconst occhima/variable-font "Iosevka Nerd Font Mono")
 (defconst occhima/symbol-font "Symbols Nerd Font Mono")
-(defconst occhima/font-height 150)
+;; Doom's (font-spec :size 15) is 15 pixels, about 11.3 points at 96 DPI.
+(defconst occhima/font-height 113)
+(defconst occhima/font-weight 'semi-bold)
 (defconst occhima/symbol-font-ranges
   '((#xe000 . #xf8ff)
     (#xf0000 . #xfffff)))
@@ -22,27 +24,34 @@
 
 (defun occhima/apply-fonts (&optional frame)
   "Set the configured font faces on FRAME, or globally when FRAME is nil."
-  (dolist (spec (list (cons 'default occhima/fixed-font)
-                      (cons 'fixed-pitch occhima/fixed-font)
-                      (cons 'variable-pitch occhima/variable-font)))
-    (set-face-attribute (car spec) frame
-                        :family (cdr spec)
-                        :height occhima/font-height
-                        :weight 'normal))
+  (set-face-attribute 'default frame
+                      :family occhima/fixed-font
+                      :height occhima/font-height
+                      :weight occhima/font-weight)
+  ;; Relative heights keep these faces in step with `text-scale-adjust'.
+  (set-face-attribute 'fixed-pitch frame
+                      :family occhima/fixed-font :height 1.0 :weight occhima/font-weight)
+  (set-face-attribute 'variable-pitch frame
+                      :family occhima/variable-font :height 1.0 :weight 'normal)
   (occhima/apply-symbol-fontset frame))
 
 (occhima/apply-fonts)
-
 
 (setq frame-title-format "%b"
       undo-limit 80000000
       truncate-string-ellipsis "…"
       display-line-numbers-type 'relative
-      show-trailing-whitespace t
       which-key-idle-delay 0.3
       which-key-idle-secondary-delay 0)
 
-(global-display-line-numbers-mode 1)
+(defun occhima/show-trailing-whitespace ()
+  "Highlight trailing whitespace in the current buffer."
+  (setq-local show-trailing-whitespace t))
+
+(dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
+  (add-hook hook #'display-line-numbers-mode)
+  (add-hook hook #'occhima/show-trailing-whitespace))
+
 (column-number-mode 1)
 (save-place-mode 1)
 (recentf-mode 1)
@@ -50,7 +59,6 @@
 
 (use-package which-key
   :ensure nil
-  :diminish
   :config
   (which-key-mode 1))
 

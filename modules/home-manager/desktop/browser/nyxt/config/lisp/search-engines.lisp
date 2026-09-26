@@ -8,6 +8,8 @@
                                  "https://suggestqueries.google.com/complete/search?client=firefox&q=~a")
    (make-instance 'search-engine :name "MyNixos" :shortcut "mn"
                                  :control-url "https://mynixos.com/search?q=~a")
+   (make-instance 'search-engine :name "NixOS Packages" :shortcut "np"
+                                 :control-url "https://search.nixos.org/packages?channel=unstable&query=~a")
    (make-instance 'search-engine :name "Noogle" :shortcut "no"
                                  :control-url "https://noogle.dev/?q.txt=~a")
    (make-instance 'search-engine :name "Nixpkgs Issues" :shortcut "npi"
