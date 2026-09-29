@@ -71,7 +71,9 @@
 
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode)
-  :hook (nov-mode . visual-line-mode)
+  :hook ((nov-mode . mixed-pitch-mode)
+         (nov-mode . visual-line-mode)
+         (nov-mode . visual-fill-column-mode))
   :custom
   (nov-text-width t)
   (nov-variable-pitch nil))
@@ -84,6 +86,7 @@
   :custom
   (calibredb-root-dir "~/Dropbox/projects/library/books/kindle")
   (calibredb-db-dir "~/Dropbox/projects/library/books/kindle/metadata.db")
+  (calibredb-format-nerd-icons t)
   :bind (:map calibredb-show-mode-map
               ("v" . calibredb-view)))
 
@@ -147,8 +150,47 @@
           consult-omni-stackoverflow))
   (consult-omni-sources-load-modules))
 
+(use-package visual-fill-column
+  :commands visual-fill-column-mode)
+
+(use-package circe
+  :commands circe
+  :config
+  (require 'auth-source-pass)
+  (setq circe-network-options
+        `(("Libera Chat"
+           :host "irc.libera.chat"
+           :tls t
+           :port 6697
+           :nick "metax"
+           :sasl-username ,(auth-source-pass-get "user" "irc/libera.chat")
+           :sasl-password (lambda (&rest _) (occhima/pass-secret "irc/libera.chat"))
+           :channels ("#emacs")))))
+
+(defun occhima/irc ()
+  "Connect to Libera Chat."
+  (interactive)
+  (circe "Libera Chat"))
+
+(use-package telega
+  :ensure nil
+  :commands telega)
+
+(use-package ement
+  :commands (ement-connect ement-list-rooms))
+
+(use-package calfw
+  :commands cfw:open-calendar-buffer)
+
+(use-package calfw-org
+  :commands cfw:open-org-calendar)
+
 (occhima/leader
-  "o m" '(mu4e :wk "Mail"))
+  "o m" '(mu4e :wk "Mail")
+  "o i" '(occhima/irc :wk "IRC")
+  "o g" '(telega :wk "Telegram")
+  "o M" '(ement-connect :wk "Matrix")
+  "o c" '(cfw:open-org-calendar :wk "Calendar"))
 
 (provide 'module-apps)
 ;;; module-apps.el ends here

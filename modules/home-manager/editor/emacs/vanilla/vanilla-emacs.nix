@@ -30,6 +30,7 @@ in
         "editorconfig-core-c"
         "emacs-lsp-booster"
         "fd"
+        "gdb"
         "ffmpeg"
         "git"
         "gnumake"
@@ -69,6 +70,7 @@ in
             mu4e
             pdf-tools
             sly
+            telega
             treesit-grammars.with-all-grammars
             vterm
           ];

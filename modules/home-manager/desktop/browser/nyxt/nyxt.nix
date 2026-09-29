@@ -41,7 +41,7 @@ in
           rm "$out/bin/nyxt"
           makeWrapper ${nyxt}/bin/nyxt "$out/bin/nyxt" \
             --set-default FONTCONFIG_FILE ${fontconfig}/fonts.conf \
-            --add-flags '--electron-opts "--enable-gpu-rasterization --enable-zero-copy --ignore-gpu-blocklist"'
+            --add-flags '--electron-opts "--enable-gpu-rasterization --enable-zero-copy --ignore-gpu-blocklist --force-dark-mode"'
         '';
       };
     in
@@ -68,6 +68,7 @@ in
             (in-package #:nyxt-user)
             (defvar *readability-js* #p"${readability}")
             (defvar *pandoc* "${lib.getExe pkgs.pandoc}")
+            (defvar *mpv* "${lib.getExe pkgs.mpv}")
           '';
 
           "flake-nyxt/slynk.lisp".text = ''

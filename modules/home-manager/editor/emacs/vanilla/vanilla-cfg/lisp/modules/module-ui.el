@@ -92,6 +92,17 @@
   (let ((writeroom-fullscreen-effect 'fullboth))
     (writeroom-mode 'toggle)))
 
+(use-package ligature
+  :hook (prog-mode . ligature-mode)
+  :config
+  (ligature-set-ligatures
+   'prog-mode
+   '("<---" "<--" "<<-" "<-" "->" "-->" "--->" "<->" "<-->" "<--->"
+     "<!--" "<==" "<===" "<=" "=>" "=>>" "==>" "===>" "<=>" "<==>"
+     ">=" "==" "===" "!=" "!==" "=/=" "::" ":::" "++" "+++" "//" "///"
+     "&&" "||" "|>" "<|" "<|>" ".." "..." "..<" "<>" "</" "/>" "</>"
+     "~~" "~>" "<~" "##" "###" ";;" "**" "***" "-<" ">-" "<<" ">>")))
+
 (occhima/leader
   "~" '(popper-toggle :wk "Toggle last popup")
   "t z" '(writeroom-mode :wk "Zen mode")

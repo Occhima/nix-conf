@@ -22,3 +22,10 @@ action because it exposes evaluation into the browser image."
   (unless (sly-connected-p)
     (occhima/nyxt-connect))
   (sly-eval `(slynk:interactive-eval-region ,form)))
+
+(map! :leader :desc "Connect to Nyxt" "o n" #'occhima/nyxt-connect)
+
+(map! :after sly
+      :map lisp-mode-map
+      :localleader
+      :desc "Connect to Nyxt" "n" #'occhima/nyxt-connect)

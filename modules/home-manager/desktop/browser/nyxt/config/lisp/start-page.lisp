@@ -316,6 +316,12 @@ shortcuts."
   tick();
   setInterval(tick, 10000);
 })();")))
+          (alexandria:when-let ((urls (and (not *session-restored-p*)
+                                           (previous-session-urls))))
+            (:section :class "session"
+                      (:h2 "Last session")
+                      (:p (format nil "~a buffer~:p open when Nyxt last closed. " (length urls))
+                          (:nbutton :text "restore" '(restore-session)))))
           (:div :class "columns"
                 (:section :class "news wide"
                           (:h2 "Hacker News")

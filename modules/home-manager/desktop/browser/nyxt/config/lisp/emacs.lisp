@@ -35,6 +35,19 @@
     (when (search "arxiv" host :test #'char-equal)
       (values (cl-ppcre:scan-to-strings "\\d{4}\\.\\d{4,5}" url)))))
 
+(defparameter *doi-regex* "10\\.\\d{4,9}/[^\\s\"'<>?#]+")
+
+(defun %clean-doi (doi)
+  (string-right-trim ".,;)" doi))
+
+(defun %url-doi (url)
+  "DOI embedded in URL, percent-decoded, or NIL."
+  (let ((string (quri:render-uri (quri:uri url))))
+    (alexandria:when-let
+        ((doi (cl-ppcre:scan-to-strings *doi-regex*
+                                        (or (ignore-errors (quri:url-decode string)) string))))
+      (%clean-doi doi))))
+
 (defun %page-doi (&optional (buffer (current-buffer)))
   "DOI from the page's citation metadata, else from its URL."
   (let ((meta (or (ignore-errors
@@ -44,25 +57,31 @@
                                            "meta[name='citation_doi'],meta[name='dc.identifier' i],meta[name='prism.doi']"))))
                        (if tag (ps:@ tag content) ""))))
                   "")))
-    (alexandria:when-let
-        ((doi (cl-ppcre:scan-to-strings "10\\.\\d{4,9}/[^\\s\"'<>?#]+"
-                                        (str:concat meta " " (render-url (url buffer))))))
-      (string-right-trim ".,;)" doi))))
+    (or (alexandria:when-let ((doi (cl-ppcre:scan-to-strings *doi-regex* meta)))
+          (%clean-doi doi))
+        (%url-doi (url buffer)))))
 
-(define-command add-paper ()
-  "Add the paper on the current page to the bibliography, by arXiv id or DOI."
-  (let ((url (%current-url-string)))
-    (alexandria:if-let ((id (%arxiv-id url)))
+(defun add-paper-from-url (url &optional doi)
+  "Add the paper at URL to the bibliography by arXiv id, else DOI, else warn."
+  (let ((url-string (quri:render-uri (quri:uri url))))
+    (alexandria:if-let ((id (%arxiv-id url-string)))
       (progn
         (%emacs-eval "(occhima/nyxt-arxiv-add ~s)" id)
         (echo "Adding arXiv:~a to the library" id))
-      (alexandria:if-let ((doi (%page-doi)))
+      (alexandria:if-let ((doi (or doi (%url-doi url))))
         (progn
           (%emacs-eval "(occhima/nyxt-doi-add ~s)" doi)
           (echo "Adding doi:~a to the library" doi))
-        (echo-warning "No arXiv id or DOI on ~a" url)))))
+        (echo-warning "No arXiv id or DOI on ~a" url-string)))))
+
+(define-command add-paper ()
+  "Add the paper on the current page to the bibliography, by arXiv id or DOI."
+  (add-paper-from-url (url (current-buffer))
+                      (unless (%arxiv-id (%current-url-string)) (%page-doi))))
 
 (define-command open-in-emacs ()
-  "Open the current URL inside Emacs with `browse-url'."
-  (%emacs-eval "(browse-url ~s)" (%current-url-string))
-  (echo "Opening in Emacs"))
+  "Open the current URL in Emacs's eww.
+
+Not `browse-url': both Emacs configurations point that back at Nyxt."
+  (%emacs-eval "(eww ~s)" (%current-url-string))
+  (echo "Opening in eww"))

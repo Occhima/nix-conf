@@ -2,7 +2,7 @@
 
 (define-configuration web-buffer
   ((default-modes (cons 'nyxt/mode/small-web:small-web-mode
-                        (list* 'mirror-mode 'site-modes-mode %slot-value%)))
+                        (list* 'mirror-mode 'site-modes-mode 'userscript-mode %slot-value%)))
    (style
     (str:concat
      %slot-value%

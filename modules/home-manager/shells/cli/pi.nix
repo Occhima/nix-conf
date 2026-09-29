@@ -1,4 +1,4 @@
-{ config, inputs, ... }:
+{ config, ... }:
 let
   aiAssets = config.flake.lib.custom.aiAssets;
 in
@@ -11,23 +11,24 @@ in
   flake.modules.homeManager.pi =
     { pkgs, ... }:
     {
-      imports = [ inputs.oh-my-pi.homeManagerModules.default ];
+      # oh-my-pi's module breaks the build; re-enable together with the omp block below.
+      # imports = [ inputs.oh-my-pi.homeManagerModules.default ];
 
-      programs.omp = {
-        enable = true;
-        settings = {
-          theme.dark = "titanium";
-          startup.quiet = true;
-          tools = {
-            approvalMode = "write";
-            approval.bash = "prompt";
-          };
-        };
-      };
+      # programs.omp = {
+      #   enable = true;
+      #   settings = {
+      #     theme.dark = "titanium";
+      #     startup.quiet = true;
+      #     tools = {
+      #       approvalMode = "write";
+      #       approval.bash = "prompt";
+      #     };
+      #   };
+      # };
 
       # omp reads its user-level context natively from `~/.omp/agent/AGENTS.md`;
       # the module itself exposes no `context` option for it.
-      home.file.".omp/agent/AGENTS.md".source = aiAssets.agentsMd;
+      # home.file.".omp/agent/AGENTS.md".source = aiAssets.agentsMd;
 
       programs.pi-coding-agent = {
         enable = true;

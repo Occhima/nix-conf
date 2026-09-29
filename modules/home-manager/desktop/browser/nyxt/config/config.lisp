@@ -13,6 +13,7 @@
     "window-splits" ; %tile, reused by prompt-buffer's floating palette
     "search-engines" ; *extra-search-engines*, consumed by browser
     "favicons" ; favicon cache, consumed by start-page
+    "session" ; autosave, and the restore offer start-page renders
     "start-page" ; the start-page command referenced by browser
     "browser" ; depends on search-engines and start-page
     "status-buffer" ; styled with styles
@@ -20,12 +21,17 @@
     "prompt-buffer" ; floats over window-splits' tiling
     "mirrors" ; defines mirror-mode for web-buffer's default-modes
     "site-modes" ; site-modes-mode for web-buffer, reuses status-buffer's mode helpers
-    "web-buffer" ; styles + mirrors + site-modes
+    "userscripts" ; userscript-mode for web-buffer's default-modes
+    "web-buffer" ; styles + mirrors + site-modes + userscripts
     "view-source"
     "search-buffer"
     "passwords"
     "emacs"
     "reader"
+    "links" ; clean-url and org-link, used by hints
+    "pdf" ; wraps hint following, so after nothing that redefines it
+    "hints" ; emacs + links + pdf
+    "navigation"
     ;; "vi"
     "which-key"
     "keys")

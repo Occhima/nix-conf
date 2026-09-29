@@ -17,6 +17,11 @@
       };
       home.sessionVariables.TERMINAL = "ghostty";
       modules.desktop.terminal.active = "ghostty";
+
+      home.sessionVariables = {
+        # So special characters for us-intl keyboard like: '~'
+        GTK_IM_MODULE = "simple";
+      };
     };
   };
 

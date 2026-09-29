@@ -29,7 +29,7 @@ in
         hm.flameshot
         hm.wlogout
         hm.foliate
-        hm.calibre
+        #hm.calibre
       ];
 
       options.modules.desktop.notifications.backend = lib.mkOption {

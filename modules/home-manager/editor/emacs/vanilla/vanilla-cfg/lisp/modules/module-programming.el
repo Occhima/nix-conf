@@ -131,5 +131,27 @@
   "jj" '(justl :wk "Open Justl")
   "jr" '(justl-exec-recipe :wk "Run recipe"))
 
+(use-package dape
+  :commands (dape dape-breakpoint-toggle)
+  :custom
+  (dape-buffer-window-arrangement 'right)
+  (dape-inlay-hints t)
+  :config
+  (dape-breakpoint-global-mode 1))
+
+(occhima/leader
+  "d" '(:ignore t :wk "debug")
+  "d d" '(dape :wk "Start")
+  "d b" '(dape-breakpoint-toggle :wk "Toggle breakpoint")
+  "d B" '(dape-breakpoint-remove-all :wk "Remove breakpoints")
+  "d c" '(dape-continue :wk "Continue")
+  "d n" '(dape-next :wk "Next")
+  "d i" '(dape-step-in :wk "Step in")
+  "d o" '(dape-step-out :wk "Step out")
+  "d e" '(dape-evaluate-expression :wk "Evaluate")
+  "d w" '(dape-watch-dwim :wk "Watch")
+  "d r" '(dape-restart :wk "Restart")
+  "d q" '(dape-quit :wk "Quit"))
+
 (provide 'module-programming)
 ;;; module-programming.el ends here

@@ -22,8 +22,8 @@
   (interactive)
   (vterm t))
 
-(defun occhima/vterm-quiet-ui ()
-  "Drop editing affordances inside vterm."
+(defun occhima/terminal-quiet-ui ()
+  "Drop editing affordances inside terminal buffers."
   (setq-local mode-line-format nil
               show-trailing-whitespace nil
               confirm-kill-processes nil
@@ -36,10 +36,17 @@
                (slot . -4)
                (window-height . 0.25)))
 
+(add-to-list 'display-buffer-alist
+             '("\\*eat\\*"
+               (display-buffer-in-side-window)
+               (side . bottom)
+               (slot . -4)
+               (window-height . 0.25)))
+
 (use-package vterm
   :ensure nil
   :commands (vterm vterm-other-window)
-  :hook (vterm-mode . occhima/vterm-quiet-ui)
+  :hook (vterm-mode . occhima/terminal-quiet-ui)
   :bind (:map vterm-mode-map ("C-q" . vterm-send-next-key))
   :custom
   (vterm-kill-buffer-on-exit t)
@@ -48,7 +55,8 @@
 (use-package eat
   :ensure nil
   :commands (eat eat-project)
-  :hook (eshell-load . eat-eshell-mode)
+  :hook ((eshell-load . eat-eshell-mode)
+         (eat-mode . occhima/terminal-quiet-ui))
   :custom
   (eat-enable-yank-to-terminal t)
   (eat-kill-buffer-on-exit t)
@@ -76,7 +84,8 @@
   "o T" '(occhima/vterm-here :wk "Open vterm here")
   "o e" '(eshell :wk "Eshell")
   "o E" '(project-eshell :wk "Eshell in project")
-  "o z" '(eat :wk "Eat terminal"))
+  "o z" '(eat :wk "Eat terminal")
+  "o Z" '(eat-project :wk "Eat in project"))
 
 (provide 'module-term)
 ;;; module-term.el ends here

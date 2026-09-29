@@ -175,7 +175,6 @@
   "o a o" '(occhima/open-agenda :wk "Personal agenda")
   "o a v" '(org-search-view :wk "View search")
   "o b" '(browse-url-of-file :wk "Default browser")
-  "o c" '(calendar :wk "Calendar")
   "o f" '(make-frame :wk "New frame")
   "o F" '(select-frame-by-name :wk "Select frame")
   "o -" '(dired-jump :wk "Dired")
