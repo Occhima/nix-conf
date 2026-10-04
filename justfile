@@ -212,3 +212,25 @@ alias re := repair
 update *input:
     nix flake update {{ input }} --refresh
 alias u := update
+
+# <- bump every `:pin` in doom's packages.el to the latest upstream commit
+[group('dev')]
+doom-pins:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    file="{{ flake }}/modules/home-manager/editor/emacs/doom/doom-cfg/packages.el"
+    # ponytail: assumes :host github, extend the URL if other hosts get pinned
+    awk 'BEGIN { RS = "\\(package! " } /:pin/ {
+      repo = pin = ""; branch = "HEAD"
+      if (match($0, /:repo "[^"]+"/))   repo   = substr($0, RSTART + 7, RLENGTH - 8)
+      if (match($0, /:branch "[^"]+"/)) branch = substr($0, RSTART + 9, RLENGTH - 10)
+      if (match($0, /:pin "[^"]+"/))    pin    = substr($0, RSTART + 6, RLENGTH - 7)
+      if (repo && pin) print repo, branch, pin
+    }' "$file" | while read -r repo branch pin; do
+      new=$(git ls-remote "https://github.com/$repo" "$branch" | head -1 | cut -f1)
+      if [ -z "$new" ]; then echo "skip $repo: no ref $branch"; continue; fi
+      [ "$new" = "$pin" ] && continue
+      sed -i "s/$pin/$new/" "$file"
+      echo "$repo: ${pin:0:7} -> ${new:0:7}"
+    done
+alias dp := doom-pins

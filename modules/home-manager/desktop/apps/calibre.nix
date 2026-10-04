@@ -14,6 +14,8 @@
         hash = "sha256-fo3YeO/T/YFIWQ7rFoC5TFnIxMkG9eAQPWzqBrgwC6A=";
       };
 
+      cfg = config.modules.desktop.apps.calibre;
+
       appearance = {
         toolbar_icon_size = "medium";
         toolbar_text = "never";
@@ -29,7 +31,7 @@
         tag_browser_hide_empty_categories = true;
       };
 
-      appearanceFile = (pkgs.formats.json { }).generate "calibre-appearance.json" appearance;
+      appearanceFile = (pkgs.formats.json { }).generate "calibre-appearance.json" cfg.gui;
 
       mergeAppearance = pkgs.writers.writePython3Bin "calibre-merge-appearance" { } ''
         import json
@@ -59,14 +61,24 @@
       '';
     in
     {
-      programs.calibre.enable = true;
+      options.modules.desktop.apps.calibre.gui = lib.mkOption {
+        type = lib.types.attrsOf lib.types.anything;
+        default = { };
+        description = "Keys merged into calibre's gui.json on activation; themes add their palette here.";
+      };
 
-      xdg.configFile."calibre/resources/images".source = "${iconTheme}/images";
+      config = {
+        modules.desktop.apps.calibre.gui = appearance;
 
-      home.activation.calibreAppearance = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        run ${lib.getExe mergeAppearance} \
-          ${config.xdg.configHome}/calibre/gui.json \
-          ${appearanceFile}
-      '';
+        programs.calibre.enable = true;
+
+        xdg.configFile."calibre/resources/images".source = "${iconTheme}/images";
+
+        home.activation.calibreAppearance = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+          run ${lib.getExe mergeAppearance} \
+            ${config.xdg.configHome}/calibre/gui.json \
+            ${appearanceFile}
+        '';
+      };
     };
 }

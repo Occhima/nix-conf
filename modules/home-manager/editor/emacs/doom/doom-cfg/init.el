@@ -7,7 +7,7 @@
 
  :ui
  doom
- dashboard
+ ;; dashboard  ; emacs-dashboard instead, see elisp/+ui.el
  doom-quit
  (emoji +ascii +github +unicode)
  hl-todo

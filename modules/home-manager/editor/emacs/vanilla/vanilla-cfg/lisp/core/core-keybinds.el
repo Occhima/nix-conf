@@ -16,7 +16,6 @@
   "O" '(:prefix-command occhima/agent-map :wk "opencode")
   "o" '(:prefix-command occhima/open-map :wk "open")
   "oa" '(:prefix-command occhima/agenda-map :wk "org agenda")
-  "C" '(claude-code-transient-menu :wk "Claude Code")
   "p" '(:prefix-command occhima/project-map :wk "project")
   "q" '(:prefix-command occhima/quit-map :wk "quit/session")
   "s" '(:prefix-command occhima/search-map :wk "search")

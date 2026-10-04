@@ -14,106 +14,99 @@
  doom-theme 'doom-polykai
  doom-font (font-spec :family "Iosevka Comfy" :size 15 :weight 'SemiBold)
  doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font Mono" :size 15)
- doom-symbol-font (font-spec :family "JuliaMono")
- doom-fallback-buffer-name "*dashboard*"
- ;; Resolved against doom-private-dir: with nix-doom-emacs that is the
- ;; built doomDir in the Nix store, not ~/.config/doom.
- fancy-splash-image (expand-file-name "misc/splash/emacs.svg" doom-private-dir))
+ ;; JuliaMono is not installed; nerd-icons glyphs live in Symbols Nerd Font Mono.
+ doom-symbol-font (font-spec :family "Symbols Nerd Font Mono")
+ doom-emoji-font (font-spec :family "Noto Color Emoji")
+ doom-fallback-buffer-name "*dashboard*")
 
-;; Dashboard restyled after https://github.com/gs-101/.emacs.d
-;; (white Emacs logo, centered title, init info, project list,
-;; bracket footer buttons). The gs-101-emacs.png logo is gs-101's
-;; edit of the GNU Emacs icon from the Emacs source repository.
+;; Welcome screen after https://github.com/gs-101/.emacs.d, same as vanilla
+;; module-dashboard.el, with Doom's own splash SVG.
 
-(defun +occhima/dashboard-widget-banner ()
-  "Doom's banner widget, with the splash logo capped at 260px tall.
+(defun +occhima/dashboard-on-client-frame (&optional frame)
+  "Show the dashboard when a client FRAME opens on an empty buffer."
+  (with-selected-frame (or frame (selected-frame))
+    (when (member (buffer-name) '("*scratch*" "*doom*"))
+      (dashboard-open))))
 
-The stock widget inserts the logo at its natural size (550px here),
-which overflows smaller frames and skews Doom's line-count-based
-vertical centering.  260px matches the vanilla Emacs config
-(`dashboard-image-banner-max-height')."
-  (let ((create-image (symbol-function #'create-image)))
-    (cl-letf (((symbol-function #'create-image)
-               (lambda (file &rest args)
-                 (apply create-image file nil nil :max-height 260 args))))
-      (+dashboard-widget-banner))))
+(defun +occhima/dashboard-action (command)
+  "Return a dashboard button action running COMMAND interactively."
+  (lambda (&rest _) (call-interactively command)))
 
-(defun +occhima/dashboard-widget-title ()
-  "Centered configuration title below the banner."
-  (+dashboard-insert
-   (propertize "The Extensible Computing Environment"
-               'face '+dashboard-menu-title)))
+(defun +occhima/browse-flake ()
+  "Browse the flake that builds this configuration."
+  (interactive)
+  (dired "~/.config/flake"))
 
-(defun +occhima/dashboard-widget-projects ()
-  "Project list with icons, after gs-101's dashboard."
-  (require 'project)
-  ;; Doom tracks projects through projectile; project.el's cache is usually
-  ;; empty at startup, so ask projectile first.
-  (let* ((projects (seq-filter #'file-directory-p
-                               (delete-dups
-                                (append (bound-and-true-p projectile-known-projects)
-                                        (project-known-project-roots)))))
-         (roots (seq-take projects 5)))
-    (when roots
-      (let* ((rows (mapcar
-                    (lambda (root)
-                      (concat (nerd-icons-octicon "nf-oct-file_directory"
-                                                  :face 'nerd-icons-blue
-                                                  :v-adjust -0.1)
-                              " "
-                              (abbreviate-file-name root)))
-                    roots))
-             (heading (concat (nerd-icons-octicon "nf-oct-project"
-                                                  :face 'nerd-icons-lblue
-                                                  :v-adjust -0.1)
-                              " "
-                              (propertize (format "[Projects (%d)]" (length roots))
-                                          'face '+dashboard-menu-title)))
-             ;; gs-101's block is flush-left: center it as a unit, rows aligned.
-             (block (cons heading rows)))
-        (+dashboard-insert (string-join block "\n"))))))
+(defun +occhima/refresh-doom ()
+  "Run doom sync and restart the daemon."
+  (interactive)
+  (when (yes-or-no-p "Run refresh-doom (restarts the daemon)? ")
+    (save-some-buffers nil t)
+    (async-shell-command "refresh-doom")))
 
-(defun +occhima/dashboard-widget-footer ()
-  "Bracket-button footer, after gs-101's dashboard."
-  (+dashboard-insert
-   (with-temp-buffer
-     (dolist (button (list (list (nerd-icons-codicon "nf-cod-note")
-                                 "Open Scratch Buffer"
-                                 "Switch to the scratch buffer"
-                                 (lambda (_) (switch-to-buffer (get-scratch-buffer-create))))
-                           (list (nerd-icons-codicon "nf-cod-calendar")
-                                 "Open Org Agenda"
-                                 "Switch to the agenda buffer"
-                                 (lambda (_) (org-agenda)))
-                           (list (nerd-icons-codicon "nf-cod-settings")
-                                 "Open Config"
-                                 "Open the Nix flake configuration"
-                                 (lambda (_) (find-file "~/.config/flake")))))
-       (pcase-let ((`(,icon ,label ,help ,fn) button))
-         (insert "[")
-         (insert-text-button (concat icon " " label)
-                             'action fn 'help-echo help 'follow-link t)
-         (insert "]  ")))
-     (buffer-string))
-   (propertize "\nVi Vi Vi, the editor of the beast"
-               'face 'font-lock-comment-face)))
-
-(setq +dashboard-functions
-      '(+occhima/dashboard-widget-banner
-        +occhima/dashboard-widget-title
-        +dashboard-widget-loaded
-        +occhima/dashboard-widget-projects
-        +dashboard-widget-spacer
-        +occhima/dashboard-widget-footer))
-
-;; Doom's own daemon-only fix for doomemacs/core#2219 (dashboard loses
-;; center alignment after a persp/workspace switch) doesn't cover regular
-;; GUI startup. `+workspaces-on-switch-project-behavior' means every
-;; project switch triggers a persp activation, so apply the same fix
-;; unconditionally.
-(add-hook 'persp-activated-functions #'+dashboard-reload-maybe-h)
+(use-package! dashboard
+  :demand t
+  :hook (dashboard-mode . (lambda ()
+                            (setq-local show-trailing-whitespace nil)
+                            (display-line-numbers-mode -1)))
+  :custom
+  (dashboard-banner-logo-title "The Extensible Computing Environment")
+  (dashboard-startup-banner (expand-file-name "misc/splash/emacs.svg" doom-user-dir))
+  (dashboard-image-banner-max-height 260)
+  (dashboard-center-content t)
+  (dashboard-vertically-center-content t)
+  (dashboard-icon-type 'nerd-icons)
+  ;; Default is `display-graphic-p': the daemon renders before any GUI frame exists.
+  (dashboard-display-icons-p t)
+  (dashboard-startupify-list '(dashboard-insert-banner
+                               dashboard-insert-banner-title
+                               dashboard-insert-init-info
+                               dashboard-insert-items
+                               dashboard-insert-newline
+                               dashboard-insert-navigator
+                               dashboard-insert-newline
+                               dashboard-insert-footer))
+  (dashboard-modify-heading-icons '((projects . "nf-oct-project")
+                                    (recents . "nf-oct-clock")))
+  (dashboard-set-heading-icons t)
+  (dashboard-set-file-icons t)
+  (dashboard-projects-backend 'projectile)
+  (dashboard-remove-missing-entry t)
+  (dashboard-path-style 'truncate-middle)
+  (dashboard-path-max-length 60)
+  (dashboard-items '((projects . 5)
+                     (recents . 5)))
+  (dashboard-footer-messages
+   '("Vi Vi Vi, the editor of the beast."
+     "Welcome-screen style after https://github.com/gs-101/.emacs.d"
+     "Reproducible by construction: the flake remembers what you forget."
+     "Any text editor can save your files, only Emacs can save your soul."))
+  :config
+  (setq dashboard-footer-icon
+        (nerd-icons-mdicon "nf-md-snowflake" :height 1.1 :v-adjust -0.05
+                           :face 'font-lock-keyword-face)
+        dashboard-navigator-buttons
+        `(((,(nerd-icons-mdicon "nf-md-snowflake" :height 1.1 :v-adjust 0.0)
+            "Flake" "Browse the flake sources"
+            ,(+occhima/dashboard-action #'+occhima/browse-flake)
+            nil "" " |")
+           (,(nerd-icons-codicon "nf-cod-package" :height 1.1 :v-adjust 0.0)
+            "Sync" "Run doom sync and restart the daemon"
+            ,(+occhima/dashboard-action #'+occhima/refresh-doom)
+            warning "" ""))
+          (("" "\n" "" nil nil "" ""))
+          ((,(nerd-icons-codicon "nf-cod-note" :height 1.1 :v-adjust 0.0)
+            "Open Scratch Buffer" "Switch to the scratch buffer"
+            ,(lambda (&rest _) (switch-to-buffer (get-scratch-buffer-create)))
+            nil "" "")))
+        initial-buffer-choice (lambda () (get-buffer-create dashboard-buffer-name)))
+  (dashboard-setup-startup-hook)
+  (add-hook 'server-after-make-frame-hook #'+occhima/dashboard-on-client-frame))
 
 (custom-set-faces!
+  '(dashboard-heading :inherit font-lock-keyword-face :weight bold)
+  '(dashboard-navigator :inherit font-lock-keyword-face)
+  '(dashboard-banner-logo-title :inherit font-lock-doc-face)
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
 

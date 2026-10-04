@@ -8,7 +8,7 @@
       gpu-nvidia
       login-silentsddm
       disko-beyond
-      vpn-openvpn
+      #vpn-openvpn
     ];
 
     modules.network.hostName = "beyond";

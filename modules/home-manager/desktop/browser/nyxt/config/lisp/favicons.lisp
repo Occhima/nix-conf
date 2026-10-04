@@ -13,7 +13,7 @@
                 (format nil "~a/.cache" (uiop:getenv "HOME"))))))
   "Where fetched favicons are cached, one file per domain, kept forever.")
 
-(defvar *favicon-attempted* (make-hash-table :test 'equal)
+(defvar *favicon-attempted* (make-hash-table :synchronized t :test 'equal)
   "Domain -> UNIVERSAL-TIME of the last fetch attempt, successful or not.
 
 Recorded even on failure so a domain whose icon 404s is not retried, and the
@@ -22,7 +22,7 @@ start page re-rendered, on every single load.")
 (defvar *favicon-retry-ttl* 86400
   "Seconds before a failed favicon fetch is retried.")
 
-(defvar *favicon-uris* (make-hash-table :test 'equal)
+(defvar *favicon-uris* (make-hash-table :synchronized t :test 'equal)
   "Domain -> data: URI, so a cached icon is read and encoded once per session.")
 
 (defvar *base64-alphabet*

@@ -6,11 +6,11 @@
 (defvar *which-key-max-height-ratio* 0.4
   "Largest share of the window the popup may cover; it scrolls past that.")
 
-(defvar *which-key-labels* (make-hash-table :test 'equal)
+(defvar *which-key-labels* (make-hash-table :synchronized t :test 'equal)
   "Prefix keyspec -> group name shown instead of +prefix, as which-key's
 replacement alist.  Filled by `define-leader-group'.")
 
-(defvar *which-key-views* (make-hash-table :test 'eq :weakness :key)
+(defvar *which-key-views* (make-hash-table :synchronized t :test 'eq :weakness :key)
   "Window -> the `message-buffer' used as that window's popup.
 
 A `message-buffer' because Electron-side it is a bare view Nyxt already
@@ -20,7 +20,7 @@ our own, rather than in the page, is what keeps the popup working on pages
 whose Trusted Types or CSP reject injected markup -- YouTube and Gmail --
 and keeps the page from reflowing under it.")
 
-(defvar *which-key-shown* (make-hash-table :test 'eq :weakness :key)
+(defvar *which-key-shown* (make-hash-table :synchronized t :test 'eq :weakness :key)
   "Window -> T while its popup is attached.")
 
 (defun %binding-label (value)

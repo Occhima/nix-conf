@@ -2,9 +2,10 @@
   flake.modules.nixos.iso-nix = { config, ... }: {
     nix = {
       channel.enable = false;
-      nixPath = [ "nixpkgs=${config.nix.registry.nixpkgs.to.path}" ];
 
       settings = {
+        nix-path = [ "nixpkgs=${config.nix.registry.nixpkgs.to.path}" ];
+
         experimental-features = [
           "flakes"
           "nix-command"

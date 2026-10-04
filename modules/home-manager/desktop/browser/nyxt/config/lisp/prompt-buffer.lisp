@@ -6,7 +6,7 @@
 (defvar *palette-height-ratio* 0.52)
 (defvar *palette-top-ratio* 0.16)
 
-(defvar *palette-placement* (make-hash-table :test 'eq)
+(defvar *palette-placement* (make-hash-table :synchronized t :test 'eq)
   "Window -> the prompt buffer already placed as a palette over it.
 
 Presence is the whole answer: a palette is placed once, when it opens, and

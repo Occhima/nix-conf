@@ -20,7 +20,7 @@
   document.addEventListener('focusout', report('normal'), true);
 })();")
 
-(defvar *vi-focus-listening* (make-hash-table :test 'eq :weakness :key))
+(defvar *vi-focus-listening* (make-hash-table :synchronized t :test 'eq :weakness :key))
 
 (defun %vi-focus-changed (buffer state)
   (cond ((and (equal state "nyxt-vi:insert")

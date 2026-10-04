@@ -10,7 +10,7 @@
 ENABLED and DISABLED are mode names; ZOOM is a ratio, or NIL for the default.
 Entries saved before ZOOM and MUTED existed have only the first three.")
 
-(defvar *site-zoomed-buffers* (make-hash-table :test 'eq :weakness :key)
+(defvar *site-zoomed-buffers* (make-hash-table :synchronized t :test 'eq :weakness :key)
   "Buffers whose zoom or sound came from a remembered site, to undo on leaving it.")
 
 (defun %save-site-modes ()

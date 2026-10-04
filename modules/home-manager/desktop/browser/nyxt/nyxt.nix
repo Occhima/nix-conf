@@ -41,7 +41,7 @@ in
           rm "$out/bin/nyxt"
           makeWrapper ${nyxt}/bin/nyxt "$out/bin/nyxt" \
             --set-default FONTCONFIG_FILE ${fontconfig}/fonts.conf \
-            --add-flags '--electron-opts "--enable-gpu-rasterization --enable-zero-copy --ignore-gpu-blocklist --force-dark-mode"'
+            --add-flags '--electron-opts "--enable-gpu-rasterization --force-dark-mode"'
         '';
       };
     in

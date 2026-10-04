@@ -57,21 +57,21 @@
 
     (("" "\n" "" nil nil "" ""))
 
-    (,(nerd-icons-codicon "nf-cod-note" :height 1.1 :v-adjust 0.0)
-     "Open Scratch Buffer"
-     "Switch to the scratch buffer"
-     ,(lambda (&rest _) (switch-to-buffer (get-scratch-buffer-create)))
-     nil "" " |")
-    (,(nerd-icons-codicon "nf-cod-calendar" :height 1.1 :v-adjust 0.0)
-     "Open Org Agenda"
-     "Switch to the agenda buffer"
-     ,(occhima/dashboard-action #'org-agenda)
-     nil "" " |")
-    (,(nerd-icons-codicon "nf-cod-settings" :height 1.1 :v-adjust 0.0)
-     "Open Config"
-     "Open the Nix flake configuration"
-     #'occhima/browse-flake
-     nil "" "")))
+    ((,(nerd-icons-codicon "nf-cod-note" :height 1.1 :v-adjust 0.0)
+      "Open Scratch Buffer"
+      "Switch to the scratch buffer"
+      ,(lambda (&rest _) (switch-to-buffer (get-scratch-buffer-create)))
+      nil "" " |")
+     (,(nerd-icons-codicon "nf-cod-calendar" :height 1.1 :v-adjust 0.0)
+      "Open Org Agenda"
+      "Switch to the agenda buffer"
+      ,(occhima/dashboard-action #'org-agenda)
+      nil "" " |")
+     (,(nerd-icons-codicon "nf-cod-settings" :height 1.1 :v-adjust 0.0)
+      "Open Config"
+      "Open the Nix flake configuration"
+      ,(occhima/dashboard-action #'occhima/browse-flake)
+      nil "" ""))))
 
 (use-package dashboard
   :ensure (dashboard :wait t)

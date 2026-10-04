@@ -79,6 +79,11 @@
 (use-package embark-consult
   :after (embark consult))
 
+;; embark-export a consult-ripgrep search, then C-c C-p to edit the matches.
+(use-package wgrep
+  :custom
+  (wgrep-auto-save-buffer t))
+
 (use-package corfu
   :bind (:map corfu-map
               ("C-j" . corfu-next)

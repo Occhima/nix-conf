@@ -1,9 +1,3 @@
-# agenix + agenix-rekey: one feature, several contexts. This file carries
-# the flake-level rekey integration AND the NixOS module. The secret
-# assets live right here (./vault, ./identity, ./rekeyed) so every
-# reference is local; each host contributes its own `age.rekey.hostPubkey`
-# from a `host.pub` next to its host module and registers itself via
-# `perSystem.agenix-rekey.nixosConfigurations.<host>` — no central list.
 { inputs, ... }:
 let
   secretsDir = ./vault;
@@ -15,7 +9,6 @@ in
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
     };
     agenix-rekey = {
       url = "github:oddlama/agenix-rekey";
@@ -79,7 +72,6 @@ in
       };
       config = mkMerge [
         {
-          # XXX: This must always be set in agenix-rekey
           age.rekey.masterIdentities = cfg.masterKeys;
         }
         {

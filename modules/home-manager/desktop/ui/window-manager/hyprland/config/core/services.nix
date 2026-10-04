@@ -50,6 +50,11 @@
         services.hyprpolkitagent = {
           enable = false;
         };
+
+        services.blueman-applet = {
+          enable = true;
+          systemdTargets = [ "hyprland-session.target" ];
+        };
       };
     };
 }

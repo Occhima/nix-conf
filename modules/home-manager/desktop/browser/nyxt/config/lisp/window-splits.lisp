@@ -1,6 +1,6 @@
 (in-package #:nyxt-user)
 
-(defvar *splits* (make-hash-table)
+(defvar *splits* (make-hash-table :synchronized t)
   "Window -> (:orientation O :buffers BUFFERS :focus INDEX :listener-p BOOLEAN).
 
 Nyxt 4 deleted panel buffers, but the Electron renderer attaches every buffer to

@@ -1,6 +1,6 @@
 (in-package #:nyxt-user)
 
-(defvar *feeds* (make-hash-table :test 'equal)
+(defvar *feeds* (make-hash-table :synchronized t :test 'equal)
   "Feed name -> (:fetched-at UNIVERSAL-TIME :value VALUE).
 
 The start page renders whatever is cached and fetches what is stale in the

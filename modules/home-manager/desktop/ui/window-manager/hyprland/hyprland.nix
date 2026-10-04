@@ -27,6 +27,15 @@ in
         package = null;
         portalPackage = null;
 
+        systemd.variables = [
+          "DISPLAY"
+          "HYPRLAND_INSTANCE_SIGNATURE"
+          "WAYLAND_DISPLAY"
+          "XDG_CURRENT_DESKTOP"
+          "XDG_SESSION_TYPE"
+          "XDG_SESSION_ID"
+        ];
+
         # Hyprland 0.55 introduced the new configuration format. Keep this as
         # a default so a host can opt back into hyprlang with one assignment.
         configType = lib.mkDefault (

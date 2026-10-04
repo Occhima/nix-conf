@@ -55,26 +55,3 @@
         :prefix "O"
         :desc "Sidebar" "s" #'agent-shell-sidebar-toggle
         :desc "Sidebar focus" "f" #'agent-shell-sidebar-toggle-focus))
-
-(use-package! monet
-  :defer t
-  :init
-  (with-eval-after-load 'claude-code
-    (require 'monet)
-    (add-hook 'claude-code-process-environment-functions
-              #'monet-start-server-function)
-    (monet-mode 1)))
-
-(use-package! claude-code
-  :commands claude-code-transient-menu
-  :custom
-  (claude-code-terminal-backend 'vterm)
-  (claude-code-display-window-fn
-   (lambda (buffer)
-     (display-buffer buffer
-                     '((display-buffer-in-side-window)
-                       (side . right)
-                       (window-width . 0.4)))))
-  :config
-  (map! :leader
-        :desc "Claude Code" "C" #'claude-code-transient-menu))

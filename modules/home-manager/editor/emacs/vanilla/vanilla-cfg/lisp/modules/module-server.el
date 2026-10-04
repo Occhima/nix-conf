@@ -2,6 +2,7 @@
 
 (require 'core-evil)
 (require 'core-ui)
+(require 'core-commands)
 
 (defconst occhima/client-frame-parameters
   '((width . 120)
@@ -57,6 +58,21 @@
   :config
   (unless (server-running-p)
     (server-start)))
+;; Autosave the session so a daemon restart comes back to the same buffers.
+;; Read after Elpaca so restored buffers get their real major modes.
+(use-package desktop
+  :ensure nil
+  :custom
+  (desktop-path (list occhima/desktop-directory))
+  (desktop-dirname occhima/desktop-directory)
+  (desktop-load-locked-desktop 'check-pid)
+  (desktop-restore-eager 5)
+  :init
+  (make-directory occhima/desktop-directory t)
+  (add-hook 'elpaca-after-init-hook
+            (lambda ()
+              (desktop-save-mode 1)
+              (desktop-read occhima/desktop-directory))))
 
 (use-package with-editor
   :hook ((eshell-mode

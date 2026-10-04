@@ -54,32 +54,6 @@
     (setq agent-shell-sidebar-default-config
           (agent-shell-opencode-make-agent-config))))
 
-(use-package claude-code
-  :ensure (claude-code
-           :host github
-           :repo "stevemolitor/claude-code.el"
-           :branch "main"
-           :depth 1
-           :files ("*.el" (:exclude "images/*")))
-  :commands claude-code-transient-menu
-  :custom
-  (claude-code-terminal-backend 'vterm)
-  (claude-code-display-window-fn
-   (lambda (buffer)
-     (display-buffer
-      buffer
-      '((display-buffer-in-side-window)
-        (side . right)
-        (window-width . 0.4))))))
-
-(use-package monet
-  :ensure (monet :host github :repo "stevemolitor/monet")
-  :after claude-code
-  :config
-  (add-hook 'claude-code-process-environment-functions
-            #'monet-start-server-function)
-  (monet-mode 1))
-
 (occhima/leader
   "O" '(:ignore t :wk "opencode")
   "OO" '(agent-shell-opencode-start-agent :wk "Start")

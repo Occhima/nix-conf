@@ -16,16 +16,10 @@
 (package! blamer)
 (package! calibredb :recipe (:host github :repo "chenyanming/calibredb.el"))
 (package! casual)
-(package! claude-code
-  :recipe (:host github
-           :repo "stevemolitor/claude-code.el"
-           :branch "main"
-           :depth 1
-           :files ("*.el" (:exclude "images/*"))))
 (package! llama)
 (package! combobulate
   :recipe (:host github :repo "mickeynp/combobulate")
-  :pin "713bf3081f2d80cbd13ed175a808b242d9cc652d")
+  :pin "f7ea37b7ed5a463781a4b7122e4563f1c0fdc90f")
 (package! corg :recipe (:host github :repo "isamert/corg.el"))
 (package! consult-gh
   :recipe (:host github
@@ -38,21 +32,19 @@
 (package! consult-mu
   :recipe (:host github :repo "armindarvish/consult-mu")
   :pin "8b54bbf86c2f112e3520eeeefb70d509b4590385")
+(package! dashboard)
 (package! devdocs)
 (package! eat :built-in 'prefer)
 (package! eldoc-box)
 (package! ess-plot
   :recipe (:host github :repo "DennieTeMolder/ess-plot")
-  :pin "6ae954e458d70567e3a1bdf7e8c405e39f8c144c")
+  :pin "582152c1dce1e345040a4de83dea50322377122f")
 (package! flyover :recipe (:host github :repo "konrad1977/flyover"))
 (package! goggles :recipe (:host github :repo "minad/goggles"))
 (package! gumshoe :recipe (:host github :repo "Overdr0ne/gumshoe"))
 (package! jinx :recipe (:host github :repo "minad/jinx"))
 (package! just-mode)
 (package! justl :recipe (:host github :repo "psibi/justl.el"))
-(package! monet
-  :recipe (:host github :repo "stevemolitor/monet")
-  :pin "ee2e35557e8ae07de842c435486f7c152f3750e0")
 (package! nov)
 (package! org-ref)
 (package! org-super-agenda)

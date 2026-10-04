@@ -9,7 +9,7 @@
       gpu-nvidia
       login-regreet
       disko-steammachine
-      vpn-openvpn
+      #vpn-openvpn
       pentesting-container
     ];
 

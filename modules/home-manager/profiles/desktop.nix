@@ -30,6 +30,7 @@ in
         hm.wlogout
         hm.foliate
         #hm.calibre
+        #hm.themes-guernica-calibre
       ];
 
       options.modules.desktop.notifications.backend = lib.mkOption {
