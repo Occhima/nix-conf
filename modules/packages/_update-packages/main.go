@@ -92,6 +92,9 @@ func secondaryKey(k pkgKind, content string) string {
 	case kGo:
 		return "vendorHash"
 	default:
+		if strings.Contains(content, "depsHash") {
+			return "depsHash"
+		}
 		return ""
 	}
 }

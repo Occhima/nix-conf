@@ -18,7 +18,7 @@ in
         sha256 = "0x7ivzw4ym2h4mphr7rbqgl2kq14c5mys3lr0agh3l1j10yspp1l";
       };
 
-      nyxt = flakePkgs.${pkgs.stdenv.hostPlatform.system}.nyxt;
+      nyxt = flakePkgs.${pkgs.stdenv.hostPlatform.system}.nyxt-dev;
 
       systemFonts = osConfig.environment.etc.fonts.source or null;
 
@@ -40,8 +40,7 @@ in
         postBuild = ''
           rm "$out/bin/nyxt"
           makeWrapper ${nyxt}/bin/nyxt "$out/bin/nyxt" \
-            --set-default FONTCONFIG_FILE ${fontconfig}/fonts.conf \
-            --add-flags '--electron-opts "--enable-gpu-rasterization --force-dark-mode"'
+            --set-default FONTCONFIG_FILE ${fontconfig}/fonts.conf
         '';
       };
     in

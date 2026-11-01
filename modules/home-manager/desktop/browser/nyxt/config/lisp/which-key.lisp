@@ -13,7 +13,7 @@ replacement alist.  Filled by `define-leader-group'.")
 (defvar *which-key-views* (make-hash-table :synchronized t :test 'eq :weakness :key)
   "Window -> the `message-buffer' used as that window's popup.
 
-A `message-buffer' because Electron-side it is a bare view Nyxt already
+A `message-buffer' because it is a bare CEF panel view Nyxt already
 knows how to write HTML into, and it is neither a `context-buffer' (so it
 stays out of `buffer-list') nor attached to any page.  Drawing in a view of
 our own, rather than in the page, is what keeps the popup working on pages
@@ -121,32 +121,29 @@ about:blank asynchronously, and HTML written before that load would be lost."
          (floor (* window-height *which-key-max-height-ratio*)))))
 
 (defun %which-key-show (window prefix entries)
+  "Stack the popup under the page, above the status bar, as Nyxt does the prompt."
   (alexandria:when-let* ((view (%which-key-view window))
-                         (bounds (electron:get-content-bounds window)))
-    (let* ((width (alexandria:assoc-value bounds :width))
-           (window-height (alexandria:assoc-value bounds :height))
-           (height (%which-key-height entries width window-height)))
+                         (bounds (cef:get-content-bounds window)))
+    (let ((height (%which-key-height entries
+                                     (alexandria:assoc-value bounds :width)
+                                     (alexandria:assoc-value bounds :height))))
       (ffi-print-message view (%which-key-html prefix entries))
-      (electron:set-bounds view
-                           :x 0
-                           :y (- window-height (%chrome-height window) height)
-                           :width width
-                           :height height)
-      ;; `add-view' on a view already attached raises it to the top instead.
-      (electron:add-view window view)
+      (cef:set-bar-height view height)
+      (unless (find view (cef:views window))
+        (cef:add-view-at window view 1))
       (setf (gethash window *which-key-shown*) t))))
 
 (defun %which-key-hide (window)
   (when (gethash window *which-key-shown*)
     (setf (gethash window *which-key-shown*) nil)
     (alexandria:when-let ((view (gethash window *which-key-views*)))
-      (electron:remove-view window view :kill-view-p nil))))
+      (cef:remove-view window view :kill-view-p nil))))
 
 (define-mode which-key-mode ()
   "Show the keys that can follow a prefix key, like Emacs' which-key."
   ((visible-in-status-p nil)))
 
-;; Electron calls this in a thread of its own per key, right before
+;; Nyxt calls this in a thread of its own per key, right before
 ;; `dispatch-input-event' runs on the key stack, so sleeping here delays
 ;; nothing but the popup.  The stack still holding the same keys after the
 ;; delay is what tells a pause on a prefix from a sequence typed through.

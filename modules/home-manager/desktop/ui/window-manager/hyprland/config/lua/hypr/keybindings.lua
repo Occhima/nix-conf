@@ -1,8 +1,10 @@
--- hypr/keybindings.lua — mirrors hyprlang/keybindings.nix (+ gamemode.nix).
+-- hypr/keybindings.lua — mirrors core/keybindings.nix, plugins/*.nix,
+-- the guernica quickshell binds and gamemode.nix.
 -- Workspace number binds live in hypr/workspaces.lua.
 
 local options = require("hypr.options")
 local util = require("hypr.util")
+local layout = require("hypr.layout")
 
 local M = {}
 
@@ -17,18 +19,59 @@ local function bind_core()
     { mod .. " + SHIFT + M", hl.dsp.exit() },
     { mod .. " + SHIFT + R", util.exec("hyprctl reload") },
     { mod .. " + V", hl.dsp.window.float({ action = "toggle" }) },
-    { mod .. " + J", hl.dsp.layout("togglesplit") },
-    { mod .. " + left", hl.dsp.focus({ direction = "left" }) },
-    { mod .. " + right", hl.dsp.focus({ direction = "right" }) },
-    { mod .. " + up", hl.dsp.focus({ direction = "up" }) },
-    { mod .. " + down", hl.dsp.focus({ direction = "down" }) },
+    { mod .. " + D", hl.dsp.focus({ monitor = "+1" }) },
     { mod .. " + C", util.exec(programs.color_picker) },
-    { mod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }) },
-    { mod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }) },
-    { mod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }) },
+    { mod .. " + F", hl.dsp.window.fullscreen({ action = "toggle" }) },
     { mod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true } },
     { mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true } },
   })
+end
+
+-- plugins/hy3.nix; dwindle equivalents when hy3 is not loaded.
+local function bind_layout()
+  local directions = { "left", "right", "up", "down" }
+
+  if layout.has_hy3() then
+    local hy3 = hl.plugin.hy3
+    util.bind_all({
+      { mod .. " + T", hy3.make_group("tab") },
+      { mod .. " + H", hy3.make_group("h") },
+      { mod .. " + U", hy3.make_group("v") },
+      { mod .. " + A", hy3.change_focus("raise") },
+      { mod .. " + SHIFT + A", hy3.change_focus("lower") },
+    })
+    for _, direction in ipairs(directions) do
+      hl.bind(mod .. " + " .. direction, hy3.move_focus(direction))
+      hl.bind(mod .. " + CTRL + " .. direction, hy3.move_window(direction))
+    end
+  else
+    hl.bind(mod .. " + J", hl.dsp.layout("togglesplit"))
+    for _, direction in ipairs(directions) do
+      hl.bind(mod .. " + " .. direction, hl.dsp.focus({ direction = direction }))
+    end
+  end
+end
+
+-- guernica-ukishima quickshell island panels.
+local function bind_guernica_shell()
+  util.when_enabled(features.guernica_shell, function()
+    local panels = {
+      { "SPACE", "launcher" },
+      { "X", "clipboard" },
+      { "CTRL + B", "bluetooth" },
+      { "CTRL + M", "mixer" },
+      { "CTRL + S", "system" },
+      { "CTRL + A", "calendar" },
+      { "CTRL + U", "media" },
+      { "CTRL + N", "notifications" },
+      { "CTRL + I", "network" },
+      { "CTRL + P", "power" },
+      { "CTRL + ESCAPE", "hide" },
+    }
+    for _, panel in ipairs(panels) do
+      hl.bind(mod .. " + " .. panel[1], util.exec(programs.quickshell .. " " .. panel[2]))
+    end
+  end)
 end
 
 local function bind_optional_apps()
@@ -83,6 +126,8 @@ end
 
 function M.setup()
   bind_core()
+  bind_layout()
+  bind_guernica_shell()
   bind_optional_apps()
   bind_gamemode()
 end

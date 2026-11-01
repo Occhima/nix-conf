@@ -8,9 +8,7 @@
 
 (defparameter *components*
   '("robustness" ; first: installs the debugger hook that keeps later load errors survivable
-    "electron-sockets" ; prunes stale renderer sockets before any Electron view starts
     "styles" ; shared fonts/glyphs/hairlines used by the buffers below
-    "window-splits" ; %tile, reused by prompt-buffer's floating palette
     "search-engines" ; *extra-search-engines*, consumed by browser
     "favicons" ; favicon cache, consumed by start-page
     "session" ; autosave, and the restore offer start-page renders
@@ -18,7 +16,7 @@
     "browser" ; depends on search-engines and start-page
     "status-buffer" ; styled with styles
     "message-buffer" ; styled with styles
-    "prompt-buffer" ; floats over window-splits' tiling
+    "prompt-buffer"
     "mirrors" ; defines mirror-mode for web-buffer's default-modes
     "site-modes" ; site-modes-mode for web-buffer, reuses status-buffer's mode helpers
     "userscripts" ; userscript-mode for web-buffer's default-modes

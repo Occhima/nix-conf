@@ -290,7 +290,7 @@ once something has actually been turned on or off by hand."
          :height "28px"
          :padding "0 12px"
          :box-sizing "border-box")
-       '("#controls"
+       '("#controls, #new-buffer"
          :display "none")
        `("#url"
          :flex "1 1 auto"

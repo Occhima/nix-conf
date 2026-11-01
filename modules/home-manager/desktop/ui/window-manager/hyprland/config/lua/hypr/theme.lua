@@ -1,24 +1,48 @@
--- hypr/theme.lua — look & feel for the backup config.
--- hyprlang/ keeps most of this at Hyprland defaults (general.nix is all
--- comments, animations.nix only enables them); the values below are the
--- backup's own theme, plus layer rules for the launcher/bar shells.
+-- hypr/theme.lua — look & feel, mirrors the guernica theme targets
+-- (border/group colours, shadow, layer rules for the shells).
 
 local M = {}
 
+local colors = {
+  active = "rgb(40c4ff)",
+  inactive = "rgb(909090)",
+  locked = "rgb(c080ff)",
+  text = "rgb(f8f8f8)",
+  background = "rgb(141818)",
+  shadow = "rgba(14181899)",
+}
+
 local layer_rules = {
-  { name = "waybar-no-blur", match = { namespace = "waybar" }, blur = false },
-  { name = "quickshell-blur", match = { namespace = "quickshell" }, blur = true },
-  { name = "quickshell-popup-blur", match = { namespace = "quickshell" }, blur_popups = true },
-  { name = "quickshell-dim", match = { namespace = "quickshell" }, dim_around = true },
+  { name = "anyrun", match = { namespace = "anyrun" }, blur = false, blur_popups = true, dim_around = true },
+  { name = "waybar", match = { namespace = "waybar" }, blur = false },
+  { name = "quickshell", match = { namespace = "quickshell" }, blur = true, blur_popups = true, dim_around = true },
+  {
+    name = "guernica-ukishima",
+    match = { namespace = "guernica-ukishima" },
+    blur = true,
+    blur_popups = true,
+    ignore_alpha = 0.06,
+  },
 }
 
 local function configure_theme()
   hl.config({
     general = {
-      layout = "dwindle",
       gaps_in = 8,
       gaps_out = 20,
       border_size = 1,
+      ["col.active_border"] = colors.active,
+      ["col.inactive_border"] = colors.inactive,
+    },
+    group = {
+      ["col.border_active"] = colors.active,
+      ["col.border_inactive"] = colors.inactive,
+      ["col.border_locked_active"] = colors.locked,
+      groupbar = {
+        ["col.active"] = colors.active,
+        ["col.inactive"] = colors.inactive,
+        text_color = colors.text,
+      },
     },
     decoration = {
       rounding = 5,
@@ -36,7 +60,11 @@ local function configure_theme()
         enabled = true,
         range = 12,
         render_power = 3,
+        color = colors.shadow,
       },
+    },
+    misc = {
+      background_color = colors.background,
     },
     animations = {
       enabled = true, -- hyprlang/animations.nix

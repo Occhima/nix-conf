@@ -56,6 +56,7 @@
   :ensure nil
   :commands (eat eat-project)
   :hook ((eshell-load . eat-eshell-mode)
+         (eshell-load . eat-eshell-visual-command-mode)
          (eat-mode . occhima/terminal-quiet-ui))
   :custom
   (eat-enable-yank-to-terminal t)

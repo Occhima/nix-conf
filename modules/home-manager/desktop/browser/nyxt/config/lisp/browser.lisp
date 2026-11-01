@@ -11,7 +11,7 @@
    (search-engines (append %slot-default% *extra-search-engines*))
    (search-engine-suggestions-p nil)
    (default-new-buffer-url (quri:uri (nyxt-url 'start-page)))
-   (nyxt/renderer/electron:adblocking-enabled-p nil)))
+   (nyxt/renderer/cef:adblocking-enabled-p nil)))
 
 (define-configuration nyxt/mode/hint:hint-mode
   ((nyxt/mode/hint:hints-alphabet "DSJKHLFAGNMXCWEIO")

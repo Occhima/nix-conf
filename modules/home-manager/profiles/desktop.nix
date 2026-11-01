@@ -27,6 +27,7 @@ in
         hm.discord # vesktop wraps EOL electron; re-enable once nixpkgs bumps electron
         # hm.grimblast
         hm.flameshot
+        hm.chess
         hm.wlogout
         hm.foliate
         #hm.calibre

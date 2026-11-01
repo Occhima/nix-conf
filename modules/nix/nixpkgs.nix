@@ -14,7 +14,9 @@ let
   # libcublas, libnpp, ...) — the active NVIDIA configuration requires the
   # family prefixes, matched narrowly.
   cudaFamilyPredicate =
-    pkg: builtins.match "^(cuda.*|cudnn.*|libcu.*|libnpp.*|libnv.*)$" (lib.getName pkg) != null;
+    pkg:
+    builtins.match "^(cuda.*|cudnn.*|libcu.*|libnpp.*|libnv.*)$" (lib.getName pkg) != null
+    || lib.any (l: (l.shortName or "") == "CUDA EULA") (lib.toList (pkg.meta.license or [ ]));
 in
 {
   options.nixpkgs.allowedUnfree = lib.mkOption {

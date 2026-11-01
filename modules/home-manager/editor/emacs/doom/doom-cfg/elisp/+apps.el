@@ -141,10 +141,18 @@
   :commands eat
   :hook ((eat-mode . hide-mode-line-mode)
          (eat-mode . doom-mark-buffer-as-real-h)
-         (eshell-load . eat-eshell-mode))
+         (eshell-load . eat-eshell-mode)
+         (eshell-load . eat-eshell-visual-command-mode))
   :custom
   (eat-kill-buffer-on-exit t)
   (eat-shell-prompt-annotation-success-margin-indicator "")
   (eat-enable-yank-to-terminal t)
   :config
   (set-popup-rule! "^\\*eat" :size 0.25 :vslot -4 :select t :quit nil :ttl 0))
+
+(use-package! exc
+  :commands (exc-open exc-create exc-find-file-csv)
+  :config
+  (require 'exc-csv)
+  (require 'exc-org)
+  (require 'exc-markdown))

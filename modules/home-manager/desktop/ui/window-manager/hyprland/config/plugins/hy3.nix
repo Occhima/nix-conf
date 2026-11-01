@@ -19,12 +19,12 @@ in
       configType = config.wayland.windowManager.hyprland.configType;
 
       hy3 = pkgs.hyprlandPlugins.hy3.overrideAttrs (_: {
-        version = "0.56.0.1";
+        version = "0.57.0";
         src = pkgs.fetchFromGitHub {
           owner = "outfoxxed";
           repo = "hy3";
-          rev = "42b7ed8fd9aefd3f36e5f617afd5071245c67853";
-          hash = "sha256-iK0vERuy5aXisDXm/bzcJP0dgaIot5MLPoVG62DjqO4=";
+          rev = "2af847b81544afa9465ae81b0881408e70e2f34c";
+          hash = "sha256-9qAw3Xsa0xN9b5ERiWEGL1fBq37GLskcrBj/6ax8PU4=";
         };
       });
     in

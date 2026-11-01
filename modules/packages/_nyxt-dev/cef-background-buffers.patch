@@ -1,0 +1,27 @@
+--- a/source/renderer/cef.lisp
++++ b/source/renderer/cef.lisp
+@@ -496,8 +496,24 @@
+   (when (and *browser* (web-buffer-p buffer))
+     (setf (ffi-buffer-smooth-scrolling-enabled-p buffer) (smooth-scrolling buffer))
+     (setf (ffi-buffer-cookie-policy buffer) (default-cookie-policy *browser*)))
++  (create-background-browser buffer)
+   buffer)
+
++(defun create-background-browser (buffer)
++  (let ((window (current-window)))
++    (when (and window
++               (web-buffer-p buffer)
++               (current-view window)
++               (not (eq buffer (current-view window))))
++      (cef:add-view-at window buffer 0)
++      (run-thread "background-browser"
++        (loop repeat 100
++              while (member (cef:get-url buffer) (list "" "about:blank")
++                            :test (function string=))
++              do (sleep 0.05))
++        (unless (eq buffer (current-view window))
++          (cef:remove-view window buffer :kill-view-p nil))))))
++
+ (defmethod ffi-buffer-delete ((buffer cef-buffer))
+   (when (cef:web-contents buffer)
+     (if-let ((window (window buffer)))

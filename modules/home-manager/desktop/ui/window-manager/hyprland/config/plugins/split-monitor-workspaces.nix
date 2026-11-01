@@ -13,65 +13,36 @@ in
     let
       inherit (lib)
         mkAfter
+        mkIf
         mkMerge
         range
         ;
       per = 9;
       configType = config.wayland.windowManager.hyprland.configType;
 
-      splitMonitorWorkspaces = pkgs.hyprland.stdenv.mkDerivation {
-        pname = "split-monitor-workspaces";
-        version = "unstable-2026-07-25";
-
-        src = pkgs.fetchFromGitHub {
-          owner = "zjeffer";
-          repo = "split-monitor-workspaces";
-          rev = "c8a03d993f71a3ae73179ce354e7a54859055f02";
-          hash = "sha256-XVm8Bi8XasjMP2VOisrPAuJvrB6+rQZW+/TL9kr2Ogs=";
-        };
-
-        nativeBuildInputs = with pkgs; [
-          meson
-          ninja
-          pkg-config
-        ];
-
-        buildInputs = [
-          pkgs.hyprland.dev
-          pkgs.pango
-          pkgs.cairo
-        ]
-        ++ (pkgs.hyprland.buildInputs or [ ]);
-
-        BUILT_WITH_NOXWAYLAND = false;
-
-        meta = with lib; {
-          description = "Awesome-like per-monitor workspaces for Hyprland (zjeffer fork)";
-          homepage = "https://github.com/zjeffer/split-monitor-workspaces";
-          license = licenses.bsd3;
-          platforms = platforms.linux;
-        };
+      src = pkgs.fetchFromGitHub {
+        owner = "zjeffer";
+        repo = "split-monitor-workspaces";
+        rev = "f26d624c2638d0661f3e0352a634650bfd08296d";
+        hash = "sha256-D0pKfzVlRz8VnLIZVaPtr2d+LHYspICllgIz+oQlw98=";
       };
+
+      smw = call: "function() require(\"split-monitor-workspaces\").${call}() end";
     in
     {
       wayland.windowManager.hyprland = {
-        plugins = mkAfter [ splitMonitorWorkspaces ];
+        extraConfig = mkIf (configType == "lua") (mkAfter ''
+          package.path = package.path .. ";${src}/lua/?.lua"
+          require("split-monitor-workspaces").setup({ workspace_count = ${toString per} })
+        '');
 
         settings = mkMerge [
-          (hyprlandLib.mkPluginConfig configType {
-            luaName = "split_monitor_workspaces";
-            legacyName = "split-monitor-workspaces";
-            settings = {
-              count = per;
-              enable_hy3 = true;
-            };
-          })
           (hyprlandLib.mkBinds configType (
             map (n: {
               key = toString n;
               dispatcher = "split-workspace";
               argument = toString n;
-              lua = "function() return hl.plugin.split_monitor_workspaces.workspace(${toString n}) end";
+              lua = smw "workspace(\"${toString n}\")";
             }) (range 1 per)
             ++ map (n: {
               modifiers = [
@@ -81,32 +52,32 @@ in
               key = toString n;
               dispatcher = "split-movetoworkspacesilent";
               argument = toString n;
-              lua = "function() return hl.plugin.split_monitor_workspaces.move_to_workspace_silent(${toString n}) end";
+              lua = smw "move_to_workspace_silent(\"${toString n}\")";
             }) (range 1 per)
             ++ [
               {
                 key = "bracketright";
                 dispatcher = "split-cycleworkspaces";
                 argument = "next";
-                lua = "function() return hl.plugin.split_monitor_workspaces.cycle_workspaces(\"next\") end";
+                lua = smw "cycle_workspaces(\"next\")";
               }
               {
                 key = "bracketleft";
                 dispatcher = "split-cycleworkspaces";
                 argument = "prev";
-                lua = "function() return hl.plugin.split_monitor_workspaces.cycle_workspaces(\"prev\") end";
+                lua = smw "cycle_workspaces(\"prev\")";
               }
               {
                 key = "mouse_down";
                 dispatcher = "split-cycleworkspaces";
                 argument = "next";
-                lua = "function() return hl.plugin.split_monitor_workspaces.cycle_workspaces(\"next\") end";
+                lua = smw "cycle_workspaces(\"next\")";
               }
               {
                 key = "mouse_up";
                 dispatcher = "split-cycleworkspaces";
                 argument = "prev";
-                lua = "function() return hl.plugin.split_monitor_workspaces.cycle_workspaces(\"prev\") end";
+                lua = smw "cycle_workspaces(\"prev\")";
               }
               {
                 modifiers = [
@@ -115,13 +86,13 @@ in
                 ];
                 key = "G";
                 dispatcher = "split-grabroguewindows";
-                lua = "function() return hl.plugin.split_monitor_workspaces.grab_rogue_windows() end";
+                lua = smw "grab_rogue_windows()";
               }
               {
                 key = "D";
                 dispatcher = "split-changemonitor";
                 argument = "next";
-                lua = "function() return hl.plugin.split_monitor_workspaces.change_monitor(\"next\") end";
+                lua = "hl.dsp.focus({ monitor = \"+1\" })";
               }
             ]
           ))

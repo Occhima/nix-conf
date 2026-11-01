@@ -179,6 +179,26 @@
 (use-package ement
   :commands (ement-connect ement-list-rooms))
 
+(use-package ecss
+  :ensure (ecss :host github :repo "emacs-taf/ecss")
+  :defer t)
+
+(use-package ebox
+  :ensure (ebox :host github :repo "emacs-taf/ebox")
+  :defer t)
+
+(use-package etaf
+  :ensure (etaf :host github :repo "emacs-taf/etaf")
+  :defer t)
+
+(use-package exc
+  :ensure (exc :host github :repo "yibie/exc.el" :files (:defaults "plugins/*"))
+  :commands (exc-open exc-create exc-find-file-csv)
+  :config
+  (require 'exc-csv)
+  (require 'exc-org)
+  (require 'exc-markdown))
+
 (use-package calfw
   :commands cfw:open-calendar-buffer)
 

@@ -6,7 +6,7 @@
       ...
     }:
     let
-      inherit (lib.modules) mkIf;
+      inherit (lib.modules) mkIf mkAfter;
       inherit (lib.lists) optionals concatLists;
     in
     {
@@ -41,9 +41,6 @@
 
             # Disable bpf() JIT (to eliminate spray attacks)
             "net.core.bpf_jit_enable" = false;
-
-            # Disable ftrace debugging
-            "kernel.ftrace_enabled" = false;
 
             # Avoid kernel memory address exposures via dmesg
             "kernel.dmesg_restrict" = 1;
@@ -106,8 +103,8 @@
             # only allow signed modules
             "module.sig_enforce=1"
 
-            # blocks access to all kernel memory
-            "lockdown=confidentiality"
+            # blocks unsigned code and kernel modification
+            "lockdown=integrity"
 
             # enable buddy allocator free poisoning
             "page_poison=on"
@@ -208,6 +205,21 @@
             ])
           ];
         };
+
+        # module.sig_enforce and lockdown reject every module whose certificate
+        # is not embedded in the kernel image; the stock image embeds none.
+        system.systemBuilderCommands =
+          let
+            kernelPackages = config.boot.kernelPackages;
+            target = kernelPackages.kernel.target;
+            image = kernelPackages.rebuildImage {
+              inherit target;
+              inherit (config.system) modulesTree;
+            };
+          in
+          mkIf (kernelPackages ? rebuildImage) (mkAfter ''
+            ln -sf -- ${image}/${target} $out/kernel
+          '');
       };
     };
 }

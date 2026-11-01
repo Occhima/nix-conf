@@ -57,7 +57,6 @@ when KEYS is empty."
               "q" 'toggle-mute
               "R" 'restore-session
               "i" 'fill-login
-              "k" 'nyxt/mode/macro-edit:edit-macro
               "w" 'play-in-mpv-current
               ;; Hints
               "h w" 'hint-play-in-mpv

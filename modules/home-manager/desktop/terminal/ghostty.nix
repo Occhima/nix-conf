@@ -13,6 +13,7 @@
           gtk-tabs-location = "bottom";
           mouse-hide-while-typing = true;
           confirm-close-surface = false;
+          background-blur = true;
         };
       };
       home.sessionVariables.TERMINAL = "ghostty";

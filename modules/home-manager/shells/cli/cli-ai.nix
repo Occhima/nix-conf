@@ -7,7 +7,6 @@ in
     hm.claude-code
     hm.codex
     hm.opencode
-    hm.aider
     hm.fabric
     hm.jcode
     hm.pi

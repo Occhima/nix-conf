@@ -1,0 +1,11 @@
+--- a/source/cxx/cl-cef.cc
++++ b/source/cxx/cl-cef.cc
+@@ -2030,7 +2030,7 @@
+     (void)browser;
+     (void)request;
+     (void)response;
+-    if (!frame || !frame->IsMain())
++    if (!frame || !frame->IsMain() || request->GetResourceType() != RT_MAIN_FRAME)
+       return;
+     Emit(view_id_,
+          "{\"event\":\"did-redirect-navigation\",\"url\":" + JsonString(new_url.ToString()) + "}");
