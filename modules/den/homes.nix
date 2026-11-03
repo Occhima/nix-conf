@@ -8,7 +8,13 @@
   ...
 }:
 {
-  den.homes.aarch64-linux.phone-home.userName = "nix-on-droid";
+  den.homes.aarch64-linux.phone-home = {
+    userName = "nix-on-droid";
+    pkgs = import inputs.nixpkgs {
+      system = "aarch64-linux";
+      config = config.flake.lib.custom.nixpkgsConfig;
+    };
+  };
 
   den.homes.x86_64-linux.occhima = {
     pkgs = import inputs.nixpkgs {

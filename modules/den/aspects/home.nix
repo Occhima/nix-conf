@@ -20,6 +20,7 @@ in
       lazygit
       jujutsu
       git
+      email
     ];
     cli-shell.homeManager.imports = with hm; [
       atuin

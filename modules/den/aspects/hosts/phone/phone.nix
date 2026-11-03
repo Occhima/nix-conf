@@ -1,4 +1,9 @@
-{ config, den, ... }:
+{
+  config,
+  den,
+  lib,
+  ...
+}:
 {
   den.aspects.phone.nixOnDroid = {
     imports = [ config.flake.modules.nixOnDroid.droid-base ];
@@ -9,9 +14,15 @@
     };
   };
 
-  den.aspects.phone-home.includes = with den.aspects; [
-    home-base
-    shell
-    editors
-  ];
+  den.aspects.phone-home = {
+    includes = with den.aspects; [
+      home-base
+      shell
+      editors
+    ];
+    homeManager.home = {
+      username = lib.mkDefault "nix-on-droid";
+      homeDirectory = lib.mkDefault "/data/data/com.termux.nix/files/home";
+    };
+  };
 }
