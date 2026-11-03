@@ -1,8 +1,86 @@
-# Den aspect for occhima: composes the plain NixOS and Home Manager user
-# modules. No account or home configuration is duplicated here.
-{ config, ... }: {
+{ config, den, ... }:
+let
+  inherit (config.flake.lib.custom) ifTheyExist;
+  hm = config.flake.modules.homeManager;
+in
+{
   den.aspects.occhima = {
-    nixos.imports = [ config.flake.modules.nixos.user-occhima ];
-    homeManager.imports = [ config.flake.modules.homeManager.user-occhima ];
+    nixos =
+      {
+        config,
+        lib,
+        pkgs,
+        ...
+      }:
+      {
+        modules.accounts.mainUser = lib.mkDefault "occhima";
+
+        users.users.occhima = {
+          initialPassword = "changeme";
+          linger = true;
+
+          openssh.authorizedKeys.keys = [
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM/N9m28W8c9Fs9InErjlNRXCwPe1CR9HafzqjTcSis9"
+          ];
+          shell = pkgs.zsh;
+          extraGroups = ifTheyExist config [
+            "networkmanager"
+            "systemd-journal"
+            "audio"
+            "video"
+            "input"
+            "nix"
+            "docker"
+            "wheel"
+            "libvirtd"
+            "kvm"
+          ];
+        };
+      };
+
+    homeManager = {
+      imports = with hm; [
+        # Emacs: Doom flavor + daemon/default editor (selected by import).
+        emacs-doom
+        emacs-daemon
+        # Services
+        espanso
+        # Topic modules
+        web
+        data
+        dev
+        science
+        finance
+        pentesting
+      ];
+    };
+
+    includes = with den.aspects; [
+      den.batteries.define-user
+      den.batteries.primary-user
+      home-base
+      shell
+      personal-data
+      editors
+      languages
+      ai
+      podman
+      (den.lib.policy.when
+        (
+          {
+            host ? null,
+            ...
+          }:
+          host == null || host.hasAspect den.aspects.graphical
+        )
+        {
+          includes = [ den.aspects.desktop ];
+          homeManager.modules.desktop.apps.flatpak.packages = [
+            "com.github.tchx84.Flatseal"
+            # "com.github.flxzt.rnote"
+          ];
+        }
+      )
+    ];
   };
 }

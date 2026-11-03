@@ -46,8 +46,8 @@ cd ~/.config/nixos
 
 # Use disko to partition and format the disk
 # Replace 'hostname' with the desired host configuration
-# Replace '/dev/sdX' with your target disk
-sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount hosts/hostname/disko.nix /dev/sdX
+# (the layout lives in modules/flake/disko/hostname.nix)
+sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount --flake .#hostname
 ```
 
 #### Manual Partitioning
@@ -158,8 +158,8 @@ cd /home/your-username/.config/nixos
 
 Modify the configuration as needed for your system:
 
-- Edit host-specific configurations in `hosts/hostname/`
-- Configure your user in `home/your-username/`
+- Edit host-specific configuration in `modules/den/aspects/hosts/hostname/`
+- Configure your user in `modules/den/aspects/users/your-username.nix`
 
 ### 4. Apply Configuration
 

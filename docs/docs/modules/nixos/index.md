@@ -9,8 +9,8 @@ them carry an `enable` switch. Options that remain hold genuine data
 
 | Area           | Aspects (examples)                                                                                                                                              |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Base           | `system-base`, `nix`, `nixpkgs-config`, `nh`, `system-config`, `environment-*`                                                                                  |
-| Accounts       | `accounts` (policy + HM wiring), `user-occhima`, `user-root`                                                                                                    |
+| Base           | `system-assertions`, `nix`, `nixpkgs-config`, `nh`, `environment-*`                                                                                             |
+| Accounts       | `accounts` (policy + HM wiring)                                                                                                                                 |
 | Hardware       | `cpu-amd`, `cpu-intel`, `gpu-nvidia`, `gpu-amd`, `gpu-intel`, `bluetooth`, `yubikey`, `ssd`, `monitors`, `media-sound-pipewire`, `media-video`, `input-devices` |
 | Network        | `network`, `networkmanager`, `firewall`, `blocker`, `wireless`, `vpn-openvpn`, `vpn-tailscale`                                                                  |
 | Boot & display | `boot-grub`, `boot-kernel`, `boot-plymouth`, `secure-boot`, `display-wayland`, `display-x11`, `display-portals`, `login-ly`, `login-greetd`, `login-sddm`       |
@@ -19,7 +19,7 @@ them carry an `enable` switch. Options that remain hold genuine data
 | Services       | `ssh`, `steam`, `systemd`, `oom`, `firmware`, `flatpak`, `appimage`, `nix-ld`                                                                                   |
 | Virtualisation | `podman`, `docker`, `distrobox`, `qemu`, `vm`, `microvm`, `pentesting-container`                                                                                |
 | Secrets        | `agenix` (hosts add their own `age.rekey.hostPubkey`)                                                                                                           |
-| Profiles       | `desktop`, `graphical`, `laptop`, `headless`, `wsl`, `iso-base`                                                                                                 |
+| Roles          | `graphical`, `laptop`, `headless`, `wsl`                                                                                                                        |
 
 ## Writing a new aspect
 
@@ -37,3 +37,6 @@ them carry an `enable` switch. Options that remain hold genuine data
 
 Cross-context features define several classes in the same file
 (`flake.modules.nixos.foo` + `flake.modules.homeManager.foo`).
+
+Groupings (`system-base`, `workstation`, `gaming-workstation`, `iso-base`)
+and users (`occhima`, `user-root`) are Den aspects under `modules/den/aspects/`.

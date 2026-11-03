@@ -29,6 +29,8 @@ let
   homeOf = h: (hostConfig h).home-manager.users.occhima;
   standaloneHome = self.homeConfigurations.occhima.config;
   homes = map homeOf homeHosts ++ [ standaloneHome ];
+  isGraphical = h: self.lib.den.hostHasAspect h "graphical";
+  desktopHomes = map homeOf (filter isGraphical homeHosts) ++ [ standaloneHome ];
 
   isDrvPath = p: hasSuffix ".drv" (toString p);
 
@@ -96,7 +98,7 @@ in
       && islandBinds != [ ]
       && all (c: hasInfix "-c ${active}" c) islandBinds
       && all (c: hasInfix "--config ${active}" c) serviceStarts
-    ) homes;
+    ) desktopHomes;
     expected = true;
   };
 
@@ -112,14 +114,14 @@ in
         backend = home.modules.desktop.notifications.backend;
       in
       (backend == "quickshell") != (home.services.mako.enable or false)
-    ) homes;
+    ) desktopHomes;
     expected = true;
   };
 
   "one screen locker is enabled" = {
     expr = all (
       home: (home.programs.hyprlock.enable or false) != (home.programs.swaylock.enable or false)
-    ) homes;
+    ) desktopHomes;
     expected = true;
   };
 
@@ -139,7 +141,7 @@ in
       home:
       home.services.hyprpaper.systemdTarget == "hyprland-session.target"
       && home.services.hypridle.systemdTarget == "hyprland-session.target"
-    ) homes;
+    ) desktopHomes;
     expected = true;
   };
 
@@ -221,9 +223,14 @@ in
 
   "flatpak in home requires the system service on the same host" = {
     expr = all (
-      h: (homeOf h).services.flatpak.enable -> (hostConfig h).services.flatpak.enable
+      h: ((homeOf h).services.flatpak.enable or false) -> (hostConfig h).services.flatpak.enable
     ) homeHosts;
     expected = true;
+  };
+
+  "only graphical hosts give their users a desktop" = {
+    expr = map (h: (homeOf h).wayland.windowManager.hyprland.enable) homeHosts;
+    expected = map isGraphical homeHosts;
   };
 
   "the WSL host stays headless" = {

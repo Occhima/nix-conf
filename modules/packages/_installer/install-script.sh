@@ -172,7 +172,7 @@ for item in $TASKS; do
 
       REMOTE_IP=$(ask_input "Remote IP/Host >" "")
       HOST_NAME=$(ask_input "Flake Hostname >" "nixos")
-      DEST_DIR="$FLAKE_DIR/hosts/$HOST_NAME/assets"
+      DEST_DIR="$FLAKE_DIR/modules/den/aspects/hosts/$HOST_NAME"
 
       mkdir -p "$DEST_DIR"
 

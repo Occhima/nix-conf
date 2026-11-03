@@ -1,6 +1,3 @@
-# Guernica styling for schizofox. Explicit integration module: importing
-# Requires `themes-guernica` in the same composition (homeManager.desktop provides it).
-# `browser-firefox` alone no longer activates any theme configuration.
 { ... }: {
   flake.modules.homeManager.themes-guernica-firefox =
     { config, ... }:

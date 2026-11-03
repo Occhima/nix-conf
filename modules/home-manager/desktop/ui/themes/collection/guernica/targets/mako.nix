@@ -1,12 +1,10 @@
 {
-  flake.modules.homeManager.themes-guernica =
+  flake.modules.homeManager.themes-guernica-mako =
     { config, ... }:
     let
       inherit (config.lib.stylix) colors;
     in
     {
-      stylix.targets.mako.enable = false;
-
       services.mako.settings = {
         font = "${config.stylix.fonts.monospace.name} 11";
         anchor = "top-right";

@@ -1,6 +1,3 @@
-# Guernica styling for calibre. Explicit integration module: import it next to
-# `calibre` and `themes-guernica`. Keeps calibre's own Qt style (crisper than
-# Kvantum for its views) and feeds it a named dark palette plus book-details CSS.
 {
   flake.modules.homeManager.themes-guernica-calibre =
     { config, lib, ... }:

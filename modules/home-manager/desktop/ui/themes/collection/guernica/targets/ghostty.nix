@@ -1,7 +1,5 @@
 {
-  flake.modules.homeManager.themes-guernica = { config, ... }: {
-    stylix.targets.ghostty.enable = false;
-
+  flake.modules.homeManager.themes-guernica-ghostty = { config, ... }: {
     # Same font and colour scheme as the kitty target.
     programs.ghostty.settings = {
       font-family = config.stylix.fonts.monospace.name;

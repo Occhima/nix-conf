@@ -1,11 +1,10 @@
 {
-  flake.modules.homeManager.themes-guernica =
+  flake.modules.homeManager.themes-guernica-rofi =
     { config, ... }:
     let
       inherit (config.lib.formats.rasi) mkLiteral;
     in
     {
-      stylix.targets.rofi.enable = false;
       programs.rofi = {
         settings = {
           font = "Iosevka Nerd Font";

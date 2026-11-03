@@ -25,8 +25,6 @@
 
       config = {
         home = {
-          stateVersion = "25.05";
-          homeDirectory = "/home/${config.home.username}";
 
           sessionVariables = {
             FLAKE = config.modules.home.flakePath;

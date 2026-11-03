@@ -1,7 +1,3 @@
-# podman-host: Podman engine with Docker compatibility. Importing this
-# module always enables Podman and its current Docker compatibility.
-# The Home Manager `podman` module (user containers) is deliberately a
-# separate feature.
 {
   flake.modules.nixos.podman-host = { pkgs, ... }: {
     virtualisation.podman = {

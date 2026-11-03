@@ -18,7 +18,10 @@
           enable = true;
           syntaxHighlighting.enable = true;
           autosuggestion.enable = false;
-          initContent = optionalString (config.programs.fastfetch.enable or false) "fastfetch";
+          initContent = ''
+            [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/zsh"
+          ''
+          + optionalString (config.programs.fastfetch.enable or false) "fastfetch";
           dotDir = "${config.xdg.configHome}/zsh";
           plugins = [
             {

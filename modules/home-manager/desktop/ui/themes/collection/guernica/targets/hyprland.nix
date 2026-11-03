@@ -3,7 +3,7 @@ let
   inherit (config.flake.lib.custom) hyprlandLib themeLib;
 in
 {
-  flake.modules.homeManager.themes-guernica =
+  flake.modules.homeManager.themes-guernica-hyprland =
     {
       config,
       lib,

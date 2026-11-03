@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.themes-guernica =
+  flake.modules.homeManager.themes-guernica-opencode =
     { config, ... }:
     let
       colors = config.lib.stylix.colors;

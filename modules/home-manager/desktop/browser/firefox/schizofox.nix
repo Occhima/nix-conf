@@ -5,7 +5,7 @@
   };
 
   flake.modules.homeManager.browser-firefox = { pkgs, ... }: {
-    imports = [ inputs.schizofox.homeManagerModule ];
+    imports = [ inputs.schizofox.homeManagerModules.default ];
     config = {
       programs.schizofox = {
         enable = true;

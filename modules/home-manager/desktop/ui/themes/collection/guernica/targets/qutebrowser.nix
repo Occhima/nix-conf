@@ -1,6 +1,3 @@
-# Guernica styling for qutebrowser. Explicit integration module: importing
-# Requires `themes-guernica` in the same composition (homeManager.desktop provides it).
-# `browser-qutebrowser` alone no longer activates any theme configuration.
 {
   flake.modules.homeManager.themes-guernica-qutebrowser =
     { config, lib, ... }:
@@ -57,9 +54,6 @@
       selectedFg = fg;
     in
     {
-      # Guernica dresses qutebrowser itself; keep stylix's target off.
-      stylix.targets.qutebrowser.enable = false;
-
       programs.qutebrowser.settings = {
         fonts = {
           default_family = fonts.monospace.name;

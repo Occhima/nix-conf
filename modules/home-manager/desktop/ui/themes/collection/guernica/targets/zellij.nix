@@ -1,7 +1,5 @@
 {
-  flake.modules.homeManager.themes-guernica = {
-    stylix.targets.zellij.enable = true;
-
+  flake.modules.homeManager.themes-guernica-zellij = {
     programs.zellij = {
       settings = {
         simplified_ui = true;

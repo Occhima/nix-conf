@@ -1,5 +1,3 @@
-# Guernica integration for Niri. The plain compositor aspect stays reusable;
-# importing this target adds the rice and its wallpaper service.
 { inputs, ... }:
 {
   flake.modules.homeManager.themes-guernica-niri =

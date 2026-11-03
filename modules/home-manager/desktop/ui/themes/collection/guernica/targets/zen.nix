@@ -1,12 +1,5 @@
-# Guernica integration for the Zen browser. Explicit module: importing
-# Requires `themes-guernica` in the same composition (homeManager.desktop provides it).
-# `browser-zen-beta` alone no longer activates any theme configuration.
 { ... }: {
   flake.modules.homeManager.themes-guernica-zen = { config, ... }: {
-    stylix.targets.zen-browser = {
-      enable = false; # disabled by default
-    };
-
     programs.zen-browser.profiles.default = {
       mods = [
         "a6335949-4465-4b71-926c-4a52d34bc9c0" # Better find bar

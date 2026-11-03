@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.themes-guernica =
+  flake.modules.homeManager.themes-guernica-hyprlock =
     # config stolen from : https://github.com/OrynVail/OrynOS
     { config, ... }: {
       programs.hyprlock = {

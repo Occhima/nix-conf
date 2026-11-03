@@ -138,11 +138,12 @@
   (consult-omni-sources-load-modules))
 
 (use-package! eat
-  :commands eat
-  :hook ((eat-mode . hide-mode-line-mode)
-         (eat-mode . doom-mark-buffer-as-real-h)
-         (eshell-load . eat-eshell-mode)
-         (eshell-load . eat-eshell-visual-command-mode))
+  :commands (eat eat-project eat-other-window)
+  :init
+  (add-hook! 'eat-mode-hook #'hide-mode-line-mode #'doom-mark-buffer-as-real-h)
+  (map! :leader
+        :desc "Eat terminal" "o e" #'eat
+        :desc "Eat in project" "o E" #'eat-project)
   :custom
   (eat-kill-buffer-on-exit t)
   (eat-shell-prompt-annotation-success-margin-indicator "")

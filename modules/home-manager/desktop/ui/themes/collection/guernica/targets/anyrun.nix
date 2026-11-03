@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.themes-guernica =
+  flake.modules.homeManager.themes-guernica-anyrun =
     { config, ... }:
     let
       stylixColors = config.lib.stylix.colors;

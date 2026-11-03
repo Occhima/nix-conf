@@ -8,7 +8,7 @@ let
   inherit (config.flake.lib.guernica) waybarModules mkWaybarDefault mkWaybarCompact;
 in
 {
-  flake.modules.homeManager.themes-guernica =
+  flake.modules.homeManager.themes-guernica-waybar =
     {
       config,
       lib,
@@ -23,13 +23,6 @@ in
       uiCfg = { inherit windowManager; };
     in
     {
-      stylix.targets.waybar = {
-        enable = false;
-        addCss = false;
-        enableCenterBackColors = false;
-        enableLeftBackColors = false;
-        enableRightBackColors = false;
-      };
 
       programs.waybar = themeLib.forVariant config {
         default = mkWaybarDefault {

@@ -3,9 +3,7 @@ let
   guernicaAssets = config.flake.lib.guernica.assets;
 in
 {
-  # Contributed to the caelestia-dock aspect (not themes-guernica) so the
-  # settings only exist when the caelestia module is actually imported.
-  flake.modules.homeManager.caelestia-dock =
+  flake.modules.homeManager.themes-guernica-caelestia =
     { config, ... }:
     let
       stylixFonts = config.stylix.fonts;

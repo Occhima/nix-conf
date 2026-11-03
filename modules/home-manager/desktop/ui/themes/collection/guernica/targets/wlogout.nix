@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.themes-guernica =
+  flake.modules.homeManager.themes-guernica-wlogout =
     # NOTE: stole from: https://gitlab.com/saibhargav/arch-hypr-mini/-/blob/main/wlogout/style.css?ref_type=heads
     { config, ... }:
     let

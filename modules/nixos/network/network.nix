@@ -7,23 +7,12 @@
     }:
     let
       inherit (lib.modules) mkDefault;
-      inherit (lib) mkOption types;
-
-      cfg = config.modules.network;
     in
     {
-      options.modules.network = {
-        hostName = mkOption {
-          type = types.str;
-          description = "Hostname of the machine";
-        };
-      };
-
       config = {
         environment.etc.hosts.mode = "0644";
         networking = {
-          hostName = cfg.hostName;
-          hostId = builtins.substring 0 8 (builtins.hashString "md5" cfg.hostName);
+          hostId = builtins.substring 0 8 (builtins.hashString "md5" config.networking.hostName);
 
           usePredictableInterfaceNames = mkDefault true;
 
