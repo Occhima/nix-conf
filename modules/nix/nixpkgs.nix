@@ -6,6 +6,7 @@
 # internal overlay list; exported overlay outputs stay public.
 {
   config,
+  inputs,
   lib,
   ...
 }:
@@ -34,6 +35,16 @@ in
       permittedInsecurePackages = [ ];
       allowUnsupportedSystem = false;
     };
+
+    flake.lib.custom.mkPkgs =
+      {
+        system,
+        overlays ? [ ],
+      }:
+      import inputs.nixpkgs {
+        inherit system overlays;
+        config = config.flake.lib.custom.nixpkgsConfig;
+      };
 
     flake.modules.nixos.nixpkgs-config =
       let

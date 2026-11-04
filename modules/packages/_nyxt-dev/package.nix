@@ -27,16 +27,16 @@
   xdg-utils,
 }:
 let
-  rev = "86240c153ac2355296bfb7685ce6b263bf9d6301";
+  rev = "0810ccfa4ba5a9d48d3b0537a5a651865dd82e42";
 
   src = fetchFromGitHub {
     owner = "atlas-engineer";
     repo = "nyxt";
     inherit rev;
-    hash = "sha256-+B1ZXgs5iWv/X5Bon8ToMzPPyRgwn4qpQcqtwmU41rU=";
+    hash = "sha256-lLaw/VS+dxitexP1P/PjVrn7K8nIkU4AUZEJJ5qXYwA=";
   };
 
-  depsHash = "sha256-Lv/68L1/BOqbN6FSjQIQPK1qvsi1nsUb0aT44jGgUQw=";
+  depsHash = "sha256-SQm1tLnZY0/HRDiJLmUmiYemJXWwIpp8678n/vxrDbs=";
 
   ocicl = stdenvNoCC.mkDerivation {
     name = "nyxt-dev-ocicl-${builtins.substring 0 7 rev}";
@@ -126,8 +126,7 @@ stdenv.mkDerivation {
     clipboardDir=$(ocicl_dir cl-clipboard)
     make -C "$clipboardDir"
 
-    patch -d "$(ocicl_dir cl-cef)" -p1 < ${./cl-cef-main-frame-redirect.patch}
-    patch -d "$(ocicl_dir cl-cef)" -p1 < ${./cl-cef-prompt-overlay.patch}
+    # patch -d "$(ocicl_dir cl-cef)" -p1 < ${./cl-cef-main-frame-redirect.patch}
     cefBuild=$(ocicl_dir cl-cef)/build
     cmake -S "$(dirname "$cefBuild")" -B "$cefBuild" -DCEF_ROOT=${cef}
     cmake --build "$cefBuild" -j "$NIX_BUILD_CORES"

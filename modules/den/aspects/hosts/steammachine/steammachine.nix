@@ -2,15 +2,17 @@
 { config, den, ... }:
 {
   den.aspects.steammachine = {
-    includes = [ den.aspects.gaming-workstation ];
+    includes = with den.aspects; [
+      gaming-workstation
+      cpu-amd
+      gpu-nvidia
+      login-regreet
+      pentesting
+    ];
     nixos = {
       imports = with config.flake.modules.nixos; [
-        cpu-amd
-        gpu-nvidia
-        login-regreet
         disko-steammachine
         # vpn-openvpn
-        pentesting-container
       ];
 
       modules.hardware.monitors = {

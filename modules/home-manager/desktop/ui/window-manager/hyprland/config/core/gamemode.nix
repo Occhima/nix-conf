@@ -33,7 +33,7 @@ in
       };
     in
     {
-      config = mkIf (osConfig.modules.services.steam.enable or false) {
+      config = mkIf (osConfig.programs.steam.enable or false) {
         wayland.windowManager.hyprland.settings =
           hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
             [

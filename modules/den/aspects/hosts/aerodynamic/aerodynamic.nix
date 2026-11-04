@@ -5,14 +5,12 @@
     includes = with den.aspects; [
       workstation
       laptop
+      cpu-intel
+      gpu-nvidia
+      login-greetd
     ];
     nixos = {
-      imports = with config.flake.modules.nixos; [
-        cpu-intel
-        gpu-nvidia
-        login-greetd
-        disko-aerodynamic
-      ];
+      imports = [ config.flake.modules.nixos.disko-aerodynamic ];
 
       modules.hardware.monitors = {
         primaryMonitorName = "edp1";

@@ -1,5 +1,7 @@
-{ config, ... }:
+{ config, lib, ... }:
+let
+  hosts = lib.mergeAttrsList (lib.attrValues config.den.hosts);
+in
 {
-  flake.lib.den.hostHasAspect =
-    host: aspect: config.den.hosts.x86_64-linux.${host}.hasAspect config.den.aspects.${aspect};
+  flake.lib.den.hostHasAspect = host: aspect: hosts.${host}.hasAspect config.den.aspects.${aspect};
 }

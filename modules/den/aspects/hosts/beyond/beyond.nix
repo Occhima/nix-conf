@@ -2,12 +2,14 @@
 { config, den, ... }:
 {
   den.aspects.beyond = {
-    includes = [ den.aspects.gaming-workstation ];
+    includes = with den.aspects; [
+      gaming-workstation
+      cpu-amd
+      gpu-nvidia
+      login-silentsddm
+    ];
     nixos = {
       imports = with config.flake.modules.nixos; [
-        cpu-amd
-        gpu-nvidia
-        login-silentsddm
         disko-beyond
         # vpn-openvpn
       ];

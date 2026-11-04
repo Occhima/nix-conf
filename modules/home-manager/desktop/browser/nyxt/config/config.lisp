@@ -7,7 +7,7 @@
     (load generated)))
 
 (defparameter *components*
-  '("robustness" ; first: installs the debugger hook that keeps later load errors survivable
+  '(;; "robustness" ; first: installs the debugger hook that keeps later load errors survivable
     "styles" ; shared fonts/glyphs/hairlines used by the buffers below
     "search-engines" ; *extra-search-engines*, consumed by browser
     "favicons" ; favicon cache, consumed by start-page

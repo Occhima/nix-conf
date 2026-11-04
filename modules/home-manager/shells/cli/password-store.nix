@@ -10,7 +10,7 @@
     let
       inherit (lib) getExe mkIf;
       storeSettings = config.programs.password-store;
-      hasYubikeySupport = osConfig.modules.hardware.yubikey.enable or false;
+      hasYubikeySupport = osConfig.services.yubikey-agent.enable or false;
 
       agePackage = pkgs.rage;
       passageRoot = "${config.xdg.configHome}/secrets";

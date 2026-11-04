@@ -2,24 +2,19 @@
 # by Den from the same `occhima` user aspect. Uses the shared nixpkgs policy
 # and the explicit internal overlay list; no fabricated osConfig — modules
 # take `osConfig ? { }` and degrade intentionally.
-{
-  config,
-  inputs,
-  ...
-}:
+{ config, ... }:
+let
+  inherit (config.flake.lib.custom) mkPkgs;
+in
 {
   den.homes.aarch64-linux.phone-home = {
     userName = "nix-on-droid";
-    pkgs = import inputs.nixpkgs {
-      system = "aarch64-linux";
-      config = config.flake.lib.custom.nixpkgsConfig;
-    };
+    pkgs = mkPkgs { system = "aarch64-linux"; };
   };
 
   den.homes.x86_64-linux.occhima = {
-    pkgs = import inputs.nixpkgs {
+    pkgs = mkPkgs {
       system = "x86_64-linux";
-      config = config.flake.lib.custom.nixpkgsConfig;
       overlays = [
         config.flake.overlays.emacs-overlay
         config.flake.overlays.nur

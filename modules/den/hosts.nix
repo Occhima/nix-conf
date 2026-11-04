@@ -12,9 +12,8 @@
       { modules, ... }:
       inputs.nix-on-droid.lib.nixOnDroidConfiguration {
         modules = builtins.filter (m: !(builtins.isAttrs m && m ? nixpkgs)) modules;
-        pkgs = import inputs.nixpkgs {
+        pkgs = config.flake.lib.custom.mkPkgs {
           system = "aarch64-linux";
-          config = config.flake.lib.custom.nixpkgsConfig;
           overlays = [ inputs.nix-on-droid.overlays.default ];
         };
       };

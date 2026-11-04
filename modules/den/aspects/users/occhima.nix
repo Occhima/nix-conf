@@ -1,7 +1,6 @@
 { config, den, ... }:
 let
   inherit (config.flake.lib.custom) ifTheyExist;
-  hm = config.flake.modules.homeManager;
 in
 {
   den.aspects.occhima = {
@@ -38,31 +37,22 @@ in
         };
       };
 
-    homeManager = {
-      imports = with hm; [
-        # Emacs: Doom flavor + daemon/default editor (selected by import).
-        emacs-doom
-        emacs-daemon
-        # Services
-        espanso
-        # Topic modules
-        web
-        data
-        dev
-        science
-        finance
-        pentesting
-      ];
-    };
-
     includes = with den.aspects; [
       den.batteries.define-user
       den.batteries.primary-user
+      den.batteries.host-aspects
       home-base
       shell
       personal-data
       editors
+      emacs
+      espanso
       languages
+      web
+      data
+      dev
+      science
+      finance
       ai
       podman
       (den.lib.policy.when

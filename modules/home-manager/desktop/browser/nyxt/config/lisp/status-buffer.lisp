@@ -191,43 +191,112 @@ no list-downloads focus."
          (unless (str:emptyp tail)
            (:span :class "url-tail" tail)))))))
 
+(defvar *tab-motion-ms* 160
+  "Length of the tab open and close animations.")
+
+(defvar *tab-born* (make-hash-table :synchronized t)
+  "Buffer id -> `get-internal-real-time' of the first render that showed it.")
+
+(defvar *tab-ghosts* '()
+  "Closed tabs still animating out: plists of :id :index :label :domain :time.")
+
+(defvar *tab-ghosts-lock* (sb-thread:make-mutex :name "tab-ghosts"))
+
+(defun %tab-age-ms (time)
+  (round (* 1000 (- (get-internal-real-time) time))
+         internal-time-units-per-second))
+
+(defun %tab-label (buffer)
+  (let ((url (url buffer)))
+    (cond
+      ((not (str:emptyp (title buffer))) (title buffer))
+      ((internal-url-p url)
+       (format nil "~a:~a" (quri:uri-scheme url) (quri:uri-path url)))
+      (t (or (quri:uri-domain url) (render-url url))))))
+
+(defun %tab-motion-style (time)
+  "Negative delay so a re-render mid-animation resumes it instead of restarting it."
+  (format nil "animation-delay:-~dms" (%tab-age-ms time)))
+
+(defmethod ffi-buffer-delete :before ((buffer buffer))
+  "Keep a ghost of BUFFER's tab so the strip can animate it out."
+  (alexandria:when-let ((index (position buffer (reverse (buffer-list)))))
+    (sb-thread:with-mutex (*tab-ghosts-lock*)
+      (push (list :id (id buffer)
+                  :index index
+                  :label (%tab-label buffer)
+                  :domain (unless (internal-url-p (url buffer))
+                            (quri:uri-domain (url buffer)))
+                  :time (get-internal-real-time))
+            *tab-ghosts*))
+    (remhash (id buffer) *tab-born*)
+    (run-thread "tab-ghost-sweep"
+      (sleep (/ (+ *tab-motion-ms* 20) 1000))
+      (dolist (window (window-list))
+        (ignore-errors (nyxt::update-status-tabs (status-buffer window)))))))
+
+(defun %live-tab-ghosts ()
+  (sb-thread:with-mutex (*tab-ghosts-lock*)
+    (setf *tab-ghosts*
+          (remove-if (lambda (ghost) (> (%tab-age-ms (getf ghost :time)) *tab-motion-ms*))
+                     *tab-ghosts*))
+    (sort (copy-list *tab-ghosts*) #'< :key (lambda (ghost) (getf ghost :index)))))
+
 (defmethod format-status-tabs ((status status-buffer))
   "Tab strip with per-tab close affordance.
 
-Suppressed while a single buffer is open, where every tab would only repeat what
-the URL already says."
+New tabs animate in and closed ones animate out; `*tab-born*' and
+`*tab-ghosts*' carry that across the full re-renders Nyxt does on every buffer
+change."
   (let* ((buffers (reverse (buffer-list)))
-         (current-buffer (%status-target status)))
-    (when (rest buffers)
+         (current-buffer (%status-target status))
+         (now (get-internal-real-time))
+         (entries (mapcar (lambda (buffer)
+                            (list :buffer buffer
+                                  :born (or (gethash (id buffer) *tab-born*)
+                                            (setf (gethash (id buffer) *tab-born*) now))))
+                          buffers)))
+    (dolist (ghost (%live-tab-ghosts))
+      (let ((index (min (getf ghost :index) (length entries))))
+        (setf entries (append (subseq entries 0 index)
+                              (list (list :ghost ghost))
+                              (nthcdr index entries)))))
+    (when buffers
       (spinneret:with-html
-      (loop for buffer in buffers
-            collect
-            (let* ((buffer buffer)
-                   (url (url buffer))
-                   (label (cond
-                            ((not (str:emptyp (title buffer))) (title buffer))
-                            ((internal-url-p url)
-                             (format nil "~a:~a"
-                                     (quri:uri-scheme url) (quri:uri-path url)))
-                            (t (or (quri:uri-domain url) (render-url url))))))
-              (:span
-               :class (if (eq current-buffer buffer) "selected-tab tab" "tab")
-               :title (title buffer)
-               :onclick (ps:ps
-                          (nyxt/ps:lisp-eval
-                           (:title "select-tab" :buffer status)
-                           (set-current-buffer buffer)))
-               (unless (internal-url-p url)
-                 (%favicon-html (quri:uri-domain url)))
-               (:span :class "tab-label" label)
-               (:span :class "tab-close"
-                      :title "Close tab"
-                      :onclick (ps:ps
-                                 (ps:chain event (stop-propagation))
-                                 (nyxt/ps:lisp-eval
-                                  (:title "close-tab" :buffer status)
-                                  (nyxt:delete-buffer :buffers (list buffer))))
-                      *glyph-close*))))))))
+        (loop for entry in entries
+              for ghost = (getf entry :ghost)
+              for buffer = (getf entry :buffer)
+              collect
+              (if ghost
+                  (:span :class "tab tab-leave"
+                         :style (%tab-motion-style (getf ghost :time))
+                         (when (getf ghost :domain)
+                           (%favicon-html (getf ghost :domain)))
+                         (:span :class "tab-label" (getf ghost :label)))
+                  (let ((buffer buffer)
+                        (born (getf entry :born)))
+                    (:span
+                     :class (format nil "tab~:[~; selected-tab~]~:[~; tab-enter~]"
+                                    (eq current-buffer buffer)
+                                    (< (%tab-age-ms born) *tab-motion-ms*))
+                     :style (when (< (%tab-age-ms born) *tab-motion-ms*)
+                              (%tab-motion-style born))
+                     :title (title buffer)
+                     :onclick (ps:ps
+                                (nyxt/ps:lisp-eval
+                                 (:title "select-tab" :buffer status)
+                                 (set-current-buffer buffer)))
+                     (unless (internal-url-p (url buffer))
+                       (%favicon-html (quri:uri-domain (url buffer))))
+                     (:span :class "tab-label" (%tab-label buffer))
+                     (:span :class "tab-close"
+                            :title "Close tab"
+                            :onclick (ps:ps
+                                       (ps:chain event (stop-propagation))
+                                       (nyxt/ps:lisp-eval
+                                        (:title "close-tab" :buffer status)
+                                        (nyxt:delete-buffer :buffers (list buffer))))
+                            *glyph-close*)))))))))
 
 (defun %baseline-mode-names (buffer)
   "Class names BUFFER should be running per its `default-modes' slot, keyscheme excepted.
@@ -270,6 +339,12 @@ once something has actually been turned on or off by hand."
     (str:concat
      %slot-value%
      "@keyframes nyxt-spin { to { transform: rotate(360deg); } }"
+     "@keyframes nyxt-tab-in {
+        from { opacity: 0; max-width: 0; padding-left: 0; padding-right: 0;
+               transform: translateY(3px); } }"
+     "@keyframes nyxt-tab-out {
+        to { opacity: 0; max-width: 0; padding-left: 0; padding-right: 0;
+             transform: scale(0.92); } }"
      (theme:themed-css (theme *browser*)
        `(body
          :background-color ,theme:background-color
@@ -394,6 +469,13 @@ once something has actually been turned on or off by hand."
          :padding "2px"
          :opacity "0"
          :transition "opacity 120ms ease")
+       '(".tab-close::before"
+         :content "none")
+       '(".tab-enter"
+         :animation "nyxt-tab-in 160ms cubic-bezier(0.2, 0.7, 0.3, 1) both")
+       '(".tab-leave"
+         :pointer-events "none"
+         :animation "nyxt-tab-out 160ms ease-in both")
        '(".tab:hover .tab-close"
          :opacity "0.5")
        '(".tab-close:hover"
