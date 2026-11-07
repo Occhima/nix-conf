@@ -34,7 +34,6 @@
             enable = true;
             audio.enable = true;
             pulse.enable = true;
-            jack.enable = true;
 
             alsa = {
               enable = true;
@@ -59,6 +58,7 @@
             alsa-utils
             pavucontrol
             pulseaudio # For pactl
+            pipewire.jack # pw-jack <app> for JACK clients
           ];
         }
 

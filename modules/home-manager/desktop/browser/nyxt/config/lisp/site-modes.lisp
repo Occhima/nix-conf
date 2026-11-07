@@ -27,7 +27,7 @@ Entries saved before ZOOM and MUTED existed have only the first three.")
            (enabled (set-difference active baseline))
            (disabled (remove 'site-modes-mode (set-difference baseline active)))
            (ratio (ffi-buffer-zoom-ratio buffer))
-           (zoom (unless (< (abs (- ratio (zoom-ratio-default buffer))) 0.01)
+           (zoom (unless (< (abs (- ratio 1.0)) 0.01)
                    (float ratio 1.0)))
            (muted (not (ffi-buffer-sound-enabled-p buffer))))
       (setf *site-modes*
@@ -72,7 +72,7 @@ Entries saved before ZOOM and MUTED existed have only the first three.")
                  (gethash buffer *site-zoomed-buffers*) t))
           ((gethash buffer *site-zoomed-buffers*)
            (remhash buffer *site-zoomed-buffers*)
-           (setf (ffi-buffer-zoom-ratio buffer) (zoom-ratio-default buffer)
+           (setf (ffi-buffer-zoom-ratio buffer) 1.0
                  (ffi-buffer-sound-enabled-p buffer) t))))
   url)
 

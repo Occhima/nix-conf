@@ -29,13 +29,11 @@ in
     };
 
   # Bindings stay feature-owned, but are only evaluated when hm.niri is selected.
-  flake.modules.homeManager.niri =
-    { config, lib, ... }:
-    {
-      programs.niri.settings.binds."Mod+W" = lib.mkIf (config.programs.wlogout.enable or false) {
-        repeat = false;
-        hotkey-overlay.title = "Open logout menu";
-        action.spawn = "wlogout";
-      };
+  flake.modules.homeManager.niri = {
+    programs.niri.settings.binds."Mod+W" = {
+      repeat = false;
+      hotkey-overlay.title = "Open logout menu";
+      action.spawn = "wlogout";
     };
+  };
 }

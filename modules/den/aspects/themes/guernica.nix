@@ -1,11 +1,12 @@
 {
   config,
   den,
+  hm,
   lib,
   ...
 }:
 let
-  hm = config.flake.modules.homeManager;
+  modules = config.flake.modules.homeManager;
   when = app: den.lib.policy.when ({ user, ... }: user.hasAspect app);
 
   targets = {
@@ -34,15 +35,17 @@ in
 {
   den.aspects.guernica = lib.mkMerge [
     {
-      homeManager.imports = with hm; [
-        themes-guernica
-        themes-guernica-quickshell-ukishima
+      includes = [
+        (hm "themes-guernica")
+        (hm "themes-guernica-quickshell-ukishima")
+        den.aspects.guernica._
       ];
-      includes = [ den.aspects.guernica._ ];
     }
     (lib.mapAttrs (target: app: {
       includes = [
-        (when den.aspects.${app} { homeManager.imports = [ hm."themes-guernica-${target}" ]; })
+        (when (den.aspects.${app} or (hm app)) {
+          homeManager.imports = [ modules."themes-guernica-${target}" ];
+        })
       ];
     }) targets)
   ];

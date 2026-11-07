@@ -1,17 +1,15 @@
 # Host: crescendoll — WSL.
-{ config, den, ... }:
+{ den, nixos, ... }:
 {
   den.aspects.crescendoll = {
-    includes = with den.aspects; [
-      system-base
-      wsl
-    ];
-    nixos = {
-      imports = with config.flake.modules.nixos; [
-        accounts
-        network
-        security-auth
-      ];
-    };
+    includes = [
+      den.aspects.system-base
+    ]
+    ++ (map nixos [
+      "wsl"
+      "accounts"
+      "network"
+      "security-auth"
+    ]);
   };
 }

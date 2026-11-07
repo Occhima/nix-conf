@@ -1,6 +1,7 @@
 {
   config,
   den,
+  hm,
   lib,
   ...
 }:
@@ -15,10 +16,10 @@
   };
 
   den.aspects.phone-home = {
-    includes = with den.aspects; [
-      home-base
-      shell
-      editors
+    includes = [
+      (hm "home")
+      (hm "neovim")
+      den.aspects.shell
     ];
     homeManager.home = {
       username = lib.mkDefault "nix-on-droid";

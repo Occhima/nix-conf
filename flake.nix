@@ -82,6 +82,10 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nyxt-src = {
+      url = "github:atlas-engineer/nyxt";
+      flake = false;
+    };
     oh-my-pi = {
       url = "github:can1357/oh-my-pi";
       inputs.nixpkgs.follows = "nixpkgs";

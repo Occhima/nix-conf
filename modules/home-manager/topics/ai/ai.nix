@@ -25,6 +25,16 @@ in
       graphify = pkgs.graphify.overridePythonAttrs (old: {
         dependencies = old.dependencies ++ old.optional-dependencies.mcp;
       });
+      graphifyOpencodePlugin = pkgs.runCommand "graphify-opencode-plugin.js" { } ''
+        export HOME=$TMPDIR GRAPHIFY_NO_AUTO_REFRESH=1
+        cd $TMPDIR
+        ${graphify}/bin/graphify opencode install >&2
+        cp .opencode/plugins/graphify.js $out
+      '';
+      graphifyGuard = mode: {
+        type = "command";
+        command = "${graphify}/bin/graphify hook-guard ${mode}";
+      };
       engram = pkgs.buildGoModule rec {
         pname = "engram";
         version = "1.19.0";
@@ -79,11 +89,24 @@ in
         programs.claude-code = {
           agentsDir = ./agents;
           skills = ./skills;
+          context = agentsMd;
+          settings.hooks.PreToolUse = [
+            {
+              matcher = "Bash|Grep";
+              hooks = [ (graphifyGuard "search") ];
+            }
+            {
+              matcher = "Read|Glob";
+              hooks = [ (graphifyGuard "read") ];
+            }
+          ];
         };
         programs.opencode = {
           agents = ./agents;
           skills = ./skills;
+          context = agentsMd;
         };
+        xdg.configFile."opencode/plugins/graphify.js".source = graphifyOpencodePlugin;
         programs.codex = {
           context = agentsMd;
           skills = ./skills;

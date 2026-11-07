@@ -42,29 +42,27 @@ in
       ];
     };
 
-  flake.modules.homeManager.niri =
-    { config, lib, ... }:
-    {
-      # Niri owns capture, so this feature keeps the same muscle-memory keys
-      # without trying to launch the Hyprland-only grimblast backend.
-      programs.niri.settings.binds = lib.mkIf (config.programs.satty.enable or false) {
-        "Mod+S" = {
-          repeat = false;
-          hotkey-overlay.title = "Capture a region";
-          action.screenshot.show-pointer = false;
-        };
-        "Print" = {
-          repeat = false;
-          action.screenshot.show-pointer = false;
-        };
-        "Ctrl+Print" = {
-          repeat = false;
-          action.screenshot-screen.show-pointer = false;
-        };
-        "Alt+Print" = {
-          repeat = false;
-          action.screenshot-window.show-pointer = false;
-        };
+  flake.modules.homeManager.niri = {
+    # Niri owns capture, so this feature keeps the same muscle-memory keys
+    # without trying to launch the Hyprland-only grimblast backend.
+    programs.niri.settings.binds = {
+      "Mod+S" = {
+        repeat = false;
+        hotkey-overlay.title = "Capture a region";
+        action.screenshot.show-pointer = false;
+      };
+      "Print" = {
+        repeat = false;
+        action.screenshot.show-pointer = false;
+      };
+      "Ctrl+Print" = {
+        repeat = false;
+        action.screenshot-screen.show-pointer = false;
+      };
+      "Alt+Print" = {
+        repeat = false;
+        action.screenshot-window.show-pointer = false;
       };
     };
+  };
 }

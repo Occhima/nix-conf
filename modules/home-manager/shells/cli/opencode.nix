@@ -15,13 +15,12 @@
               "oh-my-openagent@latest"
               "opencode-claude-auth@latest"
               "opencode-goal-plugin@latest"
-              "opencode-openai-codex-auth@latest"
+              # "opencode-openai-codex-auth@latest"
               "@mohak34/opencode-notifier"
               "@tarquinen/opencode-dcp"
               "@dietrichgebert/ponytail"
-              "@simonwjackson/opencode-direnv"
-              "harness-memory/plugin"
-
+              # "@simonwjackson/opencode-direnv"
+              # "harness-memory/plugin"
             ];
 
             permission = {

@@ -1,8 +1,8 @@
 {
+  src,
   lib,
   stdenv,
   stdenvNoCC,
-  fetchFromGitHub,
   cacert,
   curl,
   git,
@@ -27,19 +27,10 @@
   xdg-utils,
 }:
 let
-  rev = "0810ccfa4ba5a9d48d3b0537a5a651865dd82e42";
-
-  src = fetchFromGitHub {
-    owner = "atlas-engineer";
-    repo = "nyxt";
-    inherit rev;
-    hash = "sha256-lLaw/VS+dxitexP1P/PjVrn7K8nIkU4AUZEJJ5qXYwA=";
-  };
-
-  depsHash = "sha256-SQm1tLnZY0/HRDiJLmUmiYemJXWwIpp8678n/vxrDbs=";
+  depsHash = "sha256-qdAzhx023Nelrg15N7I+ZYUZALqVz2Ipjv51bcQPOa4=";
 
   ocicl = stdenvNoCC.mkDerivation {
-    name = "nyxt-dev-ocicl-${builtins.substring 0 7 rev}";
+    name = "nyxt-dev-ocicl-${src.shortRev}";
     nativeBuildInputs = [
       cacert
       curl
@@ -77,7 +68,7 @@ let
 in
 stdenv.mkDerivation {
   pname = "nyxt-dev";
-  version = "4-unstable-${builtins.substring 0 7 rev}";
+  version = "4-unstable-${src.shortRev}";
   inherit src;
 
   nativeBuildInputs = [

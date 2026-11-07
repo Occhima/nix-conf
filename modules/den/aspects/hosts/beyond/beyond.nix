@@ -1,19 +1,18 @@
 # Host: beyond — gaming desktop, AMD/NVIDIA, greetd+ReGreet, 2 monitors, Disko, VPN.
-{ config, den, ... }:
+{ den, nixos, ... }:
 {
   den.aspects.beyond = {
-    includes = with den.aspects; [
-      gaming-workstation
-      cpu-amd
-      gpu-nvidia
-      login-silentsddm
-    ];
+    includes = [
+      den.aspects.gaming-workstation
+    ]
+    ++ (map nixos [
+      "cpu-amd"
+      "gpu-nvidia"
+      "login-silentsddm"
+      "disko-beyond"
+      # vpn-openvpn
+    ]);
     nixos = {
-      imports = with config.flake.modules.nixos; [
-        disko-beyond
-        # vpn-openvpn
-      ];
-
       modules.hardware.monitors = {
         primaryMonitorName = "dp1";
         displays.dp1 = {

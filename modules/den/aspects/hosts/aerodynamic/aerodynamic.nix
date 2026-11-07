@@ -1,17 +1,18 @@
 # Host: aerodynamic — laptop, Intel/NVIDIA, Greetd, Disko, impermanence.
-{ config, den, ... }:
+{ den, nixos, ... }:
 {
   den.aspects.aerodynamic = {
-    includes = with den.aspects; [
-      workstation
-      laptop
-      cpu-intel
-      gpu-nvidia
-      login-greetd
-    ];
+    includes = [
+      den.aspects.workstation
+    ]
+    ++ (map nixos [
+      "laptop"
+      "cpu-intel"
+      "gpu-nvidia"
+      "login-greetd"
+      "disko-aerodynamic"
+    ]);
     nixos = {
-      imports = [ config.flake.modules.nixos.disko-aerodynamic ];
-
       modules.hardware.monitors = {
         primaryMonitorName = "edp1";
         displays.edp1 = {

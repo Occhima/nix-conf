@@ -36,15 +36,13 @@ in
       ];
     };
 
-  flake.modules.homeManager.niri =
-    { config, lib, ... }:
-    {
-      programs.niri.settings.binds."Mod+E" = lib.mkIf (config.services.emacs.enable or false) {
-        hotkey-overlay.title = "Open Emacs client";
-        action.spawn = [
-          "emacsclient"
-          "-c"
-        ];
-      };
+  flake.modules.homeManager.niri = {
+    programs.niri.settings.binds."Mod+E" = {
+      hotkey-overlay.title = "Open Emacs client";
+      action.spawn = [
+        "emacsclient"
+        "-c"
+      ];
     };
+  };
 }

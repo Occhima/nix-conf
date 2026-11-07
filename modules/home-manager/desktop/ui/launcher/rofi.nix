@@ -54,28 +54,26 @@ in
       ];
     };
 
-  flake.modules.homeManager.niri =
-    { config, lib, ... }:
-    {
-      programs.niri.settings.binds = lib.mkIf (config.programs.rofi.enable or false) {
-        # Anyrun owns Mod+Space in the shared desktop; keep Rofi available too.
-        "Mod+Shift+Space" = {
-          repeat = false;
-          hotkey-overlay.title = "Open Rofi";
-          action.spawn = [
-            "rofi"
-            "-show"
-            "drun"
-          ];
-        };
-        "Mod+B".action.spawn = "rofi-bluetooth";
-        "Mod+P".action.spawn = [
+  flake.modules.homeManager.niri = {
+    programs.niri.settings.binds = {
+      # Anyrun owns Mod+Space in the shared desktop; keep Rofi available too.
+      "Mod+Shift+Space" = {
+        repeat = false;
+        hotkey-overlay.title = "Open Rofi";
+        action.spawn = [
           "rofi"
           "-show"
-          "power-menu"
-          "-modi"
-          "power-menu:rofi-power-menu"
+          "drun"
         ];
       };
+      "Mod+B".action.spawn = "rofi-bluetooth";
+      "Mod+P".action.spawn = [
+        "rofi"
+        "-show"
+        "power-menu"
+        "-modi"
+        "power-menu:rofi-power-menu"
+      ];
     };
+  };
 }

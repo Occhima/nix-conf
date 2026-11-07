@@ -11,10 +11,7 @@
     _module.args.pkgs = import inputs.nixpkgs {
       inherit system;
       config = config.flake.lib.custom.nixpkgsConfig;
-      overlays = [
-        config.flake.overlays.emacs-overlay
-        config.flake.overlays.nur
-      ];
+      overlays = config.nixpkgs.internalOverlays;
     };
   };
 }

@@ -6,14 +6,10 @@ in
   flake.modules.homeManager.hyprland =
     {
       config,
-      osConfig ? { },
       pkgs,
-      lib,
       ...
     }:
     let
-      inherit (lib) mkIf;
-
       gamemode = pkgs.writeShellApplication {
         name = "gamemode";
         runtimeInputs = with pkgs; [
@@ -33,7 +29,7 @@ in
       };
     in
     {
-      config = mkIf (osConfig.programs.steam.enable or false) {
+      config = {
         wayland.windowManager.hyprland.settings =
           hyprlandLib.mkBinds config.wayland.windowManager.hyprland.configType
             [

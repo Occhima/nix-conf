@@ -30,7 +30,6 @@
     "pdf" ; wraps hint following, so after nothing that redefines it
     "hints" ; emacs + links + pdf
     "navigation"
-    ;; "vi"
     "which-key"
     "keys")
   "Files under lisp/, in load order.

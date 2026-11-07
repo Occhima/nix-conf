@@ -1,8 +1,6 @@
 {
   flake.modules.nixos.gpu-intel =
     {
-      config,
-      lib,
       pkgs,
       ...
     }:
@@ -43,7 +41,7 @@
       ];
 
       # Set proper VDPAU driver
-      environment.variables = lib.mkIf config.hardware.graphics.enable {
+      environment.variables = {
         VDPAU_DRIVER = "va_gl";
       };
     };

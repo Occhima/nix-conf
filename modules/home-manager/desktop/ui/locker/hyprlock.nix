@@ -44,13 +44,11 @@ in
       ];
     };
 
-  flake.modules.homeManager.niri =
-    { config, lib, ... }:
-    {
-      programs.niri.settings.binds."Mod+L" = lib.mkIf (config.programs.hyprlock.enable or false) {
-        repeat = false;
-        hotkey-overlay.title = "Lock session";
-        action.spawn = "hyprlock";
-      };
+  flake.modules.homeManager.niri = {
+    programs.niri.settings.binds."Mod+L" = {
+      repeat = false;
+      hotkey-overlay.title = "Lock session";
+      action.spawn = "hyprlock";
     };
+  };
 }

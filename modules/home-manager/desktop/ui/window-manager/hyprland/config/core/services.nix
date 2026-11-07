@@ -5,9 +5,6 @@
       config,
       ...
     }:
-    let
-      inherit (lib) mkIf;
-    in
     {
       config = {
         assertions = [
@@ -34,7 +31,7 @@
           enable = true;
           systemdTarget = "hyprland-session.target";
 
-          settings = mkIf config.programs.hyprlock.enable {
+          settings = {
             general = {
               lock_cmd = "pidof hyprlock || hyprlock";
               before_sleep_cmd = "loginctl lock-session";

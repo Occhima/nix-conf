@@ -56,7 +56,7 @@ in
     { config, lib, ... }:
     {
       # Keep Mod+S for Niri's native capture action from the grimblast feature.
-      programs.niri.settings.binds."Mod+Shift+S" = lib.mkIf (config.services.flameshot.enable or false) {
+      programs.niri.settings.binds."Mod+Shift+S" = {
         repeat = false;
         hotkey-overlay.title = "Open Flameshot";
         action.spawn = [

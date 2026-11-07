@@ -43,7 +43,7 @@
             })
             (mkIf hasJqSupport {
               name = "jq";
-              src = "${pkgs.zsh-fzf-tab}/share/jq-zsh-plugin";
+              src = "${pkgs.jq-zsh-plugin}/share/jq-zsh-plugin";
             })
           ];
           oh-my-zsh = {

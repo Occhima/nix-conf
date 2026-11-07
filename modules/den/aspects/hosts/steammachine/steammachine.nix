@@ -1,20 +1,19 @@
 # Host: steammachine — gaming desktop, AMD/NVIDIA, greetd+ReGreet, 2 monitors, Disko,
-{ config, den, ... }:
+{ den, nixos, ... }:
 {
   den.aspects.steammachine = {
-    includes = with den.aspects; [
-      gaming-workstation
-      cpu-amd
-      gpu-nvidia
-      login-regreet
-      pentesting
-    ];
+    includes = [
+      den.aspects.gaming-workstation
+      den.aspects.pentesting
+    ]
+    ++ (map nixos [
+      "cpu-amd"
+      "gpu-nvidia"
+      "login-regreet"
+      "disko-steammachine"
+      # vpn-openvpn
+    ]);
     nixos = {
-      imports = with config.flake.modules.nixos; [
-        disko-steammachine
-        # vpn-openvpn
-      ];
-
       modules.hardware.monitors = {
         primaryMonitorName = "dp1";
         displays.dp1 = {

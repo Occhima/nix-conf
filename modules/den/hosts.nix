@@ -11,7 +11,7 @@
     instantiate =
       { modules, ... }:
       inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-        modules = builtins.filter (m: !(builtins.isAttrs m && m ? nixpkgs)) modules;
+        modules = builtins.filter (m: !(builtins.isAttrs m && m ? nixpkgs.hostPlatform)) modules;
         pkgs = config.flake.lib.custom.mkPkgs {
           system = "aarch64-linux";
           overlays = [ inputs.nix-on-droid.overlays.default ];

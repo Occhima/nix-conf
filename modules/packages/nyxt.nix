@@ -1,5 +1,11 @@
 # Nyxt: upstream AppImage package, master build (nyxt-dev) and runnable apps.
+{ inputs, ... }:
 {
+  flake-file.inputs.nyxt-src = {
+    url = "github:atlas-engineer/nyxt";
+    flake = false;
+  };
+
   perSystem =
     {
       pkgs,
@@ -8,7 +14,7 @@
     }:
     {
       packages.nyxt = pkgs.callPackage ./_nyxt/package.nix { };
-      packages.nyxt-dev = pkgs.callPackage ./_nyxt-dev/package.nix { };
+      packages.nyxt-dev = pkgs.callPackage ./_nyxt-dev/package.nix { src = inputs.nyxt-src; };
 
       apps.nyxt = {
         type = "app";

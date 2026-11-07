@@ -1,102 +1,92 @@
+{ den, nixos, ... }:
 {
-  config,
-  den,
-  lib,
-  ...
-}:
-let
-  nixos = config.flake.modules.nixos;
+  den.aspects = {
+    sshd = {
+      includes = [ (nixos "sshd") ];
+      persist.files = [
+        "/etc/ssh/ssh_host_ed25519_key"
+        "/etc/ssh/ssh_host_ed25519_key.pub"
+        "/etc/ssh/ssh_host_rsa_key"
+        "/etc/ssh/ssh_host_rsa_key.pub"
+      ];
+    };
 
-  nixosOnly =
-    names:
-    lib.genAttrs names (name: {
-      nixos.imports = [ nixos.${name} ];
-    });
-in
-{
-  den.aspects = lib.mkMerge [
-    (nixosOnly [
-      "laptop"
-      "headless"
-      "wsl"
-      "cpu-intel"
-      "cpu-amd"
-      "gpu-nvidia"
-      "login-greetd"
-      "login-silentsddm"
-      "login-regreet"
-    ])
-    {
-      graphical.nixos.imports = with nixos; [
+    graphical.includes = map nixos [
+      "graphical"
+      "display-wayland"
+      "display-portals"
+      "quickshell-support"
+    ];
+
+    system-base.includes = [
+      den.batteries.hostname
+    ]
+    ++ (map nixos [
+      "system-assertions"
+      "nix"
+      "nixpkgs-config"
+      "nh"
+      "environment-console"
+      "environment-fonts"
+      "environment-locale"
+      "environment-packages"
+    ]);
+
+    workstation.includes =
+      (with den.aspects; [
+        system-base
+        user-root
         graphical
-        display-wayland
-        display-portals
-        quickshell-support
-      ];
+        impermanence
+        sshd
+      ])
+      ++ (map nixos [
+        "accounts"
+        "ssd"
+        "bluetooth"
+        "yubikey"
+        "input-devices"
+        "media-sound-pipewire"
+        "media-video"
+        "monitors"
+        "network"
+        "networkmanager"
+        "firewall"
+        "blocker"
+        "boot-grub"
+        "boot-kernel"
+        "boot-plymouth"
+        "agenix"
+        "systemd"
+        "firmware"
+        "appimage"
+        "security-auth"
+        "security-kernel"
+      ]);
 
-      system-base.includes = [ den.batteries.hostname ];
-      system-base.nixos.imports = with nixos; [
-        system-assertions
-        nix
-        nixpkgs-config
-        nh
-        environment-console
-        environment-fonts
-        environment-locale
-        environment-packages
-      ];
+    gaming-workstation.includes = [
+      den.aspects.workstation
+    ]
+    ++ (map nixos [
+      "steam"
+      "oom"
+      "nix-ld"
+    ]);
 
-      workstation = {
-        includes = with den.aspects; [
-          system-base
-          user-root
-          graphical
-        ];
-        nixos.imports = with nixos; [
-          accounts
-          ssd
-          bluetooth
-          yubikey
-          input-devices
-          media-sound-pipewire
-          media-video
-          monitors
-          network
-          networkmanager
-          firewall
-          blocker
-          boot-grub
-          boot-kernel
-          boot-plymouth
-          impermanence
-          agenix
-          systemd
-          firmware
-          sshd
-          appimage
-          security-auth
-          security-kernel
-        ];
-      };
-
-      gaming-workstation = {
-        includes = [ den.aspects.workstation ];
-        nixos.imports = with nixos; [
-          steam
-          oom
-          nix-ld
-        ];
-      };
-
-      iso-base.includes = [ den.batteries.hostname ];
-      iso-base.nixos.imports = with nixos; [
-        iso-boot
-        iso-fixes
-        iso-image
-        iso-networking
-        iso-nix
-        iso-programs
-        iso-space
+    iso-base = {
+      includes = [
+        den.batteries.hostname
+      ]
+      ++ (map nixos [
+        "iso-boot"
+        "iso-fixes"
+        "iso-image"
+        "iso-networking"
+        "iso-nix"
+        "iso-programs"
+        "iso-space"
+      ]);
+      nixos.imports = [
         (
           { modulesPath, ... }:
           {
@@ -104,6 +94,6 @@ in
           }
         )
       ];
-    }
-  ];
+    };
+  };
 }

@@ -95,13 +95,11 @@ in
       ];
     };
 
-  flake.modules.homeManager.niri =
-    { config, lib, ... }:
-    {
-      programs.niri.settings.binds."Mod+Space" = lib.mkIf (config.programs.anyrun.enable or false) {
-        repeat = false;
-        hotkey-overlay.title = "Open Anyrun";
-        action.spawn = "anyrun";
-      };
+  flake.modules.homeManager.niri = {
+    programs.niri.settings.binds."Mod+Space" = {
+      repeat = false;
+      hotkey-overlay.title = "Open Anyrun";
+      action.spawn = "anyrun";
     };
+  };
 }

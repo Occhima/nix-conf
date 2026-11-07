@@ -26,6 +26,12 @@ in
     description = "Unfree package names allowed by nixpkgs.config.allowUnfreePredicate.";
   };
 
+  options.nixpkgs.internalOverlays = lib.mkOption {
+    type = lib.types.listOf lib.types.raw;
+    default = [ ];
+    description = "Overlays applied to every internal package set (hosts, standalone homes, perSystem).";
+  };
+
   config = {
     flake.lib.custom.nixpkgsConfig = {
       allowUnfreePredicate =
@@ -39,7 +45,7 @@ in
     flake.lib.custom.mkPkgs =
       {
         system,
-        overlays ? [ ],
+        overlays ? config.nixpkgs.internalOverlays,
       }:
       import inputs.nixpkgs {
         inherit system overlays;
@@ -49,10 +55,7 @@ in
     flake.modules.nixos.nixpkgs-config =
       let
         nixpkgsConfig = config.flake.lib.custom.nixpkgsConfig;
-        overlays = [
-          config.flake.overlays.emacs-overlay
-          config.flake.overlays.nur
-        ];
+        overlays = config.nixpkgs.internalOverlays;
       in
       { config, ... }:
       {
