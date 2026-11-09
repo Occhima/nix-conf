@@ -27,7 +27,7 @@
   xdg-utils,
 }:
 let
-  depsHash = "sha256-qdAzhx023Nelrg15N7I+ZYUZALqVz2Ipjv51bcQPOa4=";
+  depsHash = "sha256-hz4/K+p/AEM42bcGaaUkNPxENERgndpB/KmKUovxQ/w=";
 
   ocicl = stdenvNoCC.mkDerivation {
     name = "nyxt-dev-ocicl-${src.shortRev}";

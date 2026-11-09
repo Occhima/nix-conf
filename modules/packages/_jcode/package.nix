@@ -3,6 +3,7 @@
   rustPlatform,
   fetchFromGitHub,
   pkg-config,
+  oniguruma,
   openssl,
 }:
 rustPlatform.buildRustPackage rec {
@@ -23,6 +24,7 @@ rustPlatform.buildRustPackage rec {
   ];
 
   buildInputs = [
+    oniguruma
     openssl
   ];
 

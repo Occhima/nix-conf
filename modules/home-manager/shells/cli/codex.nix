@@ -1,9 +1,10 @@
 {
   flake.modules.homeManager.codex =
-    { ... }:
+    { pkgs, ... }:
     {
       programs.codex = {
         enable = true;
+        package = pkgs.codex.overrideAttrs { dontCargoUseSystemLibs = true; };
         enableMcpIntegration = true;
 
         settings = {
