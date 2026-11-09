@@ -23,7 +23,7 @@ The front-ends match the ones already used by *EXTRA-SEARCH-ENGINES*.")
 (define-mode mirror-mode ()
   "Send mainstream sites to privacy-preserving front-ends.
 
-The Electron renderer never runs `request-resource-hook', so redirects cannot
+The CEF renderer never runs `request-resource-hook' for navigations, so redirects cannot
 happen before the request leaves.  `on-signal-load-started' is the earliest
 point Nyxt exposes here, so the original page starts loading and is navigated
 away from immediately."

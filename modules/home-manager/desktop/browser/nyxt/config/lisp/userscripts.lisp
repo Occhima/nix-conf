@@ -43,11 +43,14 @@ after the scheme also matches the bare domain, as @match specifies."
                           (glob pattern))
                       "$")))))
 
+(defun %userscript-values (metadata &rest keys)
+  (loop for (key . value) in metadata
+        when (member key keys :test #'string=)
+          collect value))
+
 (defun %userscript-matches-p (metadata url)
   (flet ((patterns (&rest keys)
-           (loop for (key . value) in metadata
-                 when (member key keys :test #'string=)
-                   collect value))
+           (apply #'%userscript-values metadata keys))
          (matches-any-p (patterns)
            (some (lambda (pattern)
                    (ignore-errors
@@ -61,12 +64,18 @@ after the scheme also matches the bare domain, as @match specifies."
   (loop for directory in *userscript-directories*
         append (ignore-errors (uiop:directory* (merge-pathnames "*.user.js" directory)))))
 
-(defun %userscript-wrap (name source)
-  "SOURCE with the Greasemonkey calls most scripts use defined around it.
-
-Only GM_addStyle and GM_info are provided; scripts that need storage or
-cross-origin requests will not work."
-  (format nil "(function () {
+(defun %userscript-wrap (metadata name source)
+  "SOURCE with its @include/@exclude checked and Greasemonkey calls defined."
+  (flet ((regexes (&rest keys)
+           (cl-json:encode-json-to-string
+            (or (mapcar #'%userscript-pattern-regex (apply #'%userscript-values metadata keys))
+                #()))))
+    (format nil "(function () {
+var href = location.href;
+var test = function (r) { try { return new RegExp(r).test(href); } catch (e) { return false; } };
+var include = ~a, exclude = ~a;
+if (include.length && !include.some(test)) return;
+if (exclude.some(test)) return;
 var unsafeWindow = window;
 var GM_info = {script: {name: ~a}};
 var GM_addStyle = function (css) {
@@ -77,34 +86,45 @@ var GM_addStyle = function (css) {
 };
 ~a
 })();"
-          (cl-json:encode-json-to-string name)
-          source))
+            (regexes "include" "match")
+            (regexes "exclude" "exclude-match")
+            (cl-json:encode-json-to-string name)
+            (cl-ppcre:regex-replace "(?s)//\\s*==UserScript==.*?==/UserScript==" source ""))))
 
-(define-mode userscript-mode ()
-  "Run matching *.user.js files from `*userscript-directories*' on every page.
+(defun %userscript (file)
+  "FILE as a `user-script', or NIL when it cannot be read."
+  (ignore-errors
+   (let* ((source (alexandria:read-file-into-string file))
+          (metadata (%userscript-metadata source))
+          (script (make-instance 'nyxt/mode/user-script:user-script
+                                 :code (%userscript-wrap
+                                        metadata
+                                        (or (alexandria:assoc-value metadata "name" :test #'string=)
+                                            (pathname-name file))
+                                        source))))
+     (setf (nyxt/mode/user-script:run-at script)
+           (alexandria:switch ((alexandria:assoc-value metadata "run-at" :test #'string=)
+                                :test #'equal)
+             ("document-start" :document-start)
+             ("document-idle" :document-idle)
+             (t :document-end))
+           (nyxt/mode/user-script:all-frames-p script)
+           (not (assoc "noframes" metadata :test #'string=)))
+     script)))
 
-Nyxt 4's `user-script-mode' is not implemented for the Electron renderer, so
-this injects them itself once the page has loaded.  Scripts are re-read on each
-load, so a new or edited script needs a reload, not a restart.  @run-at is
-ignored: everything runs at document-idle."
-  ((visible-in-status-p nil)))
+(defun %userscripts ()
+  (remove nil (mapcar #'%userscript (%userscript-files))))
 
-(defmethod on-signal-load-finished ((mode userscript-mode) url title)
-  (declare (ignore title))
-  (let ((buffer (buffer mode))
-        (url-string (quri:render-uri url)))
-    (unless (internal-url-p url)
-      (dolist (file (%userscript-files))
-        (ignore-errors
-         (let* ((source (alexandria:read-file-into-string file))
-                (metadata (%userscript-metadata source)))
-           (when (%userscript-matches-p metadata url-string)
-             (ffi-buffer-evaluate-javascript-async
-              buffer
-              (%userscript-wrap (or (alexandria:assoc-value metadata "name" :test #'string=)
-                                    (pathname-name file))
-                                source))))))))
-  url)
+(define-configuration nyxt/mode/user-script:user-script-mode
+  ((nyxt/mode/user-script:user-scripts (%userscripts))
+   (visible-in-status-p nil)))
+
+(define-command-global reload-userscripts ()
+  "Re-read `*userscript-directories*' into every buffer; edits apply from the next load."
+  (dolist (buffer (buffer-list))
+    (alexandria:when-let ((mode (find-submode 'nyxt/mode/user-script:user-script-mode buffer)))
+      (setf (nyxt/mode/user-script:user-scripts mode) (%userscripts))))
+  (echo "Reloaded ~a userscripts" (length (%userscript-files))))
 
 (define-command-global list-userscripts ()
   "Show which userscripts would run on the current page."

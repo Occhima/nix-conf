@@ -5,7 +5,7 @@
     "mc_cid" "mc_eid" "_hsenc" "_hsmi" "ref_src" "ref_url" "spm")
   "Query parameters dropped from copied URLs, besides every utm_* one.
 
-`reduce-tracking-mode' is not implemented for the Electron renderer, so
+`reduce-tracking-mode' no longer exists upstream, so
 this is where tracking parameters get stripped.")
 
 (defun %tracking-parameter-p (name)

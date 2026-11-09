@@ -44,7 +44,7 @@
   (open-pdf-in-emacs (url buffer)))
 
 (defmethod nyxt/mode/hint::%follow-hint :around ((a nyxt/dom:a-element))
-  "Hand PDF links to Emacs; Electron has no PDF viewer to follow them into."
+  "Hand PDF links to Emacs, so they open in pdf-tools rather than the renderer."
   (if (pdf-url-p (url a))
       (open-pdf-in-emacs (url a))
       (call-next-method)))

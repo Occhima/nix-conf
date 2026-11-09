@@ -3,7 +3,7 @@
 (defun %supersede-status-method (name)
   "Drop the built-in method on `status-buffer' for the generic function NAME.
 
-The Electron renderer dispatches on `(type-of buffer)' against a literal list of
+The CEF renderer dispatches on `(type-of buffer)' against a literal list of
 class names, so a `status-buffer' subclass is never recognised and the methods
 below have to land on `status-buffer' itself.  Removing the shipped method first
 means each one is a fresh definition rather than a redefinition."

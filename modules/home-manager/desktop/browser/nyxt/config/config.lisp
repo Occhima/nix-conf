@@ -19,17 +19,19 @@
     "prompt-buffer"
     "mirrors" ; defines mirror-mode for web-buffer's default-modes
     "site-modes" ; site-modes-mode for web-buffer, reuses status-buffer's mode helpers
-    "userscripts" ; userscript-mode for web-buffer's default-modes
+    "userscripts" ; user-script-mode configuration for web-buffer's default-modes
     "web-buffer" ; styles + mirrors + site-modes + userscripts
     "view-source"
     "search-buffer"
     "passwords"
+    "links" ; clean-url and org-link, used by emacs and hints
     "emacs"
     "reader"
-    "links" ; clean-url and org-link, used by hints
     "pdf" ; wraps hint following, so after nothing that redefines it
     "hints" ; emacs + links + pdf
     "navigation"
+    "browsing"
+    "emacsisms"
     "which-key"
     "keys")
   "Files under lisp/, in load order.

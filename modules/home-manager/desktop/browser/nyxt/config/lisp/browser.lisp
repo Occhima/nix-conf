@@ -11,7 +11,14 @@
    (search-engines (append %slot-default% *extra-search-engines*))
    (search-engine-suggestions-p nil)
    (default-new-buffer-url (quri:uri (nyxt-url 'start-page)))
-   (nyxt/renderer/cef:adblocking-enabled-p nil)))
+   (remote-execution-p t)))
+
+(defun open-urls (&rest urls)
+  "Open URLS, strings, the way the socket does when remote execution is off."
+  (ffi-within-renderer-thread
+   (lambda () (nyxt::open-urls (mapcar #'quri:uri urls))))
+  (alexandria:when-let ((window (current-window)))
+    (ffi-window-to-foreground window)))
 
 (define-configuration nyxt/mode/hint:hint-mode
   ((nyxt/mode/hint:hints-alphabet "DSJKHLFAGNMXCWEIO")

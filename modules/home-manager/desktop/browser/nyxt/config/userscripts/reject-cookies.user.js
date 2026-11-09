@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        Reject cookie banners
-// @description Click "reject" on the common consent platforms; Nyxt's Electron build runs without an adblocker to do it.
+// @description Click "reject" on the common consent platforms; Nyxt runs with its adblocker off.
 // @match       *://*/*
 // ==/UserScript==
 

@@ -1,4 +1,4 @@
-# Nyxt: upstream AppImage package, master build (nyxt-dev) and runnable apps.
+# Nyxt: master build (nyxt-dev) and runnable app.
 { inputs, ... }:
 {
   flake-file.inputs.nyxt-src = {
@@ -13,14 +13,7 @@
       ...
     }:
     {
-      packages.nyxt = pkgs.callPackage ./_nyxt/package.nix { };
       packages.nyxt-dev = pkgs.callPackage ./_nyxt-dev/package.nix { src = inputs.nyxt-src; };
-
-      apps.nyxt = {
-        type = "app";
-        program = "${self'.packages.nyxt}/bin/nyxt";
-        meta.description = "Nyxt browser (upstream AppImage)";
-      };
 
       apps.nyxt-dev = {
         type = "app";

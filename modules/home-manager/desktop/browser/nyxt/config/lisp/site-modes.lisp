@@ -56,9 +56,8 @@ Entries saved before ZOOM and MUTED existed have only the first three.")
       (when disabled (disable-modes* disabled (buffer mode)))))
   url)
 
-;; Zoom and sound wait for load-finished: `document-mode' re-applies the
-;; buffer's zoom there, and on Electron the URL at load-started can still be
-;; the previous page's for a link click.
+;; Zoom and sound wait for load-finished: the URL at load-started can still
+;; be the previous page's for a link click.
 (defmethod on-signal-load-finished ((mode site-modes-mode) url title)
   (declare (ignore title))
   (let* ((buffer (buffer mode))

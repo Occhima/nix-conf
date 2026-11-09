@@ -17,6 +17,7 @@ when KEYS is empty."
         name))
 
 (define-leader-group "h" "+hint")
+(define-leader-group "x" "+macro")
 
 (define-configuration base-mode
   ((keyscheme-map
@@ -58,6 +59,21 @@ when KEYS is empty."
               "R" 'restore-session
               "i" 'fill-login
               "w" 'play-in-mpv-current
+              "P" 'picture-in-picture
+              "z" 'hibernate-background-buffers
+              "I" 'make-isolated-buffer
+              "g" 'translate-page
+              "G" 'translate-selection
+              "S" 'split-view
+              "j" 'jump-to-register
+              "J" 'point-to-register
+              "n" 'narrow-to-element
+              "N" 'widen
+              "o" 'nyxt/mode/search-buffer:search-buffer
+              "k" 'copy-from-clipboard-ring
+              "x s" 'start-macro
+              "x e" 'end-macro
+              "x x" 'call-macro
               ;; Hints
               "h w" 'hint-play-in-mpv
               "h e" 'hint-open-in-emacs
@@ -65,4 +81,5 @@ when KEYS is empty."
               "h p" 'hint-add-paper
               "h y" 'hint-copy-org-link
               "h c" 'hint-copy-clean-url
-              "h d" 'hint-open-pdf-in-emacs)))))))
+              "h d" 'hint-open-pdf-in-emacs
+              "h i" 'hint-open-isolated)))))))

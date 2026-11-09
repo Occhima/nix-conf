@@ -85,3 +85,9 @@
 Not `browse-url': both Emacs configurations point that back at Nyxt."
   (%emacs-eval "(eww ~s)" (%current-url-string))
   (echo "Opening in eww"))
+
+(defun emacs-insert-current-link ()
+  "Send the current page to Emacs's `occhima/nyxt-insert-link'."
+  (%emacs-eval "(occhima/nyxt-insert-link ~s ~s)"
+               (clean-url (url (current-buffer)))
+               (title (current-buffer))))
