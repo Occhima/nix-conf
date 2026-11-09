@@ -3,8 +3,6 @@
 (defvar occhima/nyxt-slynk-port 4008
   "Port that Nyxt's `start-slynk' command listens on.")
 
-(setq! browse-url-browser-function #'occhima/nyxt-browse-url)
-
 (after! sly
   (setq sly-contribs (delq 'sly-quicklisp sly-contribs)))
 
@@ -36,6 +34,8 @@ action because it exposes evaluation into the browser image."
   (condition-case nil
       (occhima/nyxt-eval (format "(open-urls %S)" url))
     (file-error (start-process "nyxt" nil "nyxt" url))))
+
+(setq! browse-url-browser-function #'occhima/nyxt-browse-url)
 
 (defvar occhima/nyxt--insert-marker nil
   "Where `occhima/nyxt-insert-link' puts the link Nyxt sends back.")

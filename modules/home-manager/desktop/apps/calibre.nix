@@ -16,6 +16,17 @@
 
       cfg = config.modules.desktop.apps.calibre;
 
+      calibrePkgs =
+        if pkgs.config.cudaSupport or false then
+          import pkgs.path {
+            inherit (pkgs.stdenv.hostPlatform) system;
+            config = pkgs.config // {
+              cudaSupport = false;
+            };
+          }
+        else
+          pkgs;
+
       appearance = {
         toolbar_icon_size = "medium";
         toolbar_text = "never";
@@ -70,7 +81,10 @@
       config = {
         modules.desktop.apps.calibre.gui = appearance;
 
-        programs.calibre.enable = true;
+        programs.calibre = {
+          enable = true;
+          package = calibrePkgs.calibre;
+        };
 
         xdg.configFile."calibre/resources/images".source = "${iconTheme}/images";
 

@@ -126,7 +126,7 @@ in
           "hyprlock"
           "wlogout"
           "foliate"
-          # calibre
+          "calibre"
           "spotify"
           "browser-zen-beta"
           "browser-qutebrowser"

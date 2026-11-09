@@ -4,6 +4,7 @@
   den.aspects.beyond = {
     includes = [
       den.aspects.gaming-workstation
+      den.aspects.pentesting
     ]
     ++ (map nixos [
       "cpu-amd"
