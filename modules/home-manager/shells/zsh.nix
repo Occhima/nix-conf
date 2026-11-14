@@ -18,10 +18,18 @@
           enable = true;
           syntaxHighlighting.enable = true;
           autosuggestion.enable = false;
-          initContent = ''
-            [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/zsh"
-          ''
-          + optionalString (config.programs.fastfetch.enable or false) "fastfetch";
+          initContent = lib.mkMerge [
+            (optionalString (config.programs.fastfetch.enable or false) "fastfetch")
+            # after starship init: eat wraps PS1 to mark prompts
+            (lib.mkAfter ''
+              if [ -n "$EAT_SHELL_INTEGRATION_DIR" ]; then
+                source "$EAT_SHELL_INTEGRATION_DIR/zsh"
+                eo() { _eat_msg open "''${1:A}"; }
+                edired() { local d="''${1:-.}"; _eat_msg dired "''${d:A}"; }
+                emagit() { _eat_msg magit "$PWD"; }
+              fi
+            '')
+          ];
           dotDir = "${config.xdg.configHome}/zsh";
           plugins = [
             {

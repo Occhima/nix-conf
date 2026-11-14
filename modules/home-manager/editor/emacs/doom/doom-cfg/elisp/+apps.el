@@ -138,18 +138,45 @@
   (consult-omni-sources-load-modules))
 
 (use-package! eat
-  :commands (eat eat-project eat-other-window)
+  :commands (eat eat-project eat-other-window eat-project-other-window)
   :init
-  (add-hook! 'eat-mode-hook #'hide-mode-line-mode #'doom-mark-buffer-as-real-h)
+  (add-hook! 'eat-mode-hook #'doom-mark-buffer-as-real-h (setq-local mode-line-format nil))
+  (add-hook 'eshell-load-hook #'eat-eshell-mode)
+  (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
   (map! :leader
         :desc "Eat terminal" "o e" #'eat
-        :desc "Eat in project" "o E" #'eat-project)
+        :desc "Eat in project" "o E" #'eat-project
+        :desc "Eat other window" "o w" #'eat-other-window
+        :desc "Eat project other window" "o W" #'eat-project-other-window)
   :custom
   (eat-kill-buffer-on-exit t)
-  (eat-shell-prompt-annotation-success-margin-indicator "")
   (eat-enable-yank-to-terminal t)
+  (eat-term-scrollback-size (* 1024 1024))
+  (eat-shell-prompt-annotation-success-margin-indicator "")
+  (eat-shell-prompt-annotation-running-margin-indicator "•")
+  (eat-shell-prompt-annotation-failure-margin-indicator "✗")
+  ;; called from the shell via `_eat_msg NAME ARGS...' (see zsh.nix)
+  (eat-message-handler-alist
+   '(("open" . find-file-other-window)
+     ("dired" . dired-other-window)
+     ("magit" . magit-status)))
   :config
-  (set-popup-rule! "^\\*eat" :size 0.25 :vslot -4 :select t :quit nil :ttl 0))
+  ;; let Doom's insert-state leader (M-SPC) reach Emacs instead of the shell
+  (add-to-list 'eat-semi-char-non-bound-keys [?\e ?\s])
+  (eat-update-semi-char-mode-map)
+  (set-popup-rule! "^\\*eat" :size 0.25 :vslot -4 :select t :quit nil :ttl 0)
+  (map! :map eat-mode-map
+        :n "[[" #'eat-previous-shell-prompt
+        :n "]]" #'eat-next-shell-prompt
+        :localleader
+        :desc "Semi-char mode" "s" #'eat-semi-char-mode
+        :desc "Char mode (M-RET exits)" "c" #'eat-char-mode
+        :desc "Line mode" "l" #'eat-line-mode
+        :desc "Emacs mode" "e" #'eat-emacs-mode
+        :desc "Narrow to prompt" "n" #'eat-narrow-to-shell-prompt
+        :desc "Send password" "p" #'eat-send-password
+        :desc "Reset terminal" "r" #'eat-reset
+        :desc "Kill process" "k" #'eat-kill-process))
 
 (use-package! exc
   :commands (exc-open exc-create exc-find-file-csv)
