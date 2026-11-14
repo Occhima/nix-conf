@@ -116,12 +116,7 @@ in
           enable = true;
           servers = {
             nixos = {
-              command = getExe pkgs.nix;
-              args = [
-                "run"
-                "github:utensils/mcp-nixos"
-                "--"
-              ];
+              command = getExe pkgs.mcp-nixos;
               type = "stdio";
             };
 

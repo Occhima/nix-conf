@@ -3,7 +3,7 @@
     { pkgs, ... }:
     {
       programs.codex = {
-        enable = true;
+        enable = false;
         package = pkgs.codex.overrideAttrs { dontCargoUseSystemLibs = true; };
         enableMcpIntegration = true;
 

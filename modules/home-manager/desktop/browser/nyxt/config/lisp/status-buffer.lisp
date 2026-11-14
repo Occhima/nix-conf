@@ -368,7 +368,7 @@ once something has actually been turned on or off by hand."
        '("#controls, #new-buffer"
          :display "none")
        `("#url"
-         :flex "1 1 auto"
+         :flex "1 1 0"
          :min-width "0"
          :display "flex"
          :align-items "center"
@@ -417,6 +417,8 @@ once something has actually been turned on or off by hand."
          :border ,(format nil "1px solid ~a" (%hairline theme:on-background-color 0.25))
          :border-top-color ,theme:on-background-color
          :animation "nyxt-spin 700ms linear infinite")
+       '("#buffers"
+         :flex "1 1 0")
        '("#tabs"
          :flex "0 1 auto"
          :display "flex"
@@ -470,7 +472,7 @@ once something has actually been turned on or off by hand."
          :opacity "0"
          :transition "opacity 120ms ease")
        '(".tab-close::before"
-         :content "none")
+         :display "none")
        '(".tab-enter"
          :animation "nyxt-tab-in 160ms cubic-bezier(0.2, 0.7, 0.3, 1) both")
        '(".tab-leave"

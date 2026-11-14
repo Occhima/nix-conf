@@ -38,7 +38,7 @@ in
       ];
       cli-git.includes = map hm [
         "gh"
-        "gitbutler"
+        # "gitbutler"
         "lazygit"
         "jujutsu"
         "git"

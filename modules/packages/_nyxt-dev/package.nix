@@ -27,7 +27,7 @@
   xdg-utils,
 }:
 let
-  depsHash = "sha256-hz4/K+p/AEM42bcGaaUkNPxENERgndpB/KmKUovxQ/w=";
+  depsHash = "sha256-obs3KcjJBG2mKuJg1PcQCNqgIqHZJgqwJnGQbA7ox98=";
 
   ocicl = stdenvNoCC.mkDerivation {
     name = "nyxt-dev-ocicl-${src.shortRev}";
@@ -68,7 +68,7 @@ let
 in
 stdenv.mkDerivation {
   pname = "nyxt-dev";
-  version = "4-unstable-${src.shortRev}";
+  version = "5-unstable-${src.shortRev}";
   inherit src;
 
   nativeBuildInputs = [

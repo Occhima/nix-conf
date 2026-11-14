@@ -12,7 +12,7 @@
     {
       config = mkIf (pkgs.stdenv.hostPlatform.isLinux) {
         programs.qutebrowser = {
-          enable = true;
+          enable = false;
           loadAutoconfig = true;
 
           searchEngines = {
