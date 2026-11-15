@@ -46,3 +46,4 @@ ops/keys/ssh/*
 tmp/
 .aider*
 /.agent-shell/
+graphify-out/
