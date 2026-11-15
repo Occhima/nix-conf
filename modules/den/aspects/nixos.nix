@@ -24,6 +24,7 @@
     ++ (map nixos [
       "system-assertions"
       "nix"
+      "lix"
       "nixpkgs-config"
       "nh"
       "environment-console"
@@ -83,6 +84,7 @@
         "iso-image"
         "iso-networking"
         "iso-nix"
+        "lix"
         "iso-programs"
         "iso-space"
       ]);
