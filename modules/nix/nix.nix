@@ -63,7 +63,6 @@ in
   flake.modules.nixos.nix =
     {
       pkgs,
-      lib,
       ...
     }:
     let
@@ -75,7 +74,6 @@ in
           automatic = true;
           options = "--delete-older-than 3d";
         };
-        package = lib.mkDefault pkgs.nix;
         optimise = {
           automatic = true;
           dates = [ "04:00" ];

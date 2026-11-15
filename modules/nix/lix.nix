@@ -1,9 +1,12 @@
 {
   flake.modules.nixos.lix =
-    { pkgs, ... }:
+    { pkgs, lib, ... }:
+    let
+      inherit (lib) mkDefault;
+    in
     {
       nix = {
-        package = pkgs.lixPackageSets.stable.lix;
+        package = mkDefault pkgs.lixPackageSets.stable.lix;
         settings.experimental-features = [
           "lix-custom-sub-commands"
           "pipe-operator"

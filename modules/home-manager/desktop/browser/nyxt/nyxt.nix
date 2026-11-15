@@ -1,13 +1,8 @@
-{ config, ... }:
-let
-  flakePkgs = config.flake.packages;
-in
 {
   flake.modules.homeManager.browser-nyxt =
     {
       lib,
       pkgs,
-      osConfig ? { },
       ...
     }:
     let
@@ -18,37 +13,33 @@ in
         sha256 = "0x7ivzw4ym2h4mphr7rbqgl2kq14c5mys3lr0agh3l1j10yspp1l";
       };
 
-      nyxt = flakePkgs.${pkgs.stdenv.hostPlatform.system}.nyxt-dev;
-
-      systemFonts = osConfig.environment.etc.fonts.source or null;
-
-      fontconfig = pkgs.runCommand "nyxt-fontconfig" { } ''
-        mkdir -p "$out/conf.d"
-        for conf in ${systemFonts}/conf.d/*.conf; do
-          if grep -qE 'genericfamily|xsi:nil' "$conf"; then continue; fi
-          ln -s "$(readlink -f "$conf")" "$out/conf.d/$(basename "$conf")"
-        done
-        substitute ${systemFonts}/fonts.conf "$out/fonts.conf" \
-          --replace-fail /etc/fonts/conf.d "$out/conf.d"
-      '';
-
-      nyxtWrapped = pkgs.symlinkJoin {
-        inherit (nyxt) meta;
-        name = "nyxt-${nyxt.version}";
-        paths = [ nyxt ];
-        nativeBuildInputs = [ pkgs.makeWrapper ];
-        postBuild = ''
-          rm "$out/bin/nyxt"
-          makeWrapper ${nyxt}/bin/nyxt "$out/bin/nyxt" \
-            --set-default FONTCONFIG_FILE ${fontconfig}/fonts.conf
-        '';
-      };
     in
     {
       config = mkIf pkgs.stdenv.hostPlatform.isLinux {
+        modules.desktop.apps.flatpak.packages = [
+          rec {
+            appId = "engineer.atlas.Nyxt";
+            sha256 = "sha256-Wb/IndwOejpHzC0Jw5yL9HI53xNo0Q806qcvEh31V8s=";
+            bundle = "${pkgs.fetchurl {
+              url = "https://github.com/atlas-engineer/nyxt/releases/download/5.0.0/Nyxt-5.0.0-x86_64.flatpak";
+              inherit sha256;
+            }}";
+          }
+        ];
+
+        services.flatpak.overrides.settings."engineer.atlas.Nyxt".Context.filesystems = [
+          "/nix/store:ro"
+          "xdg-config/nyxt:ro"
+          "xdg-config/flake-nyxt:ro"
+          "xdg-config/flake-themes:ro"
+          "xdg-run/nyxt:create"
+        ];
+
         home = {
           packages = [
-            (if systemFonts == null then nyxt else nyxtWrapped)
+            (pkgs.writeShellScriptBin "nyxt" ''
+              exec ${lib.getExe pkgs.flatpak} run --user engineer.atlas.Nyxt "$@"
+            '')
           ];
 
           activation.nyxtBookmarks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

@@ -13,7 +13,9 @@
       nixConfig = builtins.toFile "nix.conf" ''
         warn-dirty = false
         http2 = true
-        experimental-features = nix-command flakes pipe-operators
+        experimental-features = nix-command flakes ${
+          if pkgs.stdenv.hostPlatform.isLinux then "pipe-operator" else "pipe-operators"
+        }
         use-xdg-base-directories = true
       '';
       nix-unit = inputs'.nix-unit.packages.default;
@@ -42,7 +44,7 @@
               direnv
               nil
               nix-output-monitor
-              nix
+              (if stdenv.hostPlatform.isLinux then lixPackageSets.stable.lix else nix)
               nh
               hub
               onefetch

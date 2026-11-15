@@ -1,10 +1,13 @@
 (in-package #:nyxt-user)
 
-(dolist (generated '(#p"~/.config/flake-themes/nyxt/theme.lisp"
-                     #p"~/.config/flake-nyxt/slynk.lisp"
-                     #p"~/.config/flake-nyxt/paths.lisp"))
-  (when (probe-file generated)
-    (load generated)))
+(let ((config-dir (uiop:ensure-directory-pathname
+                   (or (uiop:getenv "XDG_CONFIG_HOME") #p"~/.config/"))))
+  (dolist (relative '("flake-themes/nyxt/theme.lisp"
+                      "flake-nyxt/slynk.lisp"
+                      "flake-nyxt/paths.lisp"))
+    (let ((generated (merge-pathnames relative config-dir)))
+      (when (probe-file generated)
+        (load generated)))))
 
 (defparameter *components*
   '(;; "robustness" ; first: installs the debugger hook that keeps later load errors survivable
