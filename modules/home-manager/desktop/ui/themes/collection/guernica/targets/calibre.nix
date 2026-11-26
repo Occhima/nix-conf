@@ -14,6 +14,8 @@
         ];
     in
     {
+      modules.desktop.apps.calibre.iconColor = hex "base05";
+
       modules.desktop.apps.calibre.gui = {
         color_palette = "dark";
         dark_palette_name = "guernica";

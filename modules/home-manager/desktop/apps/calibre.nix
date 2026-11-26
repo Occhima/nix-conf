@@ -7,14 +7,30 @@
       ...
     }:
     let
-      iconTheme = pkgs.fetchFromGitHub {
-        owner = "pan4ratte";
-        repo = "calibre-modern-gnome";
-        rev = "51a0fab710128d577f1821f972a6151eba832e13";
-        hash = "sha256-fo3YeO/T/YFIWQ7rFoC5TFnIxMkG9eAQPWzqBrgwC6A=";
+      cfg = config.modules.desktop.apps.calibre;
+
+      iconTheme = pkgs.fetchurl {
+        url = "https://code.calibre-ebook.com/icon-themes/awesomecalibre/icons.zip.xz";
+        hash = "sha256-+P9+a2CLS7kVw3p9bP9ssU1FFlZeMI6XB4FGyXjDSdg=";
       };
 
-      cfg = config.modules.desktop.apps.calibre;
+      icons =
+        pkgs.runCommand "calibre-icons"
+          {
+            nativeBuildInputs = [
+              pkgs.xz
+              pkgs.unzip
+              pkgs.imagemagick
+            ];
+          }
+          ''
+            xz -dc ${iconTheme} > icons.zip
+            unzip -q icons.zip -d $out
+            ${lib.optionalString (cfg.iconColor != null) ''
+              find $out -name '*.png' -not -path '*/plugins/*' -print0 \
+                | xargs -0 -I{} magick {} -fill '${cfg.iconColor}' -colorize 100 {}
+            ''}
+          '';
 
       calibrePkgs =
         if pkgs.config.cudaSupport or false then
@@ -40,6 +56,20 @@
         tag_browser_old_look = false;
         tag_browser_item_padding = 0.8;
         tag_browser_hide_empty_categories = true;
+        action-layout-toolbar = [
+          "Add Books"
+          "Edit Metadata"
+          null
+          "Convert Books"
+          "View"
+          "Tweak ePub"
+          null
+          "Choose Library"
+          "Save To Disk"
+          "Remove Books"
+          null
+          "Preferences"
+        ];
       };
 
       appearanceFile = (pkgs.formats.json { }).generate "calibre-appearance.json" cfg.gui;
@@ -72,10 +102,18 @@
       '';
     in
     {
-      options.modules.desktop.apps.calibre.gui = lib.mkOption {
-        type = lib.types.attrsOf lib.types.anything;
-        default = { };
-        description = "Keys merged into calibre's gui.json on activation; themes add their palette here.";
+      options.modules.desktop.apps.calibre = {
+        gui = lib.mkOption {
+          type = lib.types.attrsOf lib.types.anything;
+          default = { };
+          description = "Keys merged into calibre's gui.json on activation; themes add their palette here.";
+        };
+
+        iconColor = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          default = null;
+          description = "Recolor the monochrome icon theme to this color.";
+        };
       };
 
       config = {
@@ -86,7 +124,7 @@
           package = calibrePkgs.calibre;
         };
 
-        xdg.configFile."calibre/resources/images".source = "${iconTheme}/images";
+        xdg.configFile."calibre/resources/images".source = icons;
 
         home.activation.calibreAppearance = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
           run ${lib.getExe mergeAppearance} \
