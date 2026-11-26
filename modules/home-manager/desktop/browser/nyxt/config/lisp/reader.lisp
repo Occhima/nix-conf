@@ -54,7 +54,7 @@
       :border-left ,(format nil "2px solid ~a" (%hairline theme:on-background-color 0.25))
       :color ,theme:primary-color)))
 
-(define-command reader-mode (&optional (buffer (current-buffer)))
+(define-command reader-mode (buffer)
   "Show the current page as a clean article; reload to get the page back."
   (alexandria:if-let ((article (%readability-article buffer)))
     (let ((html (spinneret:with-html-string
@@ -70,7 +70,7 @@
         nil))
     (echo-warning "No article found on this page.")))
 
-(define-command save-article-to-roam (&optional (buffer (current-buffer)))
+(define-command save-article-to-roam (buffer)
   "Convert the current page's article to Org and file it as an org-roam node."
   (alexandria:if-let ((article (%readability-article buffer)))
     (let ((file (format nil "~anyxt-article-~a.org"

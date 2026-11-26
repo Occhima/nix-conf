@@ -280,10 +280,10 @@ with `--disable-debugger'."
     `("#start button:hover"
       :color ,theme:on-background-color)))
 
-(define-command refresh-start-page ()
+(define-command refresh-start-page (buffer)
   "Drop the cached feeds and reload the start page."
   (clrhash *feeds*)
-  (ffi-buffer-reload (current-buffer)))
+  (ffi-buffer-reload buffer))
 
 (declaim (ftype function start-page))
 
@@ -303,7 +303,7 @@ shortcuts."
                   (:span (%today))
                   (:span :class "weather"
                          (or (%feed "weather") "weather unavailable"))
-                  (:nbutton :text "refresh" '(refresh-start-page)))
+                  (:nbutton :buffer buffer :text "refresh" `(refresh-start-page ,buffer)))
            (:script
             (:raw "(function () {
   var clock = document.getElementById('nyxt-clock');
@@ -321,7 +321,7 @@ shortcuts."
             (:section :class "session"
                       (:h2 "Last session")
                       (:p (format nil "~a buffer~:p open when Nyxt last closed. " (length urls))
-                          (:nbutton :text "restore" '(restore-session)))))
+                          (:nbutton :buffer buffer :text "restore" '(restore-session)))))
           (:div :class "columns"
                 (:section :class "news wide"
                           (:h2 "Hacker News")

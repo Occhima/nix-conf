@@ -39,22 +39,22 @@
         (error (condition)
           (echo-warning "Could not fetch ~a: ~a" url-string condition))))))
 
-(define-command-global open-pdf-in-emacs-current (&optional (buffer (current-buffer)))
+(define-command-global open-pdf-in-emacs-current (buffer)
   "Open the current page, a PDF, in Emacs."
   (open-pdf-in-emacs (url buffer)))
 
-(defmethod nyxt/mode/hint::%follow-hint :around ((a nyxt/dom:a-element))
+(defun %maybe-open-pdf (buffer a next)
+  (let ((url (nyxt/mode/hint::ensure-hint-url buffer a)))
+    (if (and url (pdf-url-p url))
+        (open-pdf-in-emacs url)
+        (funcall next))))
+
+(defmethod nyxt/mode/hint::%follow-hint :around (buffer (a nyxt/dom:a-element))
   "Hand PDF links to Emacs, so they open in pdf-tools rather than the renderer."
-  (if (pdf-url-p (url a))
-      (open-pdf-in-emacs (url a))
-      (call-next-method)))
+  (%maybe-open-pdf buffer a #'call-next-method))
 
-(defmethod nyxt/mode/hint::%follow-hint-new-buffer :around ((a nyxt/dom:a-element))
-  (if (pdf-url-p (url a))
-      (open-pdf-in-emacs (url a))
-      (call-next-method)))
+(defmethod nyxt/mode/hint::%follow-hint-new-buffer :around (buffer (a nyxt/dom:a-element))
+  (%maybe-open-pdf buffer a #'call-next-method))
 
-(defmethod nyxt/mode/hint::%follow-hint-new-buffer-focus :around ((a nyxt/dom:a-element))
-  (if (pdf-url-p (url a))
-      (open-pdf-in-emacs (url a))
-      (call-next-method)))
+(defmethod nyxt/mode/hint::%follow-hint-new-buffer-focus :around (buffer (a nyxt/dom:a-element))
+  (%maybe-open-pdf buffer a #'call-next-method))

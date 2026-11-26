@@ -40,14 +40,14 @@ this is where tracking parameters get stripped.")
   (copy-to-clipboard text)
   (echo "Copied ~a" text))
 
-(define-command-global copy-clean-url (&optional (buffer (current-buffer)))
+(define-command-global copy-clean-url (buffer)
   "Copy the current URL without tracking parameters."
   (%copy (clean-url (url buffer))))
 
-(define-command-global copy-org-link (&optional (buffer (current-buffer)))
+(define-command-global copy-org-link (buffer)
   "Copy the current page as an Org link."
   (%copy (org-link (url buffer) (title buffer))))
 
-(define-command-global copy-markdown-link (&optional (buffer (current-buffer)))
+(define-command-global copy-markdown-link (buffer)
   "Copy the current page as a Markdown link."
   (%copy (markdown-link (url buffer) (title buffer))))

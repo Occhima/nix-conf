@@ -19,7 +19,7 @@ Entries saved before ZOOM and MUTED existed have only the first three.")
     (with-standard-io-syntax
       (prin1 *site-modes* out))))
 
-(define-command remember-site-modes (&optional (buffer (current-buffer)))
+(define-command remember-site-modes (buffer)
   "Re-apply the modes toggled by hand in BUFFER on every future visit to its host."
   (alexandria:when-let ((host (quri:uri-host (url buffer))))
     (let* ((baseline (%baseline-mode-names buffer))
@@ -37,7 +37,7 @@ Entries saved before ZOOM and MUTED existed have only the first three.")
       (echo "~a: +~{~(~a~)~^ ~} -~{~(~a~)~^ ~}~@[ zoom ~,2f~]~:[~; muted~]"
             host enabled disabled zoom muted))))
 
-(define-command forget-site-modes (&optional (buffer (current-buffer)))
+(define-command forget-site-modes (buffer)
   "Stop re-applying remembered modes on BUFFER's host."
   (alexandria:when-let ((host (quri:uri-host (url buffer))))
     (setf *site-modes* (remove host *site-modes* :key #'first :test #'string-equal))
@@ -75,7 +75,7 @@ Entries saved before ZOOM and MUTED existed have only the first three.")
                  (ffi-buffer-sound-enabled-p buffer) t))))
   url)
 
-(define-command-global toggle-mute (&optional (buffer (current-buffer)))
+(define-command-global toggle-mute (buffer)
   "Mute or unmute BUFFER; `remember-site-modes' keeps it for the site."
   (let ((sound (not (ffi-buffer-sound-enabled-p buffer))))
     (setf (ffi-buffer-sound-enabled-p buffer) sound)

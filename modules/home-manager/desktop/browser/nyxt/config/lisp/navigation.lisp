@@ -47,18 +47,18 @@ touched, which keeps numbers in domain names out of it."
       (ffi-buffer-load buffer url)
       (echo-warning message)))
 
-(define-command-global go-up (&optional (buffer (current-buffer)))
+(define-command-global go-up (buffer)
   "Go one level up the URL path."
   (%navigate buffer (url-up (url buffer)) "Already at the root."))
 
-(define-command-global go-root (&optional (buffer (current-buffer)))
+(define-command-global go-root (buffer)
   "Go to the root of the current site."
   (%navigate buffer (url-root (url buffer)) "Already at the root."))
 
-(define-command-global increment-url (&optional (buffer (current-buffer)))
+(define-command-global increment-url (buffer)
   "Increment the last number in the URL, as for the next page of a listing."
   (%navigate buffer (url-increment (url buffer) 1) "No number in this URL."))
 
-(define-command-global decrement-url (&optional (buffer (current-buffer)))
+(define-command-global decrement-url (buffer)
   "Decrement the last number in the URL."
   (%navigate buffer (url-increment (url buffer) -1) "No number in this URL."))

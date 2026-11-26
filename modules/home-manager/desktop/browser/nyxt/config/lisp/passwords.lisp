@@ -132,7 +132,7 @@ two-page logins, gets just the username.")
 (defun %js-string (string)
   (cl-json:encode-json-to-string string))
 
-(define-command-global fill-login (&optional (buffer (current-buffer)))
+(define-command-global fill-login (buffer)
   "Fill the page's login form from the passage entry matching its host.
 
 Unlike `copy-password-pin', the password never reaches the clipboard."

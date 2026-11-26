@@ -122,13 +122,13 @@ var GM_addStyle = function (css) {
 (define-command-global reload-userscripts ()
   "Re-read `*userscript-directories*' into every buffer; edits apply from the next load."
   (dolist (buffer (buffer-list))
-    (alexandria:when-let ((mode (find-submode 'nyxt/mode/user-script:user-script-mode buffer)))
+    (alexandria:when-let ((mode (find-mode buffer 'nyxt/mode/user-script:user-script-mode)))
       (setf (nyxt/mode/user-script:user-scripts mode) (%userscripts))))
   (echo "Reloaded ~a userscripts" (length (%userscript-files))))
 
-(define-command-global list-userscripts ()
+(define-command-global list-userscripts (buffer)
   "Show which userscripts would run on the current page."
-  (let ((url (quri:render-uri (url (current-buffer)))))
+  (let ((url (quri:render-uri (url buffer))))
     (echo "~:[No userscripts~;~:*~{~a~^, ~}~] on ~a"
           (loop for file in (%userscript-files)
                 for metadata = (ignore-errors

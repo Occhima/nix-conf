@@ -3,12 +3,13 @@
 (defvar *mpv* "mpv"
   "mpv executable; paths.lisp points it at the Nix store.")
 
-(defun %hint-links (prompt function &key (multiple t))
+(defun %hint-links (buffer prompt function &key (multiple t))
   "Hint links, then call FUNCTION on each chosen link's URL and text.
 
 With MULTIPLE, several links can be marked; FUNCTION then gets all of them
 as one list of (URL . TEXT), which is what a playlist or a batch wants."
   (nyxt/mode/hint:query-hints
+   buffer
    prompt
    (lambda (elements)
      (let ((links (loop for element in elements
@@ -29,25 +30,25 @@ as one list of (URL . TEXT), which is what a playlist or a batch wants."
                                 (format nil "~a links" (length urls))
                                 (quri:render-uri (first urls)))))
 
-(define-command-global play-in-mpv-current (&optional (buffer (current-buffer)))
+(define-command-global play-in-mpv-current (buffer)
   "Play the current page in mpv."
   (play-in-mpv (list (url buffer))))
 
-(define-command-global hint-play-in-mpv ()
+(define-command-global hint-play-in-mpv (buffer)
   "Play hinted links in mpv, several as one playlist."
-  (%hint-links "Play in mpv" (lambda (links) (play-in-mpv (mapcar #'car links)))))
+  (%hint-links buffer "Play in mpv" (lambda (links) (play-in-mpv (mapcar #'car links)))))
 
-(define-command-global hint-open-in-emacs ()
+(define-command-global hint-open-in-emacs (buffer)
   "Open a hinted link in Emacs's eww."
-  (%hint-links "Open in eww"
+  (%hint-links buffer "Open in eww"
                (lambda (links)
                  (%emacs-eval "(eww ~s)" (quri:render-uri (car (first links))))
                  (echo "Opening in eww"))
                :multiple nil))
 
-(define-command-global hint-capture-in-org-roam ()
+(define-command-global hint-capture-in-org-roam (buffer)
   "Capture a hinted link as an org-roam node, titled by its text."
-  (%hint-links "Capture in org-roam"
+  (%hint-links buffer "Capture in org-roam"
                (lambda (links)
                  (destructuring-bind (url . text) (first links)
                    (%emacs-eval "(occhima/nyxt-roam-capture ~s ~s ~s)"
@@ -57,30 +58,30 @@ as one list of (URL . TEXT), which is what a playlist or a batch wants."
                    (echo "Capturing in org-roam: ~a" text)))
                :multiple nil))
 
-(define-command-global hint-add-paper ()
+(define-command-global hint-add-paper (buffer)
   "Add hinted arXiv or DOI links to the bibliography."
-  (%hint-links "Add paper"
+  (%hint-links buffer "Add paper"
                (lambda (links)
                  (dolist (link links)
                    (add-paper-from-url (car link))))))
 
-(define-command-global hint-copy-org-link ()
+(define-command-global hint-copy-org-link (buffer)
   "Copy a hinted link as an Org link, titled by its text."
-  (%hint-links "Copy Org link"
+  (%hint-links buffer "Copy Org link"
                (lambda (links)
                  (destructuring-bind (url . text) (first links)
                    (%copy (org-link url text))))
                :multiple nil))
 
-(define-command-global hint-copy-clean-url ()
+(define-command-global hint-copy-clean-url (buffer)
   "Copy a hinted link's URL without tracking parameters."
-  (%hint-links "Copy clean URL"
+  (%hint-links buffer "Copy clean URL"
                (lambda (links) (%copy (clean-url (car (first links)))))
                :multiple nil))
 
-(define-command-global hint-open-pdf-in-emacs ()
+(define-command-global hint-open-pdf-in-emacs (buffer)
   "Download hinted links and open them in Emacs, whatever their URL looks like."
-  (%hint-links "Open PDF in Emacs"
+  (%hint-links buffer "Open PDF in Emacs"
                (lambda (links)
                  (dolist (link links)
                    (open-pdf-in-emacs (car link))))))

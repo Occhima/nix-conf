@@ -25,7 +25,6 @@
     "userscripts" ; user-script-mode configuration for web-buffer's default-modes
     "web-buffer" ; styles + mirrors + site-modes + userscripts
     "view-source"
-    "search-buffer"
     "passwords"
     "links" ; clean-url and org-link, used by emacs and hints
     "emacs"
@@ -34,6 +33,7 @@
     "hints" ; emacs + links + pdf
     "navigation"
     "browsing"
+    "window-splits" ; vim-style splits on Nyxt 5 side panels
     "emacsisms"
     "which-key"
     "keys")

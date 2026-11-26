@@ -1,6 +1,7 @@
 {
   flake.modules.homeManager.browser-nyxt =
     {
+      config,
       lib,
       pkgs,
       ...
@@ -19,9 +20,9 @@
         modules.desktop.apps.flatpak.packages = [
           rec {
             appId = "engineer.atlas.Nyxt";
-            sha256 = "sha256-Wb/IndwOejpHzC0Jw5yL9HI53xNo0Q806qcvEh31V8s=";
+            sha256 = "sha256-8JxN2gcOlIsICWjzkTpQT1W7S91gotyyXCuhfKrANok=";
             bundle = "${pkgs.fetchurl {
-              url = "https://github.com/atlas-engineer/nyxt/releases/download/5.0.0/Nyxt-5.0.0-x86_64.flatpak";
+              url = "https://github.com/atlas-engineer/nyxt/releases/download/5.1.0/Nyxt-5.1.0-x86_64.flatpak";
               inherit sha256;
             }}";
           }
@@ -87,6 +88,28 @@
                 (error (c) (echo-warning "Could not start Slynk: ~a" c))))
           '';
         };
+
+        wayland.windowManager.hyprland.settings =
+          if config.wayland.windowManager.hyprland.configType == "lua" then
+            {
+              window_rule = [
+                {
+                  name = "nyxt-frameless";
+                  match.class = "^nyxt$";
+                  border_size = 0;
+                }
+              ];
+            }
+          else
+            {
+              windowrule = [
+                {
+                  name = "nyxt-frameless";
+                  "match:class" = "^nyxt$";
+                  border_size = 0;
+                }
+              ];
+            };
       };
     };
 }

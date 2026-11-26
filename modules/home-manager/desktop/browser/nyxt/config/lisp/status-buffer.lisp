@@ -13,15 +13,16 @@ means each one is a fresh definition rather than a redefinition."
       (remove-method gf method))))
 
 (mapc #'%supersede-status-method
-      '(format-status-load-status
+      '(format-status
+        format-status-load-status
         format-status-url
         format-status-tabs
         format-status-modes))
 
 (defun %status-target (status)
-  "Active buffer of STATUS's window, or NIL while the window is being built."
+  "Main buffer of STATUS's window, or NIL while the window is being built."
   (alexandria:when-let ((window (window status)))
-    (active-buffer window)))
+    (buffer window)))
 
 (defmethod format-status :around ((status status-buffer))
   (if (window status) (call-next-method) ""))
@@ -184,7 +185,7 @@ no list-downloads focus."
          :onclick (ps:ps
                     (nyxt/ps:lisp-eval
                      (:title "set-url" :buffer status)
-                     (nyxt:set-url)))
+                     (nyxt:set-url (%status-target status))))
          (unless (str:emptyp glyph)
            (:span :class class glyph))
          (:span :class "url-host" host)
@@ -269,6 +270,7 @@ change."
               collect
               (if ghost
                   (:span :class "tab tab-leave"
+                         :aria-hidden "true"
                          :style (%tab-motion-style (getf ghost :time))
                          (when (getf ghost :domain)
                            (%favicon-html (getf ghost :domain)))
@@ -281,16 +283,28 @@ change."
                                     (< (%tab-age-ms born) *tab-motion-ms*))
                      :style (when (< (%tab-age-ms born) *tab-motion-ms*)
                               (%tab-motion-style born))
+                     :role "tab"
+                     :aria-selected (if (eq current-buffer buffer) "true" "false")
+                     :tabindex (if (eq current-buffer buffer) "0" "-1")
                      :title (title buffer)
                      :onclick (ps:ps
                                 (nyxt/ps:lisp-eval
                                  (:title "select-tab" :buffer status)
                                  (set-current-buffer buffer)))
+                     :onkeydown (ps:ps
+                                  (when (or (= (ps:@ event key) "Enter")
+                                            (= (ps:@ event key) " "))
+                                    (ps:chain event (prevent-default))
+                                    (nyxt/ps:lisp-eval
+                                     (:title "select-tab" :buffer status)
+                                     (set-current-buffer buffer))))
                      (unless (internal-url-p (url buffer))
                        (%favicon-html (quri:uri-domain (url buffer))))
                      (:span :class "tab-label" (%tab-label buffer))
-                     (:span :class "tab-close"
+                     (:button :class "tab-close"
+                            :type "button"
                             :title "Close tab"
+                            :aria-label (format nil "Close ~a" (%tab-label buffer))
                             :onclick (ps:ps
                                        (ps:chain event (stop-propagation))
                                        (nyxt/ps:lisp-eval
@@ -330,214 +344,243 @@ once something has actually been turned on or off by hand."
         :class (if (%modes-drifted-p buffer) "modes-toggle modes-drifted" "modes-toggle")
         :text *glyph-modes*
         :title (nyxt::modes-string buffer)
-        '(nyxt:toggle-modes)))))
+        :aria-label "Modes"
+        `(nyxt:toggle-modes ,buffer)))))
+
+(defmethod format-status ((status status-buffer))
+  "URL on the left, tabs centred, modes on the right, laid out by the grid on #container."
+  (spinneret:with-html-string
+    (:div :id "container"
+          (:div :id "url"
+                (format-status-load-status status)
+                (format-status-url status))
+          (:div :id "tabs" :role "tablist" :aria-label "Buffers"
+                (format-status-tabs status))
+          (:div :id "modes"
+                (format-status-modes status)))))
+
+(defun %status-css (theme)
+  (format nil "
+:root {
+  --bar-h: 28px;
+  --pill-h: 22px;
+  --radius: 6px;
+  --pad-x: 8px;
+  --gap: 10px;
+  --fast: 120ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --fg: ~a;
+  --muted: ~a;
+  --accent: ~a;
+  --warn: ~a;
+  --surface: ~a;
+  --hover: ~a;
+  --active: ~a;
+  --line: ~a;
+  --mono: ~a;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  overflow: hidden;
+  background: var(--surface);
+  color: var(--muted);
+  font: 12px/1 var(--mono);
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+::-webkit-scrollbar { display: none; }
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-radius: var(--radius);
+}
+
+#container {
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: minmax(10rem, 2fr) minmax(0, 3fr) auto;
+  align-items: center;
+  gap: var(--gap);
+  height: var(--bar-h);
+  padding: 0 var(--pad-x);
+}
+
+#url {
+  display: flex;
+  align-items: center;
+  gap: var(--pad-x);
+  min-width: 0;
+}
+#url > button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  height: var(--pill-h);
+  padding: 0 var(--pad-x);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: background-color var(--fast) ease;
+}
+#url > button:hover { background: var(--hover); color: var(--fg); }
+.url-scheme { flex: none; color: var(--muted); }
+.url-scheme.insecure { color: var(--warn); }
+.url-host { flex: none; color: var(--fg); font-weight: 500; }
+.url-tail {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.keyscheme {
+  flex: none;
+  padding-left: var(--pad-x);
+  border-left: 2px solid var(--line);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.keyscheme-insert { border-left-color: var(--accent); color: var(--accent); }
+.spinner {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  border-top-color: var(--fg);
+  animation: nyxt-spin 700ms linear infinite;
+}
+.dl { flex: none; color: var(--accent); }
+
+#tabs {
+  display: flex;
+  align-items: center;
+  justify-content: safe center;
+  gap: 4px;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 1 10rem;
+  min-width: 2.75rem;
+  max-width: 10rem;
+  height: var(--pill-h);
+  padding: 0 4px 0 var(--pad-x);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: color var(--fast) ease, background-color var(--fast) ease;
+}
+.tab:hover { background: var(--hover); color: var(--fg); }
+.selected-tab { background: var(--active); color: var(--fg); }
+.tab .favicon { flex: none; width: 12px; height: 12px; object-fit: contain; opacity: 0.75; }
+.tab .favicon-fallback { flex: none; width: 12px; text-align: center; font-size: 9px; }
+.selected-tab .favicon { opacity: 1; }
+.tab-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tab-close {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  opacity: 0;
+  transition: opacity var(--fast) ease, background-color var(--fast) ease;
+}
+.tab:hover .tab-close,
+.tab:focus-within .tab-close,
+.selected-tab .tab-close { opacity: 0.55; }
+.tab-close:hover, .tab-close:focus-visible { opacity: 1; background: var(--hover); }
+.tab-enter { animation: nyxt-tab-in 160ms var(--ease-out) both; }
+.tab-leave { pointer-events: none; animation: nyxt-tab-out 160ms ease-in both; }
+
+#modes {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.mode-name {
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
+  padding: 0 7px;
+  border-radius: var(--radius);
+  background: var(--active);
+  color: var(--fg);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+#modes > button {
+  height: var(--pill-h);
+  padding: 0 var(--pad-x);
+  border-radius: var(--radius);
+  transition: color var(--fast) ease, background-color var(--fast) ease;
+}
+#modes > button:hover { background: var(--hover); color: var(--fg); }
+#modes > button.modes-drifted { color: var(--accent); }
+
+@keyframes nyxt-spin { to { transform: rotate(360deg); } }
+@keyframes nyxt-tab-in {
+  from { opacity: 0; max-width: 0; padding-left: 0; padding-right: 0; transform: translateY(3px); }
+}
+@keyframes nyxt-tab-out {
+  to { opacity: 0; max-width: 0; padding-left: 0; padding-right: 0; transform: scale(0.92); }
+}
+
+@container (max-width: 760px) {
+  .url-tail, .mode-name { display: none; }
+  .tab { flex-basis: 6rem; max-width: 7rem; }
+}
+@container (max-width: 520px) {
+  .tab-label { display: none; }
+  .tab { flex: none; min-width: 0; padding-right: var(--pad-x); }
+  .tab .tab-close { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+"
+          (theme:on-background-color theme)
+          (theme:primary-color theme)
+          (theme:action-color theme)
+          (theme:warning-color theme)
+          (%hairline (theme:background-color theme) 0.72)
+          (%hairline (theme:on-background-color theme) 0.07)
+          (%hairline (theme:on-background-color theme) 0.12)
+          (%hairline (theme:on-background-color theme) 0.30)
+          (%mono-stack (theme:monospace-font-family theme))))
 
 (define-configuration status-buffer
   ((glyph-mode-presentation-p nil)
-   (height 28)
-   (style
-    (str:concat
-     %slot-value%
-     "@keyframes nyxt-spin { to { transform: rotate(360deg); } }"
-     "@keyframes nyxt-tab-in {
-        from { opacity: 0; max-width: 0; padding-left: 0; padding-right: 0;
-               transform: translateY(3px); } }"
-     "@keyframes nyxt-tab-out {
-        to { opacity: 0; max-width: 0; padding-left: 0; padding-right: 0;
-             transform: scale(0.92); } }"
-     (theme:themed-css (theme *browser*)
-       `(body
-         :background-color ,theme:background-color
-         :color ,theme:primary-color
-         :font-family ,(%mono-stack theme:monospace-font-family)
-         :font-size "12px"
-         :line-height "normal"
-         :letter-spacing "0.01em"
-         :overflow "hidden"
-         :border-top ,(format nil "1px solid ~a"
-                              (%hairline theme:on-background-color 0.10)))
-       '("::-webkit-scrollbar"
-         :display "none")
-       '("#container"
-         :display "flex"
-         :align-items "center"
-         :gap "12px"
-         :height "28px"
-         :padding "0 12px"
-         :box-sizing "border-box")
-       '("#controls, #new-buffer"
-         :display "none")
-       `("#url"
-         :flex "1 1 0"
-         :min-width "0"
-         :display "flex"
-         :align-items "center"
-         :gap "9px"
-         :height "28px"
-         :line-height "normal"
-         :margin "0"
-         :padding "0"
-         :border "none"
-         :border-radius "0"
-         :background-color "transparent"
-         :overflow "hidden")
-       '("#url button"
-         :display "flex"
-         :align-items "center"
-         :gap "6px"
-         :width "100%"
-         :height "22px"
-         :margin "3px 0"
-         :padding "0 8px"
-         :border-radius "6px"
-         :overflow "hidden"
-         :transition "background-color 120ms ease")
-       `("#url button:hover"
-         :background-color ,(%hairline theme:on-background-color 0.06))
-       `(".url-scheme"
-         :flex "0 0 auto"
-         :color ,theme:primary-color)
-       `(".url-scheme.insecure"
-         :color ,theme:warning-color)
-       `(".url-host"
-         :flex "0 0 auto"
-         :color ,theme:on-background-color)
-       `(".url-tail"
-         :flex "0 1 auto"
-         :overflow "hidden"
-         :text-overflow "ellipsis"
-         :white-space "nowrap"
-         :color ,theme:primary-color)
-       `(".spinner"
-         :flex "0 0 auto"
-         :display "inline-block"
-         :width "7px"
-         :height "7px"
-         :border-radius "50%"
-         :border ,(format nil "1px solid ~a" (%hairline theme:on-background-color 0.25))
-         :border-top-color ,theme:on-background-color
-         :animation "nyxt-spin 700ms linear infinite")
-       '("#buffers"
-         :flex "1 1 0")
-       '("#tabs"
-         :flex "0 1 auto"
-         :display "flex"
-         :align-items "center"
-         :gap "10px"
-         :height "28px"
-         :min-width "0"
-         :padding "0"
-         :margin "0"
-         :line-height "normal"
-         :overflow-x "auto"
-         :scrollbar-width "none")
-       `(".tab"
-         :display "inline-flex"
-         :align-items "center"
-         :gap "6px"
-         :flex "0 1 auto"
-         :min-width "0"
-         :height "22px"
-         :max-width "140px"
-         :margin "3px 0"
-         :padding "0 8px"
-         :border "none"
-         :border-radius "6px"
-         :background-color "transparent"
-         :color ,theme:primary-color
-         :transition "color 120ms ease, background-color 120ms ease")
-       `(".tab:hover"
-         :background-color ,(%hairline theme:on-background-color 0.06))
-       `(".tab .favicon"
-         :width "12px"
-         :height "12px"
-         :object-fit "contain"
-         :opacity "0.75")
-       `(".tab .favicon-fallback"
-         :width "12px"
-         :text-align "center"
-         :font-size "9px"
-         :color ,theme:primary-color)
-       '(".selected-tab .favicon"
-         :opacity "1")
-       '(".tab-label"
-         :overflow "hidden"
-         :text-overflow "ellipsis"
-         :white-space "nowrap")
-       '(".tab-close"
-         :flex "0 0 auto"
-         :font-size "14px"
-         :line-height "1"
-         :padding "2px"
-         :opacity "0"
-         :transition "opacity 120ms ease")
-       '(".tab-close::before"
-         :display "none")
-       '(".tab-enter"
-         :animation "nyxt-tab-in 160ms cubic-bezier(0.2, 0.7, 0.3, 1) both")
-       '(".tab-leave"
-         :pointer-events "none"
-         :animation "nyxt-tab-out 160ms ease-in both")
-       '(".tab:hover .tab-close"
-         :opacity "0.5")
-       '(".tab-close:hover"
-         :opacity "1")
-       `(".selected-tab"
-         :background-color ,(%hairline theme:on-background-color 0.10)
-         :color ,theme:on-background-color)
-       `(".keyscheme"
-         :flex "0 0 auto"
-         :display "inline-flex"
-         :align-items "center"
-         :height "14px"
-         :padding-left "8px"
-         :border-left ,(format nil "2px solid ~a"
-                               (%hairline theme:on-background-color 0.30))
-         :font-size "10px"
-         :letter-spacing "0.14em"
-         :text-transform "uppercase"
-         :color ,theme:primary-color)
-       `(".keyscheme-insert"
-         :border-left-color ,theme:action-color
-         :color ,theme:action-color)
-       `(".mode-name"
-         :flex "0 0 auto"
-         :display "inline-flex"
-         :align-items "center"
-         :height "18px"
-         :padding "0 7px"
-         :border-radius "6px"
-         :background-color ,(%hairline theme:on-background-color 0.10)
-         :font-size "10px"
-         :letter-spacing "0.08em"
-         :text-transform "uppercase"
-         :color ,theme:on-background-color)
-       `("#modes"
-         :flex "0 0 auto"
-         :display "flex"
-         :align-items "center"
-         :gap "8px"
-         :height "28px"
-         :margin "0"
-         :padding "0"
-         :line-height "normal"
-         :border-radius "0"
-         :background-color "transparent"
-         :color ,theme:primary-color)
-       `("#modes > button"
-         :height "22px"
-         :margin "3px 0"
-         :padding "0 8px"
-         :border-radius "6px"
-         :font-size "12px"
-         :color ,theme:primary-color
-         :transition "color 120ms ease, background-color 120ms ease")
-       `("#modes > button:hover"
-         :background-color ,(%hairline theme:on-background-color 0.06))
-       `("#modes > button.modes-drifted"
-         :color ,theme:action-color)
-       '(button
-         :border-radius "0")
-       `("#modes > button:hover, .tab:hover, #url:hover"
-         :color ,theme:on-background-color
-         :cursor "pointer"))))))
+   (height 45)
+   (style (%status-css (theme *browser*)))))

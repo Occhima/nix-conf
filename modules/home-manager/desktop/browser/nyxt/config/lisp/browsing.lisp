@@ -40,7 +40,7 @@
                                               height *pip-margin*))
                                     selector))))))))
 
-(define-command-global picture-in-picture (&optional (buffer (current-buffer)))
+(define-command-global picture-in-picture (buffer)
   "Continue the page's video in a small pinned mpv window, from where it is."
   (let ((start (or (ignore-errors
                     (ps-eval :buffer buffer
@@ -79,7 +79,7 @@
 (defun hibernate-buffer (buffer)
   "Drop BUFFER's renderer process, keeping its URL, title and scroll position."
   (unless (or (hibernated-p buffer)
-              (nyxt::active-buffer-p buffer)
+              (window buffer)
               (not (web-buffer-p buffer))
               (internal-url-p (url buffer))
               (url-empty-p (url buffer))
@@ -99,7 +99,7 @@
     (when hibernated
       (remhash buffer *hibernated*)
       (ffi-buffer-initialize-foreign-object buffer)
-      (alexandria:when-let ((mode (find-submode 'nyxt/mode/user-script:user-script-mode buffer)))
+      (alexandria:when-let ((mode (find-mode buffer 'nyxt/mode/user-script:user-script-mode)))
         (let ((scripts (nyxt/mode/user-script:user-scripts mode)))
           (dolist (script scripts)
             (setf (nyxt/renderer/cef::script-id script) nil))
@@ -151,17 +151,17 @@
     (enable-modes* 'isolated-mode buffer)
     buffer))
 
-(define-command-global make-isolated-buffer ()
+(define-command-global make-isolated-buffer (buffer)
   "Open a URL or search in a buffer that shares no cookies or storage."
   (alexandria:when-let ((query (prompt1 :prompt "Open isolated"
-                                        :input (render-url (url (current-buffer)))
+                                        :input (render-url (url buffer))
                                         :sources (make-instance 'nyxt::url-or-query-source
                                                                 :actions-on-return #'identity))))
     (make-isolated-buffer-at (url query))))
 
-(define-command-global hint-open-isolated ()
+(define-command-global hint-open-isolated (buffer)
   "Open hinted links in isolated buffers."
-  (%hint-links "Open isolated"
+  (%hint-links buffer "Open isolated"
                (lambda (links)
                  (dolist (link links)
                    (make-isolated-buffer-at (car link))))))
@@ -169,14 +169,14 @@
 (defvar *translate-language* "pt"
   "Language code pages and selections are translated into.")
 
-(define-command-global translate-page (&optional (buffer (current-buffer)))
+(define-command-global translate-page (buffer)
   "Open a translation of the current page in a new buffer."
   (make-buffer-focus
    :url (quri:uri (format nil "https://translate.google.com/translate?sl=auto&tl=~a&u=~a"
                           *translate-language*
                           (quri:url-encode (render-url (url buffer)))))))
 
-(define-command-global translate-selection (&optional (buffer (current-buffer)))
+(define-command-global translate-selection (buffer)
   "Translate the selected text in a new buffer."
   (let ((text (%selection buffer)))
     (if (str:blankp text)
@@ -194,6 +194,6 @@
                                                 :enable-marks-p nil
                                                 :actions-on-current-suggestion-enabled-p nil
                                                 :actions-on-return #'identity))))
-    (make-window (if (nyxt::active-buffer-p buffer)
+    (make-window (if (window buffer)
                      (make-buffer :url (url buffer))
                      buffer))))

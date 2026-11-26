@@ -25,7 +25,7 @@
     (declare (ignore _))
     `(("Register" ,name) ("Title" ,title) ("URL" ,url))))
 
-(define-command-global point-to-register (&optional (buffer (current-buffer)))
+(define-command-global point-to-register (buffer)
   "Save the current page and scroll position under a name."
   (let ((name (prompt1 :prompt "Point to register"
                        :sources (make-instance 'prompter:raw-source))))
@@ -39,7 +39,7 @@
       (%save-registers)
       (echo "Register ~a: ~a" name (title buffer)))))
 
-(define-command-global jump-to-register (&optional (buffer (current-buffer)))
+(define-command-global jump-to-register (buffer)
   "Go back to a page and scroll position saved with `point-to-register'."
   (alexandria:when-let ((entry (prompt1 :prompt "Jump to register"
                                         :sources (make-instance 'register-source))))
@@ -63,7 +63,7 @@
   "main, article, section, aside, nav, header, footer, div, table, pre, figure, form, ul, ol, blockquote, p"
   "Elements `narrow-to-element' offers as hints.")
 
-(defun narrow-to (element &optional (buffer (current-buffer)))
+(defun narrow-to (buffer element)
   "Hide everything on the page except ELEMENT, as `narrow-to-region' does."
   (ps-eval :buffer buffer
     (let* ((target (nyxt/ps:qs-nyxt-id document (ps:lisp (nyxt/dom:get-nyxt-id element))))
@@ -79,17 +79,18 @@
       (when target
         (ps:chain target (scroll-into-view))))))
 
-(define-command-global narrow-to-element ()
+(define-command-global narrow-to-element (buffer)
   "Hint an element and hide the rest of the page; `widen' brings it back."
   (nyxt/mode/hint:query-hints
+   buffer
    "Narrow to"
    (lambda (elements)
      (when elements
-       (narrow-to (first elements))))
+       (narrow-to buffer (first elements))))
    :enable-marks-p nil
    :selector *narrow-selector*))
 
-(define-command-global widen (&optional (buffer (current-buffer)))
+(define-command-global widen (buffer)
   "Show again what `narrow-to-element' hid."
   (ps-eval :buffer buffer
     (dolist (element (ps:chain *array (from (nyxt/ps:qsa document "[data-nyxt-narrowed]"))))

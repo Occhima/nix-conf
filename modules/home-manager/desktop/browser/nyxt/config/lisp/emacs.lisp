@@ -7,28 +7,28 @@
    :output nil
    :error-output nil))
 
-(defun %current-url-string ()
-  (render-url (url (current-buffer))))
+(defun %current-url-string (buffer)
+  (render-url (url buffer)))
 
-(defun %selection (&optional (buffer (current-buffer)))
+(defun %selection (buffer)
   (or (ignore-errors
        (ps-eval :buffer buffer (ps:chain window (get-selection) (to-string))))
       ""))
 
-(define-command capture-in-org-roam ()
+(define-command capture-in-org-roam (buffer)
   "Capture the current page, with any selected text as a quote, as an org-roam node."
   (%emacs-eval "(occhima/nyxt-roam-capture ~s ~s ~s)"
-               (%current-url-string)
-               (title (current-buffer))
-               (%selection))
-  (echo "Capturing in org-roam: ~a" (title (current-buffer))))
+               (%current-url-string buffer)
+               (title buffer)
+               (%selection buffer))
+  (echo "Capturing in org-roam: ~a" (title buffer)))
 
-(define-command read-later ()
+(define-command read-later (buffer)
   "Schedule the current page in the Org agenda's reading list."
   (%emacs-eval "(occhima/nyxt-read-later ~s ~s)"
-               (%current-url-string)
-               (title (current-buffer)))
-  (echo "Read later: ~a" (title (current-buffer))))
+               (%current-url-string buffer)
+               (title buffer))
+  (echo "Read later: ~a" (title buffer)))
 
 (defun %arxiv-id (url)
   (alexandria:when-let ((host (quri:uri-host (quri:uri url))))
@@ -48,7 +48,7 @@
                                         (or (ignore-errors (quri:url-decode string)) string))))
       (%clean-doi doi))))
 
-(defun %page-doi (&optional (buffer (current-buffer)))
+(defun %page-doi (buffer)
   "DOI from the page's citation metadata, else from its URL."
   (let ((meta (or (ignore-errors
                    (ps-eval :buffer buffer
@@ -74,20 +74,21 @@
           (echo "Adding doi:~a to the library" doi))
         (echo-warning "No arXiv id or DOI on ~a" url-string)))))
 
-(define-command add-paper ()
+(define-command add-paper (buffer)
   "Add the paper on the current page to the bibliography, by arXiv id or DOI."
-  (add-paper-from-url (url (current-buffer))
-                      (unless (%arxiv-id (%current-url-string)) (%page-doi))))
+  (add-paper-from-url (url buffer)
+                      (unless (%arxiv-id (%current-url-string buffer)) (%page-doi buffer))))
 
-(define-command open-in-emacs ()
+(define-command open-in-emacs (buffer)
   "Open the current URL in Emacs's eww.
 
 Not `browse-url': both Emacs configurations point that back at Nyxt."
-  (%emacs-eval "(eww ~s)" (%current-url-string))
+  (%emacs-eval "(eww ~s)" (%current-url-string buffer))
   (echo "Opening in eww"))
 
 (defun emacs-insert-current-link ()
   "Send the current page to Emacs's `occhima/nyxt-insert-link'."
-  (%emacs-eval "(occhima/nyxt-insert-link ~s ~s)"
-               (clean-url (url (current-buffer)))
-               (title (current-buffer))))
+  (let ((buffer (focused-buffer (current-window))))
+    (%emacs-eval "(occhima/nyxt-insert-link ~s ~s)"
+                 (clean-url (url buffer))
+                 (title buffer))))

@@ -57,14 +57,15 @@ translation match what pressing the key would really run."
 (defun %which-key-css ()
   (theme:themed-css (theme *browser*)
     `(body
+      :display "block"
+      :white-space "normal"
       :margin "0"
       :box-sizing "border-box"
       :height "100vh"
       :overflow-y "auto"
       :padding "10px 16px 12px"
-      :background-color ,theme:background-color
+      :background-color ,(%hairline theme:background-color 0.84)
       :color ,theme:on-background-color
-      :border-top ,(format nil "1px solid ~a" (%hairline theme:on-background-color 0.12))
       :font-family ,(%mono-stack theme:monospace-font-family)
       :font-size "12px"
       :line-height "18px")
@@ -128,7 +129,11 @@ about:blank asynchronously, and HTML written before that load would be lost."
                                      (alexandria:assoc-value bounds :width)
                                      (alexandria:assoc-value bounds :height))))
       (ffi-print-message view (%which-key-html prefix entries))
-      (cef:set-bar-height view height)
+      (nyxt::ffi-buffer-set-background-color view "transparent")
+      (nyxt::ffi-buffer-set-insets view :top 12 :left 12 :bottom 0 :right 12)
+      (nyxt::ffi-buffer-set-corner-radius view 6)
+      (nyxt::ffi-buffer-set-background-blur view 20)
+      (cef:set-bar-height view (+ height 12))
       (unless (find view (cef:views window))
         (cef:add-view-at window view 1))
       (setf (gethash window *which-key-shown*) t))))

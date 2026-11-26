@@ -18,6 +18,7 @@ when KEYS is empty."
 
 (define-leader-group "h" "+hint")
 (define-leader-group "x" "+macro")
+(define-leader-group "s-w" "+window")
 
 (define-configuration base-mode
   ((keyscheme-map
@@ -74,6 +75,17 @@ when KEYS is empty."
               "x s" 'start-macro
               "x e" 'end-macro
               "x x" 'call-macro
+              ;; Splits, as Vim's C-w
+              "W v" 'split-right
+              "W V" 'split-left
+              "W w" 'split-focus-next
+              "W h" 'split-focus-left
+              "W l" 'split-focus-right
+              "W q" 'split-close
+              "W o" 'split-only
+              "W =" 'balance-splits
+              "W >" 'widen-split
+              "W <" 'narrow-split
               ;; Hints
               "h w" 'hint-play-in-mpv
               "h e" 'hint-open-in-emacs
