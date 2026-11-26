@@ -34,7 +34,11 @@ let
 
   isDrvPath = p: hasSuffix ".drv" (toString p);
 
-  bindsOf = home: home.wayland.windowManager.hyprland.settings.bind or [ ];
+  bindsOf =
+    home:
+    lib.optionals home.wayland.windowManager.hyprland.enable (
+      home.wayland.windowManager.hyprland.settings.bind or [ ]
+    );
   bindKey = b: if builtins.isString b then lib.head (lib.splitString "," b) else lib.head b._args;
   bindCommand =
     b:
